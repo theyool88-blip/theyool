@@ -1,0 +1,9 @@
+node_modules
+.next/cache
+.next/static/chunks/cache
+npm-debug.log
+.env*
+.git
+.DS_Store
+**/*.map
+

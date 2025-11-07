@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    image: theyool/web:latest
+    ports:
+      - "3000:3000"
+    environment:
+      # Provide runtime envs for Next.js server and Supabase
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      NODE_ENV: production
+    # If you keep envs in a separate file, uncomment the next line
+    # env_file: .env.production
+    restart: unless-stopped
+

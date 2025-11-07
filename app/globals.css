@@ -1,0 +1,702 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1d1d1f;
+
+  /* Apple Clean 컬러 시스템 */
+  --primary: #1d1d1f; /* Apple 다크 그레이 */
+  --primary-dark: #000000;
+  --primary-light: #424245;
+
+  --secondary: #f5f5f7; /* Apple 라이트 그레이 */
+  --secondary-light: #fbfbfd;
+
+  --accent: #0071e3; /* Apple 블루 */
+  --accent-light: #2997ff;
+  --accent-dark: #0051a8;
+
+  /* Apple 그레이 시스템 - 라이트 테마 */
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f7;
+  --gray-200: #e8e8ed;
+  --gray-300: #d2d2d7;
+  --gray-400: #b0b0b5;
+  --gray-500: #86868b;
+  --gray-600: #6e6e73;
+  --gray-700: #515154;
+  --gray-800: #424245;
+  --gray-900: #1d1d1f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-secondary: var(--secondary);
+  --color-secondary-light: var(--secondary-light);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: #ffffff;
+  color: #1d1d1f;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+  word-break: keep-all;
+  line-height: 1.6;
+}
+
+/* 스크롤 부드럽게 - 향상된 버전 */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* 헤더 높이만큼 여백 */
+}
+
+/* 모든 요소에 부드러운 스크롤 적용 */
+* {
+  scroll-behavior: smooth;
+}
+
+/* 스크롤바 스타일링 (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+/* Firefox 스크롤바 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c4c4c4 #f5f5f7;
+}
+
+/* 부드러운 트랜지션 */
+body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  /* 하드웨어 가속 활성화 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 섹션 전환 시 부드러운 효과 */
+section {
+  will-change: opacity, transform;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* 스크롤 시 성능 최적화 */
+.scroll-smooth {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 애니메이션 성능 최적화 */
+.animate-fade-in-up,
+.animate-fade-in,
+.animate-slide-in-left,
+.animate-slide-in-right,
+.animate-scale-in {
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Toss 스타일 그라디언트 */
+.gradient-primary {
+  background: linear-gradient(135deg, #000000 0%, #1d1d1f 50%, #424245 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(180deg, #000000 0%, #1d1d1f 100%);
+}
+
+.gradient-overlay {
+  background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 100%);
+}
+
+/* 스크롤 애니메이션 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Luxury geometric animations */
+@keyframes slow-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes reverse-spin {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-slow-spin {
+  animation: slow-spin 30s linear infinite;
+}
+
+.animate-reverse-spin {
+  animation: reverse-spin 25s linear infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 20s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 15s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+.animate-slide-right {
+  animation: slideRight 0.3s ease-out forwards;
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.6s ease-out forwards;
+}
+
+.animate-ping {
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-slide-in-from-right {
+  animation: slideInFromRight 0.3s ease-out forwards;
+}
+
+/* 미묘한 그림자 시스템 */
+.shadow-toss {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-toss-lg {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-toss-xl {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* 글래스모피즘 효과 */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(26, 42, 78, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 호버 효과 */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* 타이포그래피 유틸리티 - 토스 스타일 */
+.text-display {
+  font-size: 3.125rem; /* 50px */
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 639px) {
+  .text-display {
+    font-size: 1.75rem; /* 28px */
+  }
+}
+
+.text-headline {
+  font-size: 2.5rem; /* 40px */
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* 모바일 전용 풀스크린 섹션 */
+@media (max-width: 767px) {
+  .mobile-fullscreen-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 639px) {
+  .text-headline {
+    font-size: 1.625rem; /* 26px */
+  }
+}
+
+.text-subheadline {
+  font-size: 1.75rem; /* 28px */
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+@media (max-width: 639px) {
+  .text-subheadline {
+    font-size: 1.125rem; /* 18px */
+  }
+}
+
+.text-body-large {
+  font-size: 1.4375rem; /* 23px */
+  line-height: 1.6;
+}
+
+@media (max-width: 639px) {
+  .text-body-large {
+    font-size: 1.0625rem; /* 17px */
+  }
+}
+
+/* 카드 스타일 */
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--gray-200);
+}
+
+.card-hover {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--gray-200);
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent);
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.card-glass:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* 토스 스타일 섹션 패딩 */
+.py-25 {
+  padding-top: 6.25rem; /* 100px */
+  padding-bottom: 6.25rem;
+}
+
+.py-64 {
+  padding-top: 16rem; /* 256px */
+  padding-bottom: 16rem;
+}
+
+@media (max-width: 639px) {
+  .md\:py-64 {
+    padding-top: 6.25rem; /* 100px on mobile */
+    padding-bottom: 6.25rem;
+  }
+}
+
+/* Hero Text Animation - KOSMOS Style */
+@keyframes heroSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-text-1 {
+  animation: heroSlideUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+  opacity: 0;
+}
+
+.hero-text-2 {
+  animation: heroSlideUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
+  opacity: 0;
+}
+
+.hero-text-3 {
+  animation: heroSlideUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) 1.8s forwards;
+  opacity: 0;
+}
+
+.hero-text-4 {
+  animation: heroSlideUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.45s forwards;
+  opacity: 0;
+}
+
+.hero-text-5 {
+  animation: heroSlideUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+  opacity: 0;
+}
+
+/* Background Zoom Animation */
+.hero-bg-image {
+  transform: scale(1);
+  transition: transform 20s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-bg-image.hero-bg-zoom {
+  transform: scale(1.1);
+}
+
+/* Text Gradient Animation */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.hero-gradient-text {
+  background-size: 200% auto;
+  animation: gradientShift 8s ease infinite;
+}
+
+/* Smooth Fade Transition - KOSMOS Style */
+.hero-fade-in {
+  animation: heroFadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Parallax Support */
+.hero-parallax {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Enhanced Scroll Indicator */
+@keyframes smoothBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.6;
+  }
+}
+
+.hero-scroll-indicator {
+  animation: smoothBounce 2s ease-in-out infinite;
+}
+
+/* Splash Screen Animations - Apple Style */
+@keyframes splashLogoAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.02) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes splashSloganAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.splash-logo {
+  animation: splashLogoAppear 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.splash-slogan {
+  animation: splashSloganAppear 1s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+  opacity: 0;
+}
+
+.splash-progress {
+  animation: splashProgressAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
+  opacity: 0;
+}
+
+@keyframes splashProgressAppear {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* Service Card Animation */
+.service-card {
+  animation: serviceCardAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes serviceCardAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Case Card Animation */
+.case-card {
+  animation: caseCardAppear 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes caseCardAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Typing Effect Animation */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #1f2937;
+  }
+}
+
+.typing-effect {
+  display: inline-block;
+  overflow: hidden;
+  border-right: 3px solid #1f2937;
+  white-space: nowrap;
+  animation:
+    typing 2s steps(9, end) 1.2s forwards,
+    blink 0.75s step-end infinite;
+  width: 0;
+}
+
+@media (min-width: 768px) {
+  .typing-effect {
+    border-right-width: 4px;
+  }
+}

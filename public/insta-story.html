@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>더율 스토리</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        body.reels-mode {
+            overflow: hidden;
+        }
+
+        .mobile-container {
+            scroll-behavior: smooth;
+        }
+
+        /* Mobile-only check */
+        @media (min-width: 769px) {
+            body::before {
+                content: "이 페이지는 모바일 전용입니다. 브라우저 개발자 도구(F12)에서 모바일 뷰로 전환해주세요.";
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #000;
+                color: #fff;
+                font-size: 18px;
+                text-align: center;
+                padding: 40px;
+                z-index: 10000;
+            }
+        }
+
+        .mobile-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #000;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: #000;
+            border-bottom: 1px solid #262626;
+            padding: 12px 16px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo-text {
+            font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+            font-size: 28px;
+            color: #fff;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .header-brand {
+            font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+            font-size: 20px;
+            color: #fff;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+
+        /* Feed Container */
+        .feed-container {
+            padding-bottom: 60px;
+        }
+
+        /* Post Item */
+        .post-item {
+            margin-bottom: 16px;
+            border-bottom: 1px solid #262626;
+        }
+
+        /* Post Header */
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+        }
+
+        .post-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .post-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            padding: 2px;
+        }
+
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #000;
+            object-fit: cover;
+        }
+
+        .post-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-username {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .post-location {
+            font-size: 12px;
+            color: #a8a8a8;
+        }
+
+        .post-more-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Carousel Container */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background-color: #1a1a1a;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            transition: background-color 0.3s;
+        }
+
+        .carousel-dot.active {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        /* Video Container in Feed */
+        .post-video-container {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            max-height: 600px;
+            background-color: #000;
+            position: relative;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+
+        .post-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .video-preview-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            pointer-events: none;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Reels Fullscreen Mode */
+        .reels-fullscreen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #000;
+            z-index: 2000;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .reels-fullscreen.active {
+            display: block;
+        }
+
+        .reels-fullscreen::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Reels Top Header */
+        .reels-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2001;
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .reels-back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reels-tabs {
+            display: flex;
+            gap: 20px;
+        }
+
+        .reels-tab {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .reels-tab.active {
+            border-bottom: 2px solid #fff;
+            padding-bottom: 4px;
+        }
+
+        .reels-tab.inactive {
+            opacity: 0.5;
+        }
+
+        .reel-item {
+            width: 100%;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+        }
+
+        .reel-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .reel-info {
+            position: absolute;
+            bottom: 20px;
+            left: 16px;
+            right: 80px;
+            color: #fff;
+            z-index: 10;
+        }
+
+        .reel-profile-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .reel-profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            padding: 2px;
+        }
+
+        .reel-profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #000;
+            object-fit: cover;
+        }
+
+        .reel-username {
+            font-weight: 700;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        .reel-follow-btn {
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .reel-caption {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .reel-music {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .reel-music i {
+            font-size: 12px;
+        }
+
+        .reel-actions {
+            position: absolute;
+            right: 12px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 10;
+        }
+
+        .reel-action-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .reel-count {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .reel-share-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #fff;
+        }
+
+        /* Like Animation */
+        .like-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 100px;
+            color: #fff;
+            pointer-events: none;
+            z-index: 10;
+            animation: likeAnim 0.6s ease-out;
+        }
+
+        @keyframes likeAnim {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Post Actions */
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+        }
+
+        .post-actions-left {
+            display: flex;
+            gap: 16px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .action-btn.liked {
+            color: #ff3b5c;
+            animation: likeBounce 0.4s ease;
+        }
+
+        @keyframes likeBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+        }
+
+        /* Post Info */
+        .post-likes {
+            padding: 0 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .post-caption {
+            padding: 0 16px;
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .caption-username {
+            font-weight: 600;
+            margin-right: 6px;
+        }
+
+        .caption-text {
+            color: #fff;
+            white-space: pre-wrap;
+        }
+
+        .caption-text.collapsed {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .caption-more {
+            color: #a8a8a8;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+
+        .post-comments-link {
+            padding: 0 16px;
+            font-size: 14px;
+            color: #a8a8a8;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .post-time {
+            padding: 0 16px 12px;
+            font-size: 12px;
+            color: #a8a8a8;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: #000;
+        }
+
+        .comments-section.expanded {
+            max-height: 2000px;
+            border-top: 1px solid #262626;
+        }
+
+        .comment-item {
+            padding: 12px 16px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .comment-username {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .comment-time {
+            font-size: 12px;
+            color: #a8a8a8;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .comment-action {
+            font-size: 12px;
+            color: #a8a8a8;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .comment-like-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .comment-input-container {
+            padding: 12px 16px;
+            border-top: 1px solid #262626;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .comment-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .comment-input::placeholder {
+            color: #a8a8a8;
+        }
+
+        .comment-post-btn {
+            background: none;
+            border: none;
+            color: #0095f6;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .comment-post-btn:disabled {
+            color: #0095f680;
+            cursor: default;
+        }
+
+        /* Share Modal */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .share-modal.active {
+            display: flex;
+        }
+
+        .share-modal-content {
+            background-color: #262626;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .share-modal-header {
+            text-align: center;
+            padding: 16px;
+            border-bottom: 1px solid #363636;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .share-options {
+            padding: 8px 0;
+        }
+
+        .share-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            color: #fff;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .share-option:hover {
+            background-color: #363636;
+        }
+
+        .share-option i {
+            font-size: 24px;
+            width: 24px;
+        }
+
+        .share-cancel {
+            border-top: 6px solid #000;
+            padding: 16px;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #000;
+            border-top: 1px solid #262626;
+            padding: 8px 0;
+            z-index: 100;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .bottom-nav-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 26px;
+            cursor: pointer;
+            padding: 8px 16px;
+            transition: transform 0.2s;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.9);
+        }
+
+        .nav-btn.active {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <a href="/" class="logo-link">
+                    <div class="logo-text">Insta더율</div>
+                </a>
+                <div class="header-icons">
+                    <button class="header-icon">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="header-icon">
+                        <i class="far fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Feed Container -->
+        <div class="feed-container" id="feedContainer">
+            <!-- Posts and Shorts will be generated randomly by JS -->
+        </div>
+
+        <!-- Share Modal -->
+        <div class="share-modal" id="shareModal">
+            <div class="share-modal-content">
+                <div class="share-modal-header">공유</div>
+                <div class="share-options">
+                    <button class="share-option" data-action="copy">
+                        <i class="far fa-copy"></i>
+                        <span>링크 복사</span>
+                    </button>
+                    <button class="share-option" data-action="kakao">
+                        <i class="fas fa-comment"></i>
+                        <span>카카오톡으로 공유</span>
+                    </button>
+                    <button class="share-option" data-action="native">
+                        <i class="fas fa-share-alt"></i>
+                        <span>다른 앱으로 공유</span>
+                    </button>
+                </div>
+                <div class="share-cancel" id="shareCancel">취소</div>
+            </div>
+        </div>
+
+        <!-- Reels Fullscreen -->
+        <div class="reels-fullscreen" id="reelsFullscreen">
+            <!-- Reels will be inserted here -->
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="bottom-nav-content">
+                <button class="nav-btn active" data-nav="home">
+                    <i class="fas fa-home"></i>
+                </button>
+                <button class="nav-btn" data-nav="search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="nav-btn" data-nav="reels">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button class="nav-btn" data-nav="shop">
+                    <i class="fas fa-shopping-bag"></i>
+                </button>
+                <button class="nav-btn" data-nav="profile">
+                    <i class="far fa-user-circle"></i>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // ========== Configuration ==========
+        const TOTAL_ITEMS = 15;
+        const SHORT_PROBABILITY = 0.3;
+
+        const SAMPLE_VIDEOS = [
+            'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+            'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+            'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+            'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+        ];
+
+        const CAPTIONS = [
+            '이혼 소송 성공 사례를 공유합니다. 의뢰인분께서 원하시는 결과를 얻으셨습니다. 배우자의 불륜 사실을 입증하여 위자료 5억원을 확보하는 성과를 거두었습니다.',
+            '위자료 청구 소송에서 좋은 결과가 있었습니다. 전문 변호사의 도움이 중요합니다. 체계적인 증거 수집과 법리 검토를 통해 의뢰인의 권리를 지켜냈습니다.',
+            '재산분할 소송 진행 과정을 설명드립니다. 공정한 분할을 위해 최선을 다했습니다. 숨겨진 재산을 찾아내고 정당한 몫을 되찾았습니다.',
+            '양육권 분쟁에서 의뢰인의 권리를 지켜냈습니다. 아이의 복리가 최우선입니다. 단독 양육권과 함께 양육비 전액 인용을 받아냈습니다.',
+            '상간소송 승소 사례입니다. 정확한 증거 확보가 핵심이었습니다. 상간자를 상대로 손해배상을 청구하여 승소했습니다.',
+            '협의이혼 vs 재판이혼, 어떤 것이 유리할까요? 상황에 맞는 선택이 중요합니다. 각 방법의 장단점을 비교 분석해드립니다.',
+            '이혼 상담 시 꼭 준비해야 할 서류들을 안내해드립니다. 효율적인 상담을 위해 미리 준비하세요.',
+            '이혼 소송 비용은 얼마나 들까요? 자세히 설명해드립니다. 변호사 선임비용부터 인지대까지 투명하게 안내합니다.',
+            '이혼 후 재산분할 청구 기간은 언제까지일까요? 이혼 확정일로부터 2년 이내에 청구해야 합니다.',
+            '친권과 양육권의 차이, 명확하게 이해하셔야 합니다. 법적 개념을 쉽게 설명해드립니다.',
+        ];
+
+        const LOCATIONS = [
+            '서울 강남구',
+            '서울 서초구',
+            '서울 송파구',
+            '서울 영등포구',
+            '서울 마포구'
+        ];
+
+        const SAMPLE_COMMENTS = [
+            { username: '이지은', text: '정말 도움이 되는 정보네요! 감사합니다.', time: '2시간 전' },
+            { username: '김민수', text: '상담 받아보고 싶어요. 어떻게 예약하나요?', time: '3시간 전' },
+            { username: '박서연', text: '저도 비슷한 상황인데 용기가 나네요.', time: '5시간 전' },
+        ];
+
+        let currentShareUrl = '';
+        const videoReels = []; // Store all video reels data
+
+        // ========== Format Number (1000 -> 1K, 1000000 -> 1M) ==========
+        function formatCount(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        // ========== Generate Mixed Feed ==========
+        const feedContainer = document.getElementById('feedContainer');
+
+        for (let i = 0; i < TOTAL_ITEMS; i++) {
+            const isShort = Math.random() < SHORT_PROBABILITY;
+
+            if (isShort) {
+                createShortItem(i);
+            } else {
+                createPostItem(i);
+            }
+        }
+
+        // ========== Create Post Item with Carousel ==========
+        function createPostItem(index) {
+            const postItem = document.createElement('div');
+            postItem.className = 'post-item';
+            postItem.dataset.postId = `post_${index}`;
+
+            const randomLikes = Math.floor(Math.random() * 5000) + 100;
+            const randomComments = Math.floor(Math.random() * 300) + 10;
+            const location = LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)];
+            const caption = CAPTIONS[index % CAPTIONS.length];
+            const imageCount = Math.floor(Math.random() * 3) + 1; // 1-3 images
+
+            // Generate carousel HTML
+            let carouselHTML = '';
+            let indicatorsHTML = '';
+
+            if (imageCount > 1) {
+                carouselHTML = '<div class="carousel-container"><div class="carousel-track">';
+                for (let j = 0; j < imageCount; j++) {
+                    carouselHTML += `<div class="carousel-slide"><img src="https://picsum.photos/600/600?random=${index * 10 + j + 100}" alt="Image ${j + 1}"></div>`;
+                    indicatorsHTML += `<div class="carousel-dot ${j === 0 ? 'active' : ''}"></div>`;
+                }
+                carouselHTML += '</div>';
+                if (imageCount > 1) {
+                    carouselHTML += `<div class="carousel-indicators">${indicatorsHTML}</div>`;
+                }
+                carouselHTML += '</div>';
+            } else {
+                carouselHTML = `<div class="carousel-container"><img src="https://picsum.photos/600/600?random=${index + 100}" alt="Post ${index + 1}" style="width:100%;height:100%;object-fit:cover;"></div>`;
+            }
+
+            postItem.innerHTML = `
+                <div class="post-header">
+                    <div class="post-user">
+                        <div class="post-avatar">
+                            <img src="https://via.placeholder.com/32" alt="Profile">
+                        </div>
+                        <div class="post-user-info">
+                            <div class="post-username">더율법무법인</div>
+                            <div class="post-location">${location}</div>
+                        </div>
+                    </div>
+                    <button class="post-more-btn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                ${carouselHTML}
+                <div class="post-actions">
+                    <div class="post-actions-left">
+                        <button class="action-btn like-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="action-btn comment-btn">
+                            <i class="far fa-comment"></i>
+                        </button>
+                        <button class="action-btn share-btn">
+                            <i class="far fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <button class="action-btn bookmark-btn">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </div>
+                <div class="post-likes">${randomLikes.toLocaleString()}명이 좋아합니다</div>
+                <div class="post-caption">
+                    <span class="caption-username">더율법무법인</span>
+                    <span class="caption-text collapsed">${caption}</span>
+                    <span class="caption-more">더 보기</span>
+                </div>
+                <div class="post-comments-link">댓글 ${randomComments}개 모두 보기</div>
+                <div class="post-time">${Math.floor(Math.random() * 24)}시간 전</div>
+
+                <div class="comments-section">
+                    <div class="comments-list"></div>
+                    <div class="comment-input-container">
+                        <input type="text" class="comment-input" placeholder="댓글 달기...">
+                        <button class="comment-post-btn" disabled>게시</button>
+                    </div>
+                </div>
+            `;
+
+            feedContainer.appendChild(postItem);
+            setupPostInteractions(postItem, randomLikes, randomComments);
+
+            if (imageCount > 1) {
+                setupCarousel(postItem, imageCount);
+            }
+        }
+
+        // ========== Setup Carousel ==========
+        function setupCarousel(postItem, imageCount) {
+            const container = postItem.querySelector('.carousel-container');
+            const track = container.querySelector('.carousel-track');
+            const dots = container.querySelectorAll('.carousel-dot');
+            let currentIndex = 0;
+            let startX = 0;
+            let startY = 0;
+            let isDragging = false;
+            let isHorizontalSwipe = false;
+
+            container.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                isDragging = true;
+                isHorizontalSwipe = false;
+            });
+
+            container.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                const diffX = Math.abs(currentX - startX);
+                const diffY = Math.abs(currentY - startY);
+
+                // 처음 움직임으로 방향 결정
+                if (!isHorizontalSwipe && (diffX > 10 || diffY > 10)) {
+                    isHorizontalSwipe = diffX > diffY;
+                }
+
+                // 가로 스와이프일 때만 preventDefault로 세로 스크롤 막기
+                if (isHorizontalSwipe && diffX > diffY) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            container.addEventListener('touchend', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+
+                const endX = e.changedTouches[0].clientX;
+                const diff = startX - endX;
+
+                // 가로 스와이프였고 충분히 움직였을 때만 이미지 변경
+                if (isHorizontalSwipe && Math.abs(diff) > 50) {
+                    if (diff > 0 && currentIndex < imageCount - 1) {
+                        currentIndex++;
+                    } else if (diff < 0 && currentIndex > 0) {
+                        currentIndex--;
+                    }
+                    updateCarousel();
+                }
+
+                isHorizontalSwipe = false;
+            });
+
+            function updateCarousel() {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+        }
+
+        // ========== Create Short Item ==========
+        function createShortItem(index) {
+            const postItem = document.createElement('div');
+            postItem.className = 'post-item';
+            postItem.dataset.postId = `short_${index}`;
+            postItem.dataset.reelIndex = videoReels.length;
+
+            const randomLikes = Math.floor(Math.random() * 10000) + 500;
+            const randomComments = Math.floor(Math.random() * 500) + 50;
+            const location = LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)];
+            const caption = CAPTIONS[index % CAPTIONS.length];
+            const videoSrc = SAMPLE_VIDEOS[index % SAMPLE_VIDEOS.length];
+
+            videoReels.push({
+                videoSrc,
+                caption,
+                likes: randomLikes,
+                comments: randomComments
+            });
+
+            postItem.innerHTML = `
+                <div class="post-header">
+                    <div class="post-user">
+                        <div class="post-avatar">
+                            <img src="https://via.placeholder.com/32" alt="Profile">
+                        </div>
+                        <div class="post-user-info">
+                            <div class="post-username">더율법무법인</div>
+                            <div class="post-location">${location}</div>
+                        </div>
+                    </div>
+                    <button class="post-more-btn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                <div class="post-video-container">
+                    <div class="loading-spinner"></div>
+                    <video class="post-video" muted playsinline preload="metadata">
+                        <source src="${videoSrc}" type="video/mp4">
+                    </video>
+                    <div class="video-preview-overlay">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="video-duration">0:15</div>
+                </div>
+                <div class="post-actions">
+                    <div class="post-actions-left">
+                        <button class="action-btn like-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="action-btn comment-btn">
+                            <i class="far fa-comment"></i>
+                        </button>
+                        <button class="action-btn share-btn">
+                            <i class="far fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <button class="action-btn bookmark-btn">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </div>
+                <div class="post-likes">${randomLikes.toLocaleString()}명이 좋아합니다</div>
+                <div class="post-caption">
+                    <span class="caption-username">더율법무법인</span>
+                    <span class="caption-text collapsed">${caption}</span>
+                    <span class="caption-more">더 보기</span>
+                </div>
+                <div class="post-comments-link">댓글 ${randomComments}개 모두 보기</div>
+                <div class="post-time">${Math.floor(Math.random() * 24)}시간 전</div>
+
+                <div class="comments-section">
+                    <div class="comments-list"></div>
+                    <div class="comment-input-container">
+                        <input type="text" class="comment-input" placeholder="댓글 달기...">
+                        <button class="comment-post-btn" disabled>게시</button>
+                    </div>
+                </div>
+            `;
+
+            feedContainer.appendChild(postItem);
+            setupPostInteractions(postItem, randomLikes, randomComments);
+            setupVideoPreview(postItem);
+        }
+
+        // ========== Setup Video Preview (4 seconds in feed) ==========
+        function setupVideoPreview(postItem) {
+            const video = postItem.querySelector('.post-video');
+            const container = postItem.querySelector('.post-video-container');
+            const spinner = container.querySelector('.loading-spinner');
+            let playTimeout;
+
+            video.addEventListener('loadedmetadata', () => {
+                spinner.style.display = 'none';
+            });
+
+            // Intersection Observer for auto-play preview
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        video.currentTime = 0;
+                        video.play().catch(() => {});
+
+                        // Stop after 4 seconds
+                        playTimeout = setTimeout(() => {
+                            video.pause();
+                        }, 4000);
+                    } else {
+                        clearTimeout(playTimeout);
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(container);
+
+            // Click to open fullscreen reels
+            container.addEventListener('click', () => {
+                const reelIndex = parseInt(postItem.dataset.reelIndex);
+                openReelsFullscreen(reelIndex);
+            });
+        }
+
+        // ========== Open Reels Fullscreen ==========
+        function openReelsFullscreen(startIndex) {
+            const reelsContainer = document.getElementById('reelsFullscreen');
+            reelsContainer.innerHTML = '';
+
+            // Add Reels Header
+            const reelsHeader = document.createElement('div');
+            reelsHeader.className = 'reels-header';
+            reelsHeader.innerHTML = `
+                <button class="reels-back-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="reels-tabs">
+                    <button class="reels-tab active">Reels</button>
+                    <button class="reels-tab inactive">Friends</button>
+                </div>
+            `;
+            reelsContainer.appendChild(reelsHeader);
+
+            // Back button functionality
+            const backBtn = reelsHeader.querySelector('.reels-back-btn');
+            backBtn.addEventListener('click', closeReelsFullscreen);
+
+            // Create all reel items
+            videoReels.forEach((reel, index) => {
+                const reelItem = document.createElement('div');
+                reelItem.className = 'reel-item';
+                reelItem.dataset.index = index;
+
+                reelItem.innerHTML = `
+                    <video class="reel-video" loop muted playsinline preload="metadata">
+                        <source src="${reel.videoSrc}" type="video/mp4">
+                    </video>
+                    <div class="reel-info">
+                        <div class="reel-profile-section">
+                            <div class="reel-profile-pic">
+                                <img src="https://via.placeholder.com/32" alt="Profile">
+                            </div>
+                            <span class="reel-username">더율법무법인</span>
+                            <button class="reel-follow-btn">Follow</button>
+                        </div>
+                        <div class="reel-caption">${reel.caption}</div>
+                        <div class="reel-music">
+                            <i class="fas fa-music"></i>
+                            <span>Original audio - 더율법무법인</span>
+                        </div>
+                    </div>
+                    <div class="reel-actions">
+                        <button class="reel-action-btn reel-like-btn">
+                            <i class="far fa-heart"></i>
+                            <span class="reel-count">${formatCount(reel.likes)}</span>
+                        </button>
+                        <button class="reel-action-btn">
+                            <i class="far fa-comment"></i>
+                            <span class="reel-count">${formatCount(reel.comments)}</span>
+                        </button>
+                        <button class="reel-action-btn reel-share-btn">
+                            <i class="far fa-paper-plane"></i>
+                            <span class="reel-count">${formatCount(Math.floor(reel.likes * 0.15))}</span>
+                        </button>
+                        <button class="reel-action-btn">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <button class="reel-action-btn">
+                            <img src="https://via.placeholder.com/24" class="reel-share-avatar" alt="Share">
+                        </button>
+                    </div>
+                `;
+
+                reelsContainer.appendChild(reelItem);
+
+                // Setup like button
+                const likeBtn = reelItem.querySelector('.reel-like-btn');
+                const likeIcon = likeBtn.querySelector('i');
+                likeBtn.addEventListener('click', () => {
+                    likeIcon.classList.toggle('far');
+                    likeIcon.classList.toggle('fas');
+                    likeIcon.style.color = likeIcon.classList.contains('fas') ? '#ff3b5c' : '#fff';
+                });
+
+                // Double-tap like
+                const video = reelItem.querySelector('.reel-video');
+                let lastTap = 0;
+                video.addEventListener('touchend', (e) => {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+
+                    if (tapLength < 300 && tapLength > 0) {
+                        if (!likeIcon.classList.contains('fas')) {
+                            likeIcon.classList.remove('far');
+                            likeIcon.classList.add('fas');
+                            likeIcon.style.color = '#ff3b5c';
+                        }
+
+                        const likeAnim = document.createElement('i');
+                        likeAnim.className = 'fas fa-heart like-animation';
+                        reelItem.appendChild(likeAnim);
+                        setTimeout(() => likeAnim.remove(), 600);
+
+                        e.preventDefault();
+                    }
+                    lastTap = currentTime;
+                });
+            });
+
+            // Show reels
+            reelsContainer.classList.add('active');
+            document.body.classList.add('reels-mode');
+
+            // Scroll to start index
+            const startReel = reelsContainer.children[startIndex];
+            startReel.scrollIntoView();
+
+            // Setup video playback
+            setupReelsPlayback();
+        }
+
+        // ========== Close Reels Fullscreen ==========
+        function closeReelsFullscreen() {
+            const reelsContainer = document.getElementById('reelsFullscreen');
+            reelsContainer.classList.remove('active');
+            document.body.classList.remove('reels-mode');
+
+            // Pause all videos
+            document.querySelectorAll('.reel-video').forEach(v => v.pause());
+        }
+
+        // ========== Reels Playback ==========
+        function setupReelsPlayback() {
+            const reelsContainer = document.getElementById('reelsFullscreen');
+            const videos = reelsContainer.querySelectorAll('.reel-video');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target.querySelector('.reel-video');
+                    if (entry.isIntersecting) {
+                        videos.forEach(v => v.pause());
+                        video.play().catch(() => {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, { threshold: 0.8 });
+
+            reelsContainer.querySelectorAll('.reel-item').forEach(item => {
+                observer.observe(item);
+            });
+        }
+
+        // ========== Setup Post Interactions ==========
+        function setupPostInteractions(postItem, initialLikes, totalComments) {
+            let likes = initialLikes;
+            let isLiked = false;
+
+            const likeBtn = postItem.querySelector('.like-btn');
+            const likeIcon = likeBtn.querySelector('i');
+            const likesCount = postItem.querySelector('.post-likes');
+
+            likeBtn.addEventListener('click', () => {
+                isLiked = !isLiked;
+                if (isLiked) {
+                    likeIcon.classList.remove('far');
+                    likeIcon.classList.add('fas');
+                    likeBtn.classList.add('liked');
+                    likes++;
+                } else {
+                    likeIcon.classList.remove('fas');
+                    likeIcon.classList.add('far');
+                    likeBtn.classList.remove('liked');
+                    likes--;
+                }
+                likesCount.textContent = `${likes.toLocaleString()}명이 좋아합니다`;
+            });
+
+            // Double-tap like
+            const mediaElement = postItem.querySelector('.carousel-container, .post-video-container');
+            if (mediaElement) {
+                let lastTap = 0;
+                mediaElement.addEventListener('touchend', (e) => {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+
+                    if (tapLength < 300 && tapLength > 0 && !mediaElement.classList.contains('post-video-container')) {
+                        if (!isLiked) {
+                            likeIcon.classList.remove('far');
+                            likeIcon.classList.add('fas');
+                            likeBtn.classList.add('liked');
+                            likes++;
+                            isLiked = true;
+                            likesCount.textContent = `${likes.toLocaleString()}명이 좋아합니다`;
+                        }
+
+                        const likeAnim = document.createElement('i');
+                        likeAnim.className = 'fas fa-heart like-animation';
+                        mediaElement.appendChild(likeAnim);
+                        setTimeout(() => likeAnim.remove(), 600);
+
+                        e.preventDefault();
+                    }
+                    lastTap = currentTime;
+                });
+            }
+
+            // Bookmark
+            const bookmarkBtn = postItem.querySelector('.bookmark-btn');
+            const bookmarkIcon = bookmarkBtn.querySelector('i');
+            bookmarkBtn.addEventListener('click', () => {
+                bookmarkIcon.classList.toggle('far');
+                bookmarkIcon.classList.toggle('fas');
+            });
+
+            // Caption toggle
+            const captionText = postItem.querySelector('.caption-text');
+            const moreBtn = postItem.querySelector('.caption-more');
+
+            if (moreBtn) {
+                moreBtn.addEventListener('click', () => {
+                    if (captionText.classList.contains('collapsed')) {
+                        captionText.classList.remove('collapsed');
+                        moreBtn.textContent = '간략히';
+                    } else {
+                        captionText.classList.add('collapsed');
+                        moreBtn.textContent = '더 보기';
+                    }
+                });
+            }
+
+            // Comments toggle
+            const commentsLink = postItem.querySelector('.post-comments-link');
+            const commentBtn = postItem.querySelector('.comment-btn');
+            const commentsSection = postItem.querySelector('.comments-section');
+            const commentsList = postItem.querySelector('.comments-list');
+
+            const toggleComments = () => {
+                if (commentsSection.classList.contains('expanded')) {
+                    commentsSection.classList.remove('expanded');
+                } else {
+                    commentsSection.classList.add('expanded');
+
+                    if (commentsList.children.length === 0) {
+                        SAMPLE_COMMENTS.forEach(comment => {
+                            addComment(commentsList, comment.username, comment.text, comment.time);
+                        });
+                    }
+                }
+            };
+
+            commentsLink.addEventListener('click', toggleComments);
+            commentBtn.addEventListener('click', toggleComments);
+
+            // Comment input
+            const commentInput = postItem.querySelector('.comment-input');
+            const commentPostBtn = postItem.querySelector('.comment-post-btn');
+
+            commentInput.addEventListener('input', () => {
+                commentPostBtn.disabled = !commentInput.value.trim();
+            });
+
+            commentPostBtn.addEventListener('click', () => {
+                const text = commentInput.value.trim();
+                if (text) {
+                    addComment(commentsList, '나', text, '방금');
+                    commentInput.value = '';
+                    commentPostBtn.disabled = true;
+                }
+            });
+
+            // Share button
+            const shareBtn = postItem.querySelector('.share-btn');
+            shareBtn.addEventListener('click', () => {
+                const postId = postItem.dataset.postId;
+                currentShareUrl = `https://theyool.com/post/${postId}`;
+                openShareModal();
+            });
+        }
+
+        // ========== Add Comment ==========
+        function addComment(container, username, text, time) {
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'comment-item';
+            commentDiv.innerHTML = `
+                <img src="https://via.placeholder.com/32" alt="${username}" class="comment-avatar">
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="comment-username">${username}</span>
+                        <span class="comment-time">${time}</span>
+                    </div>
+                    <div class="comment-text">${text}</div>
+                    <div class="comment-actions">
+                        <button class="comment-action">답글 달기</button>
+                        <button class="comment-action">좋아요</button>
+                    </div>
+                </div>
+                <button class="comment-like-btn">
+                    <i class="far fa-heart"></i>
+                </button>
+            `;
+            container.appendChild(commentDiv);
+
+            const commentLikeBtn = commentDiv.querySelector('.comment-like-btn');
+            const commentLikeIcon = commentLikeBtn.querySelector('i');
+            commentLikeBtn.addEventListener('click', () => {
+                commentLikeIcon.classList.toggle('far');
+                commentLikeIcon.classList.toggle('fas');
+                commentLikeIcon.style.color = commentLikeIcon.classList.contains('fas') ? '#ff3b5c' : '#fff';
+            });
+        }
+
+        // ========== Share Modal ==========
+        const shareModal = document.getElementById('shareModal');
+        const shareCancel = document.getElementById('shareCancel');
+
+        function openShareModal() {
+            shareModal.classList.add('active');
+        }
+
+        function closeShareModal() {
+            shareModal.classList.remove('active');
+        }
+
+        shareCancel.addEventListener('click', closeShareModal);
+        shareModal.addEventListener('click', (e) => {
+            if (e.target === shareModal) closeShareModal();
+        });
+
+        document.querySelectorAll('.share-option').forEach(option => {
+            option.addEventListener('click', async () => {
+                const action = option.dataset.action;
+
+                if (action === 'copy') {
+                    try {
+                        await navigator.clipboard.writeText(currentShareUrl);
+                        alert('링크가 복사되었습니다!');
+                    } catch (err) {
+                        console.error('Failed to copy:', err);
+                    }
+                } else if (action === 'kakao') {
+                    alert('카카오톡 공유 기능은 실제 앱에서 구현됩니다.');
+                } else if (action === 'native') {
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: '더율법무법인 게시물',
+                                text: '더율법무법인의 게시물을 확인해보세요',
+                                url: currentShareUrl
+                            });
+                        } catch (err) {
+                            console.log('Share cancelled or failed:', err);
+                        }
+                    } else {
+                        alert('이 브라우저는 공유 기능을 지원하지 않습니다.');
+                    }
+                }
+
+                closeShareModal();
+            });
+        });
+
+        // ========== Bottom Navigation ==========
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const nav = btn.dataset.nav;
+
+                // Update active state
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Handle navigation
+                if (nav === 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (nav === 'search') {
+                    alert('검색 기능은 곧 제공될 예정입니다.');
+                } else if (nav === 'reels') {
+                    if (videoReels.length > 0) {
+                        openReelsFullscreen(0);
+                    } else {
+                        alert('릴스가 없습니다.');
+                    }
+                } else if (nav === 'shop') {
+                    alert('쇼핑 기능은 곧 제공될 예정입니다.');
+                } else if (nav === 'profile') {
+                    window.location.href = '/';
+                }
+            });
+        });
+
+        // Hide bottom nav when in Reels mode
+        const bottomNav = document.querySelector('.bottom-nav');
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    if (document.body.classList.contains('reels-mode')) {
+                        bottomNav.style.display = 'none';
+                    } else {
+                        bottomNav.style.display = 'block';
+                    }
+                }
+            });
+        });
+        observer.observe(document.body, { attributes: true });
+
+        console.log('더율 스토리 initialized - Mixed Feed with Carousel & Reels');
+    </script>
+</body>
+</html>
