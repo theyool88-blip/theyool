@@ -10,7 +10,6 @@ import HeroAnimation from '@/components/features/HeroAnimation';
 import ServicesModule from '@/components/features/ServicesModule';
 import Modal from '@/components/ui/Modal';
 import ConsultationForm from '@/components/features/ConsultationForm';
-import ParallaxScroll from '@/components/effects/ParallaxScroll';
 import RealStory from '@/components/features/RealStory';
 import YouTubeSection from '@/components/features/YouTubeSection';
 
@@ -20,7 +19,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black">
       <SmoothScroll />
-      <ParallaxScroll />
       {/* Header - SKIN1004 스타일 */}
       <header className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm">
         <nav className="max-w-[1200px] mx-auto px-6 lg:px-8">
