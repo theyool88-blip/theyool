@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 const stories = [
   {
@@ -131,8 +132,24 @@ export default function RealStory() {
                 activeTab === index ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
             >
-              {/* Pastel Background Gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${story.bgColor}`} />
+              {/* Background - Image for adultery, gradient for others */}
+              {story.id === 'adultery' ? (
+                <>
+                  <div className="absolute inset-0">
+                    <Image
+                      src="/images/adultery-bg.png"
+                      alt="상간 배경"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  {/* Overlay for better text readability */}
+                  <div className="absolute inset-0 bg-white/60" />
+                </>
+              ) : (
+                <div className={`absolute inset-0 bg-gradient-to-br ${story.bgColor}`} />
+              )}
 
               {/* Content */}
               <div className="relative h-full flex items-center justify-center px-16 md:px-24 pt-48 pb-24">
