@@ -12,6 +12,7 @@ import Modal from '@/components/ui/Modal';
 import ConsultationForm from '@/components/features/ConsultationForm';
 import RealStory from '@/components/features/RealStory';
 import YouTubeSection from '@/components/features/YouTubeSection';
+import SectionReveal from '@/components/effects/SectionReveal';
 
 export default function Home() {
   const [isTalkModalOpen, setIsTalkModalOpen] = useState(false);
@@ -166,26 +167,29 @@ export default function Home() {
           </svg>
         </div>
 
-        <div className="relative z-10 max-w-[1040px] mx-auto text-center w-full">
-            <p className="text-xs md:text-sm text-gray-400 mb-3 tracking-[0.2em] uppercase">Expertise</p>
-            <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-white tracking-tight">
-              오직 이혼, 단 하나의 분야
-            </h3>
-            <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-10 font-light max-w-2xl mx-auto leading-relaxed">
-              형사도, 민사도 하지 않습니다.<br />
-              <span className="font-semibold text-white">이혼과 상간 사건</span>만을 연구합니다.
-            </p>
-            <p className="text-sm md:text-base text-gray-300 leading-relaxed max-w-xl mx-auto">
-              한 사건, 한 인생.<br />
-              더율은 <span className="font-bold text-white">'이혼 이후의 삶'</span>을 설계합니다.
-            </p>
-        </div>
+        <SectionReveal>
+          <div className="relative z-10 max-w-[1040px] mx-auto text-center w-full">
+              <p className="text-xs md:text-sm text-gray-400 mb-3 tracking-[0.2em] uppercase">Expertise</p>
+              <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-white tracking-tight">
+                오직 이혼, 단 하나의 분야
+              </h3>
+              <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-10 font-light max-w-2xl mx-auto leading-relaxed">
+                형사도, 민사도 하지 않습니다.<br />
+                <span className="font-semibold text-white">이혼과 상간 사건</span>만을 연구합니다.
+              </p>
+              <p className="text-sm md:text-base text-gray-300 leading-relaxed max-w-xl mx-auto">
+                한 사건, 한 인생.<br />
+                더율은 <span className="font-bold text-white">'이혼 이후의 삶'</span>을 설계합니다.
+              </p>
+          </div>
+        </SectionReveal>
       </section>
 
       {/* 더 플랜 섹션 - 하얀 배경 */}
       <section id="plan" className="min-h-screen flex items-center py-16 md:py-32 px-6 md:px-12 bg-white hero-parallax">
-        <div className="max-w-[1200px] mx-auto w-full">
-            <div className="text-center mb-12 md:mb-20">
+        <SectionReveal>
+          <div className="max-w-[1200px] mx-auto w-full">
+              <div className="text-center mb-12 md:mb-20">
               <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Strategy</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
                 더 플랜 <span className="text-gray-500 font-light">(The Plan)</span>
@@ -309,6 +313,7 @@ export default function Home() {
               </div>
           </div>
         </div>
+        </SectionReveal>
       </section>
 
       {/* Real Story 섹션 - 위자료/재산분할/양육권 통합 */}
@@ -622,20 +627,22 @@ export default function Home() {
 
       {/* 최종 CTA 섹션 */}
       <section id="contact" className="min-h-screen flex items-center py-16 md:py-32 px-6 md:px-12 gradient-hero text-white hero-parallax">
-        <div className="max-w-[1040px] mx-auto text-center w-full">
-          <p className="text-3xl md:text-5xl font-bold mb-10 md:mb-12 leading-tight">
-            지금, 당신의 상황을<br />전략으로 바꿀 때입니다.
-          </p>
-          <a
-            href="tel:02-1234-5678"
-            className="inline-block bg-[var(--secondary)] text-[var(--primary-dark)] font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-[var(--secondary-light)] transition-all hover-lift shadow-toss-xl"
-          >
-            📞 지금 상담하기
-          </a>
-          <p className="mt-6 md:mt-8 text-base md:text-lg text-white/80">
-            평일 09:00 - 18:00 | 주말/공휴일 예약 상담
-          </p>
-        </div>
+        <SectionReveal>
+          <div className="max-w-[1040px] mx-auto text-center w-full">
+            <p className="text-3xl md:text-5xl font-bold mb-10 md:mb-12 leading-tight">
+              지금, 당신의 상황을<br />전략으로 바꿀 때입니다.
+            </p>
+            <a
+              href="tel:02-1234-5678"
+              className="inline-block bg-[var(--secondary)] text-[var(--primary-dark)] font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-[var(--secondary-light)] transition-all hover-lift shadow-toss-xl"
+            >
+              📞 지금 상담하기
+            </a>
+            <p className="mt-6 md:mt-8 text-base md:text-lg text-white/80">
+              평일 09:00 - 18:00 | 주말/공휴일 예약 상담
+            </p>
+          </div>
+        </SectionReveal>
       </section>
 
       {/* Footer */}

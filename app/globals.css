@@ -716,3 +716,15 @@ section {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ===== Section Reveal Animation - TVING Style ===== */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.section-reveal.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
