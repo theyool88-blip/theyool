@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import ScrollReveal from '@/components/ScrollReveal';
 import ConsultationButton from '@/components/features/ConsultationButton';
 import MobileMenu from '@/components/ui/MobileMenu';
 import SmoothScroll from '@/components/SmoothScroll';
@@ -170,31 +169,24 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-[1040px] mx-auto text-center w-full">
-          <ScrollReveal>
             <p className="text-xs md:text-sm text-gray-400 mb-3 tracking-[0.2em] uppercase">Expertise</p>
             <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-white tracking-tight">
               오직 이혼, 단 하나의 분야
             </h3>
-          </ScrollReveal>
-          <ScrollReveal delay={100}>
             <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-10 font-light max-w-2xl mx-auto leading-relaxed">
               형사도, 민사도 하지 않습니다.<br />
               <span className="font-semibold text-white">이혼과 상간 사건</span>만을 연구합니다.
             </p>
-          </ScrollReveal>
-          <ScrollReveal delay={200}>
             <p className="text-sm md:text-base text-gray-300 leading-relaxed max-w-xl mx-auto">
               한 사건, 한 인생.<br />
               더율은 <span className="font-bold text-white">'이혼 이후의 삶'</span>을 설계합니다.
             </p>
-          </ScrollReveal>
         </div>
       </section>
 
       {/* 더 플랜 섹션 - 하얀 배경 */}
       <section id="plan" className="min-h-screen flex items-center py-16 md:py-32 px-6 md:px-12 bg-white hero-parallax">
         <div className="max-w-[1200px] mx-auto w-full">
-          <ScrollReveal>
             <div className="text-center mb-12 md:mb-20">
               <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Strategy</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
@@ -205,10 +197,8 @@ export default function Home() {
                 <span className="text-gray-900 font-semibold">이후의 삶</span>까지 설계하는 3단계 전략
               </p>
             </div>
-          </ScrollReveal>
 
           {/* Mobile condensed timeline */}
-          <ScrollReveal delay={50}>
             <div className="md:hidden space-y-3">
               {[
                 {
@@ -241,12 +231,10 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </ScrollReveal>
 
           {/* 3단계 타임라인 */}
           <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8">
             {/* Step 1 */}
-            <ScrollReveal delay={100}>
               <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
                 {/* 숫자 배지 */}
                 <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
@@ -271,10 +259,8 @@ export default function Home() {
                   증거 수집 · 법률 분석 · 전략 방향 설정
                 </div>
               </div>
-            </ScrollReveal>
 
             {/* Step 2 */}
-            <ScrollReveal delay={200}>
               <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
                 <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
                   <span className="text-white font-bold text-xl">2</span>
@@ -298,10 +284,8 @@ export default function Home() {
                   전략 수립 · 협상 준비 · 소송 대응
                 </div>
               </div>
-            </ScrollReveal>
 
             {/* Step 3 */}
-            <ScrollReveal delay={300}>
               <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
                 <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
                   <span className="text-white font-bold text-xl">3</span>
@@ -325,7 +309,6 @@ export default function Home() {
                   결과 최적화 · 사후 관리 · 새로운 시작
                 </div>
               </div>
-            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -339,21 +322,16 @@ export default function Home() {
       {/* 기존 위자료 섹션 (백업용 - 나중에 삭제) */}
       <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-[#0a0a0a] hero-parallax">
         <div className="max-w-[1200px] mx-auto w-full">
-          <ScrollReveal>
             <div className="text-center mb-8 md:mb-12">
               <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Alimony</p>
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-tight">위자료</h2>
               <p className="text-sm md:text-base text-gray-400 font-light">당신의 아픔을, 제대로 보상받도록</p>
             </div>
-          </ScrollReveal>
 
-          <ScrollReveal delay={100}>
             <p className="text-sm md:text-base text-gray-300 mb-6 md:mb-10 text-center leading-relaxed max-w-2xl mx-auto">
               이혼 초기에 <span className="text-white font-semibold">증거의 흐름</span>을 잡는 것이 가장 중요합니다
             </p>
-          </ScrollReveal>
 
-          <ScrollReveal delay={150}>
             <div className="md:hidden space-y-3">
               {[
                 {
@@ -382,11 +360,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </ScrollReveal>
 
           {/* 사례 카드 그리드 */}
           <div className="hidden md:grid md:grid-cols-2 gap-8 md:gap-10">
-            <ScrollReveal delay={200}>
               <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
                 <div className="inline-block px-4 py-2 bg-blue-500/20 rounded-full mb-6">
                   <span className="text-blue-400 font-semibold text-sm">Case 01</span>
@@ -413,9 +389,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
 
-            <ScrollReveal delay={300}>
               <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
                 <div className="inline-block px-4 py-2 bg-blue-500/20 rounded-full mb-6">
                   <span className="text-blue-400 font-semibold text-sm">Case 02</span>
@@ -442,7 +416,6 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -450,21 +423,16 @@ export default function Home() {
       {/* 기존 재산분할 섹션 (백업용 - 나중에 삭제) */}
       <section id="property-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-white hero-parallax">
         <div className="max-w-[1200px] mx-auto w-full">
-          <ScrollReveal>
             <div className="text-center mb-8 md:mb-12">
               <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Property Division</p>
               <h2 className="text-3xl md:text-5xl font-bold text-[var(--primary)] mb-2 tracking-tight">재산분할</h2>
               <p className="text-sm md:text-base text-gray-600 font-light">당신의 이혼 후의 삶을, 결정력 있게</p>
             </div>
-          </ScrollReveal>
 
-          <ScrollReveal delay={100}>
             <p className="text-sm md:text-base text-gray-700 mb-6 md:mb-10 text-center leading-relaxed max-w-2xl mx-auto">
               재산분할은 숫자의 문제가 아니라 <span className="text-[var(--primary)] font-semibold">전략의 문제</span>입니다
             </p>
-          </ScrollReveal>
 
-          <ScrollReveal delay={150}>
             <div className="md:hidden space-y-3">
               {[
                 {
@@ -493,11 +461,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </ScrollReveal>
 
           {/* 사례 카드 그리드 */}
           <div className="hidden md:grid md:grid-cols-2 gap-8 md:gap-10">
-            <ScrollReveal delay={200}>
               <div className="group case-card bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200 rounded-3xl p-8 md:p-10 hover:border-gray-300 hover:shadow-2xl transition-all duration-500">
                 <div className="inline-block px-4 py-2 bg-emerald-500/10 rounded-full mb-6">
                   <span className="text-emerald-600 font-semibold text-sm">Case 01</span>
@@ -524,9 +490,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
 
-            <ScrollReveal delay={300}>
               <div className="group case-card bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200 rounded-3xl p-8 md:p-10 hover:border-gray-300 hover:shadow-2xl transition-all duration-500">
                 <div className="inline-block px-4 py-2 bg-emerald-500/10 rounded-full mb-6">
                   <span className="text-emerald-600 font-semibold text-sm">Case 02</span>
@@ -553,7 +517,6 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -561,21 +524,16 @@ export default function Home() {
       {/* 기존 양육권 섹션 (백업용 - 나중에 삭제) */}
       <section id="custody-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-[#0a0a0a] hero-parallax">
         <div className="max-w-[1200px] mx-auto w-full">
-          <ScrollReveal>
             <div className="text-center mb-8 md:mb-12">
               <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Child Custody</p>
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-tight">양육권</h2>
               <p className="text-sm md:text-base text-gray-400 font-light">우리 아이가, 제대로 클 수 있도록</p>
             </div>
-          </ScrollReveal>
 
-          <ScrollReveal delay={100}>
             <p className="text-sm md:text-base text-gray-300 mb-6 md:mb-10 text-center leading-relaxed max-w-2xl mx-auto">
               아이의 <span className="text-white font-semibold">최선의 이익</span>을 위한 치밀한 준비가 결과를 만듭니다
             </p>
-          </ScrollReveal>
 
-          <ScrollReveal delay={150}>
             <div className="md:hidden space-y-3">
               {[
                 {
@@ -604,11 +562,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </ScrollReveal>
 
           {/* 사례 카드 그리드 */}
           <div className="hidden md:grid md:grid-cols-2 gap-8 md:gap-10">
-            <ScrollReveal delay={200}>
               <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
                 <div className="inline-block px-4 py-2 bg-amber-500/20 rounded-full mb-6">
                   <span className="text-amber-400 font-semibold text-sm">Case 01</span>
@@ -635,9 +591,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
 
-            <ScrollReveal delay={300}>
               <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
                 <div className="inline-block px-4 py-2 bg-amber-500/20 rounded-full mb-6">
                   <span className="text-amber-400 font-semibold text-sm">Case 02</span>
@@ -664,7 +618,6 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
           </div>
         </div>
       </section>
