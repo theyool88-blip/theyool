@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import ScrollReveal from '@/components/ScrollReveal';
 
 const videos = [
@@ -18,76 +18,28 @@ const videos = [
 
 export default function YouTubeSection() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  // Use deterministic pseudo-random values to avoid SSR/CSR mismatch
-  const stars = useMemo(() => {
-    // Mulberry32 PRNG for stable, seeded results
-    const mulberry32 = (a: number) => {
-      return () => {
-        let t = (a += 0x6d2b79f5);
-        t = Math.imul(t ^ (t >>> 15), t | 1);
-        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-      };
-    };
-
-    const count = 20;
-    const seedBase = 123456789; // constant seed for both server and client
-    const list: {
-      cx: string;
-      cy: string;
-      durOpacity: string;
-      beginOpacity: string;
-      durRadius: string;
-      beginRadius: string;
-    }[] = [];
-    for (let i = 0; i < count; i++) {
-      const r1 = mulberry32(seedBase + i)();
-      const r2 = mulberry32(seedBase + i + 101)();
-      const r3 = mulberry32(seedBase + i + 202)();
-      const r4 = mulberry32(seedBase + i + 303)();
-      const r5 = mulberry32(seedBase + i + 404)();
-      const r6 = mulberry32(seedBase + i + 505)();
-      list.push({
-        cx: `${Math.round(r1 * 100)}%`,
-        cy: `${Math.round(r2 * 100)}%`,
-        durOpacity: `${(2 + r3 * 3).toFixed(2)}s`,
-        beginOpacity: `${(r4 * 3).toFixed(2)}s`,
-        durRadius: `${(2 + r5 * 3).toFixed(2)}s`,
-        beginRadius: `${(r6 * 3).toFixed(2)}s`,
-      });
-    }
-    return list;
-  }, []);
 
   return (
     <section className="relative min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-black overflow-hidden hero-parallax">
-      {/* Luxury Animated Background */}
+      {/* Simple Elegant Background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            {/* Gold Gradient */}
+            {/* Gold Gradient - Static */}
             <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#ffd700', stopOpacity: 0.3 }}>
-                <animate attributeName="stop-opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite" />
-              </stop>
-              <stop offset="100%" style={{ stopColor: '#ffed4e', stopOpacity: 0.2 }}>
-                <animate attributeName="stop-opacity" values="0.2;0.5;0.2" dur="4s" repeatCount="indefinite" />
-              </stop>
+              <stop offset="0%" style={{ stopColor: '#ffd700', stopOpacity: 0.2 }} />
+              <stop offset="100%" style={{ stopColor: '#ffed4e', stopOpacity: 0.1 }} />
             </linearGradient>
 
-            {/* Silver Gradient */}
+            {/* Silver Gradient - Static */}
             <linearGradient id="silverGrad" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#c0c0c0', stopOpacity: 0.25 }}>
-                <animate attributeName="stop-opacity" values="0.25;0.5;0.25" dur="3s" repeatCount="indefinite" />
-              </stop>
-              <stop offset="100%" style={{ stopColor: '#e8e8e8', stopOpacity: 0.15 }}>
-                <animate attributeName="stop-opacity" values="0.15;0.4;0.15" dur="3s" repeatCount="indefinite" />
-              </stop>
+              <stop offset="0%" style={{ stopColor: '#c0c0c0', stopOpacity: 0.15 }} />
+              <stop offset="100%" style={{ stopColor: '#e8e8e8', stopOpacity: 0.1 }} />
             </linearGradient>
 
-            {/* Purple Accent */}
+            {/* Purple Accent - Static */}
             <radialGradient id="purpleGlow">
-              <stop offset="0%" style={{ stopColor: '#8b5cf6', stopOpacity: 0.4 }} />
+              <stop offset="0%" style={{ stopColor: '#8b5cf6', stopOpacity: 0.2 }} />
               <stop offset="100%" style={{ stopColor: '#8b5cf6', stopOpacity: 0 }} />
             </radialGradient>
 
@@ -101,72 +53,10 @@ export default function YouTubeSection() {
             </filter>
           </defs>
 
-          {/* Large Flowing Circles with Gold/Silver */}
-          <circle cx="20%" cy="30%" r="200" fill="url(#goldGrad)" filter="url(#glow)">
-            <animate attributeName="cx" values="20%;25%;20%" dur="15s" repeatCount="indefinite" />
-            <animate attributeName="cy" values="30%;20%;30%" dur="12s" repeatCount="indefinite" />
-            <animate attributeName="r" values="200;250;200" dur="10s" repeatCount="indefinite" />
-          </circle>
-
-          <circle cx="80%" cy="70%" r="250" fill="url(#silverGrad)" filter="url(#glow)">
-            <animate attributeName="cx" values="80%;75%;80%" dur="18s" repeatCount="indefinite" />
-            <animate attributeName="cy" values="70%;80%;70%" dur="14s" repeatCount="indefinite" />
-            <animate attributeName="r" values="250;200;250" dur="11s" repeatCount="indefinite" />
-          </circle>
-
-          <circle cx="50%" cy="50%" r="180" fill="url(#purpleGlow)" filter="url(#glow)">
-            <animate attributeName="r" values="180;220;180" dur="8s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.3;0.6;0.3" dur="5s" repeatCount="indefinite" />
-          </circle>
-
-          {/* Flowing Wave Lines */}
-          <path
-            d="M0,100 Q250,50 500,100 T1000,100 T1500,100 T2000,100"
-            stroke="url(#goldGrad)"
-            strokeWidth="3"
-            fill="none"
-            opacity="0.4"
-          >
-            <animate attributeName="d"
-              values="M0,100 Q250,50 500,100 T1000,100 T1500,100 T2000,100;
-                      M0,100 Q250,150 500,100 T1000,100 T1500,100 T2000,100;
-                      M0,100 Q250,50 500,100 T1000,100 T1500,100 T2000,100"
-              dur="8s" repeatCount="indefinite" />
-          </path>
-
-          <path
-            d="M0,500 Q250,450 500,500 T1000,500 T1500,500 T2000,500"
-            stroke="url(#silverGrad)"
-            strokeWidth="3"
-            fill="none"
-            opacity="0.4"
-          >
-            <animate attributeName="d"
-              values="M0,500 Q250,450 500,500 T1000,500 T1500,500 T2000,500;
-                      M0,500 Q250,550 500,500 T1000,500 T1500,500 T2000,500;
-                      M0,500 Q250,450 500,500 T1000,500 T1500,500 T2000,500"
-              dur="10s" repeatCount="indefinite" />
-          </path>
-
-          {/* Sparkling Stars */}
-          {stars.map((s, i) => (
-            <circle key={i} cx={s.cx} cy={s.cy} r="2" fill="#ffffff" opacity="0">
-              <animate
-                attributeName="opacity"
-                values="0;0.8;0"
-                dur={s.durOpacity}
-                begin={s.beginOpacity}
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="r"
-                values="1;3;1"
-                dur={s.durRadius}
-                begin={s.beginRadius}
-                repeatCount="indefinite"
-              />
-            </circle>
-          ))}
+          {/* Static Circles with Gold/Silver */}
+          <circle cx="20%" cy="30%" r="200" fill="url(#goldGrad)" filter="url(#glow)" />
+          <circle cx="80%" cy="70%" r="250" fill="url(#silverGrad)" filter="url(#glow)" />
+          <circle cx="50%" cy="50%" r="180" fill="url(#purpleGlow)" filter="url(#glow)" opacity="0.3" />
         </svg>
       </div>
 
