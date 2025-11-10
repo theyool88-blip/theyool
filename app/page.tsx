@@ -167,30 +167,28 @@ export default function Home() {
           </svg>
         </div>
 
-        <SectionReveal>
-          <div className="relative z-10 max-w-[1040px] w-full px-6 md:px-12 mx-auto">
-            <div className="text-center">
-              <p className="text-xs md:text-sm text-gray-400 mb-3 tracking-[0.2em] uppercase">Expertise</p>
-              <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-white tracking-tight">
-                오직 이혼, 단 하나의 분야
-              </h3>
-              <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-10 font-light max-w-2xl mx-auto leading-relaxed">
-                형사도, 민사도 하지 않습니다.<br />
-                <span className="font-semibold text-white">이혼과 상간 사건</span>만을 연구합니다.
-              </p>
-              <p className="text-sm md:text-base text-gray-300 leading-relaxed max-w-xl mx-auto">
-                한 사건, 한 인생.<br />
-                더율은 <span className="font-bold text-white">'이혼 이후의 삶'</span>을 설계합니다.
-              </p>
-            </div>
+        <div className="relative z-10 w-full">
+          <div className="max-w-[1040px] px-6 md:px-12 mx-auto text-center">
+            <p className="text-xs md:text-sm text-gray-400 mb-3 tracking-[0.2em] uppercase">Expertise</p>
+            <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-white tracking-tight">
+              오직 이혼, 단 하나의 분야
+            </h3>
+            <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-10 font-light max-w-2xl mx-auto leading-relaxed">
+              형사도, 민사도 하지 않습니다.<br />
+              <span className="font-semibold text-white">이혼과 상간 사건</span>만을 연구합니다.
+            </p>
+            <p className="text-sm md:text-base text-gray-300 leading-relaxed max-w-xl mx-auto">
+              한 사건, 한 인생.<br />
+              더율은 <span className="font-bold text-white">'이혼 이후의 삶'</span>을 설계합니다.
+            </p>
           </div>
-        </SectionReveal>
+        </div>
       </section>
 
       {/* 더 플랜 섹션 - 하얀 배경 */}
       <section id="plan" className="min-h-screen flex items-center py-16 md:py-32 bg-white hero-parallax">
-        <SectionReveal>
-          <div className="max-w-[1200px] w-full px-6 md:px-12 mx-auto">
+        <div className="w-full">
+          <div className="max-w-[1200px] px-6 md:px-12 mx-auto">
             {/* Title */}
             <div className="text-center mb-12 md:mb-20">
               <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Strategy</p>
@@ -316,7 +314,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </SectionReveal>
+        </div>
       </section>
 
       {/* Real Story 섹션 - 위자료/재산분할/양육권 통합 */}
