@@ -144,23 +144,23 @@ export default function RealStory() {
                       priority
                     />
                   </div>
-                  {/* Overlay for better text readability */}
-                  <div className="absolute inset-0 bg-white/60" />
+                  {/* Stronger overlay for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/75 to-white/70" />
                 </>
               ) : (
                 <div className={`absolute inset-0 bg-gradient-to-br ${story.bgColor}`} />
               )}
 
-              {/* Content */}
-              <div className="relative h-full flex items-center justify-center px-16 md:px-24 pt-48 pb-24">
-                <div className="max-w-[600px] mx-auto text-center">
+              {/* Content - Better mobile centering */}
+              <div className="relative h-full flex items-center justify-center px-6 md:px-16 lg:px-24 pt-48 pb-24">
+                <div className="max-w-[600px] w-full mx-auto text-center">
                   <h3 className={`text-2xl md:text-4xl font-bold ${story.textColor} mb-4 md:mb-6`}>
                     {story.subtitle}
                   </h3>
-                  <p className={`text-base md:text-xl ${story.textColor} mb-8 md:mb-12 leading-relaxed opacity-90 whitespace-pre-line`}>
+                  <p className={`text-base md:text-xl ${story.textColor} mb-8 md:mb-12 leading-relaxed opacity-90 whitespace-pre-line px-4 md:px-0`}>
                     {story.story}
                   </p>
-                  <div className="inline-block px-6 py-3 md:px-8 md:py-4 bg-white/80 backdrop-blur-sm rounded-full shadow-lg">
+                  <div className="inline-block px-6 py-3 md:px-8 md:py-4 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-gray-200/50">
                     <p className={`text-sm md:text-lg font-bold ${story.textColor}`}>
                       결과: {story.result}
                     </p>
