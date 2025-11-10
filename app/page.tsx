@@ -168,7 +168,8 @@ export default function Home() {
         </div>
 
         <SectionReveal>
-          <div className="relative z-10 max-w-[1040px] mx-auto text-center w-full">
+          <div className="relative z-10 max-w-[1040px] w-full px-6 md:px-12 mx-auto">
+            <div className="text-center">
               <p className="text-xs md:text-sm text-gray-400 mb-3 tracking-[0.2em] uppercase">Expertise</p>
               <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-white tracking-tight">
                 오직 이혼, 단 하나의 분야
@@ -181,14 +182,15 @@ export default function Home() {
                 한 사건, 한 인생.<br />
                 더율은 <span className="font-bold text-white">'이혼 이후의 삶'</span>을 설계합니다.
               </p>
+            </div>
           </div>
         </SectionReveal>
       </section>
 
       {/* 더 플랜 섹션 - 하얀 배경 */}
-      <section id="plan" className="min-h-screen flex items-center py-16 md:py-32 px-6 md:px-12 bg-white hero-parallax">
+      <section id="plan" className="min-h-screen flex items-center py-16 md:py-32 bg-white hero-parallax">
         <SectionReveal>
-          <div className="max-w-[1200px] mx-auto w-full">
+          <div className="max-w-[1200px] w-full px-6 md:px-12 mx-auto">
               <div className="text-center mb-12 md:mb-20">
               <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Strategy</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
