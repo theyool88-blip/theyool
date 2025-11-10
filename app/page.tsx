@@ -138,7 +138,7 @@ export default function Home() {
       </Modal>
 
       {/* 전문성 강조 섹션 - 검정 기하학 배경 */}
-      <section id="about" className="relative min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-black overflow-hidden hero-parallax">
+      <section id="about" className="relative min-h-screen flex items-center py-16 md:py-24 bg-black overflow-hidden hero-parallax">
         {/* Geometric Background Pattern */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -191,7 +191,8 @@ export default function Home() {
       <section id="plan" className="min-h-screen flex items-center py-16 md:py-32 bg-white hero-parallax">
         <SectionReveal>
           <div className="max-w-[1200px] w-full px-6 md:px-12 mx-auto">
-              <div className="text-center mb-12 md:mb-20">
+            {/* Title */}
+            <div className="text-center mb-12 md:mb-20">
               <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Strategy</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
                 더 플랜 <span className="text-gray-500 font-light">(The Plan)</span>
@@ -236,9 +237,9 @@ export default function Home() {
               ))}
             </div>
 
-            {/* 3단계 타임라인 */}
+            {/* Desktop 3단계 타임라인 */}
             <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8">
-            {/* Step 1 */}
+              {/* Step 1 */}
               <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
                 {/* 숫자 배지 */}
                 <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
@@ -264,7 +265,7 @@ export default function Home() {
                 </div>
               </div>
 
-            {/* Step 2 */}
+              {/* Step 2 */}
               <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
                 <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
                   <span className="text-white font-bold text-xl">2</span>
@@ -289,7 +290,7 @@ export default function Home() {
                 </div>
               </div>
 
-            {/* Step 3 */}
+              {/* Step 3 */}
               <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
                 <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
                   <span className="text-white font-bold text-xl">3</span>
