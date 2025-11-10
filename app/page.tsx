@@ -202,7 +202,7 @@ export default function Home() {
               </p>
             </div>
 
-          {/* Mobile condensed timeline */}
+            {/* Mobile condensed timeline */}
             <div className="md:hidden space-y-3">
               {[
                 {
@@ -236,8 +236,8 @@ export default function Home() {
               ))}
             </div>
 
-          {/* 3단계 타임라인 */}
-          <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8">
+            {/* 3단계 타임라인 */}
+            <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8">
             {/* Step 1 */}
               <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
                 {/* 숫자 배지 */}
@@ -313,8 +313,8 @@ export default function Home() {
                   결과 최적화 · 사후 관리 · 새로운 시작
                 </div>
               </div>
+            </div>
           </div>
-        </div>
         </SectionReveal>
       </section>
 
