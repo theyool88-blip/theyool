@@ -144,8 +144,8 @@ export default function RealStory() {
                       priority
                     />
                   </div>
-                  {/* Stronger overlay for better text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/75 to-white/70" />
+                  {/* Very strong overlay for maximum text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/85 to-white/80" />
                 </>
               ) : (
                 <div className={`absolute inset-0 bg-gradient-to-br ${story.bgColor}`} />
