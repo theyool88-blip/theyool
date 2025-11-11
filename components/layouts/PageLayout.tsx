@@ -54,7 +54,7 @@ export default function PageLayout({ children }: PageLayoutProps) {
 
       {/* 상담 모달 */}
       <Modal isOpen={isTalkModalOpen} onClose={() => setIsTalkModalOpen(false)}>
-        <ConsultationForm onClose={() => setIsTalkModalOpen(false)} />
+        <ConsultationForm onCancel={() => setIsTalkModalOpen(false)} />
       </Modal>
 
       {/* Main Content */}

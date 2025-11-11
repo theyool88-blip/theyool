@@ -2,7 +2,8 @@ import { getBlogPostBySlug, getAllBlogSlugs } from '@/lib/notion/blog';
 import { notFound } from 'next/navigation';
 import BlogDetailClient from './BlogDetailClient';
 
-export const revalidate = 60;
+// 항상 최신 상태를 표시하기 위해 revalidate를 0으로 설정
+export const revalidate = 0;
 
 export async function generateStaticParams() {
   const slugs = await getAllBlogSlugs();

@@ -105,15 +105,19 @@ export async function getLinkedOriginalUrl(post: InstagramPost): Promise<string 
     if (post.type === '성공사례' && post.linkedCaseId) {
       // 성공사례 페이지 가져오기
       const casePage = await notion.pages.retrieve({ page_id: post.linkedCaseId });
-      const slug = (casePage.properties as any).slug?.rich_text?.[0]?.plain_text;
-      return slug ? `/cases/${slug}` : null;
+      if ('properties' in casePage) {
+        const slug = (casePage.properties as any).slug?.rich_text?.[0]?.plain_text;
+        return slug ? `/cases/${slug}` : null;
+      }
     }
 
     if (post.type === '칼럼' && post.linkedBlogId) {
       // 칼럼 페이지 가져오기
       const blogPage = await notion.pages.retrieve({ page_id: post.linkedBlogId });
-      const slug = (blogPage.properties as any).slug?.rich_text?.[0]?.plain_text;
-      return slug ? `/blog/${slug}` : null;
+      if ('properties' in blogPage) {
+        const slug = (blogPage.properties as any).slug?.rich_text?.[0]?.plain_text;
+        return slug ? `/blog/${slug}` : null;
+      }
     }
 
     return null;
@@ -128,6 +132,8 @@ export async function incrementInstagramViews(postId: string): Promise<void> {
   try {
     // 현재 조회수 가져오기
     const page = await notion.pages.retrieve({ page_id: postId });
+    if (!('properties' in page)) return;
+
     const currentViews = (page.properties as any).조회수?.number || 0;
 
     // 조회수 +1 업데이트
@@ -149,6 +155,8 @@ export async function incrementInstagramLikes(postId: string): Promise<void> {
   try {
     // 현재 좋아요수 가져오기
     const page = await notion.pages.retrieve({ page_id: postId });
+    if (!('properties' in page)) return;
+
     const currentLikes = (page.properties as any).좋아요수?.number || 0;
 
     // 좋아요수 +1 업데이트
