@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>더율 스토리</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -114,57 +114,201 @@
             letter-spacing: -0.5px;
         }
 
-        .logo-dropdown-btn {
+        /* Hamburger Menu Button */
+        .menu-toggle-btn {
             background: none;
             border: none;
             cursor: pointer;
-            padding: 0;
-            margin-left: 4px;
+            padding: 8px;
             display: flex;
             align-items: center;
+            color: #000;
         }
 
-        .logo-dropdown-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: #000;
+        .menu-toggle-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
         }
 
-        /* Dropdown Menu */
-        .logo-dropdown-menu {
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
             display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        .mobile-menu-backdrop {
             position: absolute;
-            top: 100%;
-            left: 0;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .mobile-menu-panel {
+            position: absolute;
+            inset: 0;
             background-color: #fff;
-            border: 1px solid #dbdbdb;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            min-width: 200px;
-            margin-top: 8px;
-            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            animation: slideLeft 0.3s ease-out;
         }
 
-        .logo-dropdown-menu.active {
-            display: block;
+        @keyframes slideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .dropdown-item {
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 24px 32px;
+        }
+
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: #8e8e8e;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .mobile-menu-close:hover {
+            color: #000;
+            background-color: #f5f5f5;
+        }
+
+        .mobile-menu-close svg {
+            width: 28px;
+            height: 28px;
+            stroke: currentColor;
+        }
+
+        .mobile-menu-nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 32px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .mobile-menu-item {
             display: block;
-            padding: 12px 16px;
-            color: #262626;
+            padding: 24px 0;
+            border-bottom: 1px solid #f0f0f0;
             text-decoration: none;
-            font-size: 14px;
-            border-bottom: 1px solid #efefef;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
 
-        .dropdown-item:last-child {
+        .mobile-menu-item:last-child {
             border-bottom: none;
         }
 
-        .dropdown-item:hover {
+        .mobile-menu-item-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mobile-menu-item-label {
+            font-size: 28px;
+            font-weight: 300;
+            color: #262626;
+            letter-spacing: -0.5px;
+            transition: color 0.2s;
+        }
+
+        .mobile-menu-item:hover .mobile-menu-item-label {
+            color: #0095f6;
+        }
+
+        .mobile-menu-item-arrow {
+            width: 20px;
+            height: 20px;
+            stroke: #dbdbdb;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu-item:hover .mobile-menu-item-arrow {
+            stroke: #0095f6;
+            transform: translateX(8px);
+        }
+
+        .mobile-menu-footer {
+            border-top: 1px solid #dbdbdb;
             background-color: #fafafa;
+            padding: 24px 32px;
+        }
+
+        .mobile-menu-cta {
+            width: 100%;
+            background: linear-gradient(135deg, #0095f6 0%, #00376b 100%);
+            color: #fff;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .mobile-menu-cta:active {
+            transform: scale(0.98);
+        }
+
+        .mobile-menu-contact {
+            text-align: center;
+        }
+
+        .mobile-menu-contact-label {
+            font-size: 12px;
+            color: #8e8e8e;
+            margin-bottom: 4px;
+        }
+
+        .mobile-menu-contact-phone {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            color: #0095f6;
+            text-decoration: none;
+            margin-bottom: 4px;
+        }
+
+        .mobile-menu-contact-hours {
+            font-size: 11px;
+            color: #8e8e8e;
         }
 
         .header-icons {
@@ -193,7 +337,7 @@
 
         /* Feed Container */
         .feed-container {
-            padding-bottom: 60px;
+            padding-bottom: calc(60px + env(safe-area-inset-bottom));
             background-color: #fff;
         }
 
@@ -879,6 +1023,7 @@
             background-color: #fff;
             border-top: 1px solid #dbdbdb;
             padding: 8px 0;
+            padding-bottom: calc(8px + env(safe-area-inset-bottom));
             z-index: 100;
             max-width: 480px;
             margin: 0 auto;
@@ -920,19 +1065,6 @@
                         <span class="logo-insta">Insta</span>
                         <span class="logo-theyool">더율</span>
                     </div>
-                    <button class="logo-dropdown-btn" id="logoDropdownBtn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5z"/>
-                        </svg>
-                    </button>
-                    <div class="logo-dropdown-menu" id="logoDropdownMenu">
-                        <a href="/" class="dropdown-item">홈으로</a>
-                        <a href="/#plan" class="dropdown-item">더 플랜</a>
-                        <a href="/#alimony" class="dropdown-item">위자료 전략</a>
-                        <a href="/#property" class="dropdown-item">재산분할</a>
-                        <a href="/#custody" class="dropdown-item">양육권</a>
-                        <a href="/#contact" class="dropdown-item">상담 문의</a>
-                    </div>
                 </div>
                 <div class="header-icons">
                     <button class="header-icon">
@@ -941,9 +1073,86 @@
                     <button class="header-icon">
                         <i class="far fa-paper-plane"></i>
                     </button>
+                    <button class="menu-toggle-btn" id="menuToggleBtn" aria-label="메뉴 열기">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <div class="mobile-menu-backdrop"></div>
+            <div class="mobile-menu-panel">
+                <div class="mobile-menu-header">
+                    <button class="mobile-menu-close" id="menuCloseBtn" aria-label="메뉴 닫기">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <nav class="mobile-menu-nav">
+                    <a href="/#plan" class="mobile-menu-item" style="animation: fadeInUp 0.5s ease-out 0s both">
+                        <div class="mobile-menu-item-content">
+                            <span class="mobile-menu-item-label">더 플랜</span>
+                            <svg class="mobile-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="/insta-theyool" class="mobile-menu-item" style="animation: fadeInUp 0.5s ease-out 0.08s both">
+                        <div class="mobile-menu-item-content">
+                            <span class="mobile-menu-item-label">Insta더율</span>
+                            <svg class="mobile-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="/cases" class="mobile-menu-item" style="animation: fadeInUp 0.5s ease-out 0.16s both">
+                        <div class="mobile-menu-item-content">
+                            <span class="mobile-menu-item-label">실제 성공 사례</span>
+                            <svg class="mobile-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="/blog" class="mobile-menu-item" style="animation: fadeInUp 0.5s ease-out 0.24s both">
+                        <div class="mobile-menu-item-content">
+                            <span class="mobile-menu-item-label">변호사 칼럼</span>
+                            <svg class="mobile-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="/#custody" class="mobile-menu-item" style="animation: fadeInUp 0.5s ease-out 0.32s both">
+                        <div class="mobile-menu-item-content">
+                            <span class="mobile-menu-item-label">양육권</span>
+                            <svg class="mobile-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="/#contact" class="mobile-menu-item" style="animation: fadeInUp 0.5s ease-out 0.4s both">
+                        <div class="mobile-menu-item-content">
+                            <span class="mobile-menu-item-label">상담 문의</span>
+                            <svg class="mobile-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                </nav>
+                <div class="mobile-menu-footer">
+                    <button class="mobile-menu-cta" onclick="window.location.href='/#contact'">무료 상담 신청하기</button>
+                    <div class="mobile-menu-contact">
+                        <p class="mobile-menu-contact-label">전화 상담</p>
+                        <a href="tel:02-1234-5678" class="mobile-menu-contact-phone">02-1234-5678</a>
+                        <p class="mobile-menu-contact-hours">평일 09:00 - 18:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Feed Container -->
         <div class="feed-container" id="feedContainer">
@@ -1000,26 +1209,37 @@
     </div>
 
     <script>
-        // ========== Logo Dropdown ==========
-        const logoDropdownBtn = document.getElementById('logoDropdownBtn');
-        const logoDropdownMenu = document.getElementById('logoDropdownMenu');
+        // ========== Mobile Menu ==========
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        const menuCloseBtn = document.getElementById('menuCloseBtn');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const menuBackdrop = mobileMenuOverlay.querySelector('.mobile-menu-backdrop');
 
-        logoDropdownBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            logoDropdownMenu.classList.toggle('active');
-        });
+        function openMobileMenu() {
+            mobileMenuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!logoDropdownMenu.contains(e.target) && !logoDropdownBtn.contains(e.target)) {
-                logoDropdownMenu.classList.remove('active');
+        function closeMobileMenu() {
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = 'unset';
+        }
+
+        menuToggleBtn.addEventListener('click', openMobileMenu);
+        menuCloseBtn.addEventListener('click', closeMobileMenu);
+        menuBackdrop.addEventListener('click', closeMobileMenu);
+
+        // Close menu on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenuOverlay.classList.contains('active')) {
+                closeMobileMenu();
             }
         });
 
-        // Close dropdown when clicking on a menu item
-        document.querySelectorAll('.dropdown-item').forEach(item => {
+        // Close menu when clicking on a menu item
+        document.querySelectorAll('.mobile-menu-item').forEach(item => {
             item.addEventListener('click', () => {
-                logoDropdownMenu.classList.remove('active');
+                closeMobileMenu();
             });
         });
 
