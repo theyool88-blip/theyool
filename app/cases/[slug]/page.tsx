@@ -5,7 +5,8 @@ import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 
-export const revalidate = 60; // ISR
+// 항상 최신 상태를 표시하기 위해 revalidate를 0으로 설정
+export const revalidate = 0;
 
 // 정적 경로 생성
 export async function generateStaticParams() {
