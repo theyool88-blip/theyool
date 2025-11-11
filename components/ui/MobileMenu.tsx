@@ -7,8 +7,8 @@ import ConsultationButton from '@/components/features/ConsultationButton';
 const sectionLinks = [
   { label: '더 플랜', href: '#plan' },
   { label: 'Insta더율', href: '/insta-theyool' },
-  { label: '위자료 전략', href: '#alimony' },
-  { label: '재산분할', href: '#property' },
+  { label: '실제 성공 사례', href: '/cases' },
+  { label: '변호사 칼럼', href: '/blog' },
   { label: '양육권', href: '#custody' },
   { label: '상담 문의', href: '#contact' },
 ];

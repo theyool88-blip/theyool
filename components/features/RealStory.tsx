@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const stories = [
   {
@@ -12,6 +13,7 @@ const stories = [
     result: '상간자 손해배상 청구 승소',
     bgColor: 'from-red-100 via-rose-50 to-pink-50',
     textColor: 'text-gray-800',
+    caseId: 'adultery-case-01', // 나중에 실제 케이스 ID로 변경
   },
   {
     id: 'alimony',
@@ -21,6 +23,7 @@ const stories = [
     result: '위자료 5억원 확보',
     bgColor: 'from-pink-100 via-purple-50 to-blue-50',
     textColor: 'text-gray-800',
+    caseId: 'alimony-case-01', // 나중에 실제 케이스 ID로 변경
   },
   {
     id: 'property',
@@ -30,6 +33,7 @@ const stories = [
     result: '은닉 재산 발견 및 공정한 분할',
     bgColor: 'from-green-100 via-emerald-50 to-teal-50',
     textColor: 'text-gray-800',
+    caseId: 'property-case-01', // 나중에 실제 케이스 ID로 변경
   },
   {
     id: 'custody',
@@ -39,6 +43,7 @@ const stories = [
     result: '단독 양육권 + 양육비 100% 인용',
     bgColor: 'from-amber-100 via-yellow-50 to-orange-50',
     textColor: 'text-gray-800',
+    caseId: 'custody-case-01', // 나중에 실제 케이스 ID로 변경
   },
 ];
 
@@ -94,7 +99,7 @@ export default function RealStory() {
         {/* Title */}
         <div className="absolute top-20 left-0 right-0 z-10">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 text-center">
-            <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Real Story</p>
+            <p className="text-xs md:text-sm text-pink-600/70 mb-3 tracking-[0.2em] uppercase">Real Story</p>
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-2 tracking-tight">
               실제 고객 이야기
             </h2>
@@ -144,8 +149,10 @@ export default function RealStory() {
                       priority
                     />
                   </div>
-                  {/* Very strong overlay for maximum text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/85 to-white/80" />
+                  {/* Pastel pink/rose gradient overlay - keeps image visible with soft tone */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-pink-50/80 via-rose-50/75 to-red-50/70" />
+                  {/* Additional white overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
                 </>
               ) : (
                 <div className={`absolute inset-0 bg-gradient-to-br ${story.bgColor}`} />
@@ -161,10 +168,25 @@ export default function RealStory() {
                     <p className={`text-base md:text-xl ${story.textColor} mb-8 md:mb-12 leading-relaxed opacity-90 whitespace-pre-line`}>
                       {story.story}
                     </p>
-                    <div className="inline-block px-6 py-3 md:px-8 md:py-4 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-gray-200/50">
-                      <p className={`text-sm md:text-lg font-bold ${story.textColor}`}>
-                        결과: {story.result}
-                      </p>
+                    <div className="space-y-4">
+                      <div className="inline-block px-6 py-3 md:px-8 md:py-4 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-gray-200/50">
+                        <p className={`text-sm md:text-lg font-bold ${story.textColor}`}>
+                          결과: {story.result}
+                        </p>
+                      </div>
+
+                      {/* 자세히 보기 버튼 */}
+                      <div>
+                        <Link
+                          href={`/cases/${story.caseId}`}
+                          className={`inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-medium text-sm md:text-base transition-all duration-300 hover:scale-105 shadow-lg`}
+                        >
+                          자세히 보기
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

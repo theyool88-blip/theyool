@@ -18,7 +18,7 @@ export default function Home() {
   const [isTalkModalOpen, setIsTalkModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       <SmoothScroll />
       {/* Header - SKIN1004 스타일 */}
       <header className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm">
@@ -137,49 +137,37 @@ export default function Home() {
         <ConsultationForm onCancel={() => setIsTalkModalOpen(false)} />
       </Modal>
 
-      {/* 전문성 강조 섹션 - 검정 기하학 배경 */}
-      <section id="about" className="relative min-h-screen flex items-center py-16 md:py-24 bg-black overflow-hidden hero-parallax">
-        {/* Geometric Background Pattern */}
+      {/* 전문성 강조 섹션 - 신뢰감 있는 블루 톤 */}
+      <section id="about" className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white overflow-hidden hero-parallax">
+        {/* Minimal Professional Pattern */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="darkGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: '#1a1a1a', stopOpacity: 0.8 }} />
-                <stop offset="100%" style={{ stopColor: '#2a2a2a', stopOpacity: 0.8 }} />
-              </linearGradient>
-              <pattern id="darkGrid" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#333" strokeWidth="0.5" opacity="0.3" />
+              <pattern id="professionalDots" width="60" height="60" patternUnits="userSpaceOnUse">
+                <circle cx="30" cy="30" r="1" fill="#93c5fd" opacity="0.15" />
               </pattern>
             </defs>
-
-            {/* Grid Pattern */}
-            <rect width="100%" height="100%" fill="url(#darkGrid)" />
-
-            {/* Geometric shapes */}
-            <circle cx="15%" cy="20%" r="250" fill="url(#darkGrad1)" />
-            <circle cx="85%" cy="80%" r="200" fill="#1a1a1a" opacity="0.6" />
-            <rect x="60%" y="30%" width="350" height="350" fill="#2a2a2a" opacity="0.4" transform="rotate(45 72 48)" />
-            <rect x="10%" y="60%" width="280" height="280" fill="#222" opacity="0.5" transform="rotate(30 24 74)" />
-
-            {/* Lines */}
-            <line x1="0" y1="40%" x2="100%" y2="40%" stroke="#333" strokeWidth="2" opacity="0.3" />
-            <line x1="0" y1="60%" x2="100%" y2="60%" stroke="#333" strokeWidth="2" opacity="0.3" />
+            {/* Subtle dot pattern */}
+            <rect width="100%" height="100%" fill="url(#professionalDots)" />
+            {/* Very subtle accent circles */}
+            <circle cx="15%" cy="30%" r="180" fill="#dbeafe" opacity="0.15" />
+            <circle cx="85%" cy="70%" r="200" fill="#bfdbfe" opacity="0.12" />
           </svg>
         </div>
 
         <div className="relative z-10 w-full">
           <div className="max-w-[1040px] px-6 md:px-12 mx-auto text-center">
-            <p className="text-xs md:text-sm text-gray-400 mb-3 tracking-[0.2em] uppercase">Expertise</p>
-            <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-white tracking-tight">
+            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Expertise</p>
+            <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-gray-900 tracking-tight">
               오직 이혼, 단 하나의 분야
             </h3>
-            <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-10 font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-xl text-gray-700 mb-8 md:mb-10 font-light max-w-2xl mx-auto leading-relaxed">
               형사도, 민사도 하지 않습니다.<br />
-              <span className="font-semibold text-white">이혼과 상간 사건</span>만을 연구합니다.
+              <span className="font-semibold text-gray-900">이혼과 상간 사건</span>만을 연구합니다.
             </p>
-            <p className="text-sm md:text-base text-gray-300 leading-relaxed max-w-xl mx-auto">
+            <p className="text-sm md:text-base text-gray-700 leading-relaxed max-w-xl mx-auto">
               한 사건, 한 인생.<br />
-              더율은 <span className="font-bold text-white">'이혼 이후의 삶'</span>을 설계합니다.
+              더율은 <span className="font-bold text-gray-900">'이혼 이후의 삶'</span>을 설계합니다.
             </p>
           </div>
         </div>
@@ -191,7 +179,7 @@ export default function Home() {
           <div className="max-w-[1200px] px-6 md:px-12 mx-auto">
             {/* Title */}
             <div className="text-center mb-12 md:mb-20">
-              <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Strategy</p>
+              <p className="text-xs md:text-sm text-purple-600/70 mb-3 tracking-[0.2em] uppercase">Strategy</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
                 더 플랜 <span className="text-gray-500 font-light">(The Plan)</span>
               </h2>
@@ -324,7 +312,7 @@ export default function Home() {
       <YouTubeSection />
 
       {/* 기존 위자료 섹션 (백업용 - 나중에 삭제) */}
-      <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-[#0a0a0a] hero-parallax">
+      <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-blue-50/40 via-indigo-50/30 to-purple-50/40 hero-parallax">
         <div className="max-w-[1200px] mx-auto w-full">
             <div className="text-center mb-8 md:mb-12">
               <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Alimony</p>
@@ -526,7 +514,7 @@ export default function Home() {
       </section>
 
       {/* 기존 양육권 섹션 (백업용 - 나중에 삭제) */}
-      <section id="custody-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-[#0a0a0a] hero-parallax">
+      <section id="custody-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-amber-50/40 via-orange-50/30 to-rose-50/40 hero-parallax">
         <div className="max-w-[1200px] mx-auto w-full">
             <div className="text-center mb-8 md:mb-12">
               <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Child Custody</p>
@@ -626,24 +614,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 최종 CTA 섹션 */}
-      <section id="contact" className="min-h-screen flex items-center py-16 md:py-32 px-6 md:px-12 gradient-hero text-white hero-parallax">
-        <SectionReveal>
-          <div className="max-w-[1040px] mx-auto text-center w-full">
-            <p className="text-3xl md:text-5xl font-bold mb-10 md:mb-12 leading-tight">
+      {/* 최종 CTA 섹션 - 희망과 새로운 시작 */}
+      <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-32 bg-gradient-to-b from-white via-purple-50/15 to-pink-50/20 hero-parallax overflow-hidden">
+        {/* Warm Hope Pattern */}
+        <div className="absolute inset-0 w-full h-full">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="hopeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#fae8ff', stopOpacity: 0.25 }} />
+                <stop offset="100%" style={{ stopColor: '#fce7f3', stopOpacity: 0.25 }} />
+              </linearGradient>
+            </defs>
+            {/* Gentle circles representing new beginning */}
+            <circle cx="25%" cy="35%" r="200" fill="url(#hopeGrad)" />
+            <circle cx="75%" cy="65%" r="220" fill="#fdf2f8" opacity="0.3" />
+            <circle cx="50%" cy="50%" r="150" fill="#f3e8ff" opacity="0.2" />
+          </svg>
+        </div>
+
+        <div className="relative z-10 w-full">
+          <div className="max-w-[1040px] px-6 md:px-12 mx-auto text-center">
+            <p className="text-3xl md:text-5xl font-bold mb-10 md:mb-12 leading-tight text-gray-900">
               지금, 당신의 상황을<br />전략으로 바꿀 때입니다.
             </p>
             <a
               href="tel:02-1234-5678"
-              className="inline-block bg-[var(--secondary)] text-[var(--primary-dark)] font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-[var(--secondary-light)] transition-all hover-lift shadow-toss-xl"
+              className="inline-block bg-gray-900 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-gray-800 transition-all hover-lift shadow-xl"
             >
               📞 지금 상담하기
             </a>
-            <p className="mt-6 md:mt-8 text-base md:text-lg text-white/80">
+            <p className="mt-6 md:mt-8 text-base md:text-lg text-gray-700">
               평일 09:00 - 18:00 | 주말/공휴일 예약 상담
             </p>
           </div>
-        </SectionReveal>
+        </div>
       </section>
 
       {/* Footer */}
