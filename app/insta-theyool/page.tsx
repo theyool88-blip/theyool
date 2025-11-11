@@ -1,8 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function InstaTheyoolPage() {
+  const [timestamp] = useState(Date.now());
+
   useEffect(() => {
     // Hide body overflow when this page loads
     document.body.style.overflow = 'hidden';
@@ -22,7 +24,7 @@ export default function InstaTheyoolPage() {
       overflow: 'hidden'
     }}>
       <iframe
-        src="/insta-story.html"
+        src={`/insta-story.html?v=${timestamp}`}
         style={{
           width: '100%',
           height: '100%',
