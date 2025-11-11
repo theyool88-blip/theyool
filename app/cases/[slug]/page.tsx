@@ -111,28 +111,31 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 strong: ({ children }) => (
                   <strong className="font-bold text-gray-900">{children}</strong>
                 ),
-                img: ({ src, alt }) => (
-                  <div className="my-8 flex justify-center">
-                    <div className="rounded-2xl overflow-hidden shadow-lg bg-gray-50 max-w-full">
-                      <Image
-                        src={src || ''}
-                        alt={alt || ''}
-                        width={1200}
-                        height={800}
-                        className="h-auto max-w-full"
-                        unoptimized // Notion URL은 외부 URL이므로
-                        loading="lazy"
-                        quality={75}
-                        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 70vw, 600px"
-                        style={{
-                          maxHeight: '500px',
-                          width: 'auto',
-                          maxWidth: '100%'
-                        }}
-                      />
+                img: ({ src, alt }) => {
+                  const imageSrc = typeof src === 'string' ? src : '';
+                  return (
+                    <div className="my-8 flex justify-center">
+                      <div className="rounded-2xl overflow-hidden shadow-lg bg-gray-50 max-w-full">
+                        <Image
+                          src={imageSrc}
+                          alt={alt || ''}
+                          width={1200}
+                          height={800}
+                          className="h-auto max-w-full"
+                          unoptimized // Notion URL은 외부 URL이므로
+                          loading="lazy"
+                          quality={75}
+                          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 70vw, 600px"
+                          style={{
+                            maxHeight: '500px',
+                            width: 'auto',
+                            maxWidth: '100%'
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ),
+                  );
+                },
               }}
             >
               {caseData.content || ''}
