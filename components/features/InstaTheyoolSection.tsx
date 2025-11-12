@@ -409,7 +409,7 @@ export default function InstaTheyoolSection() {
         }
 
         .animate-scroll-insta {
-          animation: scroll-feed 20s linear infinite;
+          animation: scroll-feed 8s linear infinite;
           will-change: transform;
         }
 
