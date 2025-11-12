@@ -9,9 +9,9 @@ export const metadata = {
 };
 
 export default async function ThePlanPage() {
-  // 추천 성공사례만 가져오기 (featured)
+  // 최신 성공사례 3개 가져오기
   const allCases = await getCases();
-  const featuredCases = allCases.filter(c => c.featured).slice(0, 3);
+  const featuredCases = allCases.slice(0, 3);
 
   return <ThePlanClient cases={featuredCases} />;
 }
