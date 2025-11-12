@@ -435,18 +435,9 @@
             display: none;
         }
 
-        /* Reels Top Header */
+        /* Reels Top Header - Hidden */
         .reels-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 2001;
-            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            display: none !important;
         }
 
         .reels-back-btn {
@@ -1141,6 +1132,7 @@
 
         let currentShareUrl = '';
         const videoReels = []; // Store all video reels data
+        let globalMutedState = true; // Track global mute state (default: muted)
 
         // ========== Format Number (1000 -> 1K, 1000000 -> 1M) ==========
         function formatCount(num) {
@@ -1735,7 +1727,7 @@
                 reelItem.dataset.index = index;
 
                 reelItem.innerHTML = `
-                    <video class="reel-video" loop muted playsinline preload="auto">
+                    <video class="reel-video" loop ${globalMutedState ? 'muted' : ''} playsinline preload="auto">
                         <source src="${reel.videoSrc}" type="video/mp4">
                     </video>
                     <div class="reel-info">
@@ -1773,7 +1765,7 @@
                         </button>
                     </div>
                     <button class="reel-mute-toggle" aria-label="toggle mute">
-                        <i class="fas fa-volume-mute"></i>
+                        <i class="fas ${globalMutedState ? 'fa-volume-mute' : 'fa-volume-up'}"></i>
                     </button>
                 `;
 
@@ -1818,6 +1810,7 @@
                     muteToggle.addEventListener('click', (e) => {
                         e.stopPropagation();
                         video.muted = !video.muted;
+                        globalMutedState = video.muted; // Update global state
                         const icon = muteToggle.querySelector('i');
                         if (icon) {
                             icon.classList.toggle('fa-volume-mute', video.muted);

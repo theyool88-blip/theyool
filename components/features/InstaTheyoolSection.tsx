@@ -265,18 +265,18 @@ export default function InstaTheyoolSection() {
         {/* 인스타그램 피드 카드 - 자동 스크롤 */}
         <div className="relative mb-14 md:mb-18 overflow-hidden">
           <div className="flex gap-4 md:gap-6 pb-4 animate-scroll-insta">
-            {/* 2세트로 무한 스크롤 */}
-            {[...Array(2)].map((_, setIndex) => (
+            {/* 3세트로 무한 스크롤 */}
+            {[...Array(3)].map((_, setIndex) => (
               displayCards.map((content, contentIndex) => {
                 const isReels = content.type === '릴스';
                 return (
                   <Link
                     key={`${setIndex}-${contentIndex}-${content.id}`}
                     href="/insta-theyool"
-                    className="flex-shrink-0 w-[200px] md:w-[240px] transform transition-all duration-300 hover:-translate-y-2"
+                    className="flex-shrink-0 w-[180px] md:w-[216px] transform transition-all duration-300 hover:-translate-y-2"
                   >
                     {/* 이미지 전체 배경에 텍스트 오버레이 */}
-                    <div className="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group h-[300px] md:h-[340px]">
+                    <div className="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group h-[270px] md:h-[306px]">
                       {/* 배경 이미지 또는 비디오 */}
                       {isReels ? (
                         /* 릴스: 비디오 자동 재생 */
@@ -404,12 +404,12 @@ export default function InstaTheyoolSection() {
             transform: translateX(0);
           }
           to {
-            transform: translateX(-50%);
+            transform: translateX(-33.333%);
           }
         }
 
         .animate-scroll-insta {
-          animation: scroll-feed 8s linear infinite;
+          animation: scroll-feed 12s linear infinite;
           will-change: transform;
         }
 
