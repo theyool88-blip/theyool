@@ -967,8 +967,14 @@
         <header class="header">
             <div class="header-content">
                 <div style="display: flex; align-items: center; gap: 16px;">
-                    <!-- internal hamburger removed; using site-wide MobileMenu overlay -->
-                    <div class="logo-link">
+                    <!-- Hamburger Menu Button -->
+                    <button id="hamburgerBtn" class="header-icon" style="padding: 8px;">
+                        <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <!-- Logo - Clickable to reload -->
+                    <div class="logo-link" id="logoLink" style="cursor: pointer;">
                         <img src="/images/logo-symbol.png" alt="Logo" class="logo-symbol">
                         <div class="logo-text-container">
                             <span class="logo-insta">Insta</span>
@@ -2129,7 +2135,22 @@
         observer.observe(document.body, { attributes: true });
 
         console.log('더율 스토리 initialized - Mixed Feed with Carousel & Reels');
+
+        // ========== Logo Click to Reload ==========
+        const logoLink = document.getElementById('logoLink');
+        logoLink.addEventListener('click', () => {
+            window.location.reload();
+        });
+
+        // ========== Hamburger Menu - Send message to parent ==========
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        hamburgerBtn.addEventListener('click', () => {
+            // Send message to parent window to open MobileMenu
+            window.parent.postMessage('openMenu', '*');
+        });
+
+        console.log('Logo click and hamburger menu handlers initialized');
     </script>
-    
+
 </body>
 </html>
