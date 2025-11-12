@@ -137,7 +137,7 @@ export default function RealStory() {
                 activeTab === index ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
             >
-              {/* Background - Image for adultery, gradient for others */}
+              {/* Background - Images with pastel overlays */}
               {story.id === 'adultery' ? (
                 <>
                   <div className="absolute inset-0">
@@ -149,8 +149,56 @@ export default function RealStory() {
                       priority
                     />
                   </div>
-                  {/* Pastel pink/rose gradient overlay - keeps image visible with soft tone */}
+                  {/* Pastel pink/rose gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-50/80 via-rose-50/75 to-red-50/70" />
+                  {/* Additional white overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
+                </>
+              ) : story.id === 'alimony' ? (
+                <>
+                  <div className="absolute inset-0">
+                    <Image
+                      src="/images/alimony-bg.png"
+                      alt="위자료 배경"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  {/* Pastel purple/lavender gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50/80 via-lavender-50/75 to-blue-50/70" />
+                  {/* Additional white overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
+                </>
+              ) : story.id === 'property' ? (
+                <>
+                  <div className="absolute inset-0">
+                    <Image
+                      src="/images/property-bg.png"
+                      alt="재산분할 배경"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  {/* Pastel green/mint gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/80 via-teal-50/75 to-cyan-50/70" />
+                  {/* Additional white overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
+                </>
+              ) : story.id === 'custody' ? (
+                <>
+                  <div className="absolute inset-0">
+                    <Image
+                      src="/images/custody-bg.png"
+                      alt="양육권 배경"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  {/* Pastel orange/peach gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/80 via-orange-50/75 to-yellow-50/70" />
                   {/* Additional white overlay for text readability */}
                   <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
                 </>
@@ -179,11 +227,11 @@ export default function RealStory() {
                       <div>
                         <Link
                           href={`/cases/${story.caseId}`}
-                          className={`inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-medium text-sm md:text-base transition-all duration-300 hover:scale-105 shadow-lg`}
+                          className="inline-flex items-center gap-2 px-8 py-3.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
                         >
                           자세히 보기
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                           </svg>
                         </Link>
                       </div>

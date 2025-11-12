@@ -726,3 +726,185 @@ section {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* The Plan 다이어그램 애니메이션 */
+.diagram-box {
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.diagram-box.animate-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 스크롤 애니메이션 - 부드럽게 나타나기 */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 히어로 텍스트 애니메이션 (기존과 호환) */
+.hero-text-1 {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
+}
+
+.hero-text-2 {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.4s forwards;
+}
+
+.hero-text-3 {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.6s forwards;
+
+  animation: fadeInUp 0.8s ease-out 0.6s forwards;
+}
+
+
+/* 초기 상태: 보이지 않게, 각 방향으로 살짝 이동 */
+.venn-circle-group {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.venn-center-text {
+  opacity: 0;
+  will-change: opacity;
+}
+
+.venn-from-top { transform: translate(0, -280px); }
+.venn-from-right { transform: translate(280px, 0); }
+.venn-from-left { transform: translate(-280px, 0); }
+.venn-from-bottom { transform: translate(0, 280px); }
+
+/* 중앙으로 모이는 애니메이션 */
+@keyframes vennMoveToCenter-top {
+  0% { transform: translate(0, -280px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes vennMoveToCenter-right {
+  0% { transform: translate(280px, 0); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes vennMoveToCenter-left {
+  0% { transform: translate(-280px, 0); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes vennMoveToCenter-bottom {
+  0% { transform: translate(0, 280px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+/* THE PLAN 페이드인 - 위치 이동 없음 */
+@keyframes vennCenterFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* 퍼즐 애니메이션 */
+.puzzle-wrapper {
+  perspective: 1000px;
+}
+
+.puzzle-center-text {
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* 초기 위치 - 퍼즐 조각들이 흩어진 상태 */
+.puzzle-from-top-left { transform: translate(-300px, -300px); }
+.puzzle-from-top-right { transform: translate(300px, -300px); }
+.puzzle-from-bottom-left { transform: translate(-300px, 300px); }
+.puzzle-from-bottom-right { transform: translate(300px, 300px); }
+
+/* 퍼즐 조각 모이기 애니메이션 */
+@keyframes puzzleMoveToCenter-topLeft {
+  0% { transform: translate(-300px, -300px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes puzzleMoveToCenter-topRight {
+  0% { transform: translate(300px, -300px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes puzzleMoveToCenter-bottomLeft {
+  0% { transform: translate(-300px, 300px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes puzzleMoveToCenter-bottomRight {
+  0% { transform: translate(300px, 300px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+/* 중앙 텍스트 페이드인 */
+@keyframes puzzleCenterFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* 스크롤 트리거 시 애니메이션 */
+.puzzle-animated .puzzle-from-top-left { animation: puzzleMoveToCenter-topLeft 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.puzzle-animated .puzzle-from-top-right { animation: puzzleMoveToCenter-topRight 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards; }
+.puzzle-animated .puzzle-from-bottom-left { animation: puzzleMoveToCenter-bottomLeft 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+.puzzle-animated .puzzle-from-bottom-right { animation: puzzleMoveToCenter-bottomRight 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards; }
+
+/* THE PLAN 텍스트는 조립 완료 후 등장 */
+.puzzle-animated .puzzle-center-text { animation: puzzleCenterFadeIn 0.8s ease 3.1s forwards; }
+
+/* Sequential choreography (1 appears → 2 slides left → 3 appears → 4 slides left → bottom row lifts → THE PLAN) */
+.puzzle-quad { will-change: transform, opacity; }
+.quad-1 { opacity: 0; transform: translate(0,0); }
+.quad-2 { opacity: 1; transform: translateX(80px); }
+.quad-3 { opacity: 0; transform: translateX(-80px); }
+.quad-4 { opacity: 0; transform: translate(0,0); }
+.puzzle-wrapper .bottom-row { transform: translateY(50px); will-change: transform; }
+
+@keyframes fadeInOnly { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideLeftIn { 0% { transform: translateX(80px);} 90% { transform: translateX(-2px);} 100% { transform: translateX(0);} }
+@keyframes slideRightIn { 0% { transform: translateX(-80px); opacity: 0;} 90% { transform: translateX(2px); opacity: 1;} 100% { transform: translateX(0); opacity: 1;} }
+@keyframes liftUp { 0% { transform: translateY(50px);} 100% { transform: translateY(0);} }
+
+.puzzle-animated .quad-1 { animation: fadeInOnly 0.5s ease 0s forwards; }
+.puzzle-animated .quad-2 { animation: slideLeftIn 0.7s cubic-bezier(0.2,0.8,0.2,1) 0.3s forwards; }
+.puzzle-animated .quad-4 { animation: fadeInOnly 0.55s ease 1.05s forwards; }
+.puzzle-animated .quad-3 { animation: slideRightIn 0.7s cubic-bezier(0.2,0.8,0.2,1) 1.4s forwards; }
+.puzzle-animated .bottom-row { animation: liftUp 0.7s cubic-bezier(0.2,0.8,0.2,1) 2.15s forwards; }
+
+/* Outline + seams draw after assembly */
+.puzzle-seams path, .puzzle-outline { stroke-dasharray: 1400; stroke-dashoffset: 1400; }
+.puzzle-animated .puzzle-outline { animation: drawStroke 0.6s ease 2.9s forwards; }
+.puzzle-animated .puzzle-seams path { animation: drawStroke 0.6s ease 3.0s forwards; }
+@keyframes drawStroke { to { stroke-dashoffset: 0; } }
+
+/* ===== Insta더율 Scroll Animation ===== */
+@keyframes scroll-insta {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-insta {
+  display: flex;
+  animation: scroll-insta 8s linear infinite;
+  will-change: transform;
+  transform: translateX(0);
+}
+
+.animate-scroll-insta:hover {
+  animation-play-state: paused;
+}

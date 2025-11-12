@@ -66,6 +66,14 @@ NOTION_INSTAGRAM_DB=your_instagram_database_id
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Kakao OAuth (카카오 로그인)
+KAKAO_REST_API_KEY=your_kakao_rest_api_key
+# 개발: http://localhost:3000/api/auth/kakao/callback
+KAKAO_REDIRECT_URI=https://your-domain.com/api/auth/kakao/callback
+# 선택: 콘솔에서 클라이언트 시크릿 생성 시
+KAKAO_CLIENT_SECRET=your_kakao_client_secret
+
 ```
 
 ## ✅ 현재 완성된 페이지
@@ -80,6 +88,8 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 - ⬜ 오시는길 (/contact)
 - ⬜ 인스타더율 (/insta-theyool)
 - ⬜ 구성원소개 (/team)
+
+ 
 
 ## 📝 라이선스
 

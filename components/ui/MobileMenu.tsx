@@ -5,12 +5,12 @@ import { createPortal } from 'react-dom';
 import ConsultationButton from '@/components/features/ConsultationButton';
 
 const sectionLinks = [
-  { label: '더 플랜', href: '#plan' },
+  { label: '더 플랜', href: '/the-plan' },
   { label: 'Insta더율', href: '/insta-theyool' },
   { label: '실제 성공 사례', href: '/cases' },
   { label: '변호사 칼럼', href: '/blog' },
-  { label: '양육권', href: '#custody' },
-  { label: '상담 문의', href: '#contact' },
+  { label: '구성원', href: '/team' },
+  { label: '오시는 길', href: '/contact' },
 ];
 
 export default function MobileMenu() {

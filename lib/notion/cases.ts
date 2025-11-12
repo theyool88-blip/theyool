@@ -10,7 +10,8 @@ function parseCase(page: any): Case {
 
   const title = properties.제목?.title?.[0]?.plain_text || '';
   const slug = properties.slug?.rich_text?.[0]?.plain_text || '';
-  const category = properties.카테고리?.select?.name || '';
+  const categoryNames = properties.카테고리?.multi_select?.map((cat: any) => cat.name) || [];
+  const categories = categoryNames.map((name: string) => categoryMap[name] || 'alimony');
   const result = properties.결과?.rich_text?.[0]?.plain_text || '';
   const bgColorKey = properties.배경색?.select?.name || 'pink';
   const published = properties.공개?.checkbox || false;
@@ -20,8 +21,8 @@ function parseCase(page: any): Case {
     id: page.id,
     slug,
     title,
-    category: categoryMap[category] || 'alimony',
-    categoryName: category,
+    categories, // 영문 카테고리 배열
+    categoryNames, // 한글 카테고리 배열
     result,
     bgColor: bgColorMap[bgColorKey] || bgColorMap['pink'],
     published,
@@ -120,10 +121,10 @@ export async function getAllCaseSlugs(): Promise<string[]> {
   }
 }
 
-// 카테고리별 케이스 필터링
+// 카테고리별 케이스 필터링 (다중 카테고리 지원)
 export function filterCasesByCategory(cases: Case[], category: string): Case[] {
   if (category === '전체') return cases;
-  return cases.filter(c => c.categoryName === category);
+  return cases.filter(c => c.categoryNames.includes(category));
 }
 
 // 검색 기능
@@ -132,6 +133,6 @@ export function searchCases(cases: Case[], query: string): Case[] {
   return cases.filter(c =>
     c.title.toLowerCase().includes(lowerQuery) ||
     c.result.toLowerCase().includes(lowerQuery) ||
-    c.categoryName.toLowerCase().includes(lowerQuery)
+    c.categoryNames.some(name => name.toLowerCase().includes(lowerQuery))
   );
 }

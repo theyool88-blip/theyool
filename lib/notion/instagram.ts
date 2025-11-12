@@ -23,7 +23,9 @@ export interface InstagramPost {
   type: string; // '성공사례' | '칼럼' | '일반' | '홍보'
   linkedCaseId?: string; // 연결된 성공사례 ID
   linkedBlogId?: string; // 연결된 칼럼 ID
-  thumbnail?: string;
+  thumbnail?: string; // 첫 번째 이미지 (호환성 유지)
+  images: string[]; // 모든 이미지 배열
+  mediaUrl?: string; // 동영상 URL 우선 (없으면 썸네일 사용)
   caption: string;
   views: number;
   likes: number;
@@ -39,8 +41,23 @@ function parseInstagramPost(page: any): InstagramPost {
   const type = properties.타입?.select?.name || '일반';
   const linkedCaseId = properties.성공사례?.relation?.[0]?.id;
   const linkedBlogId = properties.변호사칼럼?.relation?.[0]?.id;
-  const thumbnailFile = properties.썸네일?.files?.[0];
-  const thumbnail = thumbnailFile?.file?.url || thumbnailFile?.external?.url;
+
+  // 모든 이미지를 배열로 가져오기
+  const allFiles = properties.썸네일?.files || [];
+  const images = allFiles
+    .map((file: any) => file?.file?.url || file?.external?.url)
+    .filter((url: string | undefined): url is string => !!url);
+
+  // 첫 번째 이미지 (호환성 유지)
+  const thumbnail = images[0];
+
+  // 동영상 URL을 위해 추가적인 필드 시도 (스키마에 따라 유연 처리)
+  const anyProps = page.properties as any;
+  const mediaUrl: string | undefined =
+    anyProps?.동영상URL?.url ||
+    anyProps?.video?.url ||
+    anyProps?.Video?.url ||
+    (anyProps?.미디어?.rich_text?.[0]?.plain_text ?? undefined);
   const caption = properties.캡션?.rich_text?.map((t: any) => t.plain_text).join('') || '';
   const views = properties.조회수?.number || 0;
   const likes = properties.좋아요수?.number || 0;
@@ -54,6 +71,8 @@ function parseInstagramPost(page: any): InstagramPost {
     linkedCaseId,
     linkedBlogId,
     thumbnail,
+    images, // 모든 이미지 배열 추가
+    mediaUrl,
     caption,
     views,
     likes,
@@ -98,6 +117,9 @@ export async function getInstagramPostById(id: string): Promise<InstagramPost | 
     return null;
   }
 }
+
+// 인스타그램 게시물 생성
+// createInstagramPost was removed per user request
 
 // 연결된 원문 URL 가져오기
 export async function getLinkedOriginalUrl(post: InstagramPost): Promise<string | null> {

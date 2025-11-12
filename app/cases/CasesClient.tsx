@@ -17,7 +17,7 @@ export default function CasesClient({ cases }: CasesClientProps) {
 
   const filteredCases = selectedCategory === '전체'
     ? cases
-    : cases.filter(c => c.categoryName === selectedCategory);
+    : cases.filter(c => c.categoryNames.includes(selectedCategory));
 
   return (
     <PageLayout>
@@ -81,11 +81,13 @@ export default function CasesClient({ cases }: CasesClientProps) {
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -mr-16 -mt-16" />
                     <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/15 rounded-full -ml-12 -mb-12" />
 
-                    {/* Category */}
-                    <div className="relative mb-4">
-                      <span className="inline-block px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-700">
-                        {caseItem.categoryName}
-                      </span>
+                    {/* Categories (다중 카테고리) */}
+                    <div className="relative mb-4 flex flex-wrap gap-2">
+                      {caseItem.categoryNames.map((name, idx) => (
+                        <span key={idx} className="inline-block px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-700">
+                          {name}
+                        </span>
+                      ))}
                     </div>
 
                     {/* Title */}

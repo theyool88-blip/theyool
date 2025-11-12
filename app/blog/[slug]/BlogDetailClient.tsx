@@ -37,14 +37,18 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-              <span className="text-amber-700 font-medium">{post.category}</span>
+              <span className="text-amber-700 font-medium">
+                {post.categories.length > 0 ? post.categories[0] : '칼럼'}
+              </span>
             </div>
 
-            {/* Category Badge */}
-            <div className="mb-4">
-              <span className="inline-block px-4 py-1.5 bg-amber-100/80 backdrop-blur-sm text-amber-800 rounded-full text-sm font-semibold">
-                {post.category}
-              </span>
+            {/* Category Badges (다중 카테고리) */}
+            <div className="mb-4 flex flex-wrap gap-2">
+              {post.categories.map((category, idx) => (
+                <span key={idx} className="inline-block px-4 py-1.5 bg-amber-100/80 backdrop-blur-sm text-amber-800 rounded-full text-sm font-semibold">
+                  {category}
+                </span>
+              ))}
             </div>
 
             {/* Title */}

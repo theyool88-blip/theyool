@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ConsultationButton from '@/components/features/ConsultationButton';
@@ -11,11 +11,14 @@ import ServicesModule from '@/components/features/ServicesModule';
 import Modal from '@/components/ui/Modal';
 import ConsultationForm from '@/components/features/ConsultationForm';
 import RealStory from '@/components/features/RealStory';
-import YouTubeSection from '@/components/features/YouTubeSection';
+import InstaTheyoolSection from '@/components/features/InstaTheyoolSection';
 import SectionReveal from '@/components/effects/SectionReveal';
 
 export default function Home() {
   const [isTalkModalOpen, setIsTalkModalOpen] = useState(false);
+
+  // (Removed) Venn diagram animation trigger
+  useEffect(() => {}, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -174,132 +177,34 @@ export default function Home() {
       </section>
 
       {/* 더 플랜 섹션 - 하얀 배경 */}
-      <section id="plan" className="min-h-screen flex items-center py-16 md:py-32 bg-white hero-parallax">
-        <div className="w-full">
+      <section id="plan" className="relative min-h-screen flex items-center bg-white">
+        <div className="w-full py-16 md:py-24">
           <div className="max-w-[1200px] px-6 md:px-12 mx-auto">
-            {/* Title */}
-            <div className="text-center mb-12 md:mb-20">
-              <p className="text-xs md:text-sm text-purple-600/70 mb-3 tracking-[0.2em] uppercase">Strategy</p>
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
-                더 플랜 <span className="text-gray-500 font-light">(The Plan)</span>
-              </h2>
-              <p className="text-base md:text-xl text-gray-700 font-light max-w-2xl mx-auto">
-                단순한 승소가 아닌,<br />
-                <span className="text-gray-900 font-semibold">이후의 삶</span>까지 설계하는 3단계 전략
-              </p>
+            {/* Title only (diagram removed) */}
+            <div className="relative text-center mb-10 md:mb-16">
+              <div className="relative z-[10]">
+                <p className="text-xs md:text-sm text-purple-600/70 mb-3 tracking-[0.2em] uppercase">Strategy</p>
+                <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
+                  더 플랜 <span className="text-gray-500 font-light">(The Plan)</span>
+                </h2>
+                <p className="text-base md:text-xl text-gray-700 font-light max-w-2xl mx-auto leading-relaxed">
+                  결혼은 실패했지만, 이혼만큼은 신중하게<br />
+                  <span className="text-gray-900 font-semibold">4가지 핵심 요소</span>의 완벽한 조화
+                </p>
+              </div>
             </div>
 
-            {/* Mobile condensed timeline */}
-            <div className="md:hidden space-y-3">
-              {[
-                {
-                  step: '01',
-                  title: '초기 증거 확보',
-                  desc: '증거 흐름 선점 및 자료 보전',
-                },
-                {
-                  step: '02',
-                  title: '전략 설계',
-                  desc: '맞춤 전략 및 소송 시나리오 설계',
-                },
-                {
-                  step: '03',
-                  title: '승소 후 설계',
-                  desc: '이후의 삶까지 고려한 결과 완성',
-                },
-              ].map((item) => (
-                <div
-                  key={item.step}
-                  className="rounded-xl border border-gray-200 bg-gray-50 p-4 flex gap-3"
-                >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center">
-                    <span className="text-sm font-bold text-white">{item.step}</span>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-base font-semibold mb-1 text-gray-900">{item.title}</h4>
-                    <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Desktop 3단계 타임라인 */}
-            <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8">
-              {/* Step 1 */}
-              <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
-                {/* 숫자 배지 */}
-                <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-xl">1</span>
-                </div>
-
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-gray-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                    <svg className="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">초기 증거 확보</h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    이혼 초기에 <span className="text-gray-900 font-semibold">증거의 흐름</span>을 잡는 것이 가장 중요합니다.
-                    체계적인 증거 수집과 보전으로 유리한 고지를 선점합니다.
-                  </p>
-                </div>
-
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-                  증거 수집 · 법률 분석 · 전략 방향 설정
-                </div>
-              </div>
-
-              {/* Step 2 */}
-              <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
-                <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-xl">2</span>
-                </div>
-
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-gray-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                    <svg className="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">맞춤 전략 수립</h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    의뢰인의 상황에 최적화된 <span className="text-gray-900 font-semibold">승소 전략</span>을 설계합니다.
-                    위자료, 재산분할, 양육권을 종합적으로 고려한 전략을 수립합니다.
-                  </p>
-                </div>
-
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-                  전략 수립 · 협상 준비 · 소송 대응
-                </div>
-              </div>
-
-              {/* Step 3 */}
-              <div className="plan-card group relative bg-gray-50 border border-gray-200 rounded-3xl p-8 md:p-10 hover:bg-gray-100 hover:border-gray-300 transition-all duration-500">
-                <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-xl">3</span>
-                </div>
-
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-gray-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                    <svg className="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">승소 후 설계</h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    승소는 시작입니다. <span className="text-gray-900 font-semibold">이후의 삶</span>을 고려한 최적의 결과를 만들어냅니다.
-                    의뢰인의 다음 인생을 위한 가장 유리한 설계를 완성합니다.
-                  </p>
-                </div>
-
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-                  결과 최적화 · 사후 관리 · 새로운 시작
-                </div>
-              </div>
+            {/* 더플랜 상세 보기 버튼 */}
+            <div className="relative z-[10] text-center">
+              <Link
+                href="/the-plan"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all duration-300 hover:gap-4 shadow-lg hover:shadow-xl"
+              >
+                The Plan 자세히 보기
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           </div>
         </div>
@@ -308,8 +213,8 @@ export default function Home() {
       {/* Real Story 섹션 - 위자료/재산분할/양육권 통합 */}
       <RealStory />
 
-      {/* YouTube 섹션 */}
-      <YouTubeSection />
+      {/* Insta더율 & YouTube 통합 섹션 */}
+      <InstaTheyoolSection />
 
       {/* 기존 위자료 섹션 (백업용 - 나중에 삭제) */}
       <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-blue-50/40 via-indigo-50/30 to-purple-50/40 hero-parallax">

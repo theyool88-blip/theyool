@@ -2,7 +2,7 @@
 export interface CaseProperties {
   제목: { title: Array<{ plain_text: string }> };
   slug: { rich_text: Array<{ plain_text: string }> };
-  카테고리: { select: { name: string } | null };
+  카테고리: { multi_select: Array<{ name: string }> };
   결과: { rich_text: Array<{ plain_text: string }> };
   배경색: { select: { name: string } | null };
   공개: { checkbox: boolean };
@@ -14,8 +14,8 @@ export interface Case {
   id: string;
   slug: string;
   title: string;
-  category: string;
-  categoryName: string;
+  categories: string[]; // 영문 카테고리 배열 (adultery, alimony, etc.)
+  categoryNames: string[]; // 한글 카테고리 배열 (상간, 위자료, etc.)
   result: string;
   bgColor: string;
   published: boolean;

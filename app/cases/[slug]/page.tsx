@@ -45,11 +45,13 @@ export default async function CaseDetailPage({ params }: PageProps) {
         </div>
 
         <div className="relative z-10 max-w-[1040px] px-6 md:px-12 mx-auto text-center">
-          {/* 카테고리 뱃지 */}
-          <div className="mb-6">
-            <span className="inline-block px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full text-sm font-semibold text-gray-800">
-              {caseData.categoryName}
-            </span>
+          {/* 카테고리 뱃지 (다중 카테고리) */}
+          <div className="mb-6 flex flex-wrap justify-center gap-2">
+            {caseData.categoryNames.map((name, idx) => (
+              <span key={idx} className="inline-block px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full text-sm font-semibold text-gray-800">
+                {name}
+              </span>
+            ))}
           </div>
 
           {/* 제목 */}

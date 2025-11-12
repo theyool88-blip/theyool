@@ -17,7 +17,7 @@ export default function BlogClient({ posts }: BlogClientProps) {
 
   const filteredPosts = selectedCategory === '전체'
     ? posts
-    : posts.filter(p => p.category === selectedCategory);
+    : posts.filter(p => p.categories.includes(selectedCategory));
 
   // 추천 칼럼 (featured)
   const featuredPosts = posts.filter(p => p.featured).slice(0, 2);
@@ -85,11 +85,13 @@ export default function BlogClient({ posts }: BlogClientProps) {
                         </span>
                       </div>
 
-                      {/* Category */}
-                      <div className="relative mb-3">
-                        <span className="text-sm text-amber-700 font-semibold">
-                          {post.category}
-                        </span>
+                      {/* Categories (다중 카테고리) */}
+                      <div className="relative mb-3 flex flex-wrap gap-2">
+                        {post.categories.map((category, idx) => (
+                          <span key={idx} className="text-sm text-amber-700 font-semibold">
+                            {category}
+                          </span>
+                        ))}
                       </div>
 
                       {/* Title */}
@@ -171,22 +173,14 @@ export default function BlogClient({ posts }: BlogClientProps) {
                 <ScrollReveal key={post.id} delay={index * 80}>
                   <Link href={`/blog/${post.slug}`}>
                     <article className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 border border-gray-100 h-full flex flex-col">
-                      {/* 카테고리 색상 바 */}
-                      <div className={`h-1.5 w-full ${
-                        post.category === '이혼절차' ? 'bg-blue-400' :
-                        post.category === '재산분할' ? 'bg-green-400' :
-                        post.category === '양육권' ? 'bg-yellow-400' :
-                        post.category === '위자료' ? 'bg-pink-400' :
-                        post.category === '상간' ? 'bg-red-400' :
-                        'bg-purple-400'
-                      }`}></div>
-
                       <div className="p-6 flex-1 flex flex-col">
-                        {/* Category Badge */}
-                        <div className="mb-3">
-                          <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold">
-                            {post.category}
-                          </span>
+                        {/* Category Badges (다중 카테고리) */}
+                        <div className="mb-3 flex flex-wrap gap-2">
+                          {post.categories.map((category, idx) => (
+                            <span key={idx} className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold">
+                              {category}
+                            </span>
+                          ))}
                         </div>
 
                         {/* Title */}

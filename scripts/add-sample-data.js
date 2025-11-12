@@ -396,7 +396,7 @@ async function addCases() {
             checkbox: caseData.featured,
           },
           bgColor: {
-            rich_text: [{ text: { content: caseData.bgColor } }],
+            select: { name: caseData.bgColor },
           },
         },
         children: [
@@ -417,6 +417,71 @@ async function addCases() {
   }
 }
 
+// 샘플 인스타그램 게시물 데이터
+const sampleInstagramPosts = [
+  {
+    title: '💰 위자료 5억 원 승소 사례',
+    type: '성공사례',
+    caption: '20년 전업주부, 위자료 5억 원 승소!\n\n남편의 불륜으로 이혼 소송을 진행한 의뢰인.\n체계적인 증거 수집과 전략으로 1심 3억 → 2심 5억으로 상향.\n\n정당한 보상을 받고 새로운 인생을 시작하셨습니다.\n\n#법무법인더율 #위자료 #이혼소송 #불륜이혼',
+    published: true,
+  },
+  {
+    title: '📚 이혼 위자료, 얼마나 받을 수 있을까?',
+    type: '칼럼',
+    caption: '이혼 시 위자료는 정신적 고통에 대한 보상입니다.\n\n위자료 결정 요인:\n✅ 혼인 파탄의 책임\n✅ 혼인 기간\n✅ 경제적 능력\n✅ 정신적 고통\n\n일반적인 위자료 범위는 2천만원 ~ 5억원.\n체계적인 준비로 최대한의 위자료를 받을 수 있습니다.\n\n블로그에서 자세한 내용 확인하세요!\n\n#법무법인더율 #위자료 #이혼상담',
+    published: true,
+  },
+  {
+    title: '⚖️ 법무법인 더율을 소개합니다',
+    type: '홍보',
+    caption: '이혼, 혼자 고민하지 마세요.\n\n법무법인 더율은 오직 이혼 사건만 다룹니다.\n✨ 이겨놓고 설계하는 The Plan\n✨ 투명한 수임료 공개\n✨ 이혼 후까지 책임지는 조력\n\n15년 경력의 이혼 전문 변호사가\n당신의 새로운 시작을 함께합니다.\n\n📞 상담 문의: 1588-XXXX\n🌐 theyool.com\n\n#법무법인더율 #이혼전문변호사 #이혼상담 #위자료 #재산분할 #양육권',
+    published: true,
+  },
+];
+
+// 인스타그램 게시물 추가 함수
+async function addInstagramPosts() {
+  console.log('\\n=== 인스타그램 게시물 추가 시작 ===\\n');
+
+  const instagramDbId = process.env.NOTION_INSTAGRAM_DB;
+  if (!instagramDbId) {
+    console.error('❌ NOTION_INSTAGRAM_DB가 설정되지 않았습니다.');
+    return;
+  }
+
+  for (const post of sampleInstagramPosts) {
+    try {
+      const response = await notion.pages.create({
+        parent: { database_id: instagramDbId },
+        properties: {
+          제목: {
+            title: [{ text: { content: post.title } }],
+          },
+          타입: {
+            select: { name: post.type },
+          },
+          캡션: {
+            rich_text: [{ text: { content: post.caption } }],
+          },
+          공개: {
+            checkbox: post.published,
+          },
+          게시일: {
+            date: { start: new Date().toISOString().split('T')[0] },
+          },
+          조회수: {
+            number: 0,
+          },
+        },
+      });
+
+      console.log(`✅ 인스타그램 추가 성공: ${post.title}`);
+    } catch (error) {
+      console.error(`❌ 인스타그램 추가 실패: ${post.title}`, error.message);
+    }
+  }
+}
+
 // 메인 실행
 async function main() {
   console.log('🚀 Notion 샘플 데이터 추가 시작...\\n');
@@ -428,11 +493,13 @@ async function main() {
     console.log('NOTION_API_KEY=your-api-key');
     console.log('NOTION_BLOG_DB=your-blog-db-id');
     console.log('NOTION_DATABASE_ID=your-cases-db-id');
+    console.log('NOTION_INSTAGRAM_DB=your-instagram-db-id');
     process.exit(1);
   }
 
   await addBlogPosts();
   await addCases();
+  await addInstagramPosts();
 
   console.log('\\n✨ 모든 샘플 데이터 추가 완료!\\n');
 }

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>더율 스토리</title>
+    <!-- Preconnect to common media hosts for faster video start -->
+    <link rel="preconnect" href="https://prod-files-secure.s3.us-west-2.amazonaws.com" crossorigin>
+    <link rel="preconnect" href="https://s3.us-west-2.amazonaws.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
@@ -114,57 +117,105 @@
             letter-spacing: -0.5px;
         }
 
-        .logo-dropdown-btn {
+        /* Hamburger Menu Button - hidden (use global site menu) */
+        .hamburger-btn { display: none !important; }
+
+        .hamburger-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: #000;
+        }
+
+        /* Full Screen Menu Overlay - hidden */
+        .menu-overlay { display: none !important; }
+
+        .menu-overlay.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        .menu-panel {
+            position: absolute;
+            inset: 0;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            animation: slideLeft 0.3s;
+        }
+
+        .menu-header {
+            display: flex;
+            align-items: center;
+            justify-start;
+            padding: 20px 24px;
+        }
+
+        .menu-close-btn {
             background: none;
             border: none;
             cursor: pointer;
-            padding: 0;
-            margin-left: 4px;
+            padding: 8px;
+            color: #999;
+            transition: color 0.2s;
+        }
+
+        .menu-close-btn:hover {
+            color: #000;
+        }
+
+        .menu-close-btn svg {
+            width: 28px;
+            height: 28px;
+            stroke: currentColor;
+        }
+
+        .menu-nav {
+            flex: 1;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            padding: 32px 64px;
         }
 
-        .logo-dropdown-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: #000;
-        }
-
-        /* Dropdown Menu */
-        .logo-dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #fff;
-            border: 1px solid #dbdbdb;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            min-width: 200px;
-            margin-top: 8px;
-            z-index: 1000;
-        }
-
-        .logo-dropdown-menu.active {
+        .menu-item {
             display: block;
-        }
-
-        .dropdown-item {
-            display: block;
-            padding: 12px 16px;
-            color: #262626;
+            padding: 24px 0;
+            color: #000;
             text-decoration: none;
-            font-size: 14px;
-            border-bottom: 1px solid #efefef;
-            transition: background-color 0.2s;
+            font-size: 28px;
+            font-weight: 300;
+            border-bottom: 1px solid #eee;
+            transition: color 0.2s;
+            animation: fadeInUp 0.5s both;
         }
 
-        .dropdown-item:last-child {
+        .menu-item:last-child {
             border-bottom: none;
         }
 
-        .dropdown-item:hover {
-            background-color: #fafafa;
+        .menu-item:hover {
+            color: #8b5cf6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header-icons {
@@ -312,8 +363,7 @@
         .post-video-container {
             width: 100%;
             aspect-ratio: 9 / 16;
-            max-height: 600px;
-            background-color: #fafafa;
+            background-color: #000;
             position: relative;
             margin: 0 auto;
             cursor: pointer;
@@ -322,7 +372,8 @@
         .post-video {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover; /* fill width, crop as needed */
+            background: #000;
         }
 
         .video-preview-overlay {
@@ -342,16 +393,23 @@
             pointer-events: none;
         }
 
-        .video-duration {
+        /* Mute toggles */
+        .video-mute-toggle,
+        .reel-mute-toggle {
             position: absolute;
             bottom: 12px;
             right: 12px;
-            background: rgba(0, 0, 0, 0.7);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.6);
             color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            z-index: 20;
         }
 
         /* Reels Fullscreen Mode */
@@ -441,9 +499,10 @@
         }
 
         .reel-video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            width: 100vw; /* ensure fills phone width */
+            height: 100vh;
+            object-fit: cover; /* fill viewport, crop as needed */
+            background: #000;
         }
 
         .reel-info {
@@ -907,6 +966,8 @@
         .nav-btn.active {
             color: #262626;
         }
+
+        /* (Kakao 헤더 버튼 제거됨) */
     </style>
 </head>
 <body>
@@ -914,24 +975,14 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <div class="logo-link">
-                    <img src="/images/logo-symbol.png" alt="Logo" class="logo-symbol">
-                    <div class="logo-text-container">
-                        <span class="logo-insta">Insta</span>
-                        <span class="logo-theyool">더율</span>
-                    </div>
-                    <button class="logo-dropdown-btn" id="logoDropdownBtn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5z"/>
-                        </svg>
-                    </button>
-                    <div class="logo-dropdown-menu" id="logoDropdownMenu">
-                        <a href="/" class="dropdown-item">홈으로</a>
-                        <a href="/#plan" class="dropdown-item">더 플랜</a>
-                        <a href="/#alimony" class="dropdown-item">위자료 전략</a>
-                        <a href="/#property" class="dropdown-item">재산분할</a>
-                        <a href="/#custody" class="dropdown-item">양육권</a>
-                        <a href="/#contact" class="dropdown-item">상담 문의</a>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <!-- internal hamburger removed; using site-wide MobileMenu overlay -->
+                    <div class="logo-link">
+                        <img src="/images/logo-symbol.png" alt="Logo" class="logo-symbol">
+                        <div class="logo-text-container">
+                            <span class="logo-insta">Insta</span>
+                            <span class="logo-theyool">더율</span>
+                        </div>
                     </div>
                 </div>
                 <div class="header-icons">
@@ -944,6 +995,28 @@
                 </div>
             </div>
         </header>
+
+        <!-- Full Screen Menu Overlay -->
+        <div class="menu-overlay" id="menuOverlay" style="display:none">
+            <div class="menu-panel" style="display:none">
+                <div class="menu-header" style="display:none">
+                    <button class="menu-close-btn" id="menuCloseBtn" style="display:none">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <nav class="menu-nav">
+                    <a href="/" class="menu-item" style="animation-delay: 0.1s;">홈으로</a>
+                    <a href="/the-plan" class="menu-item" style="animation-delay: 0.15s;">더 플랜</a>
+                    <a href="/insta-theyool" class="menu-item" style="animation-delay: 0.2s;">Insta더율</a>
+                    <a href="/cases" class="menu-item" style="animation-delay: 0.25s;">실제 성공 사례</a>
+                    <a href="/blog" class="menu-item" style="animation-delay: 0.3s;">변호사 칼럼</a>
+                    <a href="/team" class="menu-item" style="animation-delay: 0.35s;">구성원</a>
+                    <a href="/contact" class="menu-item" style="animation-delay: 0.4s;">오시는 길</a>
+                </nav>
+            </div>
+        </div>
 
         <!-- Feed Container -->
         <div class="feed-container" id="feedContainer">
@@ -1000,28 +1073,33 @@
     </div>
 
     <script>
-        // ========== Logo Dropdown ==========
-        const logoDropdownBtn = document.getElementById('logoDropdownBtn');
-        const logoDropdownMenu = document.getElementById('logoDropdownMenu');
+        // ========== Hamburger Menu ==========
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        const menuCloseBtn = document.getElementById('menuCloseBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
 
-        logoDropdownBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            logoDropdownMenu.classList.toggle('active');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!logoDropdownMenu.contains(e.target) && !logoDropdownBtn.contains(e.target)) {
-                logoDropdownMenu.classList.remove('active');
-            }
-        });
-
-        // Close dropdown when clicking on a menu item
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', () => {
-                logoDropdownMenu.classList.remove('active');
+        // Open menu
+        if (menuToggleBtn) {
+            menuToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
             });
-        });
+        }
+
+        // Close menu - close button
+        if (menuCloseBtn) {
+            menuCloseBtn.addEventListener('click', () => {});
+        }
+
+        // Close menu - backdrop click
+        if (menuOverlay) {
+            menuOverlay.addEventListener('click', () => {});
+        }
+
+        // Close menu - menu item click
+        document.querySelectorAll('.menu-item').forEach(item => { item.addEventListener('click', () => {}); });
+
+        // Close menu - ESC key
+        document.addEventListener('keydown', () => {});
 
         // ========== Configuration ==========
         const TOTAL_ITEMS = 15;
@@ -1074,18 +1152,238 @@
             return num.toString();
         }
 
-        // ========== Generate Mixed Feed ==========
+        // ========== Feed Rendering ==========
         const feedContainer = document.getElementById('feedContainer');
 
-        for (let i = 0; i < TOTAL_ITEMS; i++) {
-            const isShort = Math.random() < SHORT_PROBABILITY;
-
-            if (isShort) {
-                createShortItem(i);
-            } else {
-                createPostItem(i);
+        function generateRandomFeed() {
+            for (let i = 0; i < TOTAL_ITEMS; i++) {
+                const isShort = Math.random() < SHORT_PROBABILITY;
+                if (isShort) {
+                    createShortItem(i);
+                } else {
+                    createPostItem(i);
+                }
             }
         }
+
+        async function loadNotionInstagramFeed() {
+            try {
+                feedContainer.innerHTML = '';
+                const res = await fetch('/api/instagram', { cache: 'no-store' });
+                const data = await res.json().catch(() => ({}));
+                const posts = Array.isArray(data.posts) ? data.posts : [];
+
+                if (!posts.length) {
+                    generateRandomFeed();
+                    return;
+                }
+
+                // Helper: detect if URL points to video
+                const isVideoUrl = (u) => {
+                    if (!u || typeof u !== 'string') return false;
+                    return /(\.mp4|\.webm|\.mov|\.m4v)(\?.*)?$/i.test(u);
+                };
+
+                posts.forEach((post, idx) => {
+                    // Treat as Reels if type is '릴스' or thumbnail points to a video file
+                    const videoCandidate = post.mediaUrl || post.thumbnail;
+                    const asReel = (post.type && post.type.includes('릴스')) || isVideoUrl(videoCandidate);
+                    if (asReel) {
+                        createReelItemFromPost(post, idx);
+                    } else {
+                        renderInstagramPost(post, idx);
+                    }
+                });
+            } catch (e) {
+                console.error('Failed to load insta feed', e);
+                generateRandomFeed();
+            }
+        }
+
+        function timeSince(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            const diff = (Date.now() - d.getTime()) / 1000;
+            if (diff < 60) return `${Math.floor(diff)}초 전`;
+            if (diff < 3600) return `${Math.floor(diff/60)}분 전`;
+            if (diff < 86400) return `${Math.floor(diff/3600)}시간 전`;
+            return `${Math.floor(diff/86400)}일 전`;
+        }
+
+        function renderInstagramPost(post, index) {
+            const postItem = document.createElement('div');
+            postItem.className = 'post-item';
+            postItem.dataset.postId = post.id || `post_${index}`;
+
+            const likes = Number(post.likes || 0);
+            const commentsCount = Math.floor(likes * 0.2);
+            const caption = post.caption || '';
+            const loc = post.type ? `#${post.type}` : '';
+
+            // 이미지 배열 가져오기
+            const images = post.images && post.images.length > 0
+                ? post.images
+                : (post.thumbnail ? [post.thumbnail] : [`https://picsum.photos/600/600?random=${index+1}`]);
+
+            const imageCount = images.length;
+
+            // Carousel HTML 생성
+            let imageHTML = '';
+            let indicatorsHTML = '';
+
+            if (imageCount > 1) {
+                // 여러 이미지: Carousel
+                imageHTML = '<div class="carousel-container"><div class="carousel-track">';
+                for (let j = 0; j < imageCount; j++) {
+                    imageHTML += `<div class="carousel-slide"><img src="${images[j]}" alt="${post.title || 'Post'} ${j + 1}"></div>`;
+                    indicatorsHTML += `<div class="carousel-dot ${j === 0 ? 'active' : ''}"></div>`;
+                }
+                imageHTML += '</div>';
+                imageHTML += `<div class="carousel-indicators">${indicatorsHTML}</div>`;
+                imageHTML += '</div>';
+            } else {
+                // 단일 이미지
+                imageHTML = `<div class="carousel-container"><img src="${images[0]}" alt="${post.title || 'Post'}" style="width:100%;height:100%;object-fit:cover;"></div>`;
+            }
+
+            postItem.innerHTML = `
+                <div class="post-header">
+                    <div class="post-user">
+                        <div class="post-avatar">
+                            <img src="/images/logo-symbol.png" alt="Profile">
+                        </div>
+                        <div class="post-user-info">
+                            <div class="post-username">더율법무법인</div>
+                            <div class="post-location">${loc}</div>
+                        </div>
+                    </div>
+                    <button class="post-more-btn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                ${imageHTML}
+                <div class="post-actions">
+                    <div class="post-actions-left">
+                        <button class="action-btn like-btn"><i class="far fa-heart"></i></button>
+                        <button class="action-btn comment-btn"><i class="far fa-comment"></i></button>
+                        <button class="action-btn share-btn"><i class="far fa-paper-plane"></i></button>
+                    </div>
+                    <button class="action-btn bookmark-btn"><i class="far fa-bookmark"></i></button>
+                </div>
+                <div class="post-likes">${likes.toLocaleString()}명이 좋아합니다</div>
+                <div class="post-caption">
+                    <span class="caption-username">더율법무법인</span>
+                    <span class="caption-text collapsed">${caption}</span>
+                    <span class="caption-more">더 보기</span>
+                </div>
+                <div class="post-comments-link">댓글 ${commentsCount}개 모두 보기</div>
+                <div class="post-time">${timeSince(post.date)}</div>
+                <div class="comments-section">
+                    <div class="comments-list"></div>
+                    <div class="comment-input-container">
+                        <input type="text" class="comment-input" placeholder="댓글 달기...">
+                        <button class="comment-post-btn" disabled>게시</button>
+                    </div>
+                </div>`;
+
+            feedContainer.appendChild(postItem);
+            setupPostInteractions(postItem, likes, commentsCount, post);
+
+            // 여러 이미지인 경우 Carousel 설정
+            if (imageCount > 1) {
+                setupCarousel(postItem, imageCount);
+            }
+        }
+
+        // ========== Create Reel Item from Notion Post ==========
+        function createReelItemFromPost(post, index) {
+            const postItem = document.createElement('div');
+            postItem.className = 'post-item';
+            postItem.dataset.postId = post.id || `short_${index}`;
+            postItem.dataset.reelIndex = videoReels.length;
+
+            const likes = Number(post.likes || Math.floor(Math.random() * 5000) + 100);
+            const comments = Math.floor(likes * 0.2);
+            const caption = post.caption || '';
+            const videoSrc = post.mediaUrl || post.thumbnail || '';
+            const location = post.type ? `#${post.type}` : 'Reels';
+
+            // collect for fullscreen
+            videoReels.push({
+                videoSrc,
+                caption,
+                likes,
+                comments,
+            });
+
+            postItem.innerHTML = `
+                <div class="post-header">
+                    <div class="post-user">
+                        <div class="post-avatar">
+                            <img src="/images/logo-symbol.png" alt="Profile">
+                        </div>
+                        <div class="post-user-info">
+                            <div class="post-username">더율법무법인</div>
+                            <div class="post-location">${location}</div>
+                        </div>
+                    </div>
+                    <button class="post-more-btn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                <div class="post-video-container">
+                    <div class="loading-spinner"></div>
+                    <video class="post-video" muted playsinline preload="auto" playsinline>
+                        <source src="${videoSrc}" type="video/mp4">
+                    </video>
+                    <div class="video-preview-overlay">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <button class="video-mute-toggle" aria-label="toggle mute">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
+                </div>
+                <div class="post-actions">
+                    <div class="post-actions-left">
+                        <button class="action-btn like-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="action-btn comment-btn">
+                            <i class="far fa-comment"></i>
+                        </button>
+                        <button class="action-btn share-btn">
+                            <i class="far fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <button class="action-btn bookmark-btn">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </div>
+                <div class="post-likes">${likes.toLocaleString()}명이 좋아합니다</div>
+                <div class="post-caption">
+                    <span class="caption-username">더율법무법인</span>
+                    <span class="caption-text collapsed">${caption}</span>
+                    <span class="caption-more">더 보기</span>
+                </div>
+                <div class="post-comments-link">댓글 ${comments}개 모두 보기</div>
+                <div class="post-time">${timeSince(post.date)}</div>
+
+                <div class="comments-section">
+                    <div class="comments-list"></div>
+                    <div class="comment-input-container">
+                        <input type="text" class="comment-input" placeholder="댓글 달기...">
+                        <button class="comment-post-btn" disabled>게시</button>
+                    </div>
+                </div>
+            `;
+
+            feedContainer.appendChild(postItem);
+            setupPostInteractions(postItem, likes, comments, post);
+            setupVideoPreview(postItem);
+        }
+
+        // 초기 로딩: Notion 연동 시도, 실패 시 랜덤 피드
+        loadNotionInstagramFeed();
 
         // ========== Create Post Item with Carousel ==========
         function createPostItem(index) {
@@ -1278,13 +1576,15 @@
                 </div>
                 <div class="post-video-container">
                     <div class="loading-spinner"></div>
-                    <video class="post-video" muted playsinline preload="metadata">
+                    <video class="post-video" muted playsinline preload="auto">
                         <source src="${videoSrc}" type="video/mp4">
                     </video>
                     <div class="video-preview-overlay">
                         <i class="fas fa-play"></i>
                     </div>
-                    <div class="video-duration">0:15</div>
+                    <button class="video-mute-toggle" aria-label="toggle mute">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
                 </div>
                 <div class="post-actions">
                     <div class="post-actions-left">
@@ -1325,16 +1625,19 @@
             setupVideoPreview(postItem);
         }
 
-        // ========== Setup Video Preview (4 seconds in feed) ==========
+        // ========== Setup Video Preview (auto-play ~10s, then pause) ==========
         function setupVideoPreview(postItem) {
             const video = postItem.querySelector('.post-video');
             const container = postItem.querySelector('.post-video-container');
             const spinner = container.querySelector('.loading-spinner');
+            const overlay = container.querySelector('.video-preview-overlay');
+            const muteBtn = container.querySelector('.video-mute-toggle');
             let playTimeout;
 
-            video.addEventListener('loadedmetadata', () => {
-                spinner.style.display = 'none';
-            });
+            // Use canplay to ensure we have enough data to start smoothly
+            const hideSpinner = () => { spinner.style.display = 'none'; };
+            video.addEventListener('canplay', hideSpinner, { once: true });
+            video.addEventListener('canplaythrough', hideSpinner, { once: true });
 
             // Intersection Observer for auto-play preview
             const observer = new IntersectionObserver((entries) => {
@@ -1342,26 +1645,64 @@
                     if (entry.isIntersecting) {
                         video.currentTime = 0;
                         video.play().catch(() => {});
+                        if (overlay) overlay.style.display = 'none';
 
-                        // Stop after 4 seconds
+                        // Stop after ~10 seconds (IG-like preview)
                         playTimeout = setTimeout(() => {
                             video.pause();
-                        }, 4000);
+                            if (overlay) overlay.style.display = 'flex';
+                        }, 10000);
                     } else {
                         clearTimeout(playTimeout);
                         video.pause();
                         video.currentTime = 0;
+                        if (overlay) overlay.style.display = 'flex';
                     }
                 });
             }, { threshold: 0.5 });
 
             observer.observe(container);
 
+            // Warm-up loader: start fetching slightly before entering viewport
+            const warmup = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        try { video.load(); } catch (_) {}
+                    }
+                });
+            }, { rootMargin: '300px 0px' });
+            warmup.observe(container);
+
             // Click to open fullscreen reels
             container.addEventListener('click', () => {
                 const reelIndex = parseInt(postItem.dataset.reelIndex);
                 openReelsFullscreen(reelIndex);
             });
+
+            // Sync overlay with native play/pause as a safety
+            video.addEventListener('play', () => {
+                if (overlay) overlay.style.display = 'none';
+            });
+            video.addEventListener('pause', () => {
+                if (overlay) overlay.style.display = 'flex';
+            });
+
+            // Mute toggle for feed video
+            if (muteBtn) {
+                muteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    video.muted = !video.muted;
+                    const icon = muteBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-volume-mute', video.muted);
+                        icon.classList.toggle('fa-volume-up', !video.muted);
+                    }
+                    // Ensure playback continues after unmute
+                    if (!video.paused) {
+                        video.play().catch(() => {});
+                    }
+                });
+            }
         }
 
         // ========== Open Reels Fullscreen ==========
@@ -1394,7 +1735,7 @@
                 reelItem.dataset.index = index;
 
                 reelItem.innerHTML = `
-                    <video class="reel-video" loop muted playsinline preload="metadata">
+                    <video class="reel-video" loop muted playsinline preload="auto">
                         <source src="${reel.videoSrc}" type="video/mp4">
                     </video>
                     <div class="reel-info">
@@ -1431,6 +1772,9 @@
                             <img src="https://via.placeholder.com/24" class="reel-share-avatar" alt="Share">
                         </button>
                     </div>
+                    <button class="reel-mute-toggle" aria-label="toggle mute">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
                 `;
 
                 reelsContainer.appendChild(reelItem);
@@ -1446,6 +1790,7 @@
 
                 // Double-tap like
                 const video = reelItem.querySelector('.reel-video');
+                const muteToggle = reelItem.querySelector('.reel-mute-toggle');
                 let lastTap = 0;
                 video.addEventListener('touchend', (e) => {
                     const currentTime = new Date().getTime();
@@ -1467,6 +1812,22 @@
                     }
                     lastTap = currentTime;
                 });
+
+                // Mute toggle in fullscreen
+                if (muteToggle) {
+                    muteToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        video.muted = !video.muted;
+                        const icon = muteToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('fa-volume-mute', video.muted);
+                            icon.classList.toggle('fa-volume-up', !video.muted);
+                        }
+                        if (video.paused) {
+                            video.play().catch(() => {});
+                        }
+                    });
+                }
             });
 
             // Show reels
@@ -1514,7 +1875,7 @@
         }
 
         // ========== Setup Post Interactions ==========
-        function setupPostInteractions(postItem, initialLikes, totalComments) {
+        function setupPostInteractions(postItem, initialLikes, totalComments, postData) {
             let likes = initialLikes;
             let isLiked = false;
 
@@ -1635,7 +1996,16 @@
             const shareBtn = postItem.querySelector('.share-btn');
             shareBtn.addEventListener('click', () => {
                 const postId = postItem.dataset.postId;
-                currentShareUrl = `https://theyool.com/post/${postId}`;
+                if (postData && postData.originalUrl) {
+                    try {
+                        const u = new URL(postData.originalUrl, window.location.origin);
+                        currentShareUrl = u.toString();
+                    } catch (_) {
+                        currentShareUrl = window.location.href;
+                    }
+                } else {
+                    currentShareUrl = window.location.href + `#${postId}`;
+                }
                 openShareModal();
             });
         }
@@ -1767,5 +2137,6 @@
 
         console.log('더율 스토리 initialized - Mixed Feed with Carousel & Reels');
     </script>
+    
 </body>
 </html>

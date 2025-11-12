@@ -8,7 +8,7 @@ const BLOG_DB_ID = process.env.NOTION_BLOG_DB || '';
 export interface BlogProperties {
   제목: { title: Array<{ plain_text: string }> };
   slug: { rich_text: Array<{ plain_text: string }> };
-  카테고리: { select: { name: string } | null };
+  카테고리: { multi_select: Array<{ name: string }> };
   태그: { multi_select: Array<{ name: string }> };
   공개: { checkbox: boolean };
   추천: { checkbox: boolean };
@@ -21,7 +21,7 @@ export interface BlogPost {
   id: string;
   slug: string;
   title: string;
-  category: string;
+  categories: string[]; // 다중 카테고리 지원
   tags: string[];
   published: boolean;
   featured: boolean;
@@ -36,7 +36,7 @@ function parseBlogPost(page: any): BlogPost {
 
   const title = properties.제목?.title?.[0]?.plain_text || '';
   const slug = properties.slug?.rich_text?.[0]?.plain_text || '';
-  const category = properties.카테고리?.select?.name || '';
+  const categories = properties.카테고리?.multi_select?.map((cat: any) => cat.name) || [];
   const tags = properties.태그?.multi_select?.map((t: any) => t.name) || [];
   const published = properties.공개?.checkbox || false;
   const featured = properties.추천?.checkbox || false;
@@ -47,7 +47,7 @@ function parseBlogPost(page: any): BlogPost {
     id: page.id,
     slug,
     title,
-    category,
+    categories, // 다중 카테고리
     tags,
     published,
     featured,
@@ -184,10 +184,10 @@ export async function getFeaturedBlogPosts(limit: number = 3): Promise<BlogPost[
   }
 }
 
-// 카테고리별 칼럼 필터링
+// 카테고리별 칼럼 필터링 (다중 카테고리 지원)
 export function filterBlogByCategory(posts: BlogPost[], category: string): BlogPost[] {
   if (category === '전체') return posts;
-  return posts.filter(p => p.category === category);
+  return posts.filter(p => p.categories.includes(category));
 }
 
 // 태그별 칼럼 필터링
@@ -195,12 +195,12 @@ export function filterBlogByTag(posts: BlogPost[], tag: string): BlogPost[] {
   return posts.filter(p => p.tags.includes(tag));
 }
 
-// 검색 기능
+// 검색 기능 (다중 카테고리 지원)
 export function searchBlogPosts(posts: BlogPost[], query: string): BlogPost[] {
   const lowerQuery = query.toLowerCase();
   return posts.filter(p =>
     p.title.toLowerCase().includes(lowerQuery) ||
-    p.category.toLowerCase().includes(lowerQuery) ||
+    p.categories.some(cat => cat.toLowerCase().includes(lowerQuery)) ||
     p.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
   );
 }
