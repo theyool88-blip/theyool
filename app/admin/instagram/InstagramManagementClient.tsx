@@ -150,19 +150,33 @@ export default function InstagramManagementClient() {
 
   const addImage = () => {
     if (imageInput.trim()) {
-      setFormData((prev) => ({
-        ...prev,
-        images: [...prev.images, imageInput.trim()],
-      }));
+      setFormData((prev) => {
+        const newImages = [...prev.images, imageInput.trim()];
+        return {
+          ...prev,
+          images: newImages,
+          thumbnail: prev.thumbnail || newImages[0] || '',
+        };
+      });
       setImageInput('');
     }
   };
 
   const removeImage = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      images: prev.images.filter((_, i) => i !== index),
-    }));
+    setFormData((prev) => {
+      const removedImage = prev.images[index];
+      const newImages = prev.images.filter((_, i) => i !== index);
+      const nextThumbnail =
+        removedImage && removedImage === prev.thumbnail
+          ? newImages[0] || ''
+          : prev.thumbnail;
+
+      return {
+        ...prev,
+        images: newImages,
+        thumbnail: nextThumbnail || '',
+      };
+    });
   };
 
   if (loading) {

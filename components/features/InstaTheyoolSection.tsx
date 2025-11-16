@@ -150,49 +150,55 @@ export default function InstaTheyoolSection() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('/api/instagram');
+        const response = await fetch('/api/instagram', { cache: 'no-store' });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
+        console.log('Instagram API response:', data); // 디버깅용
 
         if (data.posts && data.posts.length > 0) {
-          // Notion 데이터를 ContentCard 형식으로 변환
-          const notionCards: ContentCard[] = data.posts.map((post: any) => {
-            // mediaUrl이 있으면 릴스로 판단
-            const isReels = post.type === '릴스' || !!post.mediaUrl;
+          // Supabase 데이터를 ContentCard 형식으로 변환
+          const instagramCards: ContentCard[] = data.posts.map((post: any) => {
+            // type이 '릴스'이거나 thumbnail이 .mp4로 끝나면 릴스로 판단
+            const isReels = post.type === '릴스' || (post.thumbnail && post.thumbnail.endsWith('.mp4'));
             const finalType = isReels ? '릴스' : post.type;
+
+            // 이미지 URL 확인
+            const imageUrl = post.thumbnail || (post.images && post.images[0]) || '/images/placeholder.jpg';
 
             return {
               id: post.id,
               type: finalType,
-              title: post.title,
-              subtitle: post.caption.slice(0, 30) + (post.caption.length > 30 ? '...' : ''),
-              image: post.thumbnail || post.images[0] || '/images/placeholder.jpg',
-              images: post.images || [post.thumbnail || '/images/placeholder.jpg'],
+              title: post.title || '제목 없음',
+              subtitle: post.caption ? post.caption.slice(0, 30) + (post.caption.length > 30 ? '...' : '') : '',
+              image: imageUrl,
+              images: post.images || [imageUrl],
               badge: TYPE_BADGES[finalType] || finalType,
               icon: TYPE_ICONS[finalType] || '📋',
-              caption: post.caption,
+              caption: post.caption || '',
               likes: post.likes || 0,
               views: post.views || 0,
               date: post.date,
             };
           });
 
+          console.log('Converted cards:', instagramCards); // 디버깅용
+
           // 랜덤 정렬
-          const randomCards = shuffleArray(notionCards);
+          const randomCards = shuffleArray(instagramCards);
           // 10개만 표시
           const filled = randomCards.slice(0, 10);
           setDisplayCards(filled);
         } else {
-          // Notion 데이터가 없으면 샘플 사용 (부족하면 반복)
-          const randomCards = shuffleArray(SAMPLE_CONTENT);
-          const filled = fillToCount(randomCards, 10);
-          setDisplayCards(filled);
+          console.warn('No posts found in API response');
+          setDisplayCards([]);
         }
       } catch (error) {
         console.error('Failed to fetch instagram posts:', error);
-        // 에러 시 샘플 데이터 사용 (부족하면 반복)
-        const randomCards = shuffleArray(SAMPLE_CONTENT);
-        const filled = fillToCount(randomCards, 10);
-        setDisplayCards(filled);
+        setDisplayCards([]);
       } finally {
         setLoading(false);
       }
@@ -206,6 +212,17 @@ export default function InstaTheyoolSection() {
       <section className="relative py-16 md:py-24 bg-gradient-to-b from-white via-purple-50/20 to-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 text-center">
           <p className="text-gray-500">Loading...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (displayCards.length === 0) {
+    return (
+      <section className="relative py-16 md:py-24 bg-gradient-to-b from-white via-purple-50/20 to-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12 text-center">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">더율의 진짜 이야기</h3>
+          <p className="text-gray-500">곧 새로운 콘텐츠가 업데이트됩니다.</p>
         </div>
       </section>
     );
