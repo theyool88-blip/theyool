@@ -8,10 +8,10 @@ const supabase = createClient(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = params;
+    const { slug } = await context.params;
 
     const { error } = await supabase.rpc('increment_instagram_views', {
       post_slug: slug,
