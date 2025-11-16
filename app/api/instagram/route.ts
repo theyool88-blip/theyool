@@ -1,26 +1,42 @@
 import { NextResponse } from 'next/server';
-import { getInstagramPosts, getLinkedOriginalUrl } from '@/lib/notion/instagram';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export const revalidate = 0;
 
 export async function GET() {
   try {
-    const posts = await getInstagramPosts();
-    const enriched = await Promise.all(
-      posts.map(async (p) => ({
-        id: p.id,
-        title: p.title,
-        type: p.type,
-        thumbnail: p.thumbnail || null,
-        images: p.images || [], // 모든 이미지 배열 추가
-        mediaUrl: p.mediaUrl || null,
-        caption: p.caption,
-        views: p.views,
-        likes: p.likes,
-        date: p.date,
-        originalUrl: await getLinkedOriginalUrl(p),
-      }))
-    );
+    const { data: posts, error } = await supabase
+      .from('instagram_posts')
+      .select('*')
+      .eq('published', true)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Failed to fetch instagram posts:', error);
+      return NextResponse.json({ posts: [] }, { status: 200 });
+    }
+
+    const enriched = posts.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      type: p.post_type,
+      thumbnail: p.thumbnail_url || null,
+      images: p.images || [],
+      mediaUrl: p.thumbnail_url || null, // for backward compatibility
+      caption: p.caption,
+      views: p.views,
+      likes: p.likes,
+      date: p.published_at || p.created_at,
+      linkedCaseId: p.linked_case_id,
+      linkedBlogId: p.linked_blog_id,
+    }));
+
     return NextResponse.json({ posts: enriched });
   } catch (e) {
     console.error('Failed to fetch instagram posts:', e);
