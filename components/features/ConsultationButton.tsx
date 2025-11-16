@@ -5,7 +5,7 @@ import Modal from '@/components/ui/Modal';
 import ConsultationForm from './ConsultationForm';
 
 interface ConsultationButtonProps {
-  variant?: 'premium' | 'primary' | 'secondary' | 'outline';
+  variant?: 'premium' | 'primary' | 'secondary' | 'outline' | 'dark';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   className?: string;
@@ -73,13 +73,14 @@ export default function ConsultationButton({
     primary: 'bg-[var(--accent)] text-white hover:bg-[var(--accent-dark)] hover:scale-[1.02]',
     secondary: 'bg-white text-[var(--accent)] hover:bg-[var(--gray-50)]',
     outline: 'border-2 border-[var(--gray-700)] text-[var(--gray-900)] hover:bg-[var(--gray-900)] hover:text-white hover:border-[var(--gray-900)]',
+    dark: 'bg-gray-900 text-white hover:bg-gray-800 hover:scale-[1.02]',
   };
 
   return (
     <>
       <button
         onClick={handleClick}
-        className={`${baseStyles} ${variantStyles[variant as 'primary' | 'secondary' | 'outline']} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
+        className={`${baseStyles} ${variantStyles[variant as 'primary' | 'secondary' | 'outline' | 'dark']} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
       >
         상담문의
       </button>

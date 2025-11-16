@@ -207,7 +207,7 @@ export default function RealStory() {
               )}
 
               {/* Content - Perfect centering */}
-              <div className="relative h-full flex items-center justify-center pt-48 pb-24">
+              <div className="relative h-full flex items-center justify-center pt-72 pb-24">
                 <div className="max-w-[600px] w-full px-6 md:px-12 mx-auto">
                   <div className="text-center">
                     <h3 className={`text-2xl md:text-4xl font-bold ${story.textColor} mb-4 md:mb-6`}>

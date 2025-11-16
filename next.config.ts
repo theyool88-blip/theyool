@@ -23,6 +23,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'theyool-divorce.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'kqqyipnlkmmprfgygauk.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+      },
     ],
   },
 };

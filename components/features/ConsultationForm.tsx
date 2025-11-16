@@ -116,8 +116,7 @@ export default function ConsultationForm({ onSuccess, onCancel }: ConsultationFo
           상담 신청이 완료되었습니다
         </h3>
         <p className="text-sm md:text-base text-[var(--gray-600)] mb-6 md:mb-8">
-          빠른 시일 내에 연락드리겠습니다.<br />
-          평일 09:00 - 18:00 순차적으로 연락드립니다.
+          빠른 시일 내에 연락드리겠습니다.
         </p>
         <Button onClick={() => setSubmitSuccess(false)}>
           추가 상담 신청

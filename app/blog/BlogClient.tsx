@@ -14,10 +14,33 @@ const categories = ['전체', '이혼절차', '재산분할', '양육권', '위�
 
 export default function BlogClient({ posts }: BlogClientProps) {
   const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [sortBy, setSortBy] = useState<'latest' | 'views'>('latest');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredPosts = selectedCategory === '전체'
+  // 필터링
+  let filteredPosts = selectedCategory === '전체'
     ? posts
     : posts.filter(p => p.categories.includes(selectedCategory));
+
+  // 검색 적용
+  if (searchQuery.trim()) {
+    const lowerQuery = searchQuery.toLowerCase();
+    filteredPosts = filteredPosts.filter(p =>
+      p.title.toLowerCase().includes(lowerQuery) ||
+      p.excerpt?.toLowerCase().includes(lowerQuery) ||
+      p.categories.some(cat => cat.toLowerCase().includes(lowerQuery)) ||
+      p.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
+    );
+  }
+
+  // 정렬 적용
+  filteredPosts = [...filteredPosts].sort((a, b) => {
+    if (sortBy === 'latest') {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    } else {
+      return b.views - a.views;
+    }
+  });
 
   // 추천 칼럼 (featured)
   const featuredPosts = posts.filter(p => p.featured).slice(0, 2);
@@ -95,9 +118,16 @@ export default function BlogClient({ posts }: BlogClientProps) {
                       </div>
 
                       {/* Title */}
-                      <h3 className="relative text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-amber-800 transition-colors duration-300">
+                      <h3 className="relative text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2 group-hover:text-amber-800 transition-colors duration-300">
                         {post.title}
                       </h3>
+
+                      {/* Excerpt (요약) */}
+                      {post.excerpt && (
+                        <p className="relative text-base text-gray-700 mb-4 leading-relaxed line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                      )}
 
                       {/* Meta */}
                       <div className="relative flex items-center gap-4 text-sm text-gray-500 mb-4">
@@ -143,9 +173,36 @@ export default function BlogClient({ posts }: BlogClientProps) {
         </section>
       )}
 
-      {/* 카테고리 필터 */}
+      {/* 카테고리 필터 + 검색 + 정렬 */}
       <section className="sticky top-16 z-40 py-6 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
-        <div className="max-w-[1200px] px-6 md:px-12 mx-auto">
+        <div className="max-w-[1200px] px-6 md:px-12 mx-auto space-y-4">
+          {/* 검색창 */}
+          <div className="max-w-md mx-auto">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="제목, 내용, 태그로 검색..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-5 py-3 pl-12 bg-white border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
+              />
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* 카테고리 필터 */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-3">
             {categories.map((category) => (
               <button
@@ -160,6 +217,18 @@ export default function BlogClient({ posts }: BlogClientProps) {
                 {category}
               </button>
             ))}
+          </div>
+
+          {/* 정렬 옵션 */}
+          <div className="flex justify-center">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'latest' | 'views')}
+              className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-amber-300 hover:shadow-md transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+            >
+              <option value="latest">최신순</option>
+              <option value="views">조회수순</option>
+            </select>
           </div>
         </div>
       </section>
@@ -187,6 +256,13 @@ export default function BlogClient({ posts }: BlogClientProps) {
                         <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-amber-700 transition-colors line-clamp-2">
                           {post.title}
                         </h3>
+
+                        {/* Excerpt (요약) */}
+                        {post.excerpt && (
+                          <p className="text-sm text-gray-600 mb-4 leading-relaxed line-clamp-3">
+                            {post.excerpt}
+                          </p>
+                        )}
 
                         {/* Tags */}
                         {post.tags.length > 0 && (
@@ -248,7 +324,7 @@ export default function BlogClient({ posts }: BlogClientProps) {
               30분 무료 상담으로 당신의 상황을 분석해드립니다
             </p>
             <a
-              href="tel:02-1234-5678"
+              href="tel:1661-7633"
               className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
             >
               📞 지금 상담하기

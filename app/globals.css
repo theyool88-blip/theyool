@@ -908,3 +908,56 @@ section {
 .animate-scroll-insta:hover {
   animation-play-state: paused;
 }
+
+/* ===== Horizontal Scroll - Hide Scrollbar ===== */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+.markdown-body img,
+.prose img {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+  margin: 2rem 0;
+}
+
+.markdown-body p,
+.prose p {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #1f2933;
+}
+
+.toc-block {
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.9), rgba(255, 247, 237, 0.9));
+}
+
+.toc-block a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.toc-block ol li {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .markdown-body p,
+  .prose p {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .markdown-body {
+    font-size: 1rem;
+  }
+}

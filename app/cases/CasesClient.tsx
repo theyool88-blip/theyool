@@ -4,20 +4,33 @@ import { useState } from 'react';
 import PageLayout from '@/components/layouts/PageLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import Link from 'next/link';
-import type { Case } from '@/lib/notion/types';
+import Image from 'next/image';
+import type { CaseListItem } from '@/types/case';
+import { categoryOverlayMap } from '@/lib/notion/types';
 
 interface CasesClientProps {
-  cases: Case[];
+  cases: CaseListItem[];
 }
 
 const categories = ['전체', '상간', '위자료', '재산분할', '양육권', '이혼'];
 
 export default function CasesClient({ cases }: CasesClientProps) {
   const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [sortBy, setSortBy] = useState<'latest' | 'oldest'>('latest');
 
-  const filteredCases = selectedCategory === '전체'
+  // 필터링 및 정렬
+  let filteredCases = selectedCategory === '전체'
     ? cases
     : cases.filter(c => c.categoryNames.includes(selectedCategory));
+
+  // 정렬 적용
+  filteredCases = [...filteredCases].sort((a, b) => {
+    if (sortBy === 'latest') {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    } else {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    }
+  });
 
   return (
     <PageLayout>
@@ -50,7 +63,7 @@ export default function CasesClient({ cases }: CasesClientProps) {
           </div>
 
           {/* 카테고리 필터 */}
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-4">
             {categories.map((category) => (
               <button
                 key={category}
@@ -65,6 +78,18 @@ export default function CasesClient({ cases }: CasesClientProps) {
               </button>
             ))}
           </div>
+
+          {/* 정렬 옵션 */}
+          <div className="flex justify-center">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'latest' | 'oldest')}
+              className="px-4 py-2 rounded-full text-sm font-medium bg-white/80 backdrop-blur-sm text-gray-700 border border-gray-200 hover:bg-white hover:shadow-md transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900/20"
+            >
+              <option value="latest">최신순</option>
+              <option value="oldest">오래된순</option>
+            </select>
+          </div>
         </div>
       </section>
 
@@ -73,45 +98,81 @@ export default function CasesClient({ cases }: CasesClientProps) {
         <div className="max-w-[1200px] mx-auto">
           {/* 사례 카드 그리드 */}
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            {filteredCases.map((caseItem, index) => (
-              <ScrollReveal key={caseItem.id} delay={index * 100}>
-                <Link href={`/cases/${caseItem.slug}`}>
-                  <div className={`group relative bg-gradient-to-br ${caseItem.bgColor} rounded-3xl p-8 md:p-10 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden border-2 border-white/50`}>
-                    {/* 배경 패턴 */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -mr-16 -mt-16" />
-                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/15 rounded-full -ml-12 -mb-12" />
+            {filteredCases.map((caseItem, index) => {
+              const detailSlug = caseItem.slug || caseItem.id;
+              // 첫 번째 카테고리 기준으로 오버레이 색상 결정
+              const overlayColor = caseItem.categoryNames.length > 0
+                ? categoryOverlayMap[caseItem.categoryNames[0]] || categoryOverlayMap[caseItem.categories[0]] || 'from-white/80 via-white/75 to-white/70'
+                : 'from-white/80 via-white/75 to-white/70';
 
-                    {/* Categories (다중 카테고리) */}
-                    <div className="relative mb-4 flex flex-wrap gap-2">
-                      {caseItem.categoryNames.map((name, idx) => (
-                        <span key={idx} className="inline-block px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-700">
-                          {name}
-                        </span>
-                      ))}
+              return (
+                <ScrollReveal key={caseItem.id} delay={index * 100}>
+                  <Link href={`/cases/${detailSlug}`}>
+                    <div className="group relative rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer h-[350px] md:h-[380px]">
+                      {/* 배경 이미지 */}
+                      {caseItem.coverImage && (
+                        <div className="absolute inset-0">
+                          <img
+                            src={caseItem.coverImage}
+                            alt={caseItem.title}
+                            className="w-full h-full object-cover object-right"
+                          />
+                        </div>
+                      )}
+
+                      {/* 파스텔 오버레이 - 투명도 감소로 배경 이미지 더 보이게 */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${overlayColor}`} />
+
+                      {/* 추가 흰색 오버레이 (가독성) - 투명도 감소 */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/15 to-white/10" />
+
+                      {/* 콘텐츠 */}
+                      <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
+                        {/* 상단: 카테고리 배지 */}
+                        <div className="flex flex-wrap gap-2">
+                          {caseItem.categoryNames.map((name, idx) => (
+                            <span
+                              key={idx}
+                              className="inline-block px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-800"
+                            >
+                              {name}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* 하단: 제목 + 요약 + 결과 */}
+                        <div>
+                          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2 group-hover:translate-x-1 transition-transform duration-300">
+                            {caseItem.title}
+                          </h3>
+
+                          {/* 요약 (있는 경우) */}
+                          {caseItem.summary && (
+                            <p className="text-sm text-gray-700 mb-4 line-clamp-2 leading-relaxed">
+                              {caseItem.summary}
+                            </p>
+                          )}
+
+                          {/* 결과 배지 */}
+                          <div className="inline-flex items-center px-6 py-3 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200/50">
+                            <span className="text-sm md:text-base font-bold text-gray-900">
+                              결과: {caseItem.result}
+                            </span>
+                          </div>
+
+                          {/* Arrow Icon */}
+                          <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-
-                    {/* Title */}
-                    <h3 className="relative text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight group-hover:translate-x-1 transition-transform duration-300">
-                      {caseItem.title}
-                    </h3>
-
-                    {/* Result Badge */}
-                    <div className="relative inline-flex items-center px-6 py-3 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200/50 mt-4">
-                      <span className="text-sm md:text-base font-bold text-gray-900">
-                        {caseItem.result}
-                      </span>
-                    </div>
-
-                    {/* Arrow Icon */}
-                    <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            ))}
+                  </Link>
+                </ScrollReveal>
+              );
+            })}
           </div>
 
           {/* 안내 메시지 */}
@@ -121,8 +182,8 @@ export default function CasesClient({ cases }: CasesClientProps) {
             </div>
           )}
 
-          {/* Coming Soon */}
-          {cases.length > 0 && (
+          {/* Coming Soon - 10개 미만일 때만 표시 */}
+          {cases.length > 0 && cases.length < 10 && (
             <ScrollReveal delay={400}>
               <div className="mt-16 text-center p-12 bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl border-2 border-gray-200">
                 <div className="text-6xl mb-6">📋</div>
@@ -164,7 +225,7 @@ export default function CasesClient({ cases }: CasesClientProps) {
             30분 무료 상담으로 당신의 사건을 분석해드립니다
           </p>
           <a
-            href="tel:02-1234-5678"
+            href="tel:1661-7633"
             className="inline-block bg-gray-900 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-gray-800 transition-all duration-300 hover:scale-105 shadow-xl"
           >
             📞 지금 상담하기

@@ -205,20 +205,6 @@ export default function ContactPage() {
                       </a>
                     </div>
                   </div>
-
-                  {/* 운영시간 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-purple-50">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-purple-100 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-medium text-pink-400 mb-1">운영시간</h3>
-                      <p className="text-base text-gray-800 font-medium">평일 09:00 - 18:00</p>
-                      <p className="text-sm text-gray-500 mt-1">주말 및 공휴일 휴무</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

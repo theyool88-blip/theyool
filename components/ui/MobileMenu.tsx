@@ -4,11 +4,23 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ConsultationButton from '@/components/features/ConsultationButton';
 
-const sectionLinks = [
+interface MenuItem {
+  label: string;
+  href?: string;
+  children?: { label: string; href: string }[];
+}
+
+const sectionLinks: MenuItem[] = [
   { label: '더 플랜', href: '/the-plan' },
   { label: 'Insta더율', href: '/insta-theyool' },
   { label: '실제 성공 사례', href: '/cases' },
-  { label: '변호사 칼럼', href: '/blog' },
+  {
+    label: '이혼가이드',
+    children: [
+      { label: '이혼큐레이션(Q&A)', href: '/faq' },
+      { label: '변호사 칼럼', href: '/blog' },
+    ]
+  },
   { label: '구성원', href: '/team' },
   { label: '오시는 길', href: '/contact' },
 ];
@@ -16,6 +28,7 @@ const sectionLinks = [
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     setIsMounted(true);
@@ -41,7 +54,22 @@ export default function MobileMenu() {
     };
   }, [isOpen]);
 
-  const closeMenu = () => setIsOpen(false);
+  const closeMenu = () => {
+    setIsOpen(false);
+    setExpandedItems(new Set());
+  };
+
+  const toggleExpanded = (label: string) => {
+    setExpandedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(label)) {
+        newSet.delete(label);
+      } else {
+        newSet.add(label);
+      }
+      return newSet;
+    });
+  };
 
   const overlay = (
     <div className="fixed inset-0 z-[9999]">
@@ -74,47 +102,105 @@ export default function MobileMenu() {
         {/* Main Navigation - 미니멀 디자인 */}
         <nav className="flex-1 flex flex-col justify-center px-8 sm:px-16 md:px-20">
           <div className="max-w-xl mx-auto w-full">
-            {sectionLinks.map((item, index) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={closeMenu}
-                className="group block py-6 border-b border-[var(--gray-100)] last:border-0 transition-all"
-                style={{
-                  animation: `fadeInUp 0.5s ease-out ${index * 0.08}s both`
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl sm:text-3xl font-light text-[var(--gray-900)] group-hover:text-[var(--accent)] transition-colors tracking-tight">
-                    {item.label}
-                  </span>
-                  <svg
-                    className="w-5 h-5 text-[var(--gray-300)] group-hover:text-[var(--accent)] group-hover:translate-x-2 transition-all duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                  </svg>
+            {sectionLinks.map((item, index) => {
+              const isExpanded = expandedItems.has(item.label);
+              const hasChildren = item.children && item.children.length > 0;
+
+              return (
+                <div
+                  key={item.label}
+                  className="border-b border-[var(--gray-100)] last:border-0"
+                  style={{
+                    animation: `fadeInUp 0.5s ease-out ${index * 0.08}s both`
+                  }}
+                >
+                  {/* 메인 메뉴 항목 */}
+                  {hasChildren ? (
+                    <button
+                      onClick={() => toggleExpanded(item.label)}
+                      className="group w-full py-6 transition-all"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl sm:text-3xl font-light text-[var(--gray-900)] group-hover:text-[var(--accent)] transition-colors tracking-tight">
+                          {item.label}
+                        </span>
+                        <svg
+                          className={`w-5 h-5 text-[var(--gray-300)] group-hover:text-[var(--accent)] transition-all duration-300 ${
+                            isExpanded ? 'rotate-90' : ''
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </button>
+                  ) : (
+                    <a
+                      href={item.href}
+                      onClick={closeMenu}
+                      className="group block py-6 transition-all"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl sm:text-3xl font-light text-[var(--gray-900)] group-hover:text-[var(--accent)] transition-colors tracking-tight">
+                          {item.label}
+                        </span>
+                        <svg
+                          className="w-5 h-5 text-[var(--gray-300)] group-hover:text-[var(--accent)] group-hover:translate-x-2 transition-all duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </a>
+                  )}
+
+                  {/* 서브메뉴 */}
+                  {hasChildren && isExpanded && (
+                    <div className="pb-4 pl-6 space-y-3">
+                      {item.children!.map((child) => (
+                        <a
+                          key={child.href}
+                          href={child.href}
+                          onClick={closeMenu}
+                          className="group flex items-center justify-between py-3 transition-all"
+                        >
+                          <span className="text-lg sm:text-xl font-light text-[var(--gray-600)] group-hover:text-[var(--accent)] transition-colors">
+                            {child.label}
+                          </span>
+                          <svg
+                            className="w-4 h-4 text-[var(--gray-300)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all duration-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </a>
-            ))}
+              );
+            })}
           </div>
         </nav>
 
         {/* Footer - Contact & CTA */}
         <div className="border-t border-[var(--gray-200)] bg-[var(--gray-50)] px-8 py-6 space-y-4">
-          <ConsultationButton fullWidth size="lg" onClick={closeMenu} />
+          <ConsultationButton variant="dark" fullWidth size="lg" onClick={closeMenu} />
 
           <div className="text-center">
             <p className="text-xs text-[var(--gray-500)] mb-1">전화 상담</p>
             <a
-              href="tel:02-1234-5678"
+              href="tel:1661-7633"
               className="text-xl font-bold text-[var(--primary)] hover:text-[var(--accent)] transition-colors"
             >
-              02-1234-5678
+              1661-7633
             </a>
-            <p className="text-xs text-[var(--gray-400)] mt-1">평일 09:00 - 18:00</p>
           </div>
         </div>
       </div>

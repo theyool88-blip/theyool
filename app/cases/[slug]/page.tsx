@@ -1,16 +1,20 @@
-import { getCaseBySlug, getAllCaseSlugs } from '@/lib/notion/cases';
+import { getPublicCaseBySlug, getPublicCaseSlugs } from '@/lib/supabase/cases';
 import PageLayout from '@/components/layouts/PageLayout';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
+import { extractHeadings, plainText, slugify } from '@/lib/utils/markdown';
+import type { Metadata } from 'next';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://theyool.com';
 
 // 항상 최신 상태를 표시하기 위해 revalidate를 0으로 설정
 export const revalidate = 0;
 
 // 정적 경로 생성
 export async function generateStaticParams() {
-  const slugs = await getAllCaseSlugs();
+  const slugs = await getPublicCaseSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -18,20 +22,71 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const caseData = await getPublicCaseBySlug(slug);
+
+  if (!caseData) {
+    return {
+      title: '성공사례 | 법무법인 더율',
+    };
+  }
+
+  const canonicalUrl = `${SITE_URL}/cases/${caseData.slug || slug}`;
+  const description = caseData.summary || caseData.result || '';
+
+  return {
+    title: `${caseData.title} | 성공사례 | 법무법인 더율`,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      url: canonicalUrl,
+      title: `${caseData.title} | 법무법인 더율`,
+      description,
+      type: 'article',
+      images: caseData.backgroundImage ? [caseData.backgroundImage] : undefined,
+    },
+  };
+}
+
 export default async function CaseDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const caseData = await getCaseBySlug(slug);
+  const caseData = await getPublicCaseBySlug(slug);
 
   if (!caseData) {
     notFound();
   }
 
+  const headings = extractHeadings(caseData.content || '');
+  const canonicalUrl = `${SITE_URL}/cases/${caseData.slug || slug}`;
+  const description = caseData.summary || caseData.result || '';
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: caseData.title,
+    description,
+    mainEntityOfPage: canonicalUrl,
+    datePublished: caseData.date,
+    author: {
+      '@type': 'Organization',
+      name: '법무법인 더율',
+    },
+    image: caseData.backgroundImage || caseData.coverImage,
+  };
+
   return (
     <PageLayout>
       {/* Hero Section */}
       <section className={`relative min-h-[60vh] flex items-center justify-center bg-gradient-to-br ${caseData.bgColor} overflow-hidden`}>
-        {/* 배경 패턴 */}
-        <div className="absolute inset-0 w-full h-full">
+        {caseData.backgroundImage && (
+          <div className="absolute inset-0">
+            <img src={caseData.backgroundImage} alt="배경" className="w-full h-full object-cover opacity-40" />
+            <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-black/40 to-black/20" />
+          </div>
+        )}
+        <div className="absolute inset-0 w-full h-full pointer-events-none">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="detailDots" width="50" height="50" patternUnits="userSpaceOnUse">
@@ -70,19 +125,36 @@ export default async function CaseDetailPage({ params }: PageProps) {
 
       {/* 본문 콘텐츠 */}
       <section className="py-20 md:py-32 px-6 md:px-12 bg-white">
-        <div className="max-w-[800px] mx-auto">
-          {/* Markdown 콘텐츠 */}
-          <article className="prose prose-lg max-w-none">
+        <div className="max-w-[1000px] mx-auto md:grid md:grid-cols-[260px,1fr] gap-8">
+          {headings.length > 1 && (
+            <aside className="toc-block mb-10 rounded-2xl border border-gray-200 bg-gray-50/80 p-6 md:sticky md:top-32 h-fit">
+              <p className="text-sm font-semibold text-gray-600 uppercase tracking-[0.2em] mb-3">Contents</p>
+              <ol className="space-y-2 text-gray-700 text-sm">
+                {headings.map((heading) => (
+                  <li
+                    key={heading.id}
+                    className={`toc-item ${heading.level === 3 ? 'pl-4 text-gray-500 text-sm' : 'font-semibold text-gray-800'}`}
+                  >
+                    <a href={`#${heading.id}`} className="hover:text-pink-600 transition-colors">
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </aside>
+          )}
+          <div className="max-w-[800px] w-full">
+          <article className="markdown-body prose prose-lg max-w-none">
             <ReactMarkdown
               components={{
                 h1: ({ children }) => (
-                  <h1 className="text-4xl font-bold mb-6 text-gray-900">{children}</h1>
+                  <h1 id={slugify(plainText(children))} className="text-4xl font-bold mb-6 text-gray-900">{children}</h1>
                 ),
                 h2: ({ children }) => (
-                  <h2 className="text-3xl font-bold mt-12 mb-6 text-gray-900">{children}</h2>
+                  <h2 id={slugify(plainText(children))} className="text-3xl font-bold mt-12 mb-6 text-gray-900">{children}</h2>
                 ),
                 h3: ({ children }) => (
-                  <h3 className="text-2xl font-bold mt-8 mb-4 text-gray-900">{children}</h3>
+                  <h3 id={slugify(plainText(children))} className="text-2xl font-bold mt-8 mb-4 text-gray-900">{children}</h3>
                 ),
                 p: ({ children, node }) => {
                   // p 태그 안에 img만 있으면 p를 렌더링하지 않음 (validation 에러 방지)
@@ -113,6 +185,20 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 strong: ({ children }) => (
                   <strong className="font-bold text-gray-900">{children}</strong>
                 ),
+                a: ({ href, children }) => {
+                  const url = typeof href === 'string' ? href : '';
+                  const isLegacy = url.includes('theyool-divorce.com');
+                  return (
+                    <a
+                      href={url}
+                      target={isLegacy ? '_blank' : undefined}
+                      rel={isLegacy ? 'noopener noreferrer' : undefined}
+                      className="text-pink-600 underline-offset-4 hover:underline"
+                    >
+                      {children}
+                    </a>
+                  );
+                },
                 img: ({ src, alt }) => {
                   const imageSrc = typeof src === 'string' ? src : '';
                   return (
@@ -120,11 +206,11 @@ export default async function CaseDetailPage({ params }: PageProps) {
                       <div className="rounded-2xl overflow-hidden shadow-lg bg-gray-50 max-w-full">
                         <Image
                           src={imageSrc}
-                          alt={alt || ''}
+                          alt={alt || caseData.title}
                           width={1200}
                           height={800}
                           className="h-auto max-w-full"
-                          unoptimized // Notion URL은 외부 URL이므로
+                          unoptimized
                           loading="lazy"
                           quality={75}
                           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 70vw, 600px"
@@ -153,7 +239,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
               30분 무료 상담으로 당신의 사건을 분석해드립니다
             </p>
             <a
-              href="tel:02-1234-5678"
+              href="tel:1661-7633"
               className="inline-block bg-gray-900 text-white font-bold px-10 py-4 rounded-full text-lg hover:bg-gray-800 transition-all duration-300 hover:scale-105 shadow-xl"
             >
               📞 지금 상담하기
@@ -171,6 +257,8 @@ export default async function CaseDetailPage({ params }: PageProps) {
               </svg>
               목록으로 돌아가기
             </Link>
+          </div>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
           </div>
         </div>
       </section>

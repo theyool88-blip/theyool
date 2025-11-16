@@ -5,16 +5,38 @@ import ScrollReveal from '@/components/ScrollReveal';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import type { BlogPost } from '@/lib/notion/blog';
+import { splitMarkdownMetadata, extractHeadings, plainText, slugify } from '@/lib/utils/markdown';
 
 interface BlogDetailClientProps {
   post: BlogPost;
+  canonicalUrl: string;
 }
 
-export default function BlogDetailClient({ post }: BlogDetailClientProps) {
+export default function BlogDetailClient({ post, canonicalUrl }: BlogDetailClientProps) {
+  const { content, backgroundImage } = splitMarkdownMetadata(post.content || '');
+  const headings = extractHeadings(content);
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt || post.title,
+    mainEntityOfPage: canonicalUrl,
+    datePublished: post.date,
+    author: {
+      '@type': 'Organization',
+      name: '법무법인 더율',
+    },
+  };
   return (
     <PageLayout>
       {/* Hero Section - 따뜻한 헤더 */}
       <section className="relative py-16 md:py-24 bg-gradient-to-br from-amber-50 via-orange-50/30 to-white overflow-hidden">
+        {backgroundImage && (
+          <div className="absolute inset-0">
+            <img src={backgroundImage} alt="배경" className="w-full h-full object-cover opacity-40" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/70 to-white/80" />
+          </div>
+        )}
         {/* Warm Pattern */}
         <div className="absolute inset-0 w-full h-full opacity-30">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -91,21 +113,76 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
 
       {/* Content Section */}
       <article className="py-12 md:py-20 px-6 md:px-12 bg-white">
-        <div className="max-w-[800px] mx-auto">
-          <ScrollReveal>
-            <div className="prose prose-lg md:prose-xl max-w-none
-              prose-headings:font-bold prose-headings:text-gray-900 
-              prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-amber-200
-              prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-              prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6
-              prose-strong:text-gray-900 prose-strong:font-bold
-              prose-ul:my-6 prose-ul:space-y-2
-              prose-li:text-gray-700
-              prose-a:text-amber-700 prose-a:no-underline hover:prose-a:underline
-              prose-blockquote:border-l-4 prose-blockquote:border-amber-500 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-600
-            ">
-              <ReactMarkdown>{post.content || ''}</ReactMarkdown>
+        <div className="max-w-[1000px] mx-auto md:grid md:grid-cols-[260px,1fr] gap-8">
+          {headings.length > 1 && (
+            <aside className="toc-block hidden md:block rounded-2xl border border-amber-100 bg-amber-50/70 p-6 sticky top-32 h-fit">
+              <p className="text-sm font-semibold text-amber-700 uppercase tracking-[0.2em] mb-3">Contents</p>
+              <ol className="space-y-2 text-amber-900 text-sm">
+                {headings.map((heading) => (
+                  <li key={heading.id} className={`toc-item ${heading.level === 3 ? 'pl-4 text-amber-700/80 text-sm' : 'font-semibold'}`}>
+                    <a href={`#${heading.id}`} className="hover:text-amber-500 transition-colors">
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </aside>
+          )}
+          <div className="markdown-body prose prose-lg md:prose-xl max-w-none">
+            <ScrollReveal>
+              {headings.length > 1 && (
+                <div className="md:hidden toc-block mb-10 rounded-2xl border border-amber-100 bg-amber-50/70 p-6">
+                  <p className="text-sm font-semibold text-amber-700 uppercase tracking-[0.2em] mb-3">Contents</p>
+                  <ol className="space-y-2 text-amber-900 text-sm">
+                    {headings.map((heading) => (
+                      <li key={heading.id} className={`toc-item ${heading.level === 3 ? 'pl-4 text-amber-700/80 text-sm' : 'font-semibold'}`}>
+                        <a href={`#${heading.id}`} className="hover:text-amber-500 transition-colors">
+                          {heading.text}
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+              <ReactMarkdown
+                components={{
+                  h1: ({ children }) => (
+                    <h1 id={slugify(plainText(children))} className="text-4xl font-bold mb-6 text-gray-900">{children}</h1>
+                  ),
+                  h2: ({ children }) => (
+                    <h2 id={slugify(plainText(children))} className="text-3xl font-bold mt-12 mb-6 text-gray-900">{children}</h2>
+                  ),
+                  h3: ({ children }) => (
+                    <h3 id={slugify(plainText(children))} className="text-2xl font-bold mt-8 mb-4 text-gray-900">{children}</h3>
+                  ),
+                  a: ({ href, children }) => {
+                    const url = typeof href === 'string' ? href : '';
+                    const isLegacy = url.includes('theyool-divorce.com');
+                    return (
+                      <a
+                        href={url}
+                        target={isLegacy ? '_blank' : undefined}
+                        rel={isLegacy ? 'noopener noreferrer' : undefined}
+                        className="text-amber-700 underline-offset-4 hover:underline"
+                      >
+                        {children}
+                      </a>
+                    );
+                  },
+                  img: ({ src, alt }) => (
+                    <img
+                      src={typeof src === 'string' ? src : ''}
+                      alt={alt || post.title}
+                      className="rounded-2xl w-full h-auto shadow-xl my-8"
+                      loading="lazy"
+                    />
+                  ),
+                }}
+              >
+                {content || ''}
+              </ReactMarkdown>
             </div>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
           </ScrollReveal>
 
           {/* Bottom Actions */}
@@ -165,7 +242,7 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
               전문 변호사와 직접 상담하세요
             </p>
             <a
-              href="tel:02-1234-5678"
+              href="tel:1661-7633"
               className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
             >
               📞 무료 상담 신청

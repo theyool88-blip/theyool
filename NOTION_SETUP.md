@@ -1,4 +1,4 @@
-# Notion 연동 설정 가이드
+인물ㅇ# Notion 연동 설정 가이드
 
 ## 1단계: Notion 데이터베이스 생성
 
@@ -18,7 +18,7 @@
 | **카테고리** | Select | 옵션: 상간, 위자료, 재산분할, 양육권 |
 | **결과** | Text | "위자료 5억원 확보" 등 |
 | **배경색** | Select | 옵션: pink, purple, green, amber, red |
-| **공개** | Checkbox | 체크하면 홈페이지에 노출 |
+| **공개** | Checkbox | 체크하면 홈페이지에 노출 | 
 | **작성일** | Date | 자동 생성 |
 
 ## 3단계: Notion Integration 생성

@@ -10,6 +10,7 @@ export interface BlogProperties {
   slug: { rich_text: Array<{ plain_text: string }> };
   카테고리: { multi_select: Array<{ name: string }> };
   태그: { multi_select: Array<{ name: string }> };
+  요약: { rich_text: Array<{ plain_text: string }> };
   공개: { checkbox: boolean };
   추천: { checkbox: boolean };
   작성일: { date: { start: string } | null };
@@ -21,6 +22,7 @@ export interface BlogPost {
   id: string;
   slug: string;
   title: string;
+  excerpt?: string; // 요약 (2-3줄)
   categories: string[]; // 다중 카테고리 지원
   tags: string[];
   published: boolean;
@@ -36,6 +38,7 @@ function parseBlogPost(page: any): BlogPost {
 
   const title = properties.제목?.title?.[0]?.plain_text || '';
   const slug = properties.slug?.rich_text?.[0]?.plain_text || '';
+  const excerpt = properties.요약?.rich_text?.[0]?.plain_text || '';
   const categories = properties.카테고리?.multi_select?.map((cat: any) => cat.name) || [];
   const tags = properties.태그?.multi_select?.map((t: any) => t.name) || [];
   const published = properties.공개?.checkbox || false;
@@ -47,6 +50,7 @@ function parseBlogPost(page: any): BlogPost {
     id: page.id,
     slug,
     title,
+    excerpt,
     categories, // 다중 카테고리
     tags,
     published,

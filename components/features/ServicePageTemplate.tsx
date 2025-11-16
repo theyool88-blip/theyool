@@ -130,7 +130,7 @@ export default function ServicePageTemplate({ data }: ServicePageTemplateProps) 
         <div className="max-w-[800px] mx-auto">
           <ScrollReveal>
             <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary)] mb-16 text-center">
-              자주 묻는 질문
+              이혼큐레이션(Q&A)
             </h2>
           </ScrollReveal>
 
@@ -198,7 +198,7 @@ export default function ServicePageTemplate({ data }: ServicePageTemplateProps) 
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
-                href="tel:02-1234-5678"
+                href="tel:1661-7633"
                 className="inline-block bg-white text-[var(--primary)] font-bold px-10 py-5 rounded-full text-lg hover:bg-[var(--gray-100)] transition-all hover-lift shadow-toss-xl"
               >
                 📞 전화 상담하기

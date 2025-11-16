@@ -18,7 +18,7 @@ export default function FloatingConsultButton() {
 
   const handleClick = () => {
     // 전화 걸기 또는 상담 페이지로 이동
-    window.location.href = 'tel:02-1234-5678';
+    window.location.href = 'tel:1661-7633';
   };
 
   const handleKakaoClick = () => {
