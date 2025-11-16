@@ -160,6 +160,6 @@ export async function deleteBlogPost(id: string): Promise<boolean> {
 }
 
 // 조회수 증가
-export async function incrementBlogViews(id: string): Promise<void> {
-  await supabase.rpc('increment_blog_views', { post_id: id });
+export async function incrementBlogViews(slug: string): Promise<void> {
+  await supabase.rpc('increment_blog_views', { post_slug: slug });
 }

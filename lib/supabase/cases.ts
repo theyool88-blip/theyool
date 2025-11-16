@@ -139,8 +139,8 @@ export async function deleteCase(id: string): Promise<boolean> {
 }
 
 // 조회수 증가
-export async function incrementCaseViews(id: string): Promise<void> {
-  await supabase.rpc('increment_case_views', { case_id: id });
+export async function incrementCaseViews(slug: string): Promise<void> {
+  await supabase.rpc('increment_case_views', { case_slug: slug });
 }
 
 const DEFAULT_CATEGORY = '이혼';
