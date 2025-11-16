@@ -121,7 +121,7 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
           <p className="text-base md:text-lg text-[var(--gray-600)] mb-6 hero-text-1">
             결혼할 때는 몰랐지만, 이혼할 때는 모든 걸 알고 결정하세요
           </p>
-          <h1 className="text-6xl md:text-8xl font-bold text-[var(--gray-900)] mb-8 hero-text-2 tracking-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[var(--gray-900)] mb-8 hero-text-2 tracking-tight">
             The Plan
           </h1>
           <p className="text-2xl md:text-4xl font-light text-[var(--primary)] hero-text-3">

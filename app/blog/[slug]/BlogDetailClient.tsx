@@ -3,6 +3,7 @@
 import PageLayout from '@/components/layouts/PageLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import Link from 'next/link';
+import Script from 'next/script';
 import ReactMarkdown from 'react-markdown';
 import type { BlogPost } from '@/lib/notion/blog';
 import { splitMarkdownMetadata, extractHeadings, plainText, slugify } from '@/lib/utils/markdown';
@@ -181,9 +182,11 @@ export default function BlogDetailClient({ post, canonicalUrl }: BlogDetailClien
               >
                 {content || ''}
               </ReactMarkdown>
-            </div>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-          </ScrollReveal>
+            </ScrollReveal>
+          </div>
+          <Script id="blog-jsonld" type="application/ld+json" strategy="afterInteractive">
+            {JSON.stringify(jsonLd)}
+          </Script>
 
           {/* Bottom Actions */}
           <ScrollReveal delay={200}>

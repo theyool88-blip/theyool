@@ -35,25 +35,25 @@ export default function CasesClient({ cases }: CasesClientProps) {
   return (
     <PageLayout>
       {/* Hero Section + 카테고리 통합 */}
-      <section className="relative py-16 md:py-20 bg-gradient-to-b from-white via-pink-50/20 to-white overflow-hidden">
+      <section className="relative py-16 md:py-20 bg-gradient-to-b from-white via-blue-50/20 to-white overflow-hidden">
         {/* Soft Pattern */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="caseDots" width="50" height="50" patternUnits="userSpaceOnUse">
-                <circle cx="25" cy="25" r="1.5" fill="#f9a8d4" opacity="0.2" />
+                <circle cx="25" cy="25" r="1.5" fill="#93c5fd" opacity="0.2" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#caseDots)" />
-            <circle cx="20%" cy="40%" r="180" fill="#fce7f3" opacity="0.2" />
-            <circle cx="80%" cy="60%" r="200" fill="#fae8ff" opacity="0.15" />
+            <circle cx="20%" cy="40%" r="180" fill="#dbeafe" opacity="0.2" />
+            <circle cx="80%" cy="60%" r="200" fill="#e0e7ff" opacity="0.15" />
           </svg>
         </div>
 
         <div className="relative z-10 max-w-[1040px] px-6 md:px-12 mx-auto">
           {/* 제목 */}
           <div className="text-center mb-12">
-            <p className="text-xs md:text-sm text-pink-600/70 mb-3 tracking-[0.2em] uppercase">Success Cases</p>
+            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Success Cases</p>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-gray-900">
               실제 성공 사례
             </h1>
@@ -201,18 +201,18 @@ export default function CasesClient({ cases }: CasesClientProps) {
       </section>
 
       {/* CTA - 홈페이지 스타일 */}
-      <section className="relative py-20 md:py-32 bg-gradient-to-b from-white via-purple-50/15 to-pink-50/20 overflow-hidden">
+      <section className="relative py-20 md:py-32 bg-gradient-to-b from-white via-blue-50/15 to-white overflow-hidden">
         {/* Warm Hope Pattern */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="ctaHopeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: '#fae8ff', stopOpacity: 0.25 }} />
-                <stop offset="100%" style={{ stopColor: '#fce7f3', stopOpacity: 0.25 }} />
+                <stop offset="0%" style={{ stopColor: '#dbeafe', stopOpacity: 0.25 }} />
+                <stop offset="100%" style={{ stopColor: '#e0e7ff', stopOpacity: 0.25 }} />
               </linearGradient>
             </defs>
             <circle cx="25%" cy="35%" r="200" fill="url(#ctaHopeGrad)" />
-            <circle cx="75%" cy="65%" r="220" fill="#fdf2f8" opacity="0.3" />
+            <circle cx="75%" cy="65%" r="220" fill="#eff6ff" opacity="0.3" />
           </svg>
         </div>
 
@@ -226,9 +226,9 @@ export default function CasesClient({ cases }: CasesClientProps) {
           </p>
           <a
             href="tel:1661-7633"
-            className="inline-block bg-gray-900 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-gray-800 transition-all duration-300 hover:scale-105 shadow-xl"
+            className="inline-block bg-gray-900 text-white font-bold px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg"
           >
-            📞 지금 상담하기
+            지금 상담하기
           </a>
         </div>
       </section>

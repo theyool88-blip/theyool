@@ -208,10 +208,10 @@ export default function BlogClient({ posts }: BlogClientProps) {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 md:px-5 py-2 md:py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
+                className={`px-5 md:px-6 py-2 md:py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
                   selectedCategory === category
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg scale-105'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md'
+                    ? 'bg-gray-900 text-white shadow-lg scale-105'
+                    : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:bg-white hover:shadow-md border border-gray-200'
                 }`}
               >
                 {category}
@@ -325,9 +325,9 @@ export default function BlogClient({ posts }: BlogClientProps) {
             </p>
             <a
               href="tel:1661-7633"
-              className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+              className="inline-block bg-gray-900 text-white font-bold px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg"
             >
-              📞 지금 상담하기
+              지금 상담하기
             </a>
           </ScrollReveal>
         </div>

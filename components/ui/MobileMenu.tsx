@@ -11,6 +11,7 @@ interface MenuItem {
 }
 
 const sectionLinks: MenuItem[] = [
+  { label: '메인', href: '/' },
   { label: '더 플랜', href: '/the-plan' },
   { label: 'Insta더율', href: '/insta-theyool' },
   { label: '실제 성공 사례', href: '/cases' },

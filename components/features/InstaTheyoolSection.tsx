@@ -212,48 +212,55 @@ export default function InstaTheyoolSection() {
   }
 
   return (
-    <section className="relative py-20 md:py-28 bg-gradient-to-b from-white via-purple-100/50 to-purple-50/30 overflow-hidden">
-      {/* Instagram 스타일 배경 - 강화 */}
+    <section className="relative py-20 md:py-28 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 overflow-hidden">
+      {/* Instagram 공식 그라데이션 배경 */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         {/* 도트 패턴 */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: 'radial-gradient(circle, #9333ea 1px, transparent 1px)',
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: 'radial-gradient(circle, #833AB4 1px, transparent 1px)',
           backgroundSize: '24px 24px'
         }} />
 
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            {/* Instagram Gradient - 강화 */}
+            {/* Instagram 공식 그라데이션: 퍼플 → 핑크 → 오렌지 */}
             <linearGradient id="instaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#f3e8ff', stopOpacity: 0.6 }} />
-              <stop offset="100%" style={{ stopColor: '#fce7f3', stopOpacity: 0.4 }} />
+              <stop offset="0%" style={{ stopColor: '#833AB4', stopOpacity: 0.15 }} />
+              <stop offset="50%" style={{ stopColor: '#FD1D1D', stopOpacity: 0.12 }} />
+              <stop offset="100%" style={{ stopColor: '#FCAF45', stopOpacity: 0.1 }} />
             </linearGradient>
 
-            {/* Purple Glow - 강화 */}
+            {/* Purple Glow */}
             <radialGradient id="purpleGlow">
-              <stop offset="0%" style={{ stopColor: '#c084fc', stopOpacity: 0.3 }} />
-              <stop offset="100%" style={{ stopColor: '#c084fc', stopOpacity: 0 }} />
+              <stop offset="0%" style={{ stopColor: '#833AB4', stopOpacity: 0.25 }} />
+              <stop offset="100%" style={{ stopColor: '#833AB4', stopOpacity: 0 }} />
             </radialGradient>
 
             {/* Pink Glow */}
             <radialGradient id="pinkGlow">
-              <stop offset="0%" style={{ stopColor: '#f0abfc', stopOpacity: 0.25 }} />
-              <stop offset="100%" style={{ stopColor: '#f0abfc', stopOpacity: 0 }} />
+              <stop offset="0%" style={{ stopColor: '#FD1D1D', stopOpacity: 0.2 }} />
+              <stop offset="100%" style={{ stopColor: '#FD1D1D', stopOpacity: 0 }} />
+            </radialGradient>
+
+            {/* Orange Glow */}
+            <radialGradient id="orangeGlow">
+              <stop offset="0%" style={{ stopColor: '#FCAF45', stopOpacity: 0.2 }} />
+              <stop offset="100%" style={{ stopColor: '#FCAF45', stopOpacity: 0 }} />
             </radialGradient>
           </defs>
 
-          {/* Soft circles - 더 많고 다양하게 */}
-          <circle cx="15%" cy="25%" r="200" fill="url(#instaGrad)" />
-          <circle cx="85%" cy="70%" r="220" fill="url(#purpleGlow)" />
-          <circle cx="50%" cy="50%" r="160" fill="url(#pinkGlow)" />
-          <circle cx="75%" cy="30%" r="140" fill="#f3e8ff" opacity="0.2" />
+          {/* Instagram 색상 원형들 */}
+          <circle cx="15%" cy="25%" r="220" fill="url(#purpleGlow)" />
+          <circle cx="85%" cy="70%" r="250" fill="url(#pinkGlow)" />
+          <circle cx="50%" cy="50%" r="180" fill="url(#orangeGlow)" />
+          <circle cx="75%" cy="30%" r="160" fill="url(#instaGrad)" />
         </svg>
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
         {/* 헤더 - 간격 확대 */}
         <div className="text-center mb-16 md:mb-20">
-          <p className="text-[10px] md:text-xs text-purple-600/60 mb-4 tracking-[0.3em] uppercase font-medium">Insta theyool</p>
+          <p className="text-[10px] md:text-xs mb-4 tracking-[0.3em] uppercase font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">Insta theyool</p>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-gray-900 tracking-tight">
             더율의 진짜 이야기
           </h2>
@@ -348,11 +355,11 @@ export default function InstaTheyoolSection() {
           </div>
         </div>
 
-        {/* CTA 버튼 */}
+        {/* CTA 버튼 - Instagram 그라데이션 */}
         <div className="text-center mb-16 md:mb-20">
           <Link
             href="/insta-theyool"
-            className="inline-flex items-center gap-2 px-8 py-3.5 md:px-10 md:py-4 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 px-8 py-3.5 md:px-10 md:py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 shadow-lg"
           >
             <span className="text-sm md:text-base">Insta더율 전체보기</span>
             <span className="text-lg">→</span>
