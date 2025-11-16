@@ -150,19 +150,19 @@ export default function InstagramManagementClient() {
 
   const addImage = () => {
     if (imageInput.trim()) {
-      setFormData({
-        ...formData,
-        images: [...formData.images, imageInput.trim()],
-      });
+      setFormData((prev) => ({
+        ...prev,
+        images: [...prev.images, imageInput.trim()],
+      }));
       setImageInput('');
     }
   };
 
   const removeImage = (index: number) => {
-    setFormData({
-      ...formData,
-      images: formData.images.filter((_, i) => i !== index),
-    });
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
   };
 
   if (loading) {
@@ -193,12 +193,10 @@ export default function InstagramManagementClient() {
           <div key={post.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
             {post.previewUrl ? (
               <div className="relative w-full h-48 bg-gray-100">
-                <Image
+                <img
                   src={post.previewUrl}
                   alt={post.title || 'Instagram post'}
-                  fill
-                  className="object-cover"
-                  unoptimized
+                  className="w-full h-full object-cover"
                 />
               </div>
             ) : (
@@ -314,11 +312,11 @@ export default function InstagramManagementClient() {
                 <ImageUploader
                   bucket="instagram-media"
                   onUpload={(url) => {
-                    setFormData({
-                      ...formData,
-                      images: [...formData.images, url],
-                      thumbnail: formData.thumbnail || url, // 첫 번째 이미지를 썸네일로
-                    });
+                    setFormData((prev) => ({
+                      ...prev,
+                      images: [...prev.images, url],
+                      thumbnail: prev.thumbnail || url, // 첫 번째 이미지를 썸네일로
+                    }));
                   }}
                   accept="image/*,video/*"
                 />
@@ -332,13 +330,10 @@ export default function InstagramManagementClient() {
                     <div className="grid grid-cols-3 gap-2">
                       {formData.images.map((img, idx) => (
                         <div key={idx} className="relative group">
-                          <Image
+                          <img
                             src={img}
                             alt={`Image ${idx + 1}`}
-                            width={100}
-                            height={100}
                             className="w-full h-24 object-cover rounded"
-                            unoptimized
                           />
                           <button
                             type="button"

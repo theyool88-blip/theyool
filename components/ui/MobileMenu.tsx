@@ -20,6 +20,7 @@ const sectionLinks: MenuItem[] = [
     children: [
       { label: '이혼큐레이션(Q&A)', href: '/faq' },
       { label: '변호사 칼럼', href: '/blog' },
+      { label: '양육비 계산기', href: '/child-support-calculator' },
     ]
   },
   { label: '구성원', href: '/team' },

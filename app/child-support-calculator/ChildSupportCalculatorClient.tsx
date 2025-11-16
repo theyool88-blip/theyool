@@ -322,7 +322,14 @@ export default function ChildSupportCalculatorClient() {
                     <select
                       value={numberOfChildren}
                       onChange={(e) => handleChildrenCountChange(Number(e.target.value))}
-                      className="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg bg-white"
+                      className="w-full px-5 py-4 h-[60px] border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg bg-white appearance-none"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+                        backgroundPosition: 'right 0.75rem center',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: '1.5em 1.5em',
+                        paddingRight: '2.5rem'
+                      }}
                     >
                       {[1, 2, 3, 4, 5].map((num) => (
                         <option key={num} value={num}>

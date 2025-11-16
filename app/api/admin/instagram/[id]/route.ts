@@ -26,9 +26,9 @@ export async function PUT(
         post_type,
         caption,
         images,
-        thumbnail,
+        thumbnail_url: thumbnail,
         published,
-        post_date,
+        published_at: post_date,
       })
       .eq('id', id)
       .select()
