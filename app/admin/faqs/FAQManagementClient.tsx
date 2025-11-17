@@ -8,8 +8,24 @@ const categories = [
   '별거/생활비', '가정폭력', '상간/불륜', '이혼 후 문제', '기타'
 ];
 
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  published: boolean;
+}
+
+interface Case {
+  id: string;
+  slug: string;
+  title: string;
+  published: boolean;
+}
+
 export default function FAQManagementClient() {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [cases, setCases] = useState<Case[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingFaq, setEditingFaq] = useState<FAQ | null>(null);
@@ -22,11 +38,21 @@ export default function FAQManagementClient() {
     featured: false,
     published: true,
     sort_order: null as number | null,
+    related_blog_posts: [] as string[],
+    related_cases: [] as string[],
   });
 
   useEffect(() => {
-    loadFAQs();
+    loadAll();
   }, []);
+
+  const loadAll = async () => {
+    try {
+      await Promise.all([loadFAQs(), loadBlogPosts(), loadCases()]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const loadFAQs = async () => {
     try {
@@ -37,8 +63,40 @@ export default function FAQManagementClient() {
       }
     } catch (error) {
       console.error('FAQ 로드 실패:', error);
-    } finally {
-      setLoading(false);
+    }
+  };
+
+  const loadBlogPosts = async () => {
+    try {
+      const res = await fetch('/api/admin/blog');
+      const data = await res.json();
+      if (data.success) {
+        setBlogPosts(data.data.map((post: any) => ({
+          id: post.id,
+          slug: post.slug,
+          title: post.title,
+          published: post.published,
+        })));
+      }
+    } catch (error) {
+      console.error('칼럼 로드 실패:', error);
+    }
+  };
+
+  const loadCases = async () => {
+    try {
+      const res = await fetch('/api/admin/cases');
+      const data = await res.json();
+      if (data.success) {
+        setCases(data.data.map((caseItem: any) => ({
+          id: caseItem.id,
+          slug: caseItem.slug,
+          title: caseItem.title,
+          published: caseItem.published,
+        })));
+      }
+    } catch (error) {
+      console.error('성공사례 로드 실패:', error);
     }
   };
 
@@ -84,6 +142,8 @@ export default function FAQManagementClient() {
       featured: faq.featured,
       published: faq.published,
       sort_order: faq.sort_order,
+      related_blog_posts: faq.related_blog_posts || [],
+      related_cases: faq.related_cases || [],
     });
     setShowModal(true);
   };
@@ -118,6 +178,8 @@ export default function FAQManagementClient() {
       featured: false,
       published: true,
       sort_order: null,
+      related_blog_posts: [],
+      related_cases: [],
     });
   };
 
@@ -285,6 +347,116 @@ export default function FAQManagementClient() {
                   rows={8}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  관련 칼럼 (선택)
+                </label>
+                <select
+                  multiple
+                  value={formData.related_blog_posts}
+                  onChange={(e) => {
+                    const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                    setFormData({ ...formData, related_blog_posts: selected });
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+                  size={5}
+                >
+                  {blogPosts
+                    .filter(blog => blog.published)
+                    .map(blog => (
+                      <option key={blog.id} value={blog.slug}>
+                        {blog.title}
+                      </option>
+                    ))}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">
+                  Ctrl/Cmd + 클릭으로 여러 개 선택. 선택 순서가 표시 순서입니다.
+                </p>
+                {formData.related_blog_posts.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {formData.related_blog_posts.map((slug, idx) => {
+                      const blog = blogPosts.find(b => b.slug === slug);
+                      return (
+                        <span
+                          key={slug}
+                          className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded"
+                        >
+                          <span className="font-semibold">{idx + 1}.</span>
+                          {blog?.title}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFormData({
+                                ...formData,
+                                related_blog_posts: formData.related_blog_posts.filter(s => s !== slug),
+                              });
+                            }}
+                            className="ml-1 text-amber-600 hover:text-amber-900"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  관련 성공사례 (선택)
+                </label>
+                <select
+                  multiple
+                  value={formData.related_cases}
+                  onChange={(e) => {
+                    const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                    setFormData({ ...formData, related_cases: selected });
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+                  size={5}
+                >
+                  {cases
+                    .filter(c => c.published)
+                    .map(caseItem => (
+                      <option key={caseItem.id} value={caseItem.slug}>
+                        {caseItem.title}
+                      </option>
+                    ))}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">
+                  Ctrl/Cmd + 클릭으로 여러 개 선택. 선택 순서가 표시 순서입니다.
+                </p>
+                {formData.related_cases.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {formData.related_cases.map((slug, idx) => {
+                      const caseItem = cases.find(c => c.slug === slug);
+                      return (
+                        <span
+                          key={slug}
+                          className="inline-flex items-center gap-1 px-2 py-1 bg-pink-100 text-pink-800 text-xs rounded"
+                        >
+                          <span className="font-semibold">{idx + 1}.</span>
+                          {caseItem?.title}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFormData({
+                                ...formData,
+                                related_cases: formData.related_cases.filter(s => s !== slug),
+                              });
+                            }}
+                            className="ml-1 text-pink-600 hover:text-pink-900"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-6">

@@ -18,18 +18,18 @@ export default function Button({
   className = '',
   ...props
 }: ButtonProps) {
-  const baseStyles = 'font-semibold rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'font-semibold rounded-full transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variantStyles = {
-    primary: 'bg-[var(--accent)] text-white hover:bg-[var(--accent-dark)] hover:scale-[1.02]',
-    secondary: 'bg-white text-[var(--accent)] hover:bg-[var(--gray-50)]',
-    outline: 'border-2 border-[var(--gray-700)] text-[var(--gray-900)] hover:bg-[var(--gray-900)] hover:text-white hover:border-[var(--gray-900)]',
+    primary: 'bg-gray-900 text-white hover:bg-gray-800',
+    secondary: 'bg-white text-gray-900 border-2 border-gray-900 hover:bg-gray-50',
+    outline: 'bg-transparent text-gray-900 border border-gray-900 hover:bg-gray-900 hover:text-white',
   };
 
   const sizeStyles = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg',
+    sm: 'px-6 py-2.5 text-sm',
+    md: 'px-8 py-3.5 text-base',
+    lg: 'px-10 py-4 text-lg',
   };
 
   const widthStyle = fullWidth ? 'w-full' : '';

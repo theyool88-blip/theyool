@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface ContentCard {
   id: string;
@@ -11,6 +10,8 @@ interface ContentCard {
   subtitle?: string;
   image: string;
   images: string[];
+  videoUrl?: string;  // 릴스 전용: 실제 비디오 URL
+  slug?: string;      // 개별 게시물 라우팅용
   badge: string;
   icon?: string;
   caption: string;
@@ -143,6 +144,9 @@ const TYPE_BADGE_COLORS: Record<string, string> = {
   '릴스': 'bg-gradient-to-r from-fuchsia-500 to-purple-500',
 };
 
+// Placeholder 이미지 (그라데이션)
+const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Cdefs%3E%3ClinearGradient id="g" x1="0%25" y1="0%25" x2="100%25" y2="100%25"%3E%3Cstop offset="0%25" style="stop-color:%23833AB4;stop-opacity:0.3"/%3E%3Cstop offset="50%25" style="stop-color:%23FD1D1D;stop-opacity:0.3"/%3E%3Cstop offset="100%25" style="stop-color:%23FCAF45;stop-opacity:0.3"/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width="400" height="400" fill="url(%23g)"/%3E%3C/svg%3E';
+
 export default function InstaTheyoolSection() {
   const [displayCards, setDisplayCards] = useState<ContentCard[]>([]);
   const [loading, setLoading] = useState(true);
@@ -157,7 +161,10 @@ export default function InstaTheyoolSection() {
         }
 
         const data = await response.json();
-        console.log('Instagram API response:', data); // 디버깅용
+
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Instagram API response:', data);
+        }
 
         if (data.posts && data.posts.length > 0) {
           // Supabase 데이터를 ContentCard 형식으로 변환
@@ -166,8 +173,22 @@ export default function InstaTheyoolSection() {
             const isReels = post.type === '릴스' || (post.thumbnail && post.thumbnail.endsWith('.mp4'));
             const finalType = isReels ? '릴스' : post.type;
 
-            // 이미지 URL 확인
-            const imageUrl = post.thumbnail || (post.images && post.images[0]) || '/images/placeholder.jpg';
+            // URL 선택 로직 개선
+            let imageUrl: string;
+            let videoUrl: string | undefined;
+
+            if (isReels) {
+              // 릴스: images[0] 우선 (실제 비디오), 없으면 thumbnail
+              videoUrl = (post.images && post.images[0]) || post.thumbnail || PLACEHOLDER_IMAGE;
+              // 썸네일이 이미지라면 사용, 아니면 PLACEHOLDER
+              imageUrl = (post.thumbnail && !post.thumbnail.endsWith('.mp4'))
+                ? post.thumbnail
+                : PLACEHOLDER_IMAGE;
+            } else {
+              // 일반 이미지: images[0] 우선 (실제 업로드된 파일), 없으면 thumbnail
+              // NOTE: thumbnail_url은 업로드 실패한 경우가 많으므로 images 배열을 우선 사용
+              imageUrl = (post.images && post.images[0]) || post.thumbnail || PLACEHOLDER_IMAGE;
+            }
 
             return {
               id: post.id,
@@ -176,6 +197,8 @@ export default function InstaTheyoolSection() {
               subtitle: post.caption ? post.caption.slice(0, 30) + (post.caption.length > 30 ? '...' : '') : '',
               image: imageUrl,
               images: post.images || [imageUrl],
+              videoUrl: videoUrl,
+              slug: post.slug,
               badge: TYPE_BADGES[finalType] || finalType,
               icon: TYPE_ICONS[finalType] || '📋',
               caption: post.caption || '',
@@ -185,7 +208,9 @@ export default function InstaTheyoolSection() {
             };
           });
 
-          console.log('Converted cards:', instagramCards); // 디버깅용
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Converted cards:', instagramCards);
+          }
 
           // 랜덤 정렬
           const randomCards = shuffleArray(instagramCards);
@@ -296,7 +321,7 @@ export default function InstaTheyoolSection() {
                 return (
                   <Link
                     key={`${setIndex}-${contentIndex}-${content.id}`}
-                    href="/insta-theyool"
+                    href={`/insta-theyool#post-${content.id}`}
                     className="flex-shrink-0 w-[180px] md:w-[216px] transform transition-all duration-300 hover:-translate-y-2"
                   >
                     {/* 이미지 전체 배경에 텍스트 오버레이 */}
@@ -306,17 +331,23 @@ export default function InstaTheyoolSection() {
                         /* 릴스: 비디오 자동 재생 */
                         <video
                           className="absolute inset-0 w-full h-full object-cover"
-                          src={content.image}
+                          src={content.videoUrl || content.images?.[0] || content.image}
                           autoPlay
                           loop
                           muted
                           playsInline
+                          preload="auto"
                         />
                       ) : (
-                        /* 일반: 이미지 */
-                        <div
-                          className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
-                          style={{ backgroundImage: `url(${content.image})` }}
+                        /* 일반: 이미지 - img 태그 사용으로 변경 */
+                        <img
+                          src={content.image}
+                          alt={content.title}
+                          className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                          onError={(e) => {
+                            const target = e.currentTarget as HTMLImageElement;
+                            target.src = PLACEHOLDER_IMAGE;
+                          }}
                         />
                       )}
 
@@ -396,12 +427,10 @@ export default function InstaTheyoolSection() {
 
         {/* YouTube 썸네일 - 모바일 전체 너비 */}
         <div className="relative aspect-video overflow-hidden shadow-2xl mb-8 md:mb-10 md:max-w-4xl md:mx-auto md:rounded-2xl">
-          <Image
+          <img
             src="/images/youtube-thumbnail.png"
             alt="더율 YouTube 영상"
-            fill
-            className="object-cover"
-            priority
+            className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
 

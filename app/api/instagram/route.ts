@@ -35,6 +35,8 @@ export async function GET() {
       date: p.published_at || p.created_at,
       linkedCaseId: p.linked_case_id,
       linkedBlogId: p.linked_blog_id,
+      author: p.author || 'theyool_official',
+      authorProfileUrl: p.author_profile_url || null,
     }));
 
     return NextResponse.json({ posts: enriched });

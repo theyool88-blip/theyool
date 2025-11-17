@@ -1,12 +1,19 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MobileMenu from '@/components/ui/MobileMenu';
 
 export default function InstaTheyoolPage() {
   const menuContainerRef = useRef<HTMLDivElement>(null);
+  const [iframeSrc, setIframeSrc] = useState('/insta-story.html');
 
   useEffect(() => {
+    // URL 해시를 iframe에 전달
+    const hash = window.location.hash;
+    if (hash) {
+      setIframeSrc(`/insta-story.html${hash}`);
+    }
+
     document.body.style.overflow = 'hidden';
 
     // Listen for messages from iframe
@@ -40,7 +47,7 @@ export default function InstaTheyoolPage() {
 
       {/* Full-screen Instagram-like UI in iframe */}
       <iframe
-        src="/insta-story.html"
+        src={iframeSrc}
         style={{
           width: '100%',
           height: '100%',

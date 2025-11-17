@@ -34,7 +34,10 @@ export async function POST(request: NextRequest) {
     await requireAuth();
 
     const body = await request.json();
-    const { question, slug, category, summary, answer, featured, published, sort_order } = body;
+    const {
+      question, slug, category, summary, answer, featured, published, sort_order,
+      related_blog_posts, related_cases
+    } = body;
 
     // 필수 필드 검증
     if (!question || !slug || !category || !answer) {
@@ -55,6 +58,8 @@ export async function POST(request: NextRequest) {
         featured: featured || false,
         published: published !== undefined ? published : true,
         sort_order: sort_order || null,
+        related_blog_posts: related_blog_posts && related_blog_posts.length > 0 ? related_blog_posts : null,
+        related_cases: related_cases && related_cases.length > 0 ? related_cases : null,
       })
       .select()
       .single();

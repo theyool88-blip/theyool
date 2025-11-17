@@ -236,9 +236,9 @@ export default function ChildSupportCalculatorClient() {
                         value={selfIncome}
                         onChange={(e) => setSelfIncome(e.target.value)}
                         placeholder="예: 300"
-                        className="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg"
+                        className="w-full px-5 py-4 pr-20 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">만원</span>
+                      <span className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 font-medium pointer-events-none">만원</span>
                     </div>
                   </div>
                   <div>
@@ -254,9 +254,9 @@ export default function ChildSupportCalculatorClient() {
                         value={spouseIncome}
                         onChange={(e) => setSpouseIncome(e.target.value)}
                         placeholder="예: 400"
-                        className="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg"
+                        className="w-full px-5 py-4 pr-20 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">만원</span>
+                      <span className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 font-medium pointer-events-none">만원</span>
                     </div>
                   </div>
                   <div className="bg-blue-50/50 border border-blue-200/50 rounded-xl p-5 mt-4">
@@ -357,9 +357,9 @@ export default function ChildSupportCalculatorClient() {
                           min="0"
                           max="18"
                           placeholder="예: 7"
-                          className="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg"
+                          className="w-full px-5 py-4 pr-16 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
-                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">세</span>
+                        <span className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 font-medium pointer-events-none">세</span>
                       </div>
                     </div>
                   ))}

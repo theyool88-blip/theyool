@@ -115,7 +115,7 @@ export default function CasesClient({ cases }: CasesClientProps) {
                           <img
                             src={caseItem.coverImage}
                             alt={caseItem.title}
-                            className="w-full h-full object-cover object-right"
+                            className="w-full h-full object-cover object-center md:object-right"
                           />
                         </div>
                       )}

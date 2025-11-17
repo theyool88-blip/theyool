@@ -29,6 +29,8 @@ interface InstagramPost {
   linked_blog_id?: string | null;
   original?: LinkedOriginal | null;
   previewUrl?: string | null;
+  author?: string;
+  author_profile_url?: string | null;
 }
 
 const postTypes = ['릴스', '일상', '성공사례', '칼럼', '일반', '홍보'];
@@ -46,6 +48,8 @@ export default function InstagramManagementClient() {
     thumbnail: '',
     published: true,
     post_date: new Date().toISOString().split('T')[0],
+    author: 'theyool_official',
+    author_profile_url: '',
   });
   const [imageInput, setImageInput] = useState('');
 
@@ -111,6 +115,8 @@ export default function InstagramManagementClient() {
       thumbnail: post.thumbnail || '',
       published: post.published,
       post_date: post.post_date?.split('T')[0] || new Date().toISOString().split('T')[0],
+      author: post.author || 'theyool_official',
+      author_profile_url: post.author_profile_url || '',
     });
     setShowModal(true);
   };
@@ -144,6 +150,8 @@ export default function InstagramManagementClient() {
       thumbnail: '',
       published: true,
       post_date: new Date().toISOString().split('T')[0],
+      author: 'theyool_official',
+      author_profile_url: '',
     });
     setImageInput('');
   };
@@ -321,6 +329,57 @@ export default function InstagramManagementClient() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
+                  게시자
+                </label>
+                <input
+                  type="text"
+                  value={formData.author}
+                  onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                  placeholder="예: 임은지 변호사, 더율법무법인"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  기본값: theyool_official (비워두면 기본값 사용)
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  게시자 프로필 이미지 (선택사항)
+                </label>
+                <ImageUploader
+                  bucket="instagram-profiles"
+                  onUpload={(url) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      author_profile_url: url,
+                    }));
+                  }}
+                  accept="image/*"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  프로필 이미지가 없으면 게시자 이름의 첫 글자가 표시됩니다
+                </p>
+                {formData.author_profile_url && (
+                  <div className="mt-2 flex items-center gap-2">
+                    <img
+                      src={formData.author_profile_url}
+                      alt="Profile"
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, author_profile_url: '' })}
+                      className="text-sm text-red-600 hover:underline"
+                    >
+                      제거
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   이미지/동영상 업로드
                 </label>
                 <ImageUploader
@@ -329,7 +388,7 @@ export default function InstagramManagementClient() {
                     setFormData((prev) => ({
                       ...prev,
                       images: [...prev.images, url],
-                      thumbnail: prev.thumbnail || url, // 첫 번째 이미지를 썸네일로
+                      thumbnail: url, // 최신 업로드를 항상 썸네일로 사용
                     }));
                   }}
                   accept="image/*,video/*"

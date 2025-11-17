@@ -117,9 +117,36 @@ export default function Home() {
 
             {/* CTA Buttons */}
             <div className="hero-text-3">
-              <button className="px-6 py-2.5 md:px-8 md:py-3 bg-transparent border border-gray-900 text-gray-900 rounded-full font-normal text-xs md:text-sm tracking-widest hover:bg-gray-900 hover:text-white transition-all duration-300">
-                상담문의
+              <button
+                onClick={() => setIsTalkModalOpen(true)}
+                className="px-6 py-2.5 md:px-8 md:py-3 bg-transparent border border-gray-900 text-gray-900 rounded-full font-normal text-xs md:text-sm tracking-widest hover:bg-gray-900 hover:text-white transition-all duration-300"
+              >
+                무료 상담 신청
               </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 신뢰 지표 섹션 */}
+      <section className="py-12 md:py-16 bg-white border-y border-gray-100">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="scroll-reveal">
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">1,200+</p>
+              <p className="text-sm text-gray-600">누적 의뢰인</p>
+            </div>
+            <div className="scroll-reveal">
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">87%</p>
+              <p className="text-sm text-gray-600">평균 승소율</p>
+            </div>
+            <div className="scroll-reveal">
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">12년</p>
+              <p className="text-sm text-gray-600">이혼 전문 경력</p>
+            </div>
+            <div className="scroll-reveal">
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">4.8/5.0</p>
+              <p className="text-sm text-gray-600">고객 만족도</p>
             </div>
           </div>
         </div>
@@ -159,7 +186,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 w-full">
-          <div className="max-w-[1040px] px-6 md:px-12 mx-auto text-center">
+          <div className="max-w-[1200px] px-6 md:px-12 mx-auto text-center">
             <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Expertise</p>
             <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-gray-900 tracking-tight">
               오직 이혼, 단 하나의 분야
@@ -519,6 +546,83 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 의뢰인 후기 섹션 */}
+      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <div className="text-center mb-16">
+            <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Testimonials</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
+              의뢰인의 목소리
+            </h2>
+            <p className="text-base md:text-xl text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
+              직접 경험하신 분들의 진솔한 이야기입니다
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+              <div className="flex items-center gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-yellow-400 text-lg">★</span>
+                ))}
+              </div>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                "처음에는 막막했지만, 더율의 전략적인 접근으로 예상보다 훨씬 좋은 결과를 얻었습니다. 특히 재산분할에서 숨겨진 재산을 찾아내 주셔서 정말 감사합니다."
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
+                  <span className="text-blue-700 font-bold text-lg">김</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">김○○님</p>
+                  <p className="text-xs text-gray-500">재산분할 의뢰인</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+              <div className="flex items-center gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-yellow-400 text-lg">★</span>
+                ))}
+              </div>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                "양육권 다툼으로 힘든 시기를 보냈는데, 변호사님의 따뜻한 위로와 체계적인 준비 덕분에 단독 양육권을 확보할 수 있었습니다. 진심으로 감사드립니다."
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center">
+                  <span className="text-amber-700 font-bold text-lg">이</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">이○○님</p>
+                  <p className="text-xs text-gray-500">양육권 의뢰인</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+              <div className="flex items-center gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-yellow-400 text-lg">★</span>
+                ))}
+              </div>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                "위자료 청구에서 증거가 부족하다고 생각했지만, 더율은 제가 놓친 부분까지 세심하게 챙겨주셨습니다. 5억 원이라는 결과는 상상도 못했습니다."
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-100 to-pink-200 rounded-full flex items-center justify-center">
+                  <span className="text-pink-700 font-bold text-lg">박</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">박○○님</p>
+                  <p className="text-xs text-gray-500">위자료 의뢰인</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 최종 CTA 섹션 - 희망과 새로운 시작 */}
       <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-32 bg-gradient-to-b from-white via-purple-50/15 to-pink-50/20 hero-parallax overflow-hidden">
         {/* Warm Hope Pattern */}
@@ -538,7 +642,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 w-full">
-          <div className="max-w-[1040px] px-6 md:px-12 mx-auto text-center">
+          <div className="max-w-[1200px] px-6 md:px-12 mx-auto text-center">
             <p className="text-3xl md:text-5xl font-bold mb-10 md:mb-12 leading-tight text-gray-900">
               지금, 당신의 상황을<br />전략으로 바꿀 때입니다.
             </p>
@@ -554,7 +658,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-[var(--gray-900)] text-white py-20 px-6 lg:px-8">
-        <div className="max-w-[1040px] mx-auto">
+        <div className="max-w-[1200px] mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-16">
             <div>
               <h4 className="text-2xl font-bold mb-4">법무법인 더율</h4>

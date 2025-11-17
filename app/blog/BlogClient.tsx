@@ -173,9 +173,9 @@ export default function BlogClient({ posts }: BlogClientProps) {
         </section>
       )}
 
-      {/* 카테고리 필터 + 검색 + 정렬 */}
+      {/* 검색창 - Sticky */}
       <section className="sticky top-16 z-40 py-6 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
-        <div className="max-w-[1200px] px-6 md:px-12 mx-auto space-y-4">
+        <div className="max-w-[1200px] px-6 md:px-12 mx-auto">
           {/* 검색창 */}
           <div className="max-w-md mx-auto">
             <div className="relative">
@@ -201,7 +201,12 @@ export default function BlogClient({ posts }: BlogClientProps) {
               )}
             </div>
           </div>
+        </div>
+      </section>
 
+      {/* 카테고리 필터 + 정렬 - Non-sticky */}
+      <section className="py-6 bg-white border-b border-gray-100">
+        <div className="max-w-[1200px] px-6 md:px-12 mx-auto space-y-4">
           {/* 카테고리 필터 */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-3">
             {categories.map((category) => (

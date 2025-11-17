@@ -114,9 +114,14 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
           <p className="text-base md:text-xl text-gray-700 max-w-2xl mx-auto font-light mb-12 leading-relaxed">
             이혼, 필요한 것만 큐레이션합니다.
           </p>
+        </div>
+      </section>
 
+      {/* Sticky 검색바 */}
+      <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+        <div className="max-w-[1040px] px-6 md:px-12 mx-auto py-6">
           {/* 검색바 */}
-          <div className="max-w-2xl mx-auto mb-16">
+          <div className="max-w-2xl mx-auto">
             <div className="relative">
               <svg
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"
@@ -136,21 +141,39 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
                 placeholder="질문을 검색하세요 (질문, 답변, 카테고리)"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 text-base border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors bg-white"
+                className="w-full pl-12 pr-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-gray-900 transition-colors bg-white"
               />
             </div>
 
             {searchQuery.trim() && (
-              <p className="text-center mt-4 text-sm text-gray-600">
+              <p className="text-center mt-3 text-sm text-gray-600">
                 <span className="font-semibold text-amber-600">{searchQuery} {totalResults}개</span> 검색결과
               </p>
             )}
           </div>
+        </div>
+      </div>
 
-          {/* 카테고리 네비게이션 그리드 - 검색 중에는 숨김 */}
-          {!searchQuery.trim() && (
+      {/* 카테고리 네비게이션 그리드 - 검색 중에는 숨김 */}
+      {!searchQuery.trim() && (
+        <div className="bg-white py-8 border-b border-gray-200">
+          <div className="max-w-[1040px] px-6 md:px-12 mx-auto">
             <div className="max-w-3xl mx-auto">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                {/* 필수 가이드 카테고리 - 특별한 색상 */}
+                <Link
+                  href="/faq/essential-guide"
+                  className="group py-3 px-3 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-lg hover:border-amber-500 hover:shadow-md transition-all duration-300"
+                >
+                  <div className="text-sm md:text-base font-semibold text-amber-900 mb-1 group-hover:text-amber-700 transition-colors">
+                    필수 가이드
+                  </div>
+                  <div className="text-xs text-amber-600">
+                    필수
+                  </div>
+                </Link>
+
+                {/* 일반 카테고리 */}
                 {categories.map((category) => {
                   const count = categoryCounts[category.slug] || 0;
                   if (count === 0) return null;
@@ -159,7 +182,7 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
                     <a
                       key={category.slug}
                       href={`#${category.slug}`}
-                      className="group py-4 px-3 bg-white/60 backdrop-blur-sm border border-gray-200/50 hover:border-gray-900 hover:bg-white transition-all duration-300"
+                      className="group py-3 px-3 bg-white border border-gray-200 rounded-lg hover:border-gray-900 hover:bg-gray-50 transition-all duration-300"
                     >
                       <div className="text-sm md:text-base font-semibold text-gray-900 mb-1 group-hover:text-gray-600 transition-colors">
                         {category.name}
@@ -172,9 +195,9 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
                 })}
               </div>
             </div>
-          )}
+          </div>
         </div>
-      </section>
+      )}
 
       {/* FAQ 섹션 */}
       <section className={`bg-white ${searchQuery.trim() ? 'py-3' : 'py-16 md:py-20'}`}>

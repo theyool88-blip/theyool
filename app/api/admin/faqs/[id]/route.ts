@@ -17,7 +17,10 @@ export async function PUT(
     const { id } = await params;
 
     const body = await request.json();
-    const { question, slug, category, summary, answer, featured, published, sort_order } = body;
+    const {
+      question, slug, category, summary, answer, featured, published, sort_order,
+      related_blog_posts, related_cases
+    } = body;
 
     const { data, error } = await supabase
       .from('faqs')
@@ -30,6 +33,8 @@ export async function PUT(
         featured,
         published,
         sort_order,
+        related_blog_posts: related_blog_posts && related_blog_posts.length > 0 ? related_blog_posts : null,
+        related_cases: related_cases && related_cases.length > 0 ? related_cases : null,
       })
       .eq('id', id)
       .select()

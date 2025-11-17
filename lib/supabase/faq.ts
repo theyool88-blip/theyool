@@ -13,6 +13,8 @@ export interface FAQ {
   published: boolean;
   views: number;
   sort_order: number | null;
+  related_blog_posts: string[] | null;
+  related_cases: string[] | null;
   created_at: string;
   updated_at: string;
 }

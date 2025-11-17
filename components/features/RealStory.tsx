@@ -93,7 +93,7 @@ export default function RealStory() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[400vh] bg-white">
+    <section ref={sectionRef} className="relative min-h-[200vh] md:min-h-[400vh] bg-white">
       {/* Sticky Container */}
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Title */}
@@ -146,7 +146,8 @@ export default function RealStory() {
                       alt="상간 배경"
                       fill
                       className="object-cover"
-                      priority
+                      priority={activeTab === 0}
+                      loading={activeTab === 0 ? 'eager' : 'lazy'}
                     />
                   </div>
                   {/* Pastel pink/rose gradient overlay */}
@@ -162,7 +163,8 @@ export default function RealStory() {
                       alt="위자료 배경"
                       fill
                       className="object-cover"
-                      priority
+                      priority={activeTab === 1}
+                      loading={activeTab === 1 ? 'eager' : 'lazy'}
                     />
                   </div>
                   {/* Pastel purple/lavender gradient overlay */}
@@ -178,7 +180,8 @@ export default function RealStory() {
                       alt="재산분할 배경"
                       fill
                       className="object-cover"
-                      priority
+                      priority={activeTab === 2}
+                      loading={activeTab === 2 ? 'eager' : 'lazy'}
                     />
                   </div>
                   {/* Pastel green/mint gradient overlay */}
@@ -194,7 +197,8 @@ export default function RealStory() {
                       alt="양육권 배경"
                       fill
                       className="object-cover"
-                      priority
+                      priority={activeTab === 3}
+                      loading={activeTab === 3 ? 'eager' : 'lazy'}
                     />
                   </div>
                   {/* Pastel orange/peach gradient overlay */}

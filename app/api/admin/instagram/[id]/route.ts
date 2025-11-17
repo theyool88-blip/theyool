@@ -17,7 +17,7 @@ export async function PUT(
     const { id } = await params;
 
     const body = await request.json();
-    const { title, post_type, caption, images, thumbnail, published, post_date } = body;
+    const { title, post_type, caption, images, thumbnail, published, post_date, author, author_profile_url } = body;
 
     const { data, error } = await supabase
       .from('instagram_posts')
@@ -29,6 +29,8 @@ export async function PUT(
         thumbnail_url: thumbnail,
         published,
         published_at: post_date,
+        author: author || 'theyool_official',
+        author_profile_url: author_profile_url || null,
       })
       .eq('id', id)
       .select()
