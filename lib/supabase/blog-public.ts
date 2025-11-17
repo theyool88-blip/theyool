@@ -29,7 +29,7 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
     .from('blog_posts')
     .select(BASE_SELECT)
     .eq('published', true)
-    .order('published_at', { ascending: false, nullsLast: true })
+    .order('published_at', { ascending: false })
     .order('created_at', { ascending: false });
 
   if (error) {

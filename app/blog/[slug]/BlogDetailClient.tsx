@@ -5,7 +5,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 import Link from 'next/link';
 import Script from 'next/script';
 import ReactMarkdown from 'react-markdown';
-import type { BlogPost } from '@/lib/notion/blog';
+import type { BlogPost } from '@/lib/supabase/blog';
 import { splitMarkdownMetadata, extractHeadings, plainText, slugify } from '@/lib/utils/markdown';
 import { parseInternalLink } from '@/lib/utils/contentLinks';
 import type { BlogPreviewData, CasePreviewData } from '@/types/linkPreview';
@@ -34,7 +34,7 @@ export default function BlogDetailClient({
     headline: post.title,
     description: post.excerpt || post.title,
     mainEntityOfPage: canonicalUrl,
-    datePublished: post.date,
+    datePublished: post.published_at || post.created_at,
     author: {
       '@type': 'Organization',
       name: '법무법인 더율',
@@ -97,10 +97,10 @@ export default function BlogDetailClient({
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span>{new Date(post.date).toLocaleDateString('ko-KR', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                <span>{new Date(post.published_at || post.created_at).toLocaleDateString('ko-KR', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
                 })}</span>
               </div>
               <div className="flex items-center gap-2">

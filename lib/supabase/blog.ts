@@ -41,7 +41,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
-    .order('published_at', { ascending: false, nullsLast: true })
+    .order('published_at', { ascending: false })
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -179,7 +179,7 @@ export async function getFeaturedBlogPosts(limit: number = 3): Promise<BlogPost[
     .select('*')
     .eq('published', true)
     .order('featured', { ascending: false })
-    .order('published_at', { ascending: false, nullsLast: true })
+    .order('published_at', { ascending: false })
     .order('created_at', { ascending: false })
     .limit(limit);
 
@@ -260,7 +260,7 @@ export async function getSimilarBlogPosts(
       .eq('published', true)
       .neq('id', currentId)
       .overlaps('categories', categories)
-      .order('published_at', { ascending: false, nullsLast: true })
+      .order('published_at', { ascending: false })
       .limit(limit);
 
     similarPosts = (sameCategoryData as BlogPost[]) || [];
@@ -274,7 +274,7 @@ export async function getSimilarBlogPosts(
       .select('*')
       .eq('published', true)
       .neq('id', currentId)
-      .order('published_at', { ascending: false, nullsLast: true })
+      .order('published_at', { ascending: false })
       .limit(remaining);
 
     const otherPosts = (otherData as BlogPost[]) || [];

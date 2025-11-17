@@ -4,7 +4,7 @@ import { useState, useRef, DragEvent } from 'react';
 import Image from 'next/image';
 
 interface ImageUploaderProps {
-  bucket: 'blog-images' | 'case-images' | 'instagram-media' | 'public-content';
+  bucket: 'blog-images' | 'case-images' | 'instagram-media' | 'instagram-profiles' | 'public-content';
   onUpload: (url: string) => void;
   multiple?: boolean;
   accept?: string;

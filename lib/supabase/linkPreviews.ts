@@ -23,7 +23,15 @@ export async function getBlogPreviewBySlug(slug: string): Promise<BlogPreviewDat
       .select('id, slug, title, excerpt, published_at, views, categories')
       .eq('slug', slug)
       .eq('published', true) // Only fetch published posts
-      .single();
+      .single<{
+        id: string;
+        slug: string;
+        title: string;
+        excerpt: string | null;
+        published_at: string | null;
+        views: number | null;
+        categories: string[] | null;
+      }>();
 
     if (error) {
       console.error(`[getBlogPreviewBySlug] Error for slug "${slug}":`, {
@@ -43,13 +51,13 @@ export async function getBlogPreviewBySlug(slug: string): Promise<BlogPreviewDat
     console.log('[getBlogPreviewBySlug] Found blog:', { id: data.id, slug: data.slug, title: data.title });
 
     return {
-      id: data.id as string,
-      slug: data.slug as string,
-      title: data.title as string,
-      excerpt: (data.excerpt as string | null) || undefined,
-      publishedAt: (data.published_at as string | null) || undefined,
-      views: (data.views as number | null) || undefined,
-      categories: (data.categories as string[] | null) || undefined,
+      id: data.id,
+      slug: data.slug,
+      title: data.title,
+      excerpt: data.excerpt || undefined,
+      publishedAt: data.published_at || undefined,
+      views: data.views || undefined,
+      categories: data.categories || undefined,
     };
   } catch (error) {
     console.error(`[getBlogPreviewBySlug] Exception for slug "${slug}":`, error);
@@ -74,7 +82,13 @@ export async function getCasePreviewBySlug(slug: string): Promise<CasePreviewDat
       .select('id, slug, title, result, categories')
       .eq('slug', slug)
       .eq('published', true)
-      .single();
+      .single<{
+        id: string;
+        slug: string;
+        title: string;
+        result: string | null;
+        categories: string[] | null;
+      }>();
 
     if (error) {
       console.error(`[getCasePreviewBySlug] Error for slug "${slug}":`, {
@@ -94,12 +108,12 @@ export async function getCasePreviewBySlug(slug: string): Promise<CasePreviewDat
     console.log('[getCasePreviewBySlug] Found case:', { id: data.id, slug: data.slug, title: data.title });
 
     return {
-      id: data.id as string,
-      slug: data.slug as string,
-      title: data.title as string,
+      id: data.id,
+      slug: data.slug,
+      title: data.title,
       summary: undefined, // No summary field in cases table
-      result: (data.result as string | null) || undefined,
-      categories: (data.categories as string[] | null) || undefined,
+      result: data.result || undefined,
+      categories: data.categories || undefined,
       coverImage: undefined, // No image field in cases table
     };
   } catch (error) {

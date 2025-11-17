@@ -7,7 +7,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '3xl';
 }
 
 export default function Modal({ isOpen, onClose, children, maxWidth = 'md' }: ModalProps) {
@@ -47,6 +47,7 @@ export default function Modal({ isOpen, onClose, children, maxWidth = 'md' }: Mo
     md: 'max-w-lg',
     lg: 'max-w-2xl',
     xl: 'max-w-4xl',
+    '3xl': 'max-w-6xl',
   };
 
   return createPortal(

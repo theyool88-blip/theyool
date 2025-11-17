@@ -47,7 +47,7 @@ export async function getCases(): Promise<Case[]> {
   const { data, error } = await supabase
     .from('cases')
     .select('*')
-    .order('sort_order', { ascending: true, nullsLast: true })
+    .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -250,7 +250,7 @@ export async function getPublicCases(): Promise<CaseListItem[]> {
     .from('cases')
     .select('*')
     .eq('published', true)
-    .order('sort_order', { ascending: true, nullsLast: true })
+    .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false });
 
   if (error) {

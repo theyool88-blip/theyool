@@ -146,7 +146,7 @@ export async function incrementFAQViews(slug: string): Promise<void> {
 
   const { error } = await supabase.rpc('increment_faq_views', {
     faq_slug: slug,
-  });
+  } as any);
 
   if (error) {
     console.error('조회수 증가 실패:', error);
