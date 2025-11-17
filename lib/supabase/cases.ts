@@ -4,8 +4,8 @@ import type { CaseListItem, CaseDetail } from '@/types/case';
 import { splitMarkdownMetadata } from '@/lib/utils/markdown';
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
 );
 
 export interface Case {
