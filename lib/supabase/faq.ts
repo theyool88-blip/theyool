@@ -20,6 +20,17 @@ export interface FAQ {
 }
 
 /**
+ * 환경변수가 설정되어 있는지 확인
+ */
+function hasValidEnvironment(): boolean {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  // placeholder 값이거나 없으면 false
+  return !!(url && key && url !== 'https://placeholder.supabase.co' && key !== 'placeholder-key');
+}
+
+/**
  * Build-time용 Supabase 클라이언트 (cookies 불필요)
  */
 function createBuildTimeClient() {
@@ -33,6 +44,11 @@ function createBuildTimeClient() {
  * 모든 공개된 FAQ 가져오기
  */
 export async function getFAQs(): Promise<FAQ[]> {
+  // 환경변수가 없으면 빈 배열 반환 (빌드 타임 대응)
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   // Build time에는 cookies가 없으므로 직접 클라이언트 생성
   const supabase = createBuildTimeClient();
 
@@ -55,6 +71,11 @@ export async function getFAQs(): Promise<FAQ[]> {
  * 특정 slug의 FAQ 가져오기
  */
 export async function getFAQBySlug(slug: string): Promise<FAQ | null> {
+  // 환경변수가 없으면 null 반환 (빌드 타임 대응)
+  if (!hasValidEnvironment()) {
+    return null;
+  }
+
   const supabase = createBuildTimeClient();
 
   const { data, error } = await supabase
@@ -80,6 +101,11 @@ export async function getFAQBySlug(slug: string): Promise<FAQ | null> {
  * 카테고리별 FAQ 필터링 (특정 FAQ 제외)
  */
 export async function getFAQsByCategory(category: string, excludeSlug?: string, limit?: number): Promise<FAQ[]> {
+  // 환경변수가 없으면 빈 배열 반환 (빌드 타임 대응)
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const supabase = createBuildTimeClient();
 
   let query = supabase
@@ -115,6 +141,11 @@ export async function getFAQsByCategory(category: string, excludeSlug?: string, 
  * 추천 FAQ만 가져오기
  */
 export async function getFeaturedFAQs(limit: number = 10): Promise<FAQ[]> {
+  // 환경변수가 없으면 빈 배열 반환 (빌드 타임 대응)
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const supabase = createBuildTimeClient();
 
   const { data, error } = await supabase
@@ -154,6 +185,11 @@ export async function incrementFAQViews(slug: string): Promise<void> {
  * 조회수 기준 인기 FAQ 가져오기 (홈페이지용)
  */
 export async function getPopularFAQs(limit: number = 10): Promise<FAQ[]> {
+  // 환경변수가 없으면 빈 배열 반환 (빌드 타임 대응)
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const supabase = createBuildTimeClient();
 
   const { data, error } = await supabase

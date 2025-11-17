@@ -8,6 +8,15 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
 );
 
+/**
+ * 환경변수가 설정되어 있는지 확인
+ */
+function hasValidEnvironment(): boolean {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return !!(url && key && url !== 'https://placeholder.supabase.co' && key !== 'placeholder-key');
+}
+
 export interface Case {
   id: string;
   notion_id: string;
@@ -246,6 +255,10 @@ function toCaseDetail(row: Case): CaseDetail {
 }
 
 export async function getPublicCases(): Promise<CaseListItem[]> {
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const { data, error } = await supabase
     .from('cases')
     .select('*')
@@ -262,6 +275,10 @@ export async function getPublicCases(): Promise<CaseListItem[]> {
 }
 
 export async function getPublicCaseSlugs(): Promise<string[]> {
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const { data, error } = await supabase
     .from('cases')
     .select('id, notion_id')
@@ -276,6 +293,10 @@ export async function getPublicCaseSlugs(): Promise<string[]> {
 }
 
 export async function getPublicCaseBySlug(slug: string): Promise<CaseDetail | null> {
+  if (!hasValidEnvironment()) {
+    return null;
+  }
+
   const normalizedSlug = decodeURIComponent(slug);
 
   const query = supabase.from('cases').select('*').eq('published', true);
@@ -310,6 +331,10 @@ export async function getCasesByCategory(
   categoryName: string,
   limit: number = 10
 ): Promise<CaseListItem[]> {
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const { data, error } = await supabase
     .from('cases')
     .select('*')
@@ -338,6 +363,10 @@ export async function getSimilarCases(
   categories: string[],
   limit: number = 3
 ): Promise<CaseListItem[]> {
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const normalizedSlug = decodeURIComponent(currentSlug);
 
   // 현재 케이스 ID 가져오기

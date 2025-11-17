@@ -5,6 +5,15 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
 );
 
+/**
+ * 환경변수가 설정되어 있는지 확인
+ */
+function hasValidEnvironment(): boolean {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return !!(url && key && url !== 'https://placeholder.supabase.co' && key !== 'placeholder-key');
+}
+
 export interface BlogPost {
   id: string;
   notion_id: string;
@@ -38,6 +47,10 @@ export interface BlogPostInput {
 
 // 모든 Blog Posts 가져오기
 export async function getBlogPosts(): Promise<BlogPost[]> {
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -174,6 +187,10 @@ export async function incrementBlogViews(slug: string): Promise<void> {
 
 // 최신/추천 블로그 포스트 가져오기 (홈페이지용)
 export async function getFeaturedBlogPosts(limit: number = 3): Promise<BlogPost[]> {
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -193,6 +210,10 @@ export async function getFeaturedBlogPosts(limit: number = 3): Promise<BlogPost[
 
 // Slug로 Blog Post 가져오기
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  if (!hasValidEnvironment()) {
+    return null;
+  }
+
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -210,6 +231,10 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
 
 // 모든 Blog Post의 Slug 가져오기 (Static Params 생성용)
 export async function getAllBlogSlugs(): Promise<string[]> {
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   const { data, error } = await supabase
     .from('blog_posts')
     .select('slug')
@@ -235,6 +260,10 @@ export async function getSimilarBlogPosts(
   categories: string[],
   limit: number = 3
 ): Promise<BlogPost[]> {
+  if (!hasValidEnvironment()) {
+    return [];
+  }
+
   // 현재 포스트 ID 가져오기
   const { data: current } = await supabase
     .from('blog_posts')
