@@ -6,9 +6,23 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
 );
 
+/**
+ * 환경변수가 설정되어 있는지 확인
+ */
+function hasValidEnvironment(): boolean {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return !!(url && key && url !== 'https://placeholder.supabase.co' && key !== 'placeholder-key');
+}
+
 export const revalidate = 0;
 
 export async function GET() {
+  // 환경변수가 없으면 빈 배열 반환
+  if (!hasValidEnvironment()) {
+    return NextResponse.json({ posts: [] });
+  }
+
   try {
     const { data: posts, error } = await supabase
       .from('instagram_posts')
