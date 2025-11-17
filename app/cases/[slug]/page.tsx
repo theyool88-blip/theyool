@@ -18,8 +18,13 @@ export const revalidate = 0;
 
 // 정적 경로 생성
 export async function generateStaticParams() {
-  const slugs = await getPublicCaseSlugs();
-  return slugs.map((slug) => ({ slug }));
+  try {
+    const slugs = await getPublicCaseSlugs();
+    return slugs.map((slug) => ({ slug }));
+  } catch (error) {
+    console.error('Failed to generate case static params:', error);
+    return [];
+  }
 }
 
 interface PageProps {

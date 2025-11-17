@@ -11,8 +11,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://theyool.com';
 export const revalidate = 0;
 
 export async function generateStaticParams() {
-  const slugs = await getAllBlogSlugs();
-  return slugs.map((slug) => ({ slug }));
+  try {
+    const slugs = await getAllBlogSlugs();
+    return slugs.map((slug) => ({ slug }));
+  } catch (error) {
+    console.error('Failed to generate blog static params:', error);
+    return [];
+  }
 }
 
 interface BlogDetailPageProps {
