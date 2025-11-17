@@ -496,11 +496,6 @@ export default function BlogManagementClient() {
                       height={400}
                       preview="edit"
                       textareaProps={{
-                        ref: (instance) => {
-                          if (instance) {
-                            editorRef.current = instance;
-                          }
-                        },
                         onSelect: updateSelection,
                         onKeyUp: updateSelection,
                         onClick: updateSelection,
