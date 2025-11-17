@@ -76,30 +76,42 @@ export async function getCaseById(id: string): Promise<Case | null> {
 
 // Case 생성
 export async function createCase(input: CaseInput): Promise<Case | null> {
-  const { data, error } = await supabase
+  console.log('[createCase] Input:', JSON.stringify(input, null, 2));
+
+  // Generate slug from title if not provided
+  const slug = input.slug || null;
+
+  // Prepare insert data (no 'category' or 'image_url' fields - they don't exist in the database)
+  const insertData = {
+    notion_id: `manual-${Date.now()}`, // 수동 생성 표시
+    title: input.title,
+    slug: slug,
+    badge: input.badge || null,
+    categories: input.categories || [],
+    background: input.background || null,
+    strategy: input.strategy || null,
+    result: input.result || null,
+    icon: input.icon || null,
+    published: input.published ?? true,
+    views: 0,
+    sort_order: input.sort_order || null,
+  };
+
+  console.log('[createCase] Insert data:', JSON.stringify(insertData, null, 2));
+
+  const { data, error} = await supabase
     .from('cases')
-    .insert({
-      notion_id: `manual-${Date.now()}`, // 수동 생성 표시
-      title: input.title,
-      badge: input.badge || null,
-      categories: input.categories || [],
-      background: input.background || null,
-      strategy: input.strategy || null,
-      result: input.result || null,
-      icon: input.icon || null,
-      image_url: input.image_url || null,
-      published: input.published ?? true,
-      views: 0,
-      sort_order: input.sort_order || null,
-    })
+    .insert(insertData)
     .select()
     .single();
 
   if (error) {
-    console.error('Case 생성 실패:', error);
+    console.error('[createCase] Supabase error:', error);
+    console.error('[createCase] Error details:', JSON.stringify(error, null, 2));
     return null;
   }
 
+  console.log('[createCase] Success! Created case:', data?.id);
   return data;
 }
 
@@ -286,4 +298,104 @@ export async function getPublicCaseBySlug(slug: string): Promise<CaseDetail | nu
   }
 
   return toCaseDetail(data as Case);
+}
+
+/**
+ * 카테고리별 성공사례 가져오기
+ * @param categoryName - 카테고리 이름 (예: '위자료', '재산분할', '양육권')
+ * @param limit - 가져올 사례 개수 (기본값: 10)
+ * @returns 해당 카테고리의 사례 배열
+ */
+export async function getCasesByCategory(
+  categoryName: string,
+  limit: number = 10
+): Promise<CaseListItem[]> {
+  const { data, error } = await supabase
+    .from('cases')
+    .select('*')
+    .eq('published', true)
+    .contains('categories', [categoryName])
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Category cases 조회 실패:', error);
+    return [];
+  }
+
+  return (data as Case[] | null)?.map(toCaseListItem) ?? [];
+}
+
+/**
+ * 유사한 성공사례 가져오기 (카테고리 기반 추천)
+ * @param currentSlug - 현재 케이스의 slug (또는 UUID나 notion_id)
+ * @param categories - 현재 케이스의 카테고리 배열
+ * @param limit - 가져올 사례 개수 (기본값: 3)
+ * @returns 추천 사례 배열
+ */
+export async function getSimilarCases(
+  currentSlug: string,
+  categories: string[],
+  limit: number = 3
+): Promise<CaseListItem[]> {
+  const normalizedSlug = decodeURIComponent(currentSlug);
+
+  // 현재 케이스 ID 가져오기
+  const query = supabase
+    .from('cases')
+    .select('id')
+    .eq('published', true);
+
+  if (isUuid(normalizedSlug)) {
+    query.eq('id', normalizedSlug);
+  } else {
+    query.or(`slug.eq.${normalizedSlug},notion_id.eq.${normalizedSlug}`);
+  }
+
+  const { data: current } = await query.maybeSingle();
+
+  if (!current) {
+    return [];
+  }
+
+  const currentId = current.id;
+
+  // 1. 같은 카테고리를 가진 사례들 가져오기
+  let similarCases: Case[] = [];
+
+  if (categories && categories.length > 0) {
+    // 카테고리 중 하나라도 겹치는 사례 찾기
+    const { data: sameCategoryData } = await supabase
+      .from('cases')
+      .select('*')
+      .eq('published', true)
+      .neq('id', currentId)
+      .overlaps('categories', categories)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+
+    similarCases = (sameCategoryData as Case[]) || [];
+  }
+
+  // 2. 개수가 부족하면 다른 사례로 채우기
+  if (similarCases.length < limit) {
+    const remaining = limit - similarCases.length;
+    const { data: otherData } = await supabase
+      .from('cases')
+      .select('*')
+      .eq('published', true)
+      .neq('id', currentId)
+      .order('created_at', { ascending: false })
+      .limit(remaining);
+
+    const otherCases = (otherData as Case[]) || [];
+
+    // 중복 제거하며 추가
+    const existingIds = new Set(similarCases.map(c => c.id));
+    const uniqueOthers = otherCases.filter(c => !existingIds.has(c.id));
+
+    similarCases = [...similarCases, ...uniqueOthers];
+  }
+
+  return similarCases.map(toCaseListItem);
 }

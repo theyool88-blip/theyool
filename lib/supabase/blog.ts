@@ -70,6 +70,8 @@ export async function getBlogPostById(id: string): Promise<BlogPost | null> {
 
 // Blog Post 생성
 export async function createBlogPost(input: BlogPostInput): Promise<BlogPost | null> {
+  console.log('[createBlogPost] Starting with input:', JSON.stringify(input, null, 2));
+
   // Slug 중복 체크
   const { data: existing } = await supabase
     .from('blog_posts')
@@ -78,34 +80,40 @@ export async function createBlogPost(input: BlogPostInput): Promise<BlogPost | n
     .single();
 
   if (existing) {
-    console.error('이미 존재하는 slug입니다:', input.slug);
+    console.error('[createBlogPost] 이미 존재하는 slug입니다:', input.slug);
     return null;
   }
 
+  const insertData = {
+    notion_id: `manual-${Date.now()}`, // 수동 생성 표시
+    title: input.title,
+    slug: input.slug,
+    categories: input.categories || [],
+    tags: input.tags || [],
+    excerpt: input.excerpt || null,
+    content: input.content,
+    published: input.published ?? true,
+    featured: input.featured ?? false,
+    views: 0,
+    author: input.author || '법무법인 더율',
+    published_at: input.published_at || new Date().toISOString(),
+  };
+
+  console.log('[createBlogPost] Insert data:', JSON.stringify(insertData, null, 2));
+
   const { data, error } = await supabase
     .from('blog_posts')
-    .insert({
-      notion_id: `manual-${Date.now()}`, // 수동 생성 표시
-      title: input.title,
-      slug: input.slug,
-      categories: input.categories || [],
-      tags: input.tags || [],
-      excerpt: input.excerpt || null,
-      content: input.content,
-      published: input.published ?? true,
-      featured: input.featured ?? false,
-      views: 0,
-      author: input.author || '법무법인 더율',
-      published_at: input.published_at || new Date().toISOString(),
-    })
+    .insert(insertData)
     .select()
     .single();
 
   if (error) {
-    console.error('Blog Post 생성 실패:', error);
+    console.error('[createBlogPost] Blog Post 생성 실패:', error);
+    console.error('[createBlogPost] Error details:', JSON.stringify(error, null, 2));
     return null;
   }
 
+  console.log('[createBlogPost] Success! Created blog post:', data.id);
   return data;
 }
 
@@ -162,4 +170,89 @@ export async function deleteBlogPost(id: string): Promise<boolean> {
 // 조회수 증가
 export async function incrementBlogViews(slug: string): Promise<void> {
   await supabase.rpc('increment_blog_views', { post_slug: slug });
+}
+
+// 최신/추천 블로그 포스트 가져오기 (홈페이지용)
+export async function getFeaturedBlogPosts(limit: number = 3): Promise<BlogPost[]> {
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('published', true)
+    .order('featured', { ascending: false })
+    .order('published_at', { ascending: false, nullsLast: true })
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('추천 블로그 포스트 조회 실패:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+/**
+ * 유사한 칼럼 가져오기 (카테고리 기반 추천)
+ * @param currentSlug - 현재 포스트의 slug
+ * @param categories - 현재 포스트의 카테고리 배열
+ * @param limit - 가져올 포스트 개수 (기본값: 3)
+ * @returns 추천 포스트 배열
+ */
+export async function getSimilarBlogPosts(
+  currentSlug: string,
+  categories: string[],
+  limit: number = 3
+): Promise<BlogPost[]> {
+  // 현재 포스트 ID 가져오기
+  const { data: current } = await supabase
+    .from('blog_posts')
+    .select('id')
+    .eq('slug', currentSlug)
+    .eq('published', true)
+    .single();
+
+  if (!current) {
+    return [];
+  }
+
+  const currentId = current.id;
+
+  // 1. 같은 카테고리를 가진 포스트들 가져오기
+  let similarPosts: BlogPost[] = [];
+
+  if (categories && categories.length > 0) {
+    // 카테고리 중 하나라도 겹치는 포스트 찾기
+    const { data: sameCategoryData } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('published', true)
+      .neq('id', currentId)
+      .overlaps('categories', categories)
+      .order('published_at', { ascending: false, nullsLast: true })
+      .limit(limit);
+
+    similarPosts = (sameCategoryData as BlogPost[]) || [];
+  }
+
+  // 2. 개수가 부족하면 다른 포스트로 채우기
+  if (similarPosts.length < limit) {
+    const remaining = limit - similarPosts.length;
+    const { data: otherData } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('published', true)
+      .neq('id', currentId)
+      .order('published_at', { ascending: false, nullsLast: true })
+      .limit(remaining);
+
+    const otherPosts = (otherData as BlogPost[]) || [];
+
+    // 중복 제거하며 추가
+    const existingIds = new Set(similarPosts.map(p => p.id));
+    const uniqueOthers = otherPosts.filter(p => !existingIds.has(p.id));
+
+    similarPosts = [...similarPosts, ...uniqueOthers];
+  }
+
+  return similarPosts;
 }

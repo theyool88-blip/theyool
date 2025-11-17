@@ -153,3 +153,25 @@ export async function incrementFAQViews(slug: string): Promise<void> {
     // 조회수 증가 실패는 치명적이지 않으므로 에러를 던지지 않음
   }
 }
+
+/**
+ * 조회수 기준 인기 FAQ 가져오기 (홈페이지용)
+ */
+export async function getPopularFAQs(limit: number = 10): Promise<FAQ[]> {
+  const supabase = createBuildTimeClient();
+
+  const { data, error } = await supabase
+    .from('faqs')
+    .select('*')
+    .eq('published', true)
+    .order('views', { ascending: false })
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('인기 FAQ 조회 실패:', error);
+    throw new Error('인기 FAQ를 불러오는 중 오류가 발생했습니다.');
+  }
+
+  return data as FAQ[];
+}

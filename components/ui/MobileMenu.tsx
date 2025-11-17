@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Image from 'next/image';
 import ConsultationButton from '@/components/features/ConsultationButton';
 
 interface MenuItem {
@@ -11,7 +12,6 @@ interface MenuItem {
 }
 
 const sectionLinks: MenuItem[] = [
-  { label: '메인', href: '/' },
   { label: '더 플랜', href: '/the-plan' },
   { label: 'Insta더율', href: '/insta-theyool' },
   { label: '실제 성공 사례', href: '/cases' },
@@ -82,20 +82,37 @@ export default function MobileMenu() {
         onClick={closeMenu}
       />
 
-      {/* Off-canvas Panel - 전체 화면 오버레이 */}
+      {/* Off-canvas Panel - 전체 화면, 미니멀 */}
       <div
         className="absolute inset-0 bg-white flex flex-col animate-slide-left"
         role="dialog"
         aria-modal="true"
       >
-        {/* Header - 투명 */}
-        <div className="flex items-center justify-start px-8 py-6">
+        {/* Header - 로고 + 닫기 버튼 */}
+        <div className="flex items-center justify-between px-8 sm:px-16 md:px-20 py-5 border-b border-[var(--gray-100)]">
+          {/* 로고 - 클릭 시 메인으로 */}
+          <a
+            href="/"
+            onClick={closeMenu}
+            className="flex items-center"
+          >
+            <Image
+              src="/images/logo-horizontal.png"
+              alt="법무법인 더율"
+              width={120}
+              height={30}
+              className="h-6 w-auto brightness-0"
+              priority
+            />
+          </a>
+
+          {/* 닫기 버튼 */}
           <button
             onClick={closeMenu}
             className="p-2 text-[var(--gray-400)] hover:text-[var(--primary)] hover:bg-[var(--gray-50)] rounded-full transition-all"
             aria-label="메뉴 닫기"
           >
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -192,7 +209,7 @@ export default function MobileMenu() {
         </nav>
 
         {/* Footer - Contact & CTA */}
-        <div className="border-t border-[var(--gray-200)] bg-[var(--gray-50)] px-8 py-6 space-y-4">
+        <div className="border-t border-[var(--gray-200)] bg-[var(--gray-50)] px-8 sm:px-16 md:px-20 py-6 space-y-4">
           <ConsultationButton variant="dark" fullWidth size="lg" onClick={closeMenu} />
 
           <div className="text-center">

@@ -10,7 +10,8 @@ const stories = [
     title: '상간',
     subtitle: '배신에 대한 정당한 대가',
     story: 'D씨는 배우자의 불륜 사실을\n확인한 후 냉철하게 대응했습니다.\n상간자를 상대로 한 손해배상 청구에서\n명확한 증거를 바탕으로\n상당한 금액의 배상을 받아내며\n심리적 상처에 대한 정당한 보상을 받았습니다.',
-    result: '상간자 손해배상 청구 승소',
+    result: '상간자 손해배상 8천만원 확보',
+    outcome: '그리고 1년 후, 새 직장에서 행복 찾음',
     bgColor: 'from-red-100 via-rose-50 to-pink-50',
     textColor: 'text-gray-800',
     caseId: 'adultery-case-01', // 나중에 실제 케이스 ID로 변경
@@ -20,7 +21,8 @@ const stories = [
     title: '위자료',
     subtitle: '새로운 시작을 위한 첫걸음',
     story: '20년을 함께한 결혼 생활이 끝났지만,\nA씨는 포기하지 않았습니다.\n배우자의 불륜과 정신적 학대로 인한 고통을\n치밀한 증거 수집으로 입증했고,\n5억원의 위자료 확보로\n새로운 인생의 든든한 기반을 마련할 수 있었습니다.',
-    result: '위자료 5억원 확보',
+    result: '위자료 5천만원 → 2억 확보',
+    outcome: '그리고 지금은 안정적인 자영업으로 재기',
     bgColor: 'from-pink-100 via-purple-50 to-blue-50',
     textColor: 'text-gray-800',
     caseId: 'alimony-case-01', // 나중에 실제 케이스 ID로 변경
@@ -30,7 +32,8 @@ const stories = [
     title: '재산분할',
     subtitle: '정당한 몫을 되찾다',
     story: 'B씨는 결혼 생활 동안\n배우자가 은닉한 재산을 추적했습니다.\n체계적인 재산 조사와 전략적 접근으로\n숨겨진 부동산과 금융자산을 찾아냈고,\n공정한 재산분할을 통해\n경제적 자립의 토대를 세웠습니다.',
-    result: '은닉 재산 발견 및 공정한 분할',
+    result: '은닉 재산 3억 발견 → 60% 획득',
+    outcome: '그리고 자녀 교육비 걱정 없이 새 출발',
     bgColor: 'from-green-100 via-emerald-50 to-teal-50',
     textColor: 'text-gray-800',
     caseId: 'property-case-01', // 나중에 실제 케이스 ID로 변경
@@ -40,7 +43,8 @@ const stories = [
     title: '양육권',
     subtitle: '아이의 미래를 지키다',
     story: 'C씨는 아이의 안전과 행복을\n최우선으로 생각했습니다.\n폭력적인 배우자로부터 아이를 보호하기 위해\n철저한 증거를 확보했고,\n단독 양육권과 함께 양육비 전액을 인용받아\n아이가 안정적으로 성장할 수 있는\n환경을 만들었습니다.',
-    result: '단독 양육권 + 양육비 100% 인용',
+    result: '단독 양육권 + 월 120만원 양육비',
+    outcome: '그리고 아이는 이제 밝은 웃음을 되찾음',
     bgColor: 'from-amber-100 via-yellow-50 to-orange-50',
     textColor: 'text-gray-800',
     caseId: 'custody-case-01', // 나중에 실제 케이스 ID로 변경
@@ -60,6 +64,10 @@ export default function RealStory() {
   };
 
   useEffect(() => {
+    // 데스크톱에서만 스크롤 기반 탭 전환 활성화
+    const isDesktop = window.innerWidth >= 768;
+    if (!isDesktop) return;
+
     const handleScroll = () => {
       if (!sectionRef.current) return;
 
@@ -93,13 +101,13 @@ export default function RealStory() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[200vh] md:min-h-[400vh] bg-white">
+    <section ref={sectionRef} className="relative min-h-screen md:min-h-[400vh] bg-white">
       {/* Sticky Container */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="md:sticky top-0 h-screen overflow-hidden">
         {/* Title */}
-        <div className="absolute top-20 left-0 right-0 z-10">
+        <div className="absolute top-12 md:top-20 left-0 right-0 z-10">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 text-center">
-            <p className="text-xs md:text-sm text-pink-600/70 mb-3 tracking-[0.2em] uppercase">Real Story</p>
+            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Real Story</p>
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-2 tracking-tight">
               실제 고객 이야기
             </h2>
@@ -108,14 +116,14 @@ export default function RealStory() {
         </div>
 
         {/* Tab Navigation - Below Title with more space */}
-        <div className="absolute top-52 left-0 right-0 z-20">
+        <div className="absolute top-36 md:top-52 left-0 right-0 z-20">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <div className="flex justify-center gap-8 md:gap-12">
+            <div className="flex justify-center gap-4 md:gap-8 lg:gap-12">
               {stories.map((story, index) => (
                 <button
                   key={story.id}
                   onClick={() => setActiveTab(index)}
-                  className={`text-sm md:text-base font-medium transition-all duration-300 pb-2 border-b-2 ${
+                  className={`text-xs md:text-base font-medium transition-all duration-300 pb-2 border-b-2 ${
                     activeTab === index
                       ? 'border-gray-900 text-gray-900'
                       : 'border-transparent text-gray-400 hover:text-gray-600'
@@ -211,7 +219,7 @@ export default function RealStory() {
               )}
 
               {/* Content - Perfect centering */}
-              <div className="relative h-full flex items-center justify-center pt-72 pb-24">
+              <div className="relative h-full flex items-center justify-center pt-48 md:pt-72 pb-16 md:pb-24">
                 <div className="max-w-[600px] w-full px-6 md:px-12 mx-auto">
                   <div className="text-center">
                     <h3 className={`text-2xl md:text-4xl font-bold ${story.textColor} mb-4 md:mb-6`}>
@@ -223,12 +231,12 @@ export default function RealStory() {
                     <div className="space-y-4">
                       <div className="inline-block px-6 py-3 md:px-8 md:py-4 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-gray-200/50">
                         <p className={`text-sm md:text-lg font-bold ${story.textColor}`}>
-                          결과: {story.result}
+                          {story.result}
                         </p>
                       </div>
 
                       {/* 자세히 보기 버튼 */}
-                      <div>
+                      <div className="mt-6">
                         <Link
                           href={`/cases/${story.caseId}`}
                           className="inline-flex items-center gap-2 px-8 py-3.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg"

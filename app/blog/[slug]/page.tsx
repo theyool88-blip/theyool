@@ -1,7 +1,9 @@
-import { getBlogPostBySlug, getAllBlogSlugs } from '@/lib/notion/blog';
+import { getBlogPostBySlug, getAllBlogSlugs, getSimilarBlogPosts } from '@/lib/notion/blog';
 import { notFound } from 'next/navigation';
 import BlogDetailClient from './BlogDetailClient';
 import type { Metadata } from 'next';
+import { extractAllInternalLinks, groupLinksByType } from '@/lib/utils/contentLinks';
+import { getAllLinkPreviews } from '@/lib/supabase/linkPreviews';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://theyool.com';
 
@@ -50,6 +52,26 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   if (!post) {
     notFound();
   }
+
+  // Extract internal links from content and fetch preview metadata
+  const internalLinks = extractAllInternalLinks(post.content || '');
+  const { blogSlugs, caseSlugs } = groupLinksByType(internalLinks);
+
+  // Fetch all link previews and similar posts in parallel
+  const [{ blogPreviews, casePreviews }, similarPosts] = await Promise.all([
+    getAllLinkPreviews(blogSlugs, caseSlugs),
+    getSimilarBlogPosts(slug, post.categories, 3),
+  ]);
+
   const canonicalUrl = `${SITE_URL}/blog/${post.slug}`;
-  return <BlogDetailClient post={post} canonicalUrl={canonicalUrl} />;
+
+  return (
+    <BlogDetailClient
+      post={post}
+      canonicalUrl={canonicalUrl}
+      blogPreviews={blogPreviews}
+      casePreviews={casePreviews}
+      similarPosts={similarPosts}
+    />
+  );
 }

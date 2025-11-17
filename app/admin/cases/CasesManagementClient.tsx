@@ -11,6 +11,7 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 interface Case {
   id: string;
+  notion_id?: string | null;
   slug?: string | null;
   title: string;
   badge: string | null;
@@ -68,10 +69,22 @@ export default function CasesManagementClient() {
     e.preventDefault();
 
     try {
+      // Validate required fields
+      if (!formData.title.trim()) {
+        alert('제목을 입력해주세요.');
+        return;
+      }
+
       if (!formData.slug.trim()) {
         alert('URL Slug를 입력해주세요.');
         return;
       }
+
+      if (!formData.content.trim()) {
+        alert('본문을 입력해주세요.');
+        return;
+      }
+
       const normalizedSlug = slugify(formData.slug);
 
       const url = editingCase
@@ -85,6 +98,7 @@ export default function CasesManagementClient() {
         .replace(/\s+/g, ' ')
         .trim()
         .slice(0, 200);
+
       const payload = {
         title: formData.title,
         slug: normalizedSlug,
@@ -98,13 +112,18 @@ export default function CasesManagementClient() {
         sort_order: formData.sort_order,
       };
 
+      console.log('[CasesManagement] Submitting payload:', JSON.stringify(payload, null, 2));
+
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
+      console.log('[CasesManagement] Response status:', res.status);
+
       const data = await res.json();
+      console.log('[CasesManagement] Response data:', data);
 
       if (data.success) {
         alert(editingCase ? '성공사례가 수정되었습니다.' : '성공사례가 생성되었습니다.');
@@ -112,10 +131,12 @@ export default function CasesManagementClient() {
         resetForm();
         loadCases();
       } else {
+        console.error('[CasesManagement] Error:', data);
         alert(data.message || '오류가 발생했습니다.');
       }
     } catch (error) {
-      alert('오류가 발생했습니다.');
+      console.error('[CasesManagement] Caught error:', error);
+      alert(`오류가 발생했습니다: ${error instanceof Error ? error.message : String(error)}`);
     }
   };
 

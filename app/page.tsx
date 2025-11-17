@@ -13,6 +13,14 @@ import ConsultationForm from '@/components/features/ConsultationForm';
 import RealStory from '@/components/features/RealStory';
 import InstaTheyoolSection from '@/components/features/InstaTheyoolSection';
 import SectionReveal from '@/components/effects/SectionReveal';
+import FAQExplorer from '@/components/features/FAQExplorer';
+import ExpertInsights from '@/components/features/ExpertInsights';
+import TestimonialsCarousel from '@/components/features/TestimonialsCarousel';
+import EmpathySection from '@/components/features/EmpathySection';
+import ConsultationTimingGuide from '@/components/features/ConsultationTimingGuide';
+import DualPerspectiveCard from '@/components/features/DualPerspectiveCard';
+import QuickCalculatorWidget from '@/components/features/QuickCalculatorWidget';
+import EnhancedChannelSelector from '@/components/features/EnhancedChannelSelector';
 
 export default function Home() {
   const [isTalkModalOpen, setIsTalkModalOpen] = useState(false);
@@ -60,7 +68,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section - SKIN1004 스타일 with Animation */}
-      <section className="hero-section relative min-h-screen flex flex-col overflow-hidden hero-parallax bg-white">
+      <section className="hero-section relative min-h-screen flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-blue-50/40 via-white to-white">
         <HeroAnimation />
 
         {/* Minimal Geometric Background Pattern */}
@@ -90,8 +98,8 @@ export default function Home() {
             <circle cx="30%" cy="75%" r="180" fill="#efefef" opacity="0.5" />
 
             {/* Very subtle rectangles */}
-            <rect x="50%" y="40%" width="300" height="300" fill="#f0f0f0" opacity="0.3" transform="rotate(45 65 55)" />
-            <rect x="15%" y="55%" width="250" height="250" fill="#f5f5f5" opacity="0.35" transform="rotate(30 27 67)" />
+            <rect x="50%" y="40%" width="300" height="300" fill="#f0f0f0" opacity="0.3" transform="rotate(45)" />
+            <rect x="15%" y="55%" width="250" height="250" fill="#f5f5f5" opacity="0.35" transform="rotate(30)" />
 
             {/* Minimal lines */}
             <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#e0e0e0" strokeWidth="1" opacity="0.4" />
@@ -107,132 +115,200 @@ export default function Home() {
           <div className="ml-0 md:ml-12 flex flex-col items-start">
             {/* Subtitle */}
             <p className="text-base md:text-xl text-gray-900 mb-6 md:mb-8 tracking-wide font-normal hero-text-1">
-              한결같이, 한 분야에.
+              지금이 딱 좋아요
             </p>
 
             {/* Main Title */}
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 md:mb-12 leading-[1.1] text-gray-900 tracking-tight hero-text-2">
-              이혼에 집중합니다.
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-[1.1] text-gray-900 tracking-tight hero-text-2">
+              1,200번의 새 출발<br />
+              이번엔 당신 차례예요
             </h1>
 
+            {/* Supporting Text */}
+            <p className="text-sm md:text-base text-gray-700 mb-8 md:mb-10 font-light leading-relaxed hero-text-2">
+              법적 승리는 기본. 마음까지 돌봐드려요
+            </p>
+
             {/* CTA Buttons */}
-            <div className="hero-text-3">
-              <button
-                onClick={() => setIsTalkModalOpen(true)}
-                className="px-6 py-2.5 md:px-8 md:py-3 bg-transparent border border-gray-900 text-gray-900 rounded-full font-normal text-xs md:text-sm tracking-widest hover:bg-gray-900 hover:text-white transition-all duration-300"
-              >
-                무료 상담 신청
-              </button>
+            <div className="hero-text-3 flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => setIsTalkModalOpen(true)}
+                  className="px-6 py-2.5 md:px-8 md:py-3 bg-gray-900 text-white rounded-full font-medium text-xs md:text-sm tracking-wide hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  10분만 주세요. 무료예요
+                </button>
+                <span className="text-xs md:text-sm text-gray-600 self-center">
+                  100% 비밀 · 편하게 물어보세요
+                </span>
+              </div>
+
+              {/* 문제별 바로가기 링크 */}
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="text-xs text-gray-500">급하신가요?</span>
+                <Link href="/alimony-defense" className="text-xs md:text-sm text-red-600 hover:text-red-700 font-medium hover:underline transition-colors">
+                  위자료 청구 받았어요 →
+                </Link>
+                <span className="text-gray-300">|</span>
+                <Link href="/custody-battle" className="text-xs md:text-sm text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors">
+                  양육권 싸움 중 →
+                </Link>
+                <span className="text-gray-300">|</span>
+                <Link href="/property-division" className="text-xs md:text-sm text-green-600 hover:text-green-700 font-medium hover:underline transition-colors">
+                  재산 뺏길 위기 →
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 신뢰 지표 섹션 */}
-      <section className="py-12 md:py-16 bg-white border-y border-gray-100">
+      {/* 신뢰 지표 섹션 - 품질 중심 */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white border-y border-blue-100/30">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">1,200+</p>
-              <p className="text-sm text-gray-600">누적 의뢰인</p>
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">연 120+</p>
+              <p className="text-sm text-gray-600">연 120건만</p>
+              <p className="text-xs text-gray-400 mt-1">진짜 도움될 분만 선택</p>
+            </div>
+            <div className="scroll-reveal">
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">92시간</p>
+              <p className="text-sm text-gray-600">한 건에 92시간</p>
+              <p className="text-xs text-gray-400 mt-1">남들은 15시간이에요</p>
+            </div>
+            <div className="scroll-reveal">
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">1:1</p>
+              <p className="text-sm text-gray-600">전담 변호사 1명</p>
+              <p className="text-xs text-gray-400 mt-1">끝까지 함께해요</p>
             </div>
             <div className="scroll-reveal">
               <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">87%</p>
-              <p className="text-sm text-gray-600">평균 승소율</p>
-            </div>
-            <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">12년</p>
-              <p className="text-sm text-gray-600">이혼 전문 경력</p>
-            </div>
-            <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">4.8/5.0</p>
-              <p className="text-sm text-gray-600">고객 만족도</p>
+              <p className="text-sm text-gray-600">87% 성공</p>
+              <p className="text-xs text-gray-400 mt-1">12년, 1,200건의 증명</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Talk 버튼 (오른쪽 하단 고정 + 플로팅) - 전역 */}
-      <div className="fixed bottom-8 right-4 z-50 animate-float">
-        <button
-          onClick={() => setIsTalkModalOpen(true)}
-          className="w-14 h-14 md:w-16 md:h-16 bg-black rounded-full text-white font-medium shadow-2xl hover:bg-gray-800 hover:scale-110 transition-all duration-300 flex items-center justify-center border-[0.5px] border-white"
-        >
-          <span className="text-xs md:text-sm">Talk</span>
-        </button>
-      </div>
+      {/* 상담 타이밍 가이드 섹션 */}
+      <ConsultationTimingGuide />
 
-      {/* Talk 모달 */}
-      <Modal isOpen={isTalkModalOpen} onClose={() => setIsTalkModalOpen(false)} maxWidth="lg">
-        <ConsultationForm onCancel={() => setIsTalkModalOpen(false)} />
-      </Modal>
+      {/* 공감 섹션 - 당신의 상황, 우리가 이해합니다 */}
+      <EmpathySection />
 
-      {/* 전문성 강조 섹션 - 신뢰감 있는 블루 톤 */}
-      <section id="about" className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white overflow-hidden hero-parallax">
-        {/* Minimal Professional Pattern */}
-        <div className="absolute inset-0 w-full h-full">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="professionalDots" width="60" height="60" patternUnits="userSpaceOnUse">
-                <circle cx="30" cy="30" r="1" fill="#93c5fd" opacity="0.15" />
-              </pattern>
-            </defs>
-            {/* Subtle dot pattern */}
-            <rect width="100%" height="100%" fill="url(#professionalDots)" />
-            {/* Very subtle accent circles */}
-            <circle cx="15%" cy="30%" r="180" fill="#dbeafe" opacity="0.15" />
-            <circle cx="85%" cy="70%" r="200" fill="#bfdbfe" opacity="0.12" />
-          </svg>
-        </div>
-
-        <div className="relative z-10 w-full">
-          <div className="max-w-[1200px] px-6 md:px-12 mx-auto text-center">
-            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Expertise</p>
-            <h3 className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-gray-900 tracking-tight">
-              오직 이혼, 단 하나의 분야
-            </h3>
-            <p className="text-base md:text-xl text-gray-700 mb-8 md:mb-10 font-light max-w-2xl mx-auto leading-relaxed">
-              형사도, 민사도 하지 않습니다.<br />
-              <span className="font-semibold text-gray-900">이혼과 상간 사건</span>만을 연구합니다.
-            </p>
-            <p className="text-sm md:text-base text-gray-700 leading-relaxed max-w-xl mx-auto">
-              한 사건, 한 인생.<br />
-              더율은 <span className="font-bold text-gray-900">'이혼 이후의 삶'</span>을 설계합니다.
+      {/* 문제별 솔루션 게이트웨이 섹션 */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <div className="text-center mb-12">
+            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Your Case</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
+              뭐가 제일 급해요?
+            </h2>
+            <p className="text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
+              급한 것부터 하나씩 정리할게요
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* 더 플랜 섹션 - 하얀 배경 */}
-      <section id="plan" className="relative min-h-screen flex items-center bg-white">
-        <div className="w-full py-16 md:py-24">
-          <div className="max-w-[1200px] px-6 md:px-12 mx-auto">
-            {/* Title only (diagram removed) */}
-            <div className="relative text-center mb-10 md:mb-16">
-              <div className="relative z-[10]">
-                <p className="text-xs md:text-sm text-purple-600/70 mb-3 tracking-[0.2em] uppercase">Strategy</p>
-                <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
-                  더 플랜 <span className="text-gray-500 font-light">(The Plan)</span>
-                </h2>
-                <p className="text-base md:text-xl text-gray-700 font-light max-w-2xl mx-auto leading-relaxed">
-                  결혼은 실패했지만, 이혼만큼은 신중하게<br />
-                  <span className="text-gray-900 font-semibold">4가지 핵심 요소</span>의 완벽한 조화
-                </p>
-              </div>
-            </div>
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {/* 위자료 문제 */}
+            <DualPerspectiveCard
+              title="위자료 문제"
+              category="위자료"
+              landingPageUrl="/alimony-defense"
+              claimant={{
+                description: '정당한 보상 받아야죠\n증거부터 금액까지 다 챙겨드려요',
+                faqLinks: [
+                  { text: '상간자에게 위자료를 받을 수 있나요?', url: '/faq?category=위자료' },
+                  { text: '불륜 증거가 부족해도 위자료 청구 가능한가요?', url: '/faq?category=위자료' },
+                  { text: '위자료 금액은 어떻게 결정되나요?', url: '/faq?category=위자료' },
+                ],
+                stats: '평균 1.5억 받았어요',
+              }}
+              respondent={{
+                description: '부당한 청구 받았어요?\n과도한 금액, 확 줄여드려요',
+                faqLinks: [
+                  { text: '위자료 청구가 부당한 경우 대응 방법은?', url: '/faq?category=위자료' },
+                  { text: '위자료 금액이 너무 높은데 감액 가능한가요?', url: '/faq?category=위자료' },
+                  { text: '상대방 책임도 있는데 위자료를 내야 하나요?', url: '/faq?category=위자료' },
+                ],
+                stats: '70% 깎았어요',
+              }}
+            />
 
-            {/* 더플랜 상세 보기 버튼 */}
-            <div className="relative z-[10] text-center">
-              <Link
-                href="/the-plan"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all duration-300 hover:gap-4 shadow-lg hover:shadow-xl"
-              >
-                The Plan 자세히 보기
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
+            {/* 재산분할 문제 */}
+            <DualPerspectiveCard
+              title="재산분할 문제"
+              category="재산분할"
+              landingPageUrl="/property-division"
+              claimant={{
+                description: '공정하게 나누고 싶어요?\n숨긴 재산까지 다 찾아드려요',
+                faqLinks: [
+                  { text: '결혼 전 재산도 분할 대상인가요?', url: '/faq?category=재산분할' },
+                  { text: '상대방이 재산을 숨기고 있는 것 같아요', url: '/faq?category=재산분할' },
+                  { text: '전세보증금은 어떻게 나누나요?', url: '/faq?category=재산분할' },
+                ],
+                stats: '60% 지켰어요',
+              }}
+              respondent={{
+                description: '너무 많이 달라고 해요?\n정당한 만큼만 주면 돼요',
+                faqLinks: [
+                  { text: '빚도 재산분할 대상이 되나요?', url: '/faq?category=재산분할' },
+                  { text: '내 고유 재산을 지키려면 어떻게 해야 하나요?', url: '/faq?category=재산분할' },
+                  { text: '재산형성 기여도를 입증하는 방법은?', url: '/faq?category=재산분할' },
+                ],
+                stats: '0원. 완벽 방어했어요',
+              }}
+            />
+
+            {/* 양육권/양육비 문제 */}
+            <DualPerspectiveCard
+              title="양육권 · 양육비 문제"
+              category="양육권"
+              landingPageUrl="/custody-battle"
+              claimant={{
+                description: '아이와 함께하고 싶죠?\n양육권부터 양육비까지 다 챙겨요',
+                faqLinks: [
+                  { text: '경제력이 없어도 양육권을 가질 수 있나요?', url: '/faq?category=양육권' },
+                  { text: '양육비는 언제까지 받을 수 있나요?', url: '/faq?category=양육권' },
+                  { text: '양육비 얼마? 바로 계산 →', url: '/child-support-calculator' },
+                ],
+                stats: '10명 중 9명 성공',
+              }}
+              respondent={{
+                description: '양육비 부담되시나요?\n적정선 찾아드려요. 아이도 만나고요',
+                faqLinks: [
+                  { text: '양육비 금액이 너무 높은데 조정 가능한가요?', url: '/faq?category=양육권' },
+                  { text: '면접교섭권은 어떻게 행사하나요?', url: '/faq?category=양육권' },
+                  { text: '양육비를 못 낼 형편인데 어떻게 하나요?', url: '/faq?category=양육권' },
+                ],
+                stats: '딱 맞게 조정했어요',
+              }}
+            />
+
+            {/* 협의이혼 vs 재판이혼 */}
+            <DualPerspectiveCard
+              title="협의이혼 vs 재판이혼"
+              category="협의이혼"
+              claimant={{
+                description: '상대가 안 한대요?\n재판으로 끝내드려요. 유리하게요',
+                faqLinks: [
+                  { text: '협의가 안 될 때는 어떻게 하나요?', url: '/faq?category=협의이혼' },
+                  { text: '이혼소송 기간은 얼마나 걸리나요?', url: '/faq?category=협의이혼' },
+                  { text: '재판이혼에 필요한 증거는 무엇인가요?', url: '/faq?category=협의이혼' },
+                ],
+                stats: '6개월이면 끝나요',
+              }}
+              respondent={{
+                description: '이혼 원치 않아요?\n거부할 수 있어요. 도와드려요',
+                faqLinks: [
+                  { text: '협의이혼과 재판이혼의 차이는?', url: '/faq?category=협의이혼' },
+                  { text: '이혼을 거부할 수 있나요?', url: '/faq?category=협의이혼' },
+                  { text: '억지로 서명하라고 해요', url: '/faq?category=협의이혼' },
+                ],
+                stats: '절반 이상 막았어요',
+              }}
+            />
           </div>
         </div>
       </section>
@@ -240,8 +316,35 @@ export default function Home() {
       {/* Real Story 섹션 - 위자료/재산분할/양육권 통합 */}
       <RealStory />
 
-      {/* Insta더율 & YouTube 통합 섹션 */}
+      {/* FAQ Explorer 섹션 */}
+      <FAQExplorer />
+
+      {/* 간편 계산기 위젯 */}
+      <QuickCalculatorWidget />
+
+      {/* Insta더율 & YouTube 통합 섹션 - 친근감 형성 */}
       <InstaTheyoolSection />
+
+      {/* 변호사 칼럼 섹션 */}
+      <ExpertInsights />
+
+      {/* Talk 버튼 (오른쪽 하단 고정 + 플로팅) - 전역 */}
+      <div className="fixed bottom-8 right-4 z-50 animate-float">
+        <button
+          data-consultation-modal="true"
+          onClick={() => setIsTalkModalOpen(true)}
+          className="w-14 h-14 md:w-16 md:h-16 bg-black rounded-full text-white font-medium shadow-2xl hover:bg-gray-800 hover:scale-110 transition-all duration-300 flex items-center justify-center border-[0.5px] border-white"
+        >
+          <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Talk 모달 */}
+      <Modal isOpen={isTalkModalOpen} onClose={() => setIsTalkModalOpen(false)} maxWidth="3xl">
+        <EnhancedChannelSelector onClose={() => setIsTalkModalOpen(false)} />
+      </Modal>
 
       {/* 기존 위자료 섹션 (백업용 - 나중에 삭제) */}
       <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-blue-50/40 via-indigo-50/30 to-purple-50/40 hero-parallax">
@@ -546,112 +649,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 의뢰인 후기 섹션 */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <div className="text-center mb-16">
-            <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Testimonials</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-              의뢰인의 목소리
-            </h2>
-            <p className="text-base md:text-xl text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
-              직접 경험하신 분들의 진솔한 이야기입니다
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-lg">★</span>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                "처음에는 막막했지만, 더율의 전략적인 접근으로 예상보다 훨씬 좋은 결과를 얻었습니다. 특히 재산분할에서 숨겨진 재산을 찾아내 주셔서 정말 감사합니다."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
-                  <span className="text-blue-700 font-bold text-lg">김</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">김○○님</p>
-                  <p className="text-xs text-gray-500">재산분할 의뢰인</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-lg">★</span>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                "양육권 다툼으로 힘든 시기를 보냈는데, 변호사님의 따뜻한 위로와 체계적인 준비 덕분에 단독 양육권을 확보할 수 있었습니다. 진심으로 감사드립니다."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center">
-                  <span className="text-amber-700 font-bold text-lg">이</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">이○○님</p>
-                  <p className="text-xs text-gray-500">양육권 의뢰인</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-lg">★</span>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                "위자료 청구에서 증거가 부족하다고 생각했지만, 더율은 제가 놓친 부분까지 세심하게 챙겨주셨습니다. 5억 원이라는 결과는 상상도 못했습니다."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-pink-100 to-pink-200 rounded-full flex items-center justify-center">
-                  <span className="text-pink-700 font-bold text-lg">박</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">박○○님</p>
-                  <p className="text-xs text-gray-500">위자료 의뢰인</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 의뢰인 후기 섹션 - 캐러셀 */}
+      <TestimonialsCarousel />
 
       {/* 최종 CTA 섹션 - 희망과 새로운 시작 */}
-      <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-32 bg-gradient-to-b from-white via-purple-50/15 to-pink-50/20 hero-parallax overflow-hidden">
+      <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/30 to-amber-50/20 hero-parallax overflow-hidden">
         {/* Warm Hope Pattern */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="hopeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: '#fae8ff', stopOpacity: 0.25 }} />
-                <stop offset="100%" style={{ stopColor: '#fce7f3', stopOpacity: 0.25 }} />
+                <stop offset="0%" style={{ stopColor: '#dbeafe', stopOpacity: 0.25 }} />
+                <stop offset="100%" style={{ stopColor: '#fef3c7', stopOpacity: 0.25 }} />
               </linearGradient>
             </defs>
             {/* Gentle circles representing new beginning */}
             <circle cx="25%" cy="35%" r="200" fill="url(#hopeGrad)" />
-            <circle cx="75%" cy="65%" r="220" fill="#fdf2f8" opacity="0.3" />
-            <circle cx="50%" cy="50%" r="150" fill="#f3e8ff" opacity="0.2" />
+            <circle cx="75%" cy="65%" r="220" fill="#dbeafe" opacity="0.3" />
+            <circle cx="50%" cy="50%" r="150" fill="#fef3c7" opacity="0.2" />
           </svg>
         </div>
 
         <div className="relative z-10 w-full">
           <div className="max-w-[1200px] px-6 md:px-12 mx-auto text-center">
-            <p className="text-3xl md:text-5xl font-bold mb-10 md:mb-12 leading-tight text-gray-900">
-              지금, 당신의 상황을<br />전략으로 바꿀 때입니다.
+            <p className="text-3xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight text-gray-900">
+              오늘이 그날이에요
             </p>
-            <a
-              href="tel:1661-7633"
-              className="inline-block bg-gray-900 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-gray-800 transition-all hover-lift shadow-xl"
-            >
-              📞 지금 상담하기
-            </a>
+            <p className="text-base md:text-xl text-gray-600 mb-4 font-light max-w-2xl mx-auto">
+              하루하루가 아까워요<br />
+              3개월 후엔 달라져 있어요
+            </p>
+            <p className="text-sm md:text-base text-gray-500 mb-10 md:mb-12 italic max-w-xl mx-auto">
+              "다들 '진작 올걸' 해요"
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="tel:1661-7633"
+                className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-gray-800 transition-all hover-lift shadow-xl"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                지금 전화 → 1661-7633
+              </a>
+              <button
+                onClick={() => setIsTalkModalOpen(true)}
+                className="inline-flex items-center gap-2 bg-white text-gray-900 font-semibold px-8 py-4 md:px-10 md:py-5 rounded-full text-base md:text-lg border-2 border-gray-900 hover:bg-gray-50 transition-all shadow-lg"
+              >
+                카톡이 편하면 여기로
+              </button>
+            </div>
+            <p className="mt-6 text-sm text-gray-500">
+              100% 비밀 · 익명 OK
+            </p>
           </div>
         </div>
       </section>
@@ -661,12 +711,12 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-16">
             <div>
-              <h4 className="text-2xl font-bold mb-4">법무법인 더율</h4>
-              <p className="text-[var(--gray-400)] text-lg mb-4">이혼전문변호사</p>
+              <h4 className="text-2xl font-bold mb-4">더율</h4>
+              <p className="text-[var(--gray-400)] text-lg mb-4">이혼 전문이에요</p>
               <p className="text-[var(--gray-400)] text-sm">광고 책임 변호사 : 임은지</p>
             </div>
             <div>
-              <h4 className="text-xl font-bold mb-4">연락처</h4>
+              <h4 className="text-xl font-bold mb-4">바로 연락하세요</h4>
               <p className="text-[var(--gray-400)] mb-2">
                 전화: <a href="tel:1661-7633" className="hover:text-white transition-colors">1661-7633</a>
               </p>
@@ -675,7 +725,7 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <h4 className="text-xl font-bold mb-4">오시는 길</h4>
+              <h4 className="text-xl font-bold mb-4">여기 있어요</h4>
               <a href="/contact" className="block text-[var(--gray-400)] text-sm mb-3 hover:text-white transition-colors">
                 <span className="font-semibold text-white">천안 주사무소</span><br />
                 충남 천안시 동남구 청수5로 11, 9층

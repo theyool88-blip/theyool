@@ -54,10 +54,19 @@ export function extractHeadings(markdown: string) {
   let match;
   while ((match = regex.exec(markdown))) {
     const raw = match[1].trim();
+    // Remove markdown formatting: **, *, __, _, `, etc.
+    const cleanText = raw
+      .replace(/\*\*/g, '')  // Remove bold **
+      .replace(/\*/g, '')    // Remove italic *
+      .replace(/__/g, '')    // Remove bold __
+      .replace(/_/g, '')     // Remove italic _
+      .replace(/`/g, '')     // Remove code `
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links but keep text
+      .trim();
     headings.push({
-      text: raw,
+      text: cleanText,
       level: match[0].startsWith('###') ? 3 : 2,
-      id: slugify(raw),
+      id: slugify(cleanText),
     });
   }
   return headings;

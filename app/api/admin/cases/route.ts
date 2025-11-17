@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    console.log('Creating case with payload:', JSON.stringify(body, null, 2));
 
     // 필수 필드 검증
     if (!body.title) {
@@ -37,9 +38,11 @@ export async function POST(request: NextRequest) {
     const newCase = await createCase(body);
 
     if (!newCase) {
+      console.error('createCase returned null');
       return NextResponse.json({ success: false, message: '생성 중 오류가 발생했습니다.' }, { status: 500 });
     }
 
+    console.log('Case created successfully:', newCase.id);
     return NextResponse.json({ success: true, data: newCase });
   } catch (error) {
     console.error('Case 생성 실패:', error);

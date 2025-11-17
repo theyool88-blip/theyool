@@ -18,7 +18,7 @@ export default function PageLayout({ children }: PageLayoutProps) {
     <div className="min-h-screen bg-white">
       {/* Header - 홈페이지와 동일 */}
       <header className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm">
-        <nav className="max-w-[1200px] mx-auto px-6 lg:px-8">
+        <nav className="max-w-[1200px] mx-auto px-8 sm:px-16 md:px-20">
           <div className="flex justify-between items-center h-16">
             {/* 왼쪽: 햄버거 메뉴 */}
             <div className="flex items-center">
@@ -63,7 +63,7 @@ export default function PageLayout({ children }: PageLayoutProps) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[var(--gray-900)] text-white py-20 px-6 lg:px-8">
+      <footer className="bg-[var(--gray-900)] text-white py-20 px-8 sm:px-16 md:px-20">
         <div className="max-w-[1040px] mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-16">
             <div>

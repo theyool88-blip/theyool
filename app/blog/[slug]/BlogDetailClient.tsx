@@ -7,13 +7,25 @@ import Script from 'next/script';
 import ReactMarkdown from 'react-markdown';
 import type { BlogPost } from '@/lib/notion/blog';
 import { splitMarkdownMetadata, extractHeadings, plainText, slugify } from '@/lib/utils/markdown';
+import { parseInternalLink } from '@/lib/utils/contentLinks';
+import type { BlogPreviewData, CasePreviewData } from '@/types/linkPreview';
+import { InternalLinkPreview } from '@/components/features/ContentLinkPreview';
 
 interface BlogDetailClientProps {
   post: BlogPost;
   canonicalUrl: string;
+  blogPreviews: Map<string, BlogPreviewData>;
+  casePreviews: Map<string, CasePreviewData>;
+  similarPosts: BlogPost[];
 }
 
-export default function BlogDetailClient({ post, canonicalUrl }: BlogDetailClientProps) {
+export default function BlogDetailClient({
+  post,
+  canonicalUrl,
+  blogPreviews,
+  casePreviews,
+  similarPosts,
+}: BlogDetailClientProps) {
   const { content, backgroundImage } = splitMarkdownMetadata(post.content || '');
   const headings = extractHeadings(content);
   const jsonLd = {
@@ -158,6 +170,39 @@ export default function BlogDetailClient({ post, canonicalUrl }: BlogDetailClien
                   ),
                   a: ({ href, children }) => {
                     const url = typeof href === 'string' ? href : '';
+
+                    // Check if this is an internal link to blog or case
+                    const internalLink = parseInternalLink(url);
+
+                    if (internalLink) {
+                      // Get preview data for the internal link
+                      const previewData =
+                        internalLink.type === 'blog'
+                          ? blogPreviews.get(internalLink.slug)
+                          : casePreviews.get(internalLink.slug);
+
+                      // If preview data exists, render the rich preview component
+                      if (previewData) {
+                        return (
+                          <InternalLinkPreview
+                            {...previewData}
+                            type={internalLink.type}
+                          />
+                        );
+                      }
+
+                      // Internal link without preview data - render as enhanced link
+                      return (
+                        <a
+                          href={url}
+                          className="text-amber-700 underline-offset-4 hover:underline font-semibold"
+                        >
+                          {children}
+                        </a>
+                      );
+                    }
+
+                    // External or legacy link
                     const isLegacy = url.includes('theyool-divorce.com');
                     return (
                       <a
@@ -188,40 +233,103 @@ export default function BlogDetailClient({ post, canonicalUrl }: BlogDetailClien
             {JSON.stringify(jsonLd)}
           </Script>
 
-          {/* Bottom Actions */}
+          {/* 공유하기 버튼 */}
           <ScrollReveal delay={200}>
-            <div className="mt-16 pt-8 border-t border-gray-200">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <Link 
-                  href="/blog" 
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-full transition-all duration-300"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
-                  목록으로
-                </Link>
+            <div className="mt-16 text-center">
+              <button
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: post.title,
+                      url: window.location.href
+                    });
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('링크가 복사되었습니다.');
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold rounded-full transition-all duration-300"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                공유하기
+              </button>
+            </div>
+          </ScrollReveal>
 
-                <button 
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({
-                        title: post.title,
-                        url: window.location.href
-                      });
-                    } else {
-                      navigator.clipboard.writeText(window.location.href);
-                      alert('링크가 복사되었습니다.');
-                    }
-                  }}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-amber-100 hover:bg-amber-200 text-amber-800 font-semibold rounded-full transition-all duration-300"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                  </svg>
-                  공유하기
-                </button>
+          {/* 유사한 칼럼 추천 */}
+          {similarPosts.length > 0 && (
+            <ScrollReveal delay={300}>
+              <div className="mt-16 pt-12 border-t border-amber-100">
+                <div className="mb-8 text-center">
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                    유사한 칼럼
+                  </h2>
+                  <p className="text-gray-600">
+                    더율 변호사가 작성한 비슷한 주제의 칼럼을 확인해보세요
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-6">
+                  {similarPosts.map((similarPost) => (
+                    <Link
+                      key={similarPost.id}
+                      href={`/blog/${similarPost.slug}`}
+                      className="group"
+                    >
+                      <div className="h-full p-6 rounded-2xl border-2 border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-amber-50/30">
+                        {/* 카테고리 뱃지 */}
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {similarPost.categories?.slice(0, 2).map((cat, idx) => (
+                            <span
+                              key={idx}
+                              className="inline-block px-3 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full"
+                            >
+                              {cat}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* 제목 */}
+                        <h3 className="font-bold text-lg text-gray-900 group-hover:text-amber-700 transition-colors line-clamp-2 mb-3">
+                          {similarPost.title}
+                        </h3>
+
+                        {/* 요약 */}
+                        {similarPost.excerpt && (
+                          <p className="text-sm text-gray-600 line-clamp-3 mb-4">
+                            {similarPost.excerpt}
+                          </p>
+                        )}
+
+                        {/* 더보기 링크 */}
+                        <div className="flex items-center gap-2 text-amber-600 text-sm font-semibold">
+                          자세히 보기
+                          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
               </div>
+            </ScrollReveal>
+          )}
+
+          {/* 칼럼 전체보기 */}
+          <ScrollReveal delay={350}>
+            <div className="mt-8 text-center">
+              <Link
+                href="/blog"
+                className="group inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-semibold transition-all duration-300 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-gray-200 text-gray-900 hover:border-amber-300 hover:shadow-lg hover:scale-105"
+              >
+                변호사 칼럼 전체보기
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           </ScrollReveal>
         </div>
