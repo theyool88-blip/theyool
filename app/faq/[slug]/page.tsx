@@ -25,11 +25,15 @@ const categories = [
 
 // 동적 라우트를 위한 정적 경로 생성
 export async function generateStaticParams() {
-  const faqs = await getFAQs();
-
-  return faqs.map((faq) => ({
-    slug: faq.slug,
-  }));
+  try {
+    const faqs = await getFAQs();
+    return faqs.map((faq) => ({
+      slug: faq.slug,
+    }));
+  } catch (error) {
+    console.error('Failed to generate FAQ static params:', error);
+    return [];
+  }
 }
 
 // 메타데이터 생성
