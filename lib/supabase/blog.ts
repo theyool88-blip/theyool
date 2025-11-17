@@ -191,6 +191,38 @@ export async function getFeaturedBlogPosts(limit: number = 3): Promise<BlogPost[
   return data || [];
 }
 
+// Slug로 Blog Post 가져오기
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('slug', slug)
+    .eq('published', true)
+    .single();
+
+  if (error) {
+    console.error('Blog Post 조회 실패:', error);
+    return null;
+  }
+
+  return data;
+}
+
+// 모든 Blog Post의 Slug 가져오기 (Static Params 생성용)
+export async function getAllBlogSlugs(): Promise<string[]> {
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('slug')
+    .eq('published', true);
+
+  if (error) {
+    console.error('Blog Slugs 조회 실패:', error);
+    return [];
+  }
+
+  return data.map(post => post.slug);
+}
+
 /**
  * 유사한 칼럼 가져오기 (카테고리 기반 추천)
  * @param currentSlug - 현재 포스트의 slug

@@ -1,4 +1,4 @@
-import { getBlogPostBySlug, getAllBlogSlugs, getSimilarBlogPosts } from '@/lib/notion/blog';
+import { getBlogPostBySlug, getAllBlogSlugs, getSimilarBlogPosts } from '@/lib/supabase/blog';
 import { notFound } from 'next/navigation';
 import BlogDetailClient from './BlogDetailClient';
 import type { Metadata } from 'next';
