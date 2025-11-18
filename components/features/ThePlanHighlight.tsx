@@ -8,26 +8,34 @@ export default function ThePlanHighlight() {
       <div className="max-w-[1000px] mx-auto px-6 md:px-12">
         {/* 헤더 */}
         <div className="text-center mb-10">
-          <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Why The Yool?</p>
+          <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">Why The Plan?</p>
           <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
-            왜 더율인가?
+            결혼은 실패했지만
           </h2>
-          <p className="text-sm md:text-base text-gray-600 font-light">
-            1,200건의 경험으로 만든 체계적 승소 전략
+          <p className="text-base md:text-lg text-gray-700 font-normal">
+            이혼만큼은 완벽하게 준비하세요
           </p>
         </div>
 
         {/* THE PLAN 카드 */}
         <div className="bg-white rounded-2xl p-8 md:p-10 shadow-lg border border-gray-200">
+          {/* 신뢰 배지 */}
+          <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full mb-6">
+            1,200건의 성공 경험
+          </div>
+
           {/* 타이틀 영역 */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="text-5xl md:text-6xl font-bold text-gray-200 leading-none">
+          <div className="mb-8">
+            <div className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 leading-none">
               THE PLAN
             </div>
-            <div className="flex-1">
-              <p className="text-lg md:text-xl font-bold text-gray-900 mb-1">이겨놓고 설계하다</p>
-              <p className="text-sm md:text-base text-gray-600">무작정 시작하면 실패합니다</p>
-            </div>
+            <p className="text-lg md:text-xl font-semibold text-gray-800 mb-4">
+              이혼을 앞두고 막막하신가요?
+            </p>
+            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+              결혼할 때는 몰랐던 것들, 이혼할 때는 모든 걸 알고 결정해야 합니다.<br />
+              더율은 당신이 놓칠 수 있는 모든 것을 미리 준비합니다.
+            </p>
           </div>
 
           {/* 4가지 체크포인트 */}
