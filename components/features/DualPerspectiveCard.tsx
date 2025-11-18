@@ -27,6 +27,7 @@ export default function DualPerspectiveCard({
   landingPageUrl,
 }: DualPerspectiveCardProps) {
   const [activeTab, setActiveTab] = useState<'claimant' | 'respondent'>('claimant');
+  const [showAllFAQs, setShowAllFAQs] = useState(false);
 
   const currentContent = activeTab === 'claimant' ? claimant : respondent;
 
@@ -74,7 +75,7 @@ export default function DualPerspectiveCard({
 
         {/* 관련 FAQ */}
         <div className="space-y-2 mb-4">
-          {currentContent.faqLinks.map((link, index) => (
+          {currentContent.faqLinks.slice(0, showAllFAQs ? undefined : 2).map((link, index) => (
             <Link
               key={index}
               href={link.url}
@@ -83,6 +84,14 @@ export default function DualPerspectiveCard({
               • {link.text}
             </Link>
           ))}
+          {currentContent.faqLinks.length > 2 && (
+            <button
+              onClick={() => setShowAllFAQs(!showAllFAQs)}
+              className="text-xs text-purple-500 hover:text-purple-700 font-medium transition-colors"
+            >
+              {showAllFAQs ? '간단히 보기' : `+${currentContent.faqLinks.length - 2}개 더보기`}
+            </button>
+          )}
         </div>
 
         <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">

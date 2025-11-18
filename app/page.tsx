@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Script from 'next/script';
 import ConsultationButton from '@/components/features/ConsultationButton';
 import MobileMenu from '@/components/ui/MobileMenu';
 import SmoothScroll from '@/components/SmoothScroll';
@@ -18,8 +19,8 @@ import ExpertInsights from '@/components/features/ExpertInsights';
 import TestimonialsCarousel from '@/components/features/TestimonialsCarousel';
 import ThePlanHighlight from '@/components/features/ThePlanHighlight';
 import ConsultationTimingGuide from '@/components/features/ConsultationTimingGuide';
+import ConsultationProcess from '@/components/features/ConsultationProcess';
 import DualPerspectiveCard from '@/components/features/DualPerspectiveCard';
-import QuickCalculatorWidget from '@/components/features/QuickCalculatorWidget';
 import EnhancedChannelSelector from '@/components/features/EnhancedChannelSelector';
 
 export default function Home() {
@@ -30,6 +31,93 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Structured Data for SEO */}
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [
+              {
+                '@type': 'LegalService',
+                '@id': 'https://theyool.com/#legalservice',
+                name: '법무법인 더율',
+                description: '이혼 전문 법률 서비스 - 위자료, 재산분할, 양육권 전문',
+                url: 'https://theyool.com',
+                telephone: '1661-7633',
+                priceRange: '$$',
+                image: 'https://theyool.com/images/logo-horizontal.png',
+                address: {
+                  '@type': 'PostalAddress',
+                  addressCountry: 'KR',
+                  addressRegion: '충남',
+                  addressLocality: '천안시',
+                  streetAddress: '동남구 청수5로 11, 9층',
+                  postalCode: '31116'
+                },
+                geo: {
+                  '@type': 'GeoCoordinates',
+                  latitude: 36.8151,
+                  longitude: 127.1139
+                },
+                openingHoursSpecification: {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                  opens: '09:00',
+                  closes: '18:00'
+                },
+                aggregateRating: {
+                  '@type': 'AggregateRating',
+                  ratingValue: '4.8',
+                  reviewCount: '1200',
+                  bestRating: '5',
+                  worstRating: '1'
+                },
+                sameAs: [
+                  'https://www.instagram.com/theyool',
+                  'https://blog.naver.com/theyool'
+                ]
+              },
+              {
+                '@type': 'Organization',
+                '@id': 'https://theyool.com/#organization',
+                name: '법무법인 더율',
+                url: 'https://theyool.com',
+                logo: {
+                  '@type': 'ImageObject',
+                  url: 'https://theyool.com/images/logo-horizontal.png'
+                },
+                contactPoint: {
+                  '@type': 'ContactPoint',
+                  telephone: '1661-7633',
+                  contactType: 'Customer Service',
+                  areaServed: 'KR',
+                  availableLanguage: 'Korean'
+                },
+                founder: {
+                  '@type': 'Person',
+                  name: '육심원'
+                }
+              },
+              {
+                '@type': 'WebSite',
+                '@id': 'https://theyool.com/#website',
+                url: 'https://theyool.com',
+                name: '법무법인 더율',
+                publisher: {
+                  '@id': 'https://theyool.com/#organization'
+                },
+                potentialAction: {
+                  '@type': 'SearchAction',
+                  target: 'https://theyool.com/search?q={search_term_string}',
+                  'query-input': 'required name=search_term_string'
+                }
+              }
+            ]
+          })
+        }}
+      />
       <SmoothScroll />
       {/* Header - SKIN1004 스타일 */}
       <header className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm">
@@ -115,18 +203,18 @@ export default function Home() {
           <div className="ml-0 md:ml-12 flex flex-col items-start">
             {/* Subtitle */}
             <p className="text-base md:text-xl text-gray-900 mb-6 md:mb-8 tracking-wide font-normal hero-text-1">
-              지금이 딱 좋아요
+              혼자 결정하기 무서우시죠
             </p>
 
             {/* Main Title */}
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-[1.1] text-gray-900 tracking-tight hero-text-2">
-              1,200번의 새 출발<br />
+              1,200번 함께했어요<br />
               이번엔 당신 차례예요
             </h1>
 
             {/* Supporting Text */}
             <p className="text-sm md:text-base text-gray-700 mb-8 md:mb-10 font-light leading-relaxed hero-text-2">
-              법적 승리는 기본. 마음까지 돌봐드려요
+              법적 승리는 기본. 마음까지 챙겨드려요
             </p>
 
             {/* CTA Buttons */}
@@ -163,29 +251,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 상담 프로세스 안내 섹션 */}
+      <ConsultationProcess onOpenModal={() => setIsTalkModalOpen(true)} />
+
       {/* 신뢰 지표 섹션 - 품질 중심 */}
       <section className="pt-4 md:pt-6 pb-16 md:pb-24 bg-gradient-to-b from-white via-blue-50/20 to-white border-y border-blue-100/30">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">연 120+</p>
-              <p className="text-sm text-gray-600">연 120건만</p>
-              <p className="text-xs text-gray-400 mt-1">진짜 도움될 분만 선택</p>
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">연 120건</p>
+              <p className="text-sm text-gray-600">한 분 한 분</p>
+              <p className="text-xs text-gray-400 mt-1">정성껏 모십니다</p>
             </div>
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">92시간</p>
-              <p className="text-sm text-gray-600">한 건에 92시간</p>
-              <p className="text-xs text-gray-400 mt-1">남들은 15시간이에요</p>
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">평균 92시간</p>
+              <p className="text-sm text-gray-600">한 건에 쏟는 시간</p>
+              <p className="text-xs text-gray-400 mt-1">평균의 6배예요</p>
             </div>
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">1:1</p>
-              <p className="text-sm text-gray-600">전담 변호사 1명</p>
-              <p className="text-xs text-gray-400 mt-1">끝까지 함께해요</p>
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">전담 1명</p>
+              <p className="text-sm text-gray-600">변호사 1명이</p>
+              <p className="text-xs text-gray-400 mt-1">처음부터 끝까지</p>
             </div>
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">87%</p>
-              <p className="text-sm text-gray-600">87% 성공</p>
-              <p className="text-xs text-gray-400 mt-1">12년, 1,200건의 증명</p>
+              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">87% 성공</p>
+              <p className="text-sm text-gray-600">1,200번 증명</p>
+              <p className="text-xs text-gray-400 mt-1">12년 경험의 결과</p>
             </div>
           </div>
         </div>
@@ -318,9 +409,6 @@ export default function Home() {
 
       {/* FAQ Explorer 섹션 */}
       <FAQExplorer />
-
-      {/* 간편 계산기 위젯 */}
-      <QuickCalculatorWidget />
 
       {/* Insta더율 & YouTube 통합 섹션 - 친근감 형성 */}
       <InstaTheyoolSection />
@@ -682,25 +770,57 @@ export default function Home() {
             <p className="text-sm md:text-base text-gray-500 mb-10 md:mb-12 italic max-w-xl mx-auto">
               "다들 '진작 올걸' 해요"
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+
+            {/* 3가지 상담 선택 */}
+            <div className="grid md:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">
+              {/* 전화상담 */}
               <a
                 href="tel:1661-7633"
-                className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:bg-gray-800 transition-all hover-lift shadow-xl"
+                className="group bg-gray-900 text-white p-6 rounded-2xl hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                지금 전화 → 1661-7633
+                <div className="flex items-center justify-center mb-3">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </div>
+                <p className="font-bold text-lg mb-2">지금 바로 전화</p>
+                <p className="text-sm text-gray-300 mb-3">10분 무료 상담</p>
+                <p className="text-xl font-bold">1661-7633</p>
               </a>
+
+              {/* 영상/방문상담 */}
               <button
                 onClick={() => setIsTalkModalOpen(true)}
-                className="inline-flex items-center gap-2 bg-white text-gray-900 font-semibold px-8 py-4 md:px-10 md:py-5 rounded-full text-base md:text-lg border-2 border-gray-900 hover:bg-gray-50 transition-all shadow-lg"
+                className="group bg-blue-600 text-white p-6 rounded-2xl hover:bg-blue-700 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
               >
-                카톡이 편하면 여기로
+                <div className="flex items-center justify-center mb-3">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <p className="font-bold text-lg mb-2">영상/방문 예약</p>
+                <p className="text-sm text-blue-100 mb-3">편한 시간에 자세히</p>
+                <p className="text-base font-semibold">예약하기 →</p>
               </button>
+
+              {/* 상담 가이드 */}
+              <Link
+                href="/consultation"
+                className="group bg-white text-gray-900 p-6 rounded-2xl border-2 border-gray-300 hover:border-gray-900 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+              >
+                <div className="flex items-center justify-center mb-3">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p className="font-bold text-lg mb-2">처음이신가요?</p>
+                <p className="text-sm text-gray-600 mb-3">상담 방법 자세히 보기</p>
+                <p className="text-base font-semibold text-blue-600">가이드 보기 →</p>
+              </Link>
             </div>
-            <p className="mt-6 text-sm text-gray-500">
-              100% 비밀 · 익명 OK
+
+            <p className="text-sm text-gray-500">
+              100% 비밀 보장 · 익명 상담 가능 · 계약 강요 없음
             </p>
           </div>
         </div>

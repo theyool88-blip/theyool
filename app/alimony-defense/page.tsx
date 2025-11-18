@@ -11,6 +11,8 @@ import LitigationTimeline from '@/components/features/LitigationTimeline';
 import DocumentChecklist from '@/components/features/DocumentChecklist';
 import EvidenceGallery from '@/components/features/EvidenceGallery';
 import KakaoChannelButton from '@/components/features/KakaoChannelButton';
+import SectionHeader from '@/components/ui/SectionHeader';
+import CTABox, { CTAButton } from '@/components/ui/CTABox';
 
 export default function AlimonyDefensePage() {
   const [activeStrategy, setActiveStrategy] = useState(0);
@@ -90,33 +92,26 @@ export default function AlimonyDefensePage() {
       <div className="min-h-screen bg-gradient-to-b from-white via-gray-50/30 to-white py-20">
         {/* Hero Section */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center">
-            <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">
-              Alimony Defense
-            </p>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight leading-tight">
-              위자료 방어 전략
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-700 font-light max-w-3xl mx-auto leading-relaxed mb-6">
-              부당한 청구로부터 당신을 지키는<br />
-              검증된 방어 시스템
-            </p>
-            <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <p className="text-3xl font-bold text-gray-900 mb-2">평균 70%</p>
-                <p className="text-sm text-gray-600">감액 성공률</p>
-                <p className="text-xs text-gray-500 mt-1">더율 수임 사건 기준</p>
-              </div>
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <p className="text-3xl font-bold text-gray-900 mb-2">10년+</p>
-                <p className="text-sm text-gray-600">위자료 전문</p>
-                <p className="text-xs text-gray-500 mt-1">300건 이상 수임</p>
-              </div>
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <p className="text-3xl font-bold text-gray-900 mb-2">48시간</p>
-                <p className="text-sm text-gray-600">초기 대응</p>
-                <p className="text-xs text-gray-500 mt-1">즉시 상담하세요</p>
-              </div>
+          <SectionHeader
+            label="Alimony Defense"
+            title="위자료 방어 전략"
+            subtitle="부당한 청구로부터 당신을 지키는 검증된 방어 시스템"
+          />
+          <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-gray-900 mb-2">평균 70%</p>
+              <p className="text-sm text-gray-600">감액 성공률</p>
+              <p className="text-xs text-gray-500 mt-1">더율 수임 사건 기준</p>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-gray-900 mb-2">10년+</p>
+              <p className="text-sm text-gray-600">위자료 전문</p>
+              <p className="text-xs text-gray-500 mt-1">300건 이상 수임</p>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-gray-900 mb-2">48시간</p>
+              <p className="text-sm text-gray-600">초기 대응</p>
+              <p className="text-xs text-gray-500 mt-1">즉시 상담하세요</p>
             </div>
           </div>
         </section>
@@ -220,14 +215,11 @@ export default function AlimonyDefensePage() {
 
         {/* 3단계 방어 전략 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              3단계 방어 전략
-            </h2>
-            <p className="text-gray-600">
-              사건 유형에 따라 최적의 방어 전략을 선택합니다
-            </p>
-          </div>
+          <SectionHeader
+            label="Defense Strategy"
+            title="3단계 방어 전략"
+            subtitle="사건 유형에 따라 최적의 방어 전략을 선택합니다"
+          />
 
           {/* Strategy Tabs */}
           <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -308,14 +300,11 @@ export default function AlimonyDefensePage() {
 
         {/* 성공 사례 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              실제 방어 성공 사례
-            </h2>
-            <p className="text-gray-600">
-              부당한 청구를 막고, 정당한 금액으로 조정한 사례들
-            </p>
-          </div>
+          <SectionHeader
+            label="Success Stories"
+            title="실제 방어 성공 사례"
+            subtitle="부당한 청구를 막고, 정당한 금액으로 조정한 사례들"
+          />
 
           <div className="grid md:grid-cols-3 gap-6">
             {cases.length > 0 ? (
@@ -405,28 +394,51 @@ export default function AlimonyDefensePage() {
 
         {/* CTA */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <div className="bg-gray-900 rounded-2xl p-12 text-center text-white">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              전문가와 함께 시작하세요
-            </h2>
-            <p className="text-lg mb-8 text-gray-300">
-              초회 상담 무료 · 사건 분석 및 맞춤 전략 제시
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="tel:1661-7633"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all shadow-lg"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          <CTABox
+            title="전문가와 함께 시작하세요"
+            description="초회 상담 무료 · 사건 분석 및 맞춤 전략 제시"
+          >
+            <div className="inline-block bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full mb-6">
+              <p className="text-sm font-semibold flex items-center justify-center gap-2">
+                <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                지금 무료 상담 (1661-7633)
-              </Link>
+                이번 달 26분께 합리적인 해결책을 찾아드렸습니다 (평균 70% 감액)
+              </p>
             </div>
-            <p className="text-sm mt-6 text-gray-400">
-              평일 09:00-18:00 · 주말/공휴일 예약 상담 · 100% 비밀보장
-            </p>
-          </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <CTAButton
+                href="tel:1661-7633"
+                variant="primary"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                }
+              >
+                지금 무료 상담 (1661-7633)
+              </CTAButton>
+
+              <CTAButton
+                href="/consultation-flow"
+                variant="secondary"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                }
+              >
+                상담 흐름 보기
+              </CTAButton>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-white/20">
+              <p className="text-xs text-gray-400">
+                평일 09:00-18:00 · 주말/공휴일 예약 상담 · 100% 비밀보장
+              </p>
+            </div>
+          </CTABox>
         </section>
       </div>
 

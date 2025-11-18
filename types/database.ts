@@ -55,14 +55,15 @@ export interface Database {
       cases: {
         Row: {
           id: string;
+          notion_id: string | null;
           title: string;
-          category: 'alimony' | 'property' | 'custody' | 'adultery';
+          slug: string;
+          categories: string[]; // 실제 DB: 배열 ["상간", "재산분할", "이혼"]
           badge: string | null;
           background: string;
           strategy: string;
           result: string;
           icon: string | null;
-          image_url: string | null;
           published: boolean;
           views: number;
           sort_order: number | null;
@@ -71,14 +72,15 @@ export interface Database {
         };
         Insert: {
           id?: string;
+          notion_id?: string | null;
           title: string;
-          category: 'alimony' | 'property' | 'custody' | 'adultery';
+          slug: string;
+          categories?: string[];
           badge?: string | null;
           background: string;
           strategy: string;
           result: string;
           icon?: string | null;
-          image_url?: string | null;
           published?: boolean;
           views?: number;
           sort_order?: number | null;
@@ -87,14 +89,15 @@ export interface Database {
         };
         Update: {
           id?: string;
+          notion_id?: string | null;
           title?: string;
-          category?: 'alimony' | 'property' | 'custody' | 'adultery';
+          slug?: string;
+          categories?: string[];
           badge?: string | null;
           background?: string;
           strategy?: string;
           result?: string;
           icon?: string | null;
-          image_url?: string | null;
           published?: boolean;
           views?: number;
           sort_order?: number | null;
@@ -105,54 +108,54 @@ export interface Database {
       blog_posts: {
         Row: {
           id: string;
+          notion_id: string | null;
           slug: string;
           title: string;
           excerpt: string | null;
           content: string;
-          category: string | null;
+          categories: string[]; // 실제 DB: 배열 ["양육권"]
           tags: string[];
-          thumbnail_url: string | null;
           author: string;
           published: boolean;
           featured: boolean;
           views: number;
+          published_at: string | null;
           created_at: string;
           updated_at: string;
-          published_at: string | null;
         };
         Insert: {
           id?: string;
+          notion_id?: string | null;
           slug: string;
           title: string;
           excerpt?: string | null;
           content: string;
-          category?: string | null;
+          categories?: string[];
           tags?: string[];
-          thumbnail_url?: string | null;
           author?: string;
           published?: boolean;
           featured?: boolean;
           views?: number;
+          published_at?: string | null;
           created_at?: string;
           updated_at?: string;
-          published_at?: string | null;
         };
         Update: {
           id?: string;
+          notion_id?: string | null;
           slug?: string;
           title?: string;
           excerpt?: string | null;
           content?: string;
-          category?: string | null;
+          categories?: string[];
           tags?: string[];
-          thumbnail_url?: string | null;
           author?: string;
           published?: boolean;
           featured?: boolean;
           views?: number;
+          published_at?: string | null;
           created_at?: string;
           updated_at?: string;
-          published_at?: string | null;
         };
       };
     };

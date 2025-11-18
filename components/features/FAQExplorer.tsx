@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import CTABox, { CTAButton } from '@/components/ui/CTABox';
 
 export default function FAQExplorer() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(0); // 첫 번째 FAQ 기본 선택
@@ -150,59 +151,47 @@ export default function FAQExplorer() {
         </div>
 
         {/* Bottom CTA Section */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 md:p-10 text-center text-white">
-          <p className="text-xl md:text-2xl font-bold mb-4">
-            아직 궁금증이 남았나요?
-          </p>
-          <p className="text-sm md:text-base text-gray-300 mb-8 max-w-xl mx-auto">
-            76개 실전 Q&A로 바로 답을 찾아보세요
-          </p>
-
-          {/* CTA Buttons */}
+        <CTABox
+          title="아직 궁금증이 남았나요?"
+          description="76개 실전 Q&A로 바로 답을 찾아보세요"
+        >
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
+            <CTAButton
               href="/faq"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl"
+              variant="primary"
+              icon={
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              }
             >
               76개 Q&A 전체 보기
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </Link>
+            </CTAButton>
 
-            <button
+            <CTAButton
+              variant="secondary"
               onClick={() => {
                 const modal = document.querySelector('[data-consultation-modal]');
                 if (modal) {
                   (modal as HTMLElement).click();
                 }
               }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-gray-900 transition-all duration-300"
+              icon={
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              }
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                />
-              </svg>
               무료 상담 신청하기
-            </button>
+            </CTAButton>
           </div>
 
-          {/* Trust Indicators */}
           <div className="mt-6 pt-6 border-t border-white/20">
             <p className="text-xs text-gray-400">
               100% 비밀보장 · 익명상담 가능 · 24시간 내 연락
             </p>
           </div>
-        </div>
+        </CTABox>
       </div>
     </section>
   );

@@ -12,6 +12,8 @@ import LitigationTimeline from '@/components/features/LitigationTimeline';
 import DocumentChecklist from '@/components/features/DocumentChecklist';
 import EvidenceGallery from '@/components/features/EvidenceGallery';
 import KakaoChannelButton from '@/components/features/KakaoChannelButton';
+import SectionHeader from '@/components/ui/SectionHeader';
+import CTABox, { CTAButton } from '@/components/ui/CTABox';
 
 export default function PropertyDivisionPage() {
   const [activeStrategy, setActiveStrategy] = useState(0);
@@ -79,17 +81,11 @@ export default function PropertyDivisionPage() {
       <div className="min-h-screen bg-gradient-to-b from-white via-gray-50/30 to-white py-20">
         {/* Hero Section */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center">
-            <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">
-              Property Division
-            </p>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight leading-tight">
-              재산분할 전략
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-700 font-light max-w-3xl mx-auto leading-relaxed mb-6">
-              당신의 정당한 몫을 지키는<br />
-              체계적인 재산 분석 시스템
-            </p>
+          <SectionHeader
+            label="Property Division"
+            title="재산분할 전략"
+            subtitle="당신의 정당한 몫을 지키는 체계적인 재산 분석 시스템"
+          />
             <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
               <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
                 <p className="text-3xl font-bold text-gray-900 mb-2">30%</p>
@@ -107,22 +103,25 @@ export default function PropertyDivisionPage() {
                 <p className="text-xs text-gray-500 mt-1">즉시 상담하세요</p>
               </div>
             </div>
-          </div>
         </section>
 
         {/* 긴급 상황 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8">
+          <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-8">
             <div className="flex items-start gap-4 mb-6">
-              <div className="text-4xl">🚨</div>
+              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+              </div>
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  ⚡ 재산 은닉 징후, 1주일이 골든타임
+                  재산 은닉 신호를 놓치지 마세요
                 </h2>
                 <p className="text-gray-800 font-semibold mb-1">
-                  지금 대응하지 않으면 <span className="text-gray-900">수억 원을 놓칠 수</span> 있습니다
+                  빠를수록 더 많이 지킬 수 있어요 <span className="text-blue-600">(골든타임 1주일)</span>
                 </p>
-                <p className="text-sm text-gray-600">다음 징후 발견 시 <strong>즉시 재산조회 신청</strong>하세요</p>
+                <p className="text-sm text-gray-600">다음 징후 발견 시 <strong>바로 재산조회 신청</strong>하세요</p>
               </div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
@@ -141,12 +140,12 @@ export default function PropertyDivisionPage() {
             <div className="mt-6 text-center">
               <Link
                 href="tel:1661-7633"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-red-500 text-white rounded-full font-bold text-lg hover:bg-red-600 transition-all shadow-lg"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-green-700 text-white rounded-full font-bold text-lg hover:bg-green-800 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                긴급 재산조회 신청 (1661-7633)
+                지금 재산조회 신청 (1661-7633)
               </Link>
             </div>
           </div>
@@ -209,14 +208,11 @@ export default function PropertyDivisionPage() {
 
         {/* 3대 전략 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              재산분할 3대 전략
-            </h2>
-            <p className="text-gray-600">
-              상황에 따라 최적의 전략을 선택합니다
-            </p>
-          </div>
+          <SectionHeader
+            label="Strategic Approach"
+            title="재산분할 3대 전략"
+            subtitle="상황에 따라 최적의 전략을 선택합니다"
+          />
 
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             {strategies.map((strategy, index) => (
@@ -345,14 +341,11 @@ export default function PropertyDivisionPage() {
 
         {/* 성공 사례 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              실제 재산분할 성공 사례
-            </h2>
-            <p className="text-gray-600">
-              숨긴 재산을 찾고, 정당한 기여도를 인정받은 사례들
-            </p>
-          </div>
+          <SectionHeader
+            label="Success Stories"
+            title="실제 재산분할 성공 사례"
+            subtitle="숨긴 재산을 찾고, 정당한 기여도를 인정받은 사례들"
+          />
 
           <div className="grid md:grid-cols-3 gap-6">
             {cases.length > 0 ? (
@@ -430,43 +423,55 @@ export default function PropertyDivisionPage() {
 
         {/* CTA */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-12 text-center text-white">
-            <div className="inline-block bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full mb-4">
-              <p className="text-sm font-semibold">💰 이번 달 이미 19명이 평균 8,500만원 추가 획득</p>
+          <CTABox
+            title="다음은 당신의 정당한 몫 찾을 차례"
+            description="오늘 상담하면 재산조회 신청서 무료 작성"
+          >
+            <div className="inline-block bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full mb-6">
+              <p className="text-sm font-semibold flex items-center justify-center gap-2">
+                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                이번 달 19분께 정당한 몫을 찾아드렸습니다 (평균 8,500만원)
+              </p>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              다음은 당신의 정당한 몫 찾을 차례
-            </h2>
-            <p className="text-lg mb-2 opacity-90">
-              <strong>오늘 상담하면 재산조회 신청서 무료 작성</strong>
-            </p>
-            <p className="text-sm mb-8 opacity-75">
+
+            <p className="text-sm text-gray-300 mb-8">
               초회 상담 무료 · 은닉 재산 추적 전문 · 평균 60% 기여도 · 긴급 재산조회 가능
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <CTAButton
                 href="tel:1661-7633"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-lg"
+                variant="primary"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                }
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                긴급 상담 (1661-7633)
-              </Link>
-              <Link
+                지금 상담하기 (1661-7633)
+              </CTAButton>
+
+              <CTAButton
                 href="/consultation-flow"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-800 text-white rounded-full font-bold text-lg hover:bg-emerald-700 transition-all border-2 border-white"
+                variant="secondary"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                }
               >
                 상담 흐름 보기
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
+              </CTAButton>
             </div>
-            <p className="text-sm mt-6 opacity-75">
-              평일 09:00-18:00 · 주말/공휴일 예약 상담 · 100% 비밀보장
-            </p>
-          </div>
+
+            <div className="mt-6 pt-6 border-t border-white/20">
+              <p className="text-xs text-gray-400">
+                평일 09:00-18:00 · 주말/공휴일 예약 상담 · 100% 비밀보장
+              </p>
+            </div>
+          </CTABox>
         </section>
       </div>
 

@@ -11,6 +11,8 @@ import LitigationTimeline from '@/components/features/LitigationTimeline';
 import DocumentChecklist from '@/components/features/DocumentChecklist';
 import EvidenceGallery from '@/components/features/EvidenceGallery';
 import KakaoChannelButton from '@/components/features/KakaoChannelButton';
+import SectionHeader from '@/components/ui/SectionHeader';
+import CTABox, { CTAButton } from '@/components/ui/CTABox';
 
 export default function CustodyBattlePage() {
   const [activeChecklist, setActiveChecklist] = useState(0);
@@ -70,43 +72,36 @@ export default function CustodyBattlePage() {
       <div className="min-h-screen bg-gradient-to-b from-white via-gray-50/30 to-white py-20">
         {/* Hero Section */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center">
-            <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-[0.2em] uppercase">
-              Child Custody
-            </p>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight leading-tight">
-              양육권 확보 전략
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-700 font-light max-w-3xl mx-auto leading-relaxed mb-6">
-              아이와 함께할 권리를 지키는<br />
-              과학적 준비 시스템
-            </p>
-            <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <p className="text-3xl font-bold text-gray-900 mb-2">87%</p>
-                <p className="text-sm text-gray-600">양육권 확보율</p>
-                <p className="text-xs text-gray-500 mt-1">더율 수임 사건 기준</p>
-              </div>
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <p className="text-3xl font-bold text-gray-900 mb-2">10년+</p>
-                <p className="text-sm text-gray-600">양육권 전문</p>
-                <p className="text-xs text-gray-500 mt-1">200건 이상 수임</p>
-              </div>
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <p className="text-3xl font-bold text-gray-900 mb-2">72시간</p>
-                <p className="text-sm text-gray-600">긴급 대응</p>
-                <p className="text-xs text-gray-500 mt-1">즉시 상담하세요</p>
-              </div>
+          <SectionHeader
+            label="Child Custody"
+            title="양육권 확보 전략"
+            subtitle="아이와 함께할 권리를 지키는 과학적 준비 시스템"
+          />
+          <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-gray-900 mb-2">87%</p>
+              <p className="text-sm text-gray-600">양육권 확보율</p>
+              <p className="text-xs text-gray-500 mt-1">더율 수임 사건 기준</p>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-gray-900 mb-2">10년+</p>
+              <p className="text-sm text-gray-600">양육권 전문</p>
+              <p className="text-xs text-gray-500 mt-1">200건 이상 수임</p>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-gray-900 mb-2">72시간</p>
+              <p className="text-sm text-gray-600">긴급 대응</p>
+              <p className="text-xs text-gray-500 mt-1">즉시 상담하세요</p>
             </div>
           </div>
         </section>
 
         {/* 긴급 상황 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8">
+          <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-8">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                긴급 상황 대응이 필요합니다
+                빠른 대응이 아이를 지킵니다
               </h2>
               <p className="text-gray-700 mb-4">
                 다음 상황에서는 즉시 법률 자문을 받으세요
@@ -123,12 +118,12 @@ export default function CustodyBattlePage() {
             <div className="mt-6 text-center">
               <Link
                 href="tel:1661-7633"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-red-500 text-white rounded-full font-bold text-lg hover:bg-red-600 transition-all shadow-lg"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-rose-600 text-white rounded-full font-bold text-lg hover:bg-rose-700 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                긴급 법률 자문 (1661-7633)
+                지금 법률 자문받기 (1661-7633)
               </Link>
             </div>
           </div>
@@ -192,14 +187,11 @@ export default function CustodyBattlePage() {
 
         {/* 판사 체크리스트 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              판사가 보는 핵심 요소
-            </h2>
-            <p className="text-gray-600">
-              엄마 vs 아빠, 무엇이 다르게 평가되는가?
-            </p>
-          </div>
+          <SectionHeader
+            label="Judge's Criteria"
+            title="판사가 보는 핵심 요소"
+            subtitle="엄마 vs 아빠, 무엇이 다르게 평가되는가?"
+          />
 
           {/* Tabs */}
           <div className="flex justify-center gap-4 mb-8">
@@ -253,14 +245,11 @@ export default function CustodyBattlePage() {
 
         {/* 성공 사례 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              실제 양육권 확보 사례
-            </h2>
-            <p className="text-gray-600">
-              경제력이 아닌, 사랑과 전략으로 이긴 사례들
-            </p>
-          </div>
+          <SectionHeader
+            label="Success Stories"
+            title="실제 양육권 확보 사례"
+            subtitle="경제력이 아닌, 사랑과 전략으로 이긴 사례들"
+          />
 
           <div className="grid md:grid-cols-3 gap-6">
             {cases.length > 0 ? (
@@ -338,43 +327,55 @@ export default function CustodyBattlePage() {
 
         {/* CTA */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <div className="bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl p-12 text-center text-white">
-            <div className="inline-block bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full mb-4">
-              <p className="text-sm font-semibold">💕 이번 달 이미 17명의 엄마/아빠가 승소했습니다</p>
+          <CTABox
+            title="다음은 당신과 아이 차례입니다"
+            description="오늘 상담하면 양육 계획서 무료 작성"
+          >
+            <div className="inline-block bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full mb-6">
+              <p className="text-sm font-semibold flex items-center justify-center gap-2">
+                <svg className="w-4 h-4 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                이번 달 17분의 부모님께 아이와 함께할 길을 열어드렸습니다
+              </p>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              다음은 당신과 아이 차례입니다
-            </h2>
-            <p className="text-lg mb-2 opacity-90">
-              <strong>오늘 상담하면 양육 계획서 무료 작성</strong>
-            </p>
-            <p className="text-sm mb-8 opacity-75">
+
+            <p className="text-sm text-gray-300 mb-8">
               초회 상담 무료 · 양육권 전문 10년 · 87% 확보율 · 긴급 대응 가능
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <CTAButton
                 href="tel:1661-7633"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-lg"
+                variant="primary"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                }
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                긴급 상담 (1661-7633)
-              </Link>
-              <Link
+                지금 상담하기 (1661-7633)
+              </CTAButton>
+
+              <CTAButton
                 href="/child-support-calculator"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-800 text-white rounded-full font-bold text-lg hover:bg-pink-700 transition-all border-2 border-white"
+                variant="secondary"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                }
               >
                 양육비 계산하기
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
+              </CTAButton>
             </div>
-            <p className="text-sm mt-6 opacity-75">
-              평일 09:00-18:00 · 주말/공휴일 예약 상담 · 100% 비밀보장
-            </p>
-          </div>
+
+            <div className="mt-6 pt-6 border-t border-white/20">
+              <p className="text-xs text-gray-400">
+                평일 09:00-18:00 · 주말/공휴일 예약 상담 · 100% 비밀보장
+              </p>
+            </div>
+          </CTABox>
         </section>
       </div>
 

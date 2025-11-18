@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { categoryMap, categoryImageMap, categoryOverlayMap, bgColorMap } from '@/lib/notion/types';
+import { categoryMap, categoryImageMap, categoryOverlayMap, bgColorMap } from '@/lib/constants/categories';
 import type { CaseListItem, CaseDetail } from '@/types/case';
 import { splitMarkdownMetadata } from '@/lib/utils/markdown';
 
