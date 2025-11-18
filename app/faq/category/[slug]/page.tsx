@@ -1,4 +1,4 @@
-import { getFAQs } from '@/lib/notion/faq';
+import { getFAQs } from '@/lib/supabase/faq';
 import PageLayout from '@/components/layouts/PageLayout';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -54,7 +54,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   }
 
   const allFAQs = await getFAQs();
-  const categoryFAQs = allFAQs.filter(faq => faq.카테고리.includes(category.name));
+  const categoryFAQs = allFAQs.filter(faq => faq.category === category.name);
 
   return (
     <PageLayout>
@@ -96,21 +96,21 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               {categoryFAQs.map((faq, idx) => (
                 <Link
                   key={faq.id}
-                  href={`/faq/${faq.id}`}
+                  href={`/faq/${faq.slug}`}
                   className={`flex items-start justify-between gap-6 py-8 ${
                     idx !== 0 ? 'border-t border-gray-200' : ''
                   } hover:bg-gray-50 transition-colors group`}
                 >
                   <div className="flex-1 min-w-0">
-                    {faq.추천 && (
+                    {faq.featured && (
                       <span className="text-xs text-gray-900 font-semibold mb-2 block">필수</span>
                     )}
                     <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-gray-600 transition-colors">
-                      {faq.질문}
+                      {faq.question}
                     </h3>
-                    {faq.요약 && (
+                    {faq.summary && (
                       <p className="text-sm md:text-base text-gray-600 line-clamp-2 leading-relaxed">
-                        {faq.요약}
+                        {faq.summary}
                       </p>
                     )}
                   </div>
