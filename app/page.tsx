@@ -16,7 +16,7 @@ import SectionReveal from '@/components/effects/SectionReveal';
 import FAQExplorer from '@/components/features/FAQExplorer';
 import ExpertInsights from '@/components/features/ExpertInsights';
 import TestimonialsCarousel from '@/components/features/TestimonialsCarousel';
-import EmpathySection from '@/components/features/EmpathySection';
+import ThePlanHighlight from '@/components/features/ThePlanHighlight';
 import ConsultationTimingGuide from '@/components/features/ConsultationTimingGuide';
 import DualPerspectiveCard from '@/components/features/DualPerspectiveCard';
 import QuickCalculatorWidget from '@/components/features/QuickCalculatorWidget';
@@ -111,7 +111,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/20 to-white/30 z-[1]"></div>
 
         {/* Content */}
-        <div className="hero-content relative z-10 flex-1 flex flex-col justify-end pb-28 md:pb-36 px-6 md:px-12 max-w-[1200px] mx-auto w-full">
+        <div className="hero-content relative z-10 flex-1 flex flex-col justify-end pb-12 md:pb-16 px-6 md:px-12 max-w-[1200px] mx-auto w-full">
           <div className="ml-0 md:ml-12 flex flex-col items-start">
             {/* Subtitle */}
             <p className="text-base md:text-xl text-gray-900 mb-6 md:mb-8 tracking-wide font-normal hero-text-1">
@@ -164,7 +164,7 @@ export default function Home() {
       </section>
 
       {/* 신뢰 지표 섹션 - 품질 중심 */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white border-y border-blue-100/30">
+      <section className="pt-4 md:pt-6 pb-16 md:pb-24 bg-gradient-to-b from-white via-blue-50/20 to-white border-y border-blue-100/30">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="scroll-reveal">
@@ -194,8 +194,8 @@ export default function Home() {
       {/* 상담 타이밍 가이드 섹션 */}
       <ConsultationTimingGuide />
 
-      {/* 공감 섹션 - 당신의 상황, 우리가 이해합니다 */}
-      <EmpathySection />
+      {/* THE PLAN 하이라이트 - 왜 더율인가? */}
+      <ThePlanHighlight />
 
       {/* 문제별 솔루션 게이트웨이 섹션 */}
       <section className="py-16 md:py-24 bg-white">

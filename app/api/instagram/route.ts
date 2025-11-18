@@ -20,7 +20,11 @@ export const revalidate = 0;
 export async function GET() {
   // 환경변수가 없으면 빈 배열 반환
   if (!hasValidEnvironment()) {
-    return NextResponse.json({ posts: [] });
+    console.warn('[Instagram API] Missing environment variables. Check NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in deployment.');
+    return NextResponse.json({
+      posts: [],
+      error: 'Missing environment variables'
+    });
   }
 
   try {
@@ -31,8 +35,15 @@ export async function GET() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Failed to fetch instagram posts:', error);
-      return NextResponse.json({ posts: [] }, { status: 200 });
+      console.error('[Instagram API] Database error:', error);
+      return NextResponse.json({
+        posts: [],
+        error: error.message
+      }, { status: 200 });
+    }
+
+    if (!posts || posts.length === 0) {
+      console.warn('[Instagram API] No published posts found in database');
     }
 
     const enriched = posts.map((p) => ({
@@ -53,9 +64,13 @@ export async function GET() {
       authorProfileUrl: p.author_profile_url || null,
     }));
 
+    console.log(`[Instagram API] Successfully fetched ${enriched.length} posts`);
     return NextResponse.json({ posts: enriched });
   } catch (e) {
-    console.error('Failed to fetch instagram posts:', e);
-    return NextResponse.json({ posts: [] }, { status: 200 });
+    console.error('[Instagram API] Unexpected error:', e);
+    return NextResponse.json({
+      posts: [],
+      error: e instanceof Error ? e.message : 'Unknown error'
+    }, { status: 200 });
   }
 }
