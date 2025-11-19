@@ -161,14 +161,25 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
             {faq.question}
           </h1>
 
-          {/* 작성일 */}
-          <p className="text-sm text-gray-500">
-            {new Date(faq.created_at).toLocaleDateString('ko-KR', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
-          </p>
+          {/* 작성일 및 변호사 정보 */}
+          <div className="flex items-center gap-4 text-sm text-gray-500">
+            <p>
+              {new Date(faq.created_at).toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </p>
+            <span className="text-gray-300">|</span>
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
+              </svg>
+              <p className="text-gray-700 font-medium">
+                답변: <span className="text-gray-900">임은지 변호사</span> <span className="text-xs text-gray-500">(이혼전문)</span>
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -183,9 +194,9 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
                   return (
                     <div
                       key={idx}
-                      className="bg-gray-50 border-l-2 border-gray-900 p-6 my-8"
+                      className="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-6 my-8 shadow-sm"
                     >
-                      <p className="text-base text-gray-800 leading-relaxed">
+                      <p className="text-base text-amber-900 leading-relaxed">
                         {paragraph.replace('💬 ', '')}
                       </p>
                     </div>

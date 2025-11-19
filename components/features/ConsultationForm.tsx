@@ -110,15 +110,26 @@ export default function ConsultationForm({ onSuccess, onCancel }: ConsultationFo
 
   if (submitSuccess) {
     return (
-      <div className="text-center py-8 md:py-12">
-        <div className="mb-4 md:mb-6 text-5xl md:text-6xl">✅</div>
-        <h3 className="text-xl md:text-2xl font-bold text-[var(--primary)] mb-3 md:mb-4">
-          상담 신청이 완료되었습니다
+      <div className="text-center py-12">
+        {/* 세련된 성공 아이콘 */}
+        <div className="mb-8 inline-flex items-center justify-center w-16 h-16 bg-gray-900 rounded-full">
+          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+
+        <h3 className="text-2xl font-bold text-gray-900 mb-3">
+          신청이 완료되었습니다
         </h3>
-        <p className="text-sm md:text-base text-[var(--gray-600)] mb-6 md:mb-8">
-          빠른 시일 내에 연락드리겠습니다.
+        <p className="text-base text-gray-600 mb-8">
+          빠른 시일 내에 연락드리겠습니다
         </p>
-        <Button onClick={() => setSubmitSuccess(false)}>
+
+        <Button
+          onClick={() => setSubmitSuccess(false)}
+          variant="outline"
+          className="border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+        >
           추가 상담 신청
         </Button>
       </div>
@@ -126,16 +137,18 @@ export default function ConsultationForm({ onSuccess, onCancel }: ConsultationFo
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-      <div className="text-center mb-6 md:mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-[var(--primary)] mb-2">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* 헤더 - 미니멀 */}
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">
           무료 상담 신청
         </h2>
-        <p className="text-sm md:text-base text-[var(--gray-600)]">
-          30분 무료 초기 상담을 진행해드립니다
+        <p className="text-base text-gray-600">
+          평균 2시간 내 연락드립니다
         </p>
       </div>
 
+      {/* 폼 필드들 */}
       <Input
         label="이름"
         type="text"
@@ -154,17 +167,15 @@ export default function ConsultationForm({ onSuccess, onCancel }: ConsultationFo
         value={formData.phone}
         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
         error={errors.phone}
-        helperText="상담 일정 조율을 위해 필요합니다"
       />
 
       <Input
-        label="이메일"
+        label="이메일 (선택)"
         type="email"
         placeholder="example@email.com"
         value={formData.email}
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         error={errors.email}
-        helperText="(선택) 이메일로도 연락 가능합니다"
       />
 
       <Select
@@ -176,42 +187,46 @@ export default function ConsultationForm({ onSuccess, onCancel }: ConsultationFo
       />
 
       <Textarea
-        label="상담 내용"
+        label="상담 내용 (선택)"
         placeholder="간략하게 상황을 알려주시면 더욱 정확한 상담이 가능합니다"
-        rows={5}
+        rows={4}
         value={formData.message}
         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-        helperText="(선택) 비밀이 보장됩니다"
       />
 
-      <div className="bg-[var(--gray-50)] p-4 rounded-lg">
-        <label className="flex items-start gap-3 cursor-pointer">
+      {/* 개인정보 동의 - 세련된 디자인 */}
+      <div className="bg-gray-50 p-5 rounded-2xl">
+        <label className="flex items-start gap-3 cursor-pointer group">
           <input
             type="checkbox"
             checked={formData.agree_privacy}
             onChange={(e) => setFormData({ ...formData, agree_privacy: e.target.checked })}
-            className="mt-1 w-5 h-5 rounded border-[var(--gray-300)] text-[var(--accent)] focus:ring-[var(--accent)]"
+            className="mt-0.5 w-5 h-5 rounded border-gray-300 text-gray-900 focus:ring-gray-900 cursor-pointer"
           />
-          <span className="text-sm text-[var(--gray-700)]">
-            개인정보 수집 및 이용에 동의합니다 <span className="text-red-500">*</span>
-            <br />
-            <span className="text-xs text-[var(--gray-500)]">
-              상담 목적으로만 사용되며, 상담 완료 후 1년 뒤 파기됩니다.
+          <span className="flex-1">
+            <span className="text-sm font-semibold text-gray-900 block mb-1">
+              개인정보 수집 및 이용에 동의합니다 <span className="text-red-500">*</span>
+            </span>
+            <span className="text-xs text-gray-600 leading-relaxed">
+              상담 목적으로만 사용되며, 제3자 제공 없이 비밀이 보장됩니다.
             </span>
           </span>
         </label>
         {errors.agree_privacy && (
-          <p className="mt-2 text-sm text-red-500">{errors.agree_privacy}</p>
+          <p className="mt-3 text-sm text-red-600">
+            {errors.agree_privacy}
+          </p>
         )}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-3 pt-2">
+      {/* 버튼 영역 */}
+      <div className="flex flex-col-reverse md:flex-row gap-3 pt-2">
         {onCancel && (
           <Button
             type="button"
             variant="outline"
             onClick={onCancel}
-            className="w-full md:flex-1"
+            className="w-full md:flex-1 border-2 border-gray-300 text-gray-700 hover:bg-gray-50"
           >
             취소
           </Button>
@@ -219,9 +234,9 @@ export default function ConsultationForm({ onSuccess, onCancel }: ConsultationFo
         <Button
           type="submit"
           loading={loading}
-          className="w-full md:flex-1"
+          className="w-full md:flex-1 bg-gray-900 text-white hover:bg-black"
         >
-          상담 신청하기
+          {loading ? '전송 중...' : '상담 신청하기'}
         </Button>
       </div>
     </form>

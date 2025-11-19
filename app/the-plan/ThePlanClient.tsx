@@ -115,119 +115,190 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
         <ConsultationForm onCancel={() => setIsTalkModalOpen(false)} />
       </Modal>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[var(--gray-50)] to-white pt-16">
-        <div className="container mx-auto px-6 md:px-12 text-center">
-          <p className="text-base md:text-lg text-[var(--gray-600)] mb-6 hero-text-1">
-            결혼할 때는 몰랐지만, 이혼할 때는 모든 걸 알고 결정하세요
-          </p>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[var(--gray-900)] mb-8 hero-text-2 tracking-tight">
-            The Plan
+      {/* Hero Section - Warm & Modern */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-amber-50/40 via-white to-white pt-16">
+        {/* Minimal Geometric Background Pattern */}
+        <div className="absolute inset-0 w-full h-full">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
+                <circle cx="20" cy="20" r="1" fill="#d0d0d0" opacity="0.3" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#dots)" />
+            <circle cx="20%" cy="30%" r="200" fill="#fef3c7" opacity="0.4" />
+            <circle cx="80%" cy="70%" r="250" fill="#fde68a" opacity="0.3" />
+            <circle cx="70%" cy="25%" r="150" fill="#f5f5f5" opacity="0.5" />
+            <circle cx="30%" cy="75%" r="180" fill="#efefef" opacity="0.5" />
+          </svg>
+        </div>
+
+        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/20 to-white/30 z-[1]"></div>
+
+        <div className="container mx-auto px-6 md:px-12 text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-full mb-6 shadow-sm">
+            <span className="w-2 h-2 bg-amber-600 rounded-full animate-pulse"></span>
+            <span className="text-sm font-semibold text-amber-700">12년간 1,200건의 답</span>
+          </div>
+
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 tracking-tight leading-[1.1]">
+            이겨놓고 설계하는<br/>
+            <span className="text-amber-600">체계적인 승소 전략</span>
           </h1>
-          <p className="text-2xl md:text-4xl font-light text-[var(--primary)] hero-text-3">
-            이겨놓고 설계하다
+
+          <p className="text-lg md:text-2xl font-light text-gray-700 mb-4 max-w-3xl mx-auto leading-relaxed">
+            복잡한 이혼, 혼자 고민하지 마세요
+          </p>
+
+          <p className="text-sm md:text-base text-gray-600 mb-10 max-w-2xl mx-auto">
+            12년간 1,200번의 경험으로 만든 검증된 길이 있습니다
+          </p>
+
+          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-10">
+            <div className="scroll-reveal">
+              <p className="text-3xl md:text-4xl font-bold text-amber-600 mb-2">12년</p>
+              <p className="text-sm text-gray-600">전문 경력</p>
+            </div>
+            <div className="scroll-reveal" style={{ animationDelay: '0.1s' }}>
+              <p className="text-3xl md:text-4xl font-bold text-amber-600 mb-2">1,200+</p>
+              <p className="text-sm text-gray-600">성공 사례</p>
+            </div>
+            <div className="scroll-reveal" style={{ animationDelay: '0.2s' }}>
+              <p className="text-3xl md:text-4xl font-bold text-amber-600 mb-2">87%</p>
+              <p className="text-sm text-gray-600">승소율</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
+            <button
+              onClick={() => setIsTalkModalOpen(true)}
+              className="group px-10 py-5 bg-gray-900 text-white rounded-full font-bold text-lg hover:bg-gray-800 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 shadow-xl flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              <span>10분 무료 진단 받기</span>
+            </button>
+
+            <button
+              onClick={() => document.getElementById('strategy-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-10 py-5 bg-white text-gray-900 rounded-full font-medium border-2 border-gray-200 hover:border-amber-600 hover:shadow-lg transition-all duration-300"
+            >
+              전략 살펴보기
+            </button>
+          </div>
+
+          <p className="text-xs text-gray-500 italic">
+            "다들 '진작 올걸' 해요"
           </p>
         </div>
       </section>
 
       {/* 왜 이혼도 계획이 필요할까요? */}
-      <section className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-red-50/10 to-white overflow-hidden hero-parallax">
+      <section className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/10 to-white overflow-hidden hero-parallax">
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="problemDots" width="60" height="60" patternUnits="userSpaceOnUse">
-                <circle cx="30" cy="30" r="1" fill="#fca5a5" opacity="0.15" />
+                <circle cx="30" cy="30" r="1" fill="#f59e0b" opacity="0.1" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#problemDots)" />
-            <circle cx="15%" cy="30%" r="180" fill="#fee2e2" opacity="0.15" />
-            <circle cx="85%" cy="70%" r="200" fill="#fecaca" opacity="0.12" />
+            <circle cx="15%" cy="30%" r="180" fill="#fef3c7" opacity="0.2" />
+            <circle cx="85%" cy="70%" r="200" fill="#fde68a" opacity="0.15" />
           </svg>
         </div>
 
         <div className="relative z-10 w-full">
           <div className="max-w-[1040px] px-6 md:px-12 mx-auto">
             <div className="text-center mb-12 md:mb-16">
-              <p className="text-xs md:text-sm text-red-600/70 mb-3 tracking-[0.2em] uppercase">Problems</p>
+              <p className="text-xs md:text-sm text-amber-600/70 mb-3 tracking-[0.2em] uppercase">Problems</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
-                왜 이혼도 계획이 필요할까요?
+                준비 없이 시작하면<br className="hidden md:block"/>
+                이런 일이 벌어집니다
               </h2>
               <p className="text-base md:text-xl text-gray-700 font-light max-w-2xl mx-auto leading-relaxed">
-                무작정 시작한 이혼은 예상치 못한 결과를 가져올 수 있습니다
+                12년간 1,200건을 보며 배운 것:<br className="hidden md:block"/>
+                <span className="font-medium text-gray-900">계획 없는 이혼은 더 큰 고통을 부릅니다</span>
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-red-100 hover:shadow-lg transition-all duration-300">
+              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-amber-100 hover:shadow-lg transition-all duration-300">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center">
                     <span className="text-2xl">⚠️</span>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">이혼사유 없음</h3>
-                    <p className="text-gray-600 mb-2 font-medium">→ 이혼소송 기각</p>
-                    <p className="text-sm text-gray-500 leading-relaxed">
-                      명확한 이혼 사유 없이는 재판부가 이혼을 인정하지 않을 수 있습니다
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">법원이 인정하는 사유가 없으면</h3>
+                    <p className="text-amber-700 mb-2 font-bold">→ 이혼 자체가 불가능합니다</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      불륜, 악의적 유기, 부정행위 등 명확한 법적 사유 없이는<br/>
+                      아무리 원해도 이혼할 수 없습니다
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-red-100 hover:shadow-lg transition-all duration-300">
+              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-amber-100 hover:shadow-lg transition-all duration-300">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center">
                     <span className="text-2xl">💸</span>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">은닉재산 못 찾음</h3>
-                    <p className="text-gray-600 mb-2 font-medium">→ 적은 재산분할</p>
-                    <p className="text-sm text-gray-500 leading-relaxed">
-                      숨겨진 재산을 찾지 못하면 정당한 몫을 받을 수 없습니다
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">재산 추적을 제대로 못하면</h3>
+                    <p className="text-amber-700 mb-2 font-bold">→ 수억원을 놓칠 수 있습니다</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      배우자가 숨긴 부동산, 예금, 주식, 사업체 자산을<br/>
+                      찾지 못하면 그대로 상대방 몫이 됩니다
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-red-100 hover:shadow-lg transition-all duration-300">
+              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-amber-100 hover:shadow-lg transition-all duration-300">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center">
                     <span className="text-2xl">👶</span>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">양육 준비 미흡</h3>
-                    <p className="text-gray-600 mb-2 font-medium">→ 양육권 박탈</p>
-                    <p className="text-sm text-gray-500 leading-relaxed">
-                      양육 환경과 계획을 제대로 입증하지 못하면 자녀를 잃을 수 있습니다
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">양육 계획을 입증하지 못하면</h3>
+                    <p className="text-amber-700 mb-2 font-bold">→ 아이를 빼앗길 수 있습니다</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      양육 환경, 경제력, 양육 의지를 객관적으로 증명하지 못하면<br/>
+                      법원은 상대방에게 양육권을 줍니다
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-red-100 hover:shadow-lg transition-all duration-300">
+              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-amber-100 hover:shadow-lg transition-all duration-300">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center">
                     <span className="text-2xl">📋</span>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">양육비 미지급</h3>
-                    <p className="text-gray-600 mb-2 font-medium">→ 대응 방법 없음</p>
-                    <p className="text-sm text-gray-500 leading-relaxed">
-                      사전 대비 없이는 양육비를 받지 못할 때 속수무책입니다
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">강제집행 준비를 안하면</h3>
+                    <p className="text-amber-700 mb-2 font-bold">→ 양육비를 한 푼도 못 받습니다</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      상대방이 안 주면 끝. 사전에 재산 파악과<br/>
+                      강제집행 방안을 마련하지 않으면 속수무책입니다
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-red-100 hover:shadow-lg transition-all duration-300">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
+              <div className="scroll-reveal bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-amber-100 hover:shadow-lg transition-all duration-300 md:col-span-2">
+                <div className="flex items-start gap-4 max-w-3xl mx-auto">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center">
                     <span className="text-2xl">🤝</span>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">협의이혼만으로 종결</h3>
-                    <p className="text-gray-600 mb-2 font-medium">→ 이후에 소송당함</p>
-                    <p className="text-sm text-gray-500 leading-relaxed">
-                      불완전한 협의로 마무리하면 나중에 다시 법정에 서게 될 수 있습니다
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">급하게 협의이혼만 하면</h3>
+                    <p className="text-amber-700 mb-2 font-bold">→ 3년 후 다시 법정에 섭니다</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      재산분할, 양육비, 면접교섭 등 세부 조건을 제대로 정하지 않으면<br/>
+                      이혼 후 더 큰 분쟁으로 이어집니다. 처음부터 제대로 끝내야 합니다
                     </p>
                   </div>
                 </div>
@@ -237,8 +308,55 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
         </div>
       </section>
 
+      {/* 전환 섹션: 그래서 우리가 The Plan을 만들었습니다 */}
+      <section className="relative py-16 md:py-24 bg-gradient-to-b from-amber-50/30 to-white overflow-hidden">
+        <div className="max-w-[1040px] px-6 md:px-12 mx-auto text-center">
+          <div className="scroll-reveal">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 rounded-full mb-6">
+              <span className="w-2 h-2 bg-amber-600 rounded-full"></span>
+              <span className="text-sm font-semibold text-amber-800">Solution</span>
+            </div>
+
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              그래서 우리가<br className="md:hidden"/>
+              <span className="text-amber-600">The Plan</span>을 만들었습니다
+            </h2>
+
+            <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
+              12년간 1,200번의 이혼을 거치며<br className="hidden md:block"/>
+              똑같은 문제들을 마주했습니다
+            </p>
+
+            <p className="text-base md:text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+              매번 같은 실수로 고통받는 의뢰인들을 보며,<br/>
+              "이겨놓고 설계하는" 체계적인 시스템을 만들었습니다
+            </p>
+
+            {/* 4대 전략 미리보기 */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
+              <div className="scroll-reveal bg-white p-4 md:p-6 rounded-xl shadow-sm border border-amber-100">
+                <div className="text-3xl md:text-4xl mb-2">01</div>
+                <p className="text-sm md:text-base font-semibold text-gray-900">이혼사유 확립</p>
+              </div>
+              <div className="scroll-reveal bg-white p-4 md:p-6 rounded-xl shadow-sm border border-amber-100" style={{ animationDelay: '0.1s' }}>
+                <div className="text-3xl md:text-4xl mb-2">02</div>
+                <p className="text-sm md:text-base font-semibold text-gray-900">재산분할 최대화</p>
+              </div>
+              <div className="scroll-reveal bg-white p-4 md:p-6 rounded-xl shadow-sm border border-amber-100" style={{ animationDelay: '0.2s' }}>
+                <div className="text-3xl md:text-4xl mb-2">03</div>
+                <p className="text-sm md:text-base font-semibold text-gray-900">양육권 확보</p>
+              </div>
+              <div className="scroll-reveal bg-white p-4 md:p-6 rounded-xl shadow-sm border border-amber-100" style={{ animationDelay: '0.3s' }}>
+                <div className="text-3xl md:text-4xl mb-2">04</div>
+                <p className="text-sm md:text-base font-semibold text-gray-900">양육비 확보</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 4가지 전략 상세 설명 */}
-      <section className="relative py-16 md:py-24 bg-white">
+      <section id="strategy-section" className="relative py-16 md:py-24 bg-white">
         <div className="max-w-[1040px] px-6 md:px-12 mx-auto">
           <div className="text-center mb-12 md:mb-20 scroll-reveal">
             <p className="text-xs md:text-sm text-purple-600/70 mb-3 tracking-[0.2em] uppercase">Strategy</p>
@@ -414,15 +532,27 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
 
       {/* 실제 성공 사례 */}
       {cases.length > 0 && (
-        <section className="relative py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/10 to-white hero-parallax">
-          <div className="max-w-[1040px] px-6 md:px-12 mx-auto">
+        <section className="relative py-16 md:py-24 bg-gradient-to-b from-amber-50/20 via-white to-white overflow-hidden">
+          {/* Warm Background Pattern */}
+          <div className="absolute inset-0 w-full h-full opacity-20">
+            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="15%" cy="25%" r="150" fill="#fef3c7" opacity="0.4" />
+              <circle cx="85%" cy="75%" r="180" fill="#fde68a" opacity="0.3" />
+            </svg>
+          </div>
+
+          <div className="max-w-[1040px] px-6 md:px-12 mx-auto relative z-10">
             <div className="text-center mb-12 md:mb-16 scroll-reveal">
-              <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Success Stories</p>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-full mb-4">
+                <span className="w-2 h-2 bg-amber-600 rounded-full"></span>
+                <span className="text-xs font-semibold text-amber-800 tracking-wider">SUCCESS STORIES</span>
+              </div>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
-                실제 성공 사례
+                The Plan으로<br className="md:hidden"/>
+                <span className="text-amber-600">평온을 되찾은 분들</span>
               </h2>
               <p className="text-base md:text-xl text-gray-700 font-light max-w-2xl mx-auto leading-relaxed">
-                The Plan으로 평온을 되찾은 의뢰인들의 이야기
+                지금은 새로운 삶을 살고 계십니다
               </p>
             </div>
 
@@ -431,25 +561,33 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                 <Link
                   key={caseItem.id}
                   href={`/cases/${caseItem.slug}`}
-                  className="scroll-reveal group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
+                  className="scroll-reveal group block bg-gradient-to-br from-white to-amber-50/30 p-6 md:p-8 rounded-2xl border border-amber-100/50 hover:border-amber-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className={`p-6 md:p-8 ${caseItem.bgColor || 'bg-blue-50'}`}>
-                    <div className="text-4xl md:text-5xl mb-4">{caseItem.icon}</div>
-                    <div className="inline-block px-3 py-1 bg-white/80 backdrop-blur-sm text-gray-700 text-xs font-semibold rounded-full mb-3">
+                  {/* Category Badge with warm accent */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="px-3 py-1.5 bg-amber-100/80 text-amber-800 text-xs font-semibold rounded-full">
                       {caseItem.badge}
-                    </div>
-                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                      {caseItem.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
-                      {caseItem.background}
-                    </p>
-                  </div>
-                  <div className="px-6 md:px-8 py-4 bg-white border-t border-gray-100">
-                    <span className="text-sm text-blue-600 font-medium group-hover:underline">
-                      자세히 보기 →
                     </span>
+                    <svg className="w-5 h-5 text-amber-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+
+                  {/* Title with warm hover */}
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-amber-700 transition-colors line-clamp-2">
+                    {caseItem.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed mb-4">
+                    {caseItem.background}
+                  </p>
+
+                  {/* Read More with warm accent */}
+                  <div className="flex items-center gap-2 text-sm text-amber-700 font-semibold group-hover:text-amber-800 transition-colors">
+                    <span>사례 보기</span>
+                    <span className="group-hover:translate-x-1 transition-transform">→</span>
                   </div>
                 </Link>
               ))}
@@ -469,6 +607,223 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
           </div>
         </section>
       )}
+
+      {/* The Plan FAQ Section */}
+      <section className="relative py-16 md:py-24 bg-gradient-to-b from-white to-amber-50/20 overflow-hidden">
+        <div className="max-w-[1040px] px-6 md:px-12 mx-auto">
+          <div className="text-center mb-12 md:mb-16 scroll-reveal">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-full mb-4">
+              <span className="w-2 h-2 bg-amber-600 rounded-full"></span>
+              <span className="text-xs font-semibold text-amber-800 tracking-wider">FAQ</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
+              The Plan에 대해<br className="md:hidden"/>
+              <span className="text-amber-600">자주 묻는 질문</span>
+            </h2>
+            <p className="text-base md:text-xl text-gray-700 font-light max-w-2xl mx-auto leading-relaxed">
+              구체적인 궁금증을 해결해드립니다
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Q1 - 가장 기본적인 질문 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    The Plan이란 정확히 무엇인가요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                <span className="text-amber-600 font-semibold">추후 준비</span>
+              </div>
+            </details>
+
+            {/* Q2 - 차별화 포인트 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    다른 법무법인과 The Plan의 차이는 무엇인가요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                "이겨놓고 설계한다"는 것이 핵심입니다. 일반적인 접근은 소송 시작 후 증거를 수집하지만, The Plan은 승소 시나리오를 먼저 설계하고 역산하여 전략을 수립합니다. 12년간 1,200건의 경험으로 만든 체계적 시스템입니다.
+              </div>
+            </details>
+
+            {/* Q3 - 비용 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    The Plan 수임료는 어떻게 책정되나요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                사건의 복잡도와 목표에 따라 맞춤형으로 책정됩니다. 기본 수임료는 500만원부터 시작하며, 초기 무료 상담에서 정확한 견적을 안내드립니다. 성공 보수는 별도 협의를 통해 투명하게 결정됩니다.
+              </div>
+            </details>
+
+            {/* Q4 - 전문성 검증 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    변호사가 직접 상담하나요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                <span className="text-amber-600 font-semibold">추후 준비</span>
+              </div>
+            </details>
+
+            {/* Q5 - 비밀보장 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    비밀보장이 되나요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                <span className="text-amber-600 font-semibold">추후 준비</span>
+              </div>
+            </details>
+
+            {/* Q6 - 성공률 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    The Plan의 실제 성공률은 어떻게 되나요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                87%의 승소율을 기록하고 있습니다. 특히 재산분할의 경우 87%의 사례에서 숨겨진 재산을 발견했으며, 양육권 분쟁에서도 높은 성공률을 보이고 있습니다. 12년간 1,200건 이상의 경험이 뒷받침합니다.
+              </div>
+            </details>
+
+            {/* Q7 - 시간 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    The Plan 전체 과정은 얼마나 걸리나요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                평균적으로 6개월 정도 소요됩니다. 협의이혼의 경우 2-3개월, 재판이혼은 6-12개월이 일반적입니다. 사건의 복잡도에 따라 달라지며, 첫 상담에서 예상 기간을 안내드립니다.
+              </div>
+            </details>
+
+            {/* Q8 - 심리적 안전 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    상담 후 꼭 의뢰해야 하나요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                <span className="text-amber-600 font-semibold">추후 준비</span>
+              </div>
+            </details>
+
+            {/* Q9 - 협의이혼 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    협의이혼도 The Plan이 필요한가요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                네, 더욱 필요합니다. 협의이혼이 빠르고 간단해 보이지만, 재산분할, 양육권, 양육비 등 세부 조건을 제대로 정하지 않으면 이혼 후 더 큰 분쟁이 발생합니다. The Plan으로 처음부터 완벽하게 마무리하는 것이 중요합니다.
+              </div>
+            </details>
+
+            {/* Q10 - 진행 중인 사건 */}
+            <details className="scroll-reveal group bg-white p-6 rounded-xl border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+              <summary className="flex items-start justify-between cursor-pointer list-none">
+                <div className="flex items-start gap-3 flex-1">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-sm font-bold mt-0.5">Q</span>
+                  <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight">
+                    이미 진행 중인 이혼도 The Plan 적용이 가능한가요?
+                  </h3>
+                </div>
+                <svg className="w-5 h-5 text-amber-600 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
+                가능합니다. 진행 단계를 분석하여 남은 절차에 The Plan을 적용합니다. 특히 1심 진행 중이거나 항소를 준비 중이라면 The Plan의 체계적 접근이 큰 도움이 됩니다. 현재 상황 진단은 무료로 제공됩니다.
+              </div>
+            </details>
+          </div>
+
+          {/* FAQ 하단 CTA */}
+          <div className="text-center mt-12 scroll-reveal">
+            <p className="text-sm text-gray-600 mb-6">
+              더 궁금한 점이 있으신가요?
+            </p>
+            <button
+              onClick={() => setIsTalkModalOpen(true)}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-amber-600 text-white rounded-full font-bold hover:bg-amber-700 hover:shadow-xl transition-all duration-300"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              10분 무료 상담 신청
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* 4가지 핵심 요소의 완벽한 조화 - 부드러운 애니메이션 */}
       <section className="relative py-20 md:py-32 bg-[#f8f6f3] overflow-hidden">
@@ -599,36 +954,70 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-16 md:py-24 bg-gradient-to-b from-gray-900 to-black text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+      {/* CTA Section - Warm & Hopeful */}
+      <section className="relative py-20 md:py-32 bg-gradient-to-b from-white via-amber-50/30 to-amber-100/20 overflow-hidden">
+        <div className="absolute inset-0 w-full h-full opacity-20">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20%" cy="30%" r="200" fill="#fef3c7" opacity="0.5" />
+            <circle cx="80%" cy="70%" r="250" fill="#fde68a" opacity="0.4" />
+          </svg>
         </div>
+
         <div className="max-w-[1040px] px-6 md:px-12 mx-auto relative z-10">
           <div className="text-center scroll-reveal">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              당신의 평온한 새 삶을<br />함께 준비하겠습니다
+            {/* Trust Indicator */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-full mb-6 shadow-sm">
+              <span className="text-sm font-semibold text-amber-700">24시간 이내 첫 상담 가능</span>
+            </div>
+
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 leading-tight">
+              오늘이 그 날이에요
             </h2>
-            <p className="text-lg md:text-xl mb-10 text-white/80 leading-relaxed max-w-2xl mx-auto">
-              The Plan으로 이겨놓고 설계하는<br />체계적인 이혼 전략을 경험하세요
+
+            <p className="text-lg md:text-xl mb-4 text-gray-700 leading-relaxed max-w-2xl mx-auto">
+              하루하루가 아까워요<br/>
+              3개월 후엔 달라져 있어요
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+
+            <p className="text-sm md:text-base text-gray-500 mb-10 italic max-w-xl mx-auto">
+              "다들 '진작 올걸' 해요"
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <button
                 onClick={() => setIsTalkModalOpen(true)}
-                className="inline-flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-white text-gray-900 font-bold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-xl text-sm md:text-base"
+                className="group inline-flex items-center gap-2 px-10 py-5 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-800 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 shadow-xl text-base md:text-lg"
               >
-                무료 상담 신청
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
+                10분 무료 진단 받기
               </button>
               <Link
                 href="/cases"
-                className="inline-flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-transparent text-white font-bold rounded-full border-2 border-white hover:bg-white hover:text-gray-900 transition-all duration-300 text-sm md:text-base"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-white text-gray-900 font-semibold rounded-full border-2 border-gray-200 hover:border-amber-600 hover:shadow-lg transition-all duration-300 text-base"
               >
-                성공사례 보기
+                성공사례 먼저 보기
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
+            </div>
+
+            {/* Trust Signals */}
+            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-8 border-t border-gray-200">
+              <div>
+                <p className="text-xs text-gray-500 mb-1">평균 응답 시간</p>
+                <p className="text-lg font-bold text-gray-900">2시간</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">의뢰인 만족도</p>
+                <p className="text-lg font-bold text-gray-900">94%</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">평균 처리 기간</p>
+                <p className="text-lg font-bold text-gray-900">6개월</p>
+              </div>
             </div>
           </div>
         </div>

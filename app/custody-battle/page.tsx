@@ -11,6 +11,7 @@ import LitigationTimeline from '@/components/features/LitigationTimeline';
 import DocumentChecklist from '@/components/features/DocumentChecklist';
 import EvidenceGallery from '@/components/features/EvidenceGallery';
 import KakaoChannelButton from '@/components/features/KakaoChannelButton';
+import LandingConsultationPrompt from '@/components/features/LandingConsultationPrompt';
 import SectionHeader from '@/components/ui/SectionHeader';
 import CTABox, { CTAButton } from '@/components/ui/CTABox';
 
@@ -239,6 +240,9 @@ export default function CustodyBattlePage() {
             </div>
           </div>
         </section>
+
+        {/* 상담 프롬프트 */}
+        <LandingConsultationPrompt topic="양육권" variant="reassurance" />
 
         {/* 소송 진행 과정 */}
         <LitigationTimeline pageType="custody" />

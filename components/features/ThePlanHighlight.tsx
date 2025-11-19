@@ -1,20 +1,26 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 
 export default function ThePlanHighlight() {
+  const [expanded1, setExpanded1] = useState(false);
+  const [expanded2, setExpanded2] = useState(false);
+  const [expanded3, setExpanded3] = useState(false);
+  const [expanded4, setExpanded4] = useState(false);
+
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-blue-50 via-purple-50/30 to-white">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-blue-50 via-white to-white">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         {/* THE PLAN 카드 - Premium Dark */}
         <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden">
           {/* Accent pattern */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/20 to-blue-400/10 rounded-full blur-3xl" />
 
           <div className="relative z-10">
-            {/* WHY THE PLAN 배지 */}
+            {/* WHY THEYOOL 배지 */}
             <div className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white/90 text-xs font-semibold rounded-full mb-6 border border-white/20 tracking-widest">
-              WHY THE PLAN?
+              WHY THEYOOL?
             </div>
 
             {/* 타이틀 영역 */}
@@ -23,7 +29,7 @@ export default function ThePlanHighlight() {
                 THE PLAN
               </div>
               <p className="text-lg md:text-xl font-semibold text-white mb-4">
-                이혼을 앞두고 막막하신가요?
+                1,200의 경험을 거치며 만든 체계적인 승소 전략이 있습니다
               </p>
               <p className="text-sm md:text-base text-gray-300 leading-relaxed">
                 결혼할 때는 몰랐던 것들, 이혼할 때는 모든 걸 알고 결정해야 합니다.<br />
@@ -31,61 +37,140 @@ export default function ThePlanHighlight() {
               </p>
             </div>
 
-            {/* 4가지 체크포인트 */}
+            {/* 4가지 아코디언 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all">
-                <span className="text-blue-400 flex-shrink-0 mt-0.5">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="text-sm md:text-base text-white font-semibold mb-1">확실한 이혼 사유</p>
-                  <p className="text-xs text-gray-400">흔들리지 않는 시작</p>
-                </div>
+              {/* 1. 이혼과 상간에 집중 */}
+              <div className="flex flex-col p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all">
+                <button
+                  onClick={() => setExpanded1(!expanded1)}
+                  className="flex items-start gap-3 w-full text-left"
+                >
+                  <span className="text-blue-400 flex-shrink-0 mt-0.5">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm md:text-base text-white font-semibold mb-1">이혼과 상간에 집중</p>
+                      <span className="text-white/60 text-sm">{expanded1 ? '▲' : '▼'}</span>
+                    </div>
+                    <p className="text-xs text-gray-400">좁고 깊게, 그래서 더 잘합니다</p>
+                  </div>
+                </button>
+                {expanded1 && (
+                  <div className="mt-3 pt-3 border-t border-white/10">
+                    <p className="text-sm text-gray-300 mb-3 leading-relaxed">
+                      더율은 이혼과 상간 사건만 전문으로 합니다. 위자료, 재산분할, 양육권, 양육비 - 이 네 가지를 위해 모든 역량을 집중합니다.
+                    </p>
+                    <Link href="/cases" className="text-sm text-blue-400 hover:text-blue-300 font-medium">
+                      성공사례 보기 →
+                    </Link>
+                  </div>
+                )}
               </div>
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all">
-                <span className="text-green-400 flex-shrink-0 mt-0.5">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="text-sm md:text-base text-white font-semibold mb-1">정당한 재산 분할</p>
-                  <p className="text-xs text-gray-400">숨겨진 것까지 찾아내는 철저함</p>
-                </div>
+
+              {/* 2. 모든 질문에 답이 있습니다 */}
+              <div className="flex flex-col p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all">
+                <button
+                  onClick={() => setExpanded2(!expanded2)}
+                  className="flex items-start gap-3 w-full text-left"
+                >
+                  <span className="text-blue-400 flex-shrink-0 mt-0.5">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm md:text-base text-white font-semibold mb-1">모든 질문에 답이 있습니다</p>
+                      <span className="text-white/60 text-sm">{expanded2 ? '▲' : '▼'}</span>
+                    </div>
+                    <p className="text-xs text-gray-400">76개의 이혼큐레이션 Q&A</p>
+                  </div>
+                </button>
+                {expanded2 && (
+                  <div className="mt-3 pt-3 border-t border-white/10">
+                    <p className="text-sm text-gray-300 mb-3 leading-relaxed">
+                      이혼을 앞둔 당신의 불안, 우리는 이미 알고 있습니다. 혼자 고민하지 마세요, 우리가 먼저 겪고 정리한 답이 있습니다.
+                    </p>
+                    <Link href="/faq" className="text-sm text-blue-400 hover:text-blue-300 font-medium">
+                      이혼큐레이션 전체 보기 →
+                    </Link>
+                  </div>
+                )}
               </div>
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all">
-                <span className="text-amber-400 flex-shrink-0 mt-0.5">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="text-sm md:text-base text-white font-semibold mb-1">양육권 확보</p>
-                  <p className="text-xs text-gray-400">아이와의 미래를 지키는 전략</p>
-                </div>
+
+              {/* 3. 1,200건이 증명합니다 */}
+              <div className="flex flex-col p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all">
+                <button
+                  onClick={() => setExpanded3(!expanded3)}
+                  className="flex items-start gap-3 w-full text-left"
+                >
+                  <span className="text-amber-400 flex-shrink-0 mt-0.5">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm md:text-base text-white font-semibold mb-1">1,200건이 증명합니다</p>
+                      <span className="text-white/60 text-sm">{expanded3 ? '▲' : '▼'}</span>
+                    </div>
+                    <p className="text-xs text-gray-400">숫자로 증명된 실력</p>
+                  </div>
+                </button>
+                {expanded3 && (
+                  <div className="mt-3 pt-3 border-t border-white/10">
+                    <p className="text-sm text-gray-300 mb-3 leading-relaxed">
+                      21개의 성공사례와 18개의 전문 칼럼이 우리의 실력을 말해줍니다. 숫자로 증명된 87%의 승소율, 평균 92시간의 집중 투입.
+                    </p>
+                    <Link href="/blog" className="text-sm text-amber-400 hover:text-amber-300 font-medium">
+                      변호사 칼럼 읽기 →
+                    </Link>
+                  </div>
+                )}
               </div>
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all">
-                <span className="text-red-400 flex-shrink-0 mt-0.5">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="text-sm md:text-base text-white font-semibold mb-1">안정적 양육비</p>
-                  <p className="text-xs text-gray-400">새 삶을 위한 경제적 기반</p>
-                </div>
+
+              {/* 4. 미리 설계하는 승소 전략 */}
+              <div className="flex flex-col p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all">
+                <button
+                  onClick={() => setExpanded4(!expanded4)}
+                  className="flex items-start gap-3 w-full text-left"
+                >
+                  <span className="text-pink-600 flex-shrink-0 mt-0.5">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm md:text-base text-white font-semibold mb-1">미리 설계하는 승소 전략</p>
+                      <span className="text-white/60 text-sm">{expanded4 ? '▲' : '▼'}</span>
+                    </div>
+                    <p className="text-xs text-gray-400">THE PLAN으로 이겨놓고 시작</p>
+                  </div>
+                </button>
+                {expanded4 && (
+                  <div className="mt-3 pt-3 border-t border-white/10">
+                    <p className="text-sm text-gray-300 mb-3 leading-relaxed">
+                      이 모든 경험과 전문성으로 완성한 것이 바로 THE PLAN입니다. 당신의 사건을 시작하기 전에, 끝을 먼저 그립니다.
+                    </p>
+                    <Link href="/the-plan" className="text-sm text-pink-600 hover:text-pink-500 font-medium">
+                      The Plan 자세히 알아보기 →
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* 설명 텍스트 */}
             <div className="pt-4 border-t border-white/10">
               <p className="text-sm md:text-base text-white font-medium mb-2">
-                무작정 시작한 이혼은 또 다른 실패가 됩니다.
+                막막한 마음으로 시작하지 마세요.
               </p>
               <p className="text-sm md:text-base text-gray-300 mb-6">
-                더율의 THE PLAN으로 이겨놓고 설계하세요.
+                더율의 THE PLAN으로 이미 검증된 길을 따라가세요.
               </p>
             </div>
 

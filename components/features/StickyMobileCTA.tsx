@@ -35,7 +35,7 @@ export default function StickyMobileCTA() {
               </a>
             </div>
             <Link
-              href="/consultation-flow"
+              href="/consultation"
               className="flex items-center justify-center gap-2 bg-gray-800 text-white py-3 rounded-lg font-bold text-sm w-full"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +102,7 @@ export default function StickyMobileCTA() {
           </a>
 
           <Link
-            href="/consultation-flow"
+            href="/consultation"
             className="bg-blue-500 text-white p-4 rounded-full shadow-2xl hover:bg-blue-600 transition-all animate-pulse group"
             title="상담 예약"
           >

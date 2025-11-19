@@ -16,15 +16,17 @@ import InstaTheyoolSection from '@/components/features/InstaTheyoolSection';
 import SectionReveal from '@/components/effects/SectionReveal';
 import FAQExplorer from '@/components/features/FAQExplorer';
 import ExpertInsights from '@/components/features/ExpertInsights';
-import TestimonialsCarousel from '@/components/features/TestimonialsCarousel';
+import TestimonialEvidenceGallery from '@/components/features/TestimonialEvidenceGallery';
 import ThePlanHighlight from '@/components/features/ThePlanHighlight';
 import ConsultationTimingGuide from '@/components/features/ConsultationTimingGuide';
 import ConsultationProcess from '@/components/features/ConsultationProcess';
-import DualPerspectiveCard from '@/components/features/DualPerspectiveCard';
 import EnhancedChannelSelector from '@/components/features/EnhancedChannelSelector';
+import FloatingReviewBadge from '@/components/features/FloatingReviewBadge';
+import PhonePrepModal from '@/components/features/PhonePrepModal';
 
 export default function Home() {
   const [isTalkModalOpen, setIsTalkModalOpen] = useState(false);
+  const [isPhonePrepModalOpen, setIsPhonePrepModalOpen] = useState(false);
 
   // (Removed) Venn diagram animation trigger
   useEffect(() => {}, []);
@@ -119,6 +121,7 @@ export default function Home() {
         }}
       />
       <SmoothScroll />
+
       {/* Header - SKIN1004 스타일 */}
       <header className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm">
         <nav className="max-w-[1200px] mx-auto px-6 lg:px-8">
@@ -156,7 +159,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section - SKIN1004 스타일 with Animation */}
-      <section className="hero-section relative min-h-screen flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-blue-50/40 via-white to-white">
+      <section className="hero-section relative min-h-screen flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-amber-50/40 via-white to-white">
         <HeroAnimation />
 
         {/* Minimal Geometric Background Pattern */}
@@ -200,51 +203,46 @@ export default function Home() {
 
         {/* Content */}
         <div className="hero-content relative z-10 flex-1 flex flex-col justify-end pb-12 md:pb-16 px-6 md:px-12 max-w-[1200px] mx-auto w-full">
-          <div className="ml-0 md:ml-12 flex flex-col items-start">
-            {/* Subtitle */}
-            <p className="text-base md:text-xl text-gray-900 mb-6 md:mb-8 tracking-wide font-normal hero-text-1">
-              혼자 결정하기 무서우시죠
-            </p>
+          <div className="ml-0 md:ml-12 flex flex-col items-start max-w-[680px]">
+            {/* Badge - Amber style */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-full mb-6 hero-text-1">
+              <span className="w-2 h-2 bg-amber-600 rounded-full animate-pulse"></span>
+              <span className="text-sm md:text-base font-semibold text-amber-700">
+                12년간 1,200건의 답
+              </span>
+            </div>
 
-            {/* Main Title */}
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-[1.1] text-gray-900 tracking-tight hero-text-2">
-              1,200번 함께했어요<br />
-              이번엔 당신 차례예요
+            {/* Main Headline - Enhanced typography */}
+            <h1 className="text-[44px] md:text-[56px] lg:text-[68px] font-bold mb-10 leading-[1.25] md:leading-[1.3] text-gray-900 hero-text-2">
+              복잡한 이혼,<br />
+              <span className="text-amber-600">10분이면 정리돼요</span>
             </h1>
 
-            {/* Supporting Text */}
-            <p className="text-sm md:text-base text-gray-700 mb-8 md:mb-10 font-light leading-relaxed hero-text-2">
-              법적 승리는 기본. 마음까지 챙겨드려요
-            </p>
-
-            {/* CTA Buttons */}
+            {/* CTA Section */}
             <div className="hero-text-3 flex flex-col gap-4">
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={() => setIsTalkModalOpen(true)}
-                  className="px-6 py-2.5 md:px-8 md:py-3 bg-gray-900 text-white rounded-full font-medium text-xs md:text-sm tracking-wide hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  10분만 주세요. 무료예요
-                </button>
-                <span className="text-xs md:text-sm text-gray-600 self-center">
-                  100% 비밀 · 편하게 물어보세요
-                </span>
-              </div>
+              <button
+                onClick={() => setIsPhonePrepModalOpen(true)}
+                className="group px-10 py-5 bg-gray-900 text-white rounded-full font-bold text-lg hover:bg-gray-800 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 shadow-xl flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span>10분 무료 진단 받기</span>
+              </button>
 
-              {/* 문제별 바로가기 링크 */}
-              <div className="flex flex-wrap gap-2 items-center">
-                <span className="text-xs text-gray-500">급하신가요?</span>
-                <Link href="/alimony-defense" className="text-xs md:text-sm text-red-600 hover:text-red-700 font-medium hover:underline transition-colors">
-                  위자료 청구 받았어요 →
-                </Link>
-                <span className="text-gray-300">|</span>
-                <Link href="/custody-battle" className="text-xs md:text-sm text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors">
-                  양육권 싸움 중 →
-                </Link>
-                <span className="text-gray-300">|</span>
-                <Link href="/property-division" className="text-xs md:text-sm text-green-600 hover:text-green-700 font-medium hover:underline transition-colors">
-                  재산 뺏길 위기 →
-                </Link>
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  비밀보장
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  평일 저녁·주말 가능
+                </span>
               </div>
             </div>
           </div>
@@ -252,10 +250,10 @@ export default function Home() {
       </section>
 
       {/* 상담 프로세스 안내 섹션 */}
-      <ConsultationProcess onOpenModal={() => setIsTalkModalOpen(true)} />
+      <ConsultationProcess />
 
       {/* 신뢰 지표 섹션 - 품질 중심 */}
-      <section className="pt-4 md:pt-6 pb-16 md:pb-24 bg-gradient-to-b from-white via-blue-50/20 to-white border-y border-blue-100/30">
+      <section className="pt-4 md:pt-6 pb-16 md:pb-24 bg-gradient-to-b from-white via-amber-50/20 to-white border-y border-amber-100/30">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="scroll-reveal">
@@ -288,122 +286,6 @@ export default function Home() {
       {/* THE PLAN 하이라이트 - 왜 더율인가? */}
       <ThePlanHighlight />
 
-      {/* 문제별 솔루션 게이트웨이 섹션 */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <div className="text-center mb-12">
-            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Your Case</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-              뭐가 제일 급해요?
-            </h2>
-            <p className="text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
-              급한 것부터 하나씩 정리할게요
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {/* 위자료 문제 */}
-            <DualPerspectiveCard
-              title="위자료 문제"
-              category="위자료"
-              landingPageUrl="/alimony-defense"
-              claimant={{
-                description: '정당한 보상 받아야죠\n증거부터 금액까지 다 챙겨드려요',
-                faqLinks: [
-                  { text: '상간자에게 위자료를 받을 수 있나요?', url: '/faq?category=위자료' },
-                  { text: '불륜 증거가 부족해도 위자료 청구 가능한가요?', url: '/faq?category=위자료' },
-                  { text: '위자료 금액은 어떻게 결정되나요?', url: '/faq?category=위자료' },
-                ],
-                stats: '평균 1.5억 받았어요',
-              }}
-              respondent={{
-                description: '부당한 청구 받았어요?\n과도한 금액, 확 줄여드려요',
-                faqLinks: [
-                  { text: '위자료 청구가 부당한 경우 대응 방법은?', url: '/faq?category=위자료' },
-                  { text: '위자료 금액이 너무 높은데 감액 가능한가요?', url: '/faq?category=위자료' },
-                  { text: '상대방 책임도 있는데 위자료를 내야 하나요?', url: '/faq?category=위자료' },
-                ],
-                stats: '70% 깎았어요',
-              }}
-            />
-
-            {/* 재산분할 문제 */}
-            <DualPerspectiveCard
-              title="재산분할 문제"
-              category="재산분할"
-              landingPageUrl="/property-division"
-              claimant={{
-                description: '공정하게 나누고 싶어요?\n숨긴 재산까지 다 찾아드려요',
-                faqLinks: [
-                  { text: '결혼 전 재산도 분할 대상인가요?', url: '/faq?category=재산분할' },
-                  { text: '상대방이 재산을 숨기고 있는 것 같아요', url: '/faq?category=재산분할' },
-                  { text: '전세보증금은 어떻게 나누나요?', url: '/faq?category=재산분할' },
-                ],
-                stats: '60% 지켰어요',
-              }}
-              respondent={{
-                description: '너무 많이 달라고 해요?\n정당한 만큼만 주면 돼요',
-                faqLinks: [
-                  { text: '빚도 재산분할 대상이 되나요?', url: '/faq?category=재산분할' },
-                  { text: '내 고유 재산을 지키려면 어떻게 해야 하나요?', url: '/faq?category=재산분할' },
-                  { text: '재산형성 기여도를 입증하는 방법은?', url: '/faq?category=재산분할' },
-                ],
-                stats: '0원. 완벽 방어했어요',
-              }}
-            />
-
-            {/* 양육권/양육비 문제 */}
-            <DualPerspectiveCard
-              title="양육권 · 양육비 문제"
-              category="양육권"
-              landingPageUrl="/custody-battle"
-              claimant={{
-                description: '아이와 함께하고 싶죠?\n양육권부터 양육비까지 다 챙겨요',
-                faqLinks: [
-                  { text: '경제력이 없어도 양육권을 가질 수 있나요?', url: '/faq?category=양육권' },
-                  { text: '양육비는 언제까지 받을 수 있나요?', url: '/faq?category=양육권' },
-                  { text: '양육비 얼마? 바로 계산 →', url: '/child-support-calculator' },
-                ],
-                stats: '10명 중 9명 성공',
-              }}
-              respondent={{
-                description: '양육비 부담되시나요?\n적정선 찾아드려요. 아이도 만나고요',
-                faqLinks: [
-                  { text: '양육비 금액이 너무 높은데 조정 가능한가요?', url: '/faq?category=양육권' },
-                  { text: '면접교섭권은 어떻게 행사하나요?', url: '/faq?category=양육권' },
-                  { text: '양육비를 못 낼 형편인데 어떻게 하나요?', url: '/faq?category=양육권' },
-                ],
-                stats: '딱 맞게 조정했어요',
-              }}
-            />
-
-            {/* 협의이혼 vs 재판이혼 */}
-            <DualPerspectiveCard
-              title="협의이혼 vs 재판이혼"
-              category="협의이혼"
-              claimant={{
-                description: '상대가 안 한대요?\n재판으로 끝내드려요. 유리하게요',
-                faqLinks: [
-                  { text: '협의가 안 될 때는 어떻게 하나요?', url: '/faq?category=협의이혼' },
-                  { text: '이혼소송 기간은 얼마나 걸리나요?', url: '/faq?category=협의이혼' },
-                  { text: '재판이혼에 필요한 증거는 무엇인가요?', url: '/faq?category=협의이혼' },
-                ],
-                stats: '6개월이면 끝나요',
-              }}
-              respondent={{
-                description: '이혼 원치 않아요?\n거부할 수 있어요. 도와드려요',
-                faqLinks: [
-                  { text: '협의이혼과 재판이혼의 차이는?', url: '/faq?category=협의이혼' },
-                  { text: '이혼을 거부할 수 있나요?', url: '/faq?category=협의이혼' },
-                  { text: '억지로 서명하라고 해요', url: '/faq?category=협의이혼' },
-                ],
-                stats: '절반 이상 막았어요',
-              }}
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Real Story 섹션 - 위자료/재산분할/양육권 통합 */}
       <RealStory />
 
@@ -415,6 +297,9 @@ export default function Home() {
 
       {/* 변호사 칼럼 섹션 */}
       <ExpertInsights />
+
+      {/* Floating Review Badge - 후기 미리보기 */}
+      <FloatingReviewBadge />
 
       {/* Talk 버튼 (오른쪽 하단 고정 + 플로팅) - 전역 */}
       <div className="fixed bottom-8 right-4 z-50 animate-float">
@@ -435,7 +320,7 @@ export default function Home() {
       </Modal>
 
       {/* 기존 위자료 섹션 (백업용 - 나중에 삭제) */}
-      <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-blue-50/40 via-indigo-50/30 to-purple-50/40 hero-parallax">
+      <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-amber-50/40 via-orange-50/30 to-amber-100/40 hero-parallax">
         <div className="max-w-[1200px] mx-auto w-full">
             <div className="text-center mb-8 md:mb-12">
               <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Alimony</p>
@@ -467,7 +352,7 @@ export default function Home() {
                   className="rounded-xl border border-white/10 bg-white/5 p-4 text-white backdrop-blur"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs uppercase tracking-[0.2em] text-blue-300">{item.badge}</span>
+                    <span className="text-xs uppercase tracking-[0.2em] text-amber-300">{item.badge}</span>
                     <span className="text-xl">{item.emoji}</span>
                   </div>
                   <h4 className="text-base font-semibold mb-1">{item.title}</h4>
@@ -479,8 +364,8 @@ export default function Home() {
           {/* 사례 카드 그리드 */}
           <div className="hidden md:grid md:grid-cols-2 gap-8 md:gap-10">
               <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
-                <div className="inline-block px-4 py-2 bg-blue-500/20 rounded-full mb-6">
-                  <span className="text-blue-400 font-semibold text-sm">Case 01</span>
+                <div className="inline-block px-4 py-2 bg-amber-500/20 rounded-full mb-6">
+                  <span className="text-amber-400 font-semibold text-sm">Case 01</span>
                 </div>
                 <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">💰</div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
@@ -495,19 +380,19 @@ export default function Home() {
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400">✓</span>
+                    <span className="text-amber-400">✓</span>
                     <span className="text-sm text-gray-400">증거 확보</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400">✓</span>
+                    <span className="text-amber-400">✓</span>
                     <span className="text-sm text-gray-400">전략 수립</span>
                   </div>
                 </div>
               </div>
 
               <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
-                <div className="inline-block px-4 py-2 bg-blue-500/20 rounded-full mb-6">
-                  <span className="text-blue-400 font-semibold text-sm">Case 02</span>
+                <div className="inline-block px-4 py-2 bg-amber-500/20 rounded-full mb-6">
+                  <span className="text-amber-400 font-semibold text-sm">Case 02</span>
                 </div>
                 <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">📋</div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
@@ -522,11 +407,11 @@ export default function Home() {
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400">✓</span>
+                    <span className="text-amber-400">✓</span>
                     <span className="text-sm text-gray-400">전략적 접근</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400">✓</span>
+                    <span className="text-amber-400">✓</span>
                     <span className="text-sm text-gray-400">합의 도출</span>
                   </div>
                 </div>
@@ -737,24 +622,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 의뢰인 후기 섹션 - 캐러셀 */}
-      <TestimonialsCarousel />
+      {/* 의뢰인 후기 섹션 - 증빙 갤러리 */}
+      <TestimonialEvidenceGallery />
 
       {/* 최종 CTA 섹션 - 희망과 새로운 시작 */}
-      <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/30 to-amber-50/20 hero-parallax overflow-hidden">
+      <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-amber-100/20 hero-parallax overflow-hidden">
         {/* Warm Hope Pattern */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="hopeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: '#dbeafe', stopOpacity: 0.25 }} />
-                <stop offset="100%" style={{ stopColor: '#fef3c7', stopOpacity: 0.25 }} />
+                <stop offset="0%" style={{ stopColor: '#fef3c7', stopOpacity: 0.4 }} />
+                <stop offset="100%" style={{ stopColor: '#fde68a', stopOpacity: 0.3 }} />
               </linearGradient>
             </defs>
             {/* Gentle circles representing new beginning */}
             <circle cx="25%" cy="35%" r="200" fill="url(#hopeGrad)" />
-            <circle cx="75%" cy="65%" r="220" fill="#dbeafe" opacity="0.3" />
-            <circle cx="50%" cy="50%" r="150" fill="#fef3c7" opacity="0.2" />
+            <circle cx="75%" cy="65%" r="220" fill="#fef3c7" opacity="0.35" />
+            <circle cx="50%" cy="50%" r="150" fill="#fde68a" opacity="0.25" />
           </svg>
         </div>
 
@@ -771,52 +656,142 @@ export default function Home() {
               "다들 '진작 올걸' 해요"
             </p>
 
-            {/* 3가지 상담 선택 */}
-            <div className="grid md:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">
-              {/* 전화상담 */}
-              <a
-                href="tel:1661-7633"
-                className="group bg-gray-900 text-white p-6 rounded-2xl hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
-              >
-                <div className="flex items-center justify-center mb-3">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <p className="font-bold text-lg mb-2">지금 바로 전화</p>
-                <p className="text-sm text-gray-300 mb-3">10분 무료 상담</p>
-                <p className="text-xl font-bold">1661-7633</p>
-              </a>
+            {/* Mobile-First: 3가지 균형잡힌 상담 선택 */}
+            <div className="max-w-4xl mx-auto mb-8">
+              {/* 모바일: 3개 카드 - 아이콘 중심 균형 레이아웃 */}
+              <div className="md:hidden space-y-3">
+                {/* 1. 전화 상담 - 다크 그레이 */}
+                <a
+                  href="tel:1661-7633"
+                  className="group block bg-gray-900 text-white rounded-2xl shadow-lg active:scale-98 transition-all"
+                >
+                  <div className="px-5 py-5">
+                    <div className="flex items-center justify-between">
+                      {/* 왼쪽: 아이콘 + 텍스트 그룹 */}
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center w-12 h-12 bg-white/10 rounded-xl flex-shrink-0">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="font-bold text-lg mb-0.5">지금 바로 전화</p>
+                          <p className="text-sm text-gray-300">10분 무료 상담</p>
+                          <p className="text-xl font-bold mt-1.5">1661-7633</p>
+                        </div>
+                      </div>
+                      {/* 오른쪽: 화살표 */}
+                      <svg className="w-6 h-6 text-white/40 flex-shrink-0 group-active:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </a>
 
-              {/* 영상/방문상담 */}
-              <button
-                onClick={() => setIsTalkModalOpen(true)}
-                className="group bg-blue-600 text-white p-6 rounded-2xl hover:bg-blue-700 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
-              >
-                <div className="flex items-center justify-center mb-3">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <p className="font-bold text-lg mb-2">영상/방문 예약</p>
-                <p className="text-sm text-blue-100 mb-3">편한 시간에 자세히</p>
-                <p className="text-base font-semibold">예약하기 →</p>
-              </button>
+                {/* 2. 영상/방문 예약 - 앰버 */}
+                <button
+                  onClick={() => setIsTalkModalOpen(true)}
+                  className="group w-full bg-amber-500 text-white rounded-2xl shadow-lg active:scale-98 transition-all"
+                >
+                  <div className="px-5 py-5">
+                    <div className="flex items-center justify-between">
+                      {/* 왼쪽: 아이콘 + 텍스트 그룹 */}
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center w-12 h-12 bg-white/20 rounded-xl flex-shrink-0">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <div className="text-left">
+                          <p className="font-bold text-lg mb-0.5">영상/방문 예약</p>
+                          <p className="text-sm text-amber-50">편한 시간에 자세히</p>
+                          <p className="text-lg font-semibold mt-1.5">예약하기</p>
+                        </div>
+                      </div>
+                      {/* 오른쪽: 화살표 */}
+                      <svg className="w-6 h-6 text-white/60 flex-shrink-0 group-active:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </button>
 
-              {/* 상담 가이드 */}
-              <Link
-                href="/consultation"
-                className="group bg-white text-gray-900 p-6 rounded-2xl border-2 border-gray-300 hover:border-gray-900 transition-all shadow-lg hover:shadow-xl hover:scale-105"
-              >
-                <div className="flex items-center justify-center mb-3">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <p className="font-bold text-lg mb-2">처음이신가요?</p>
-                <p className="text-sm text-gray-600 mb-3">상담 방법 자세히 보기</p>
-                <p className="text-base font-semibold text-blue-600">가이드 보기 →</p>
-              </Link>
+                {/* 3. 상담 가이드 - 화이트 with 앰버 액센트 */}
+                <Link
+                  href="/consultation"
+                  className="group block bg-white border-2 border-amber-200 rounded-2xl shadow-lg active:scale-98 transition-all hover:border-amber-400"
+                >
+                  <div className="px-5 py-5">
+                    <div className="flex items-center justify-between">
+                      {/* 왼쪽: 아이콘 + 텍스트 그룹 */}
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center w-12 h-12 bg-amber-50 rounded-xl flex-shrink-0">
+                          <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <div className="text-left">
+                          <p className="font-bold text-lg text-gray-900 mb-0.5">처음이신가요?</p>
+                          <p className="text-sm text-gray-600">상담 방법 자세히 보기</p>
+                          <p className="text-lg font-semibold text-amber-600 mt-1.5">가이드 보기</p>
+                        </div>
+                      </div>
+                      {/* 오른쪽: 화살표 */}
+                      <svg className="w-6 h-6 text-amber-600/60 flex-shrink-0 group-active:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+
+              {/* Desktop: 3개 그리드 유지 */}
+              <div className="hidden md:grid md:grid-cols-3 gap-4">
+                {/* 전화상담 */}
+                <a
+                  href="tel:1661-7633"
+                  className="group bg-gray-900 text-white p-6 rounded-2xl hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
+                >
+                  <div className="flex items-center justify-center mb-3">
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <p className="font-bold text-lg mb-2">지금 바로 전화</p>
+                  <p className="text-sm text-gray-300 mb-3">10분 무료 상담</p>
+                  <p className="text-xl font-bold">1661-7633</p>
+                </a>
+
+                {/* 영상/방문상담 */}
+                <button
+                  onClick={() => setIsTalkModalOpen(true)}
+                  className="group bg-amber-600 text-white p-6 rounded-2xl hover:bg-amber-700 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
+                >
+                  <div className="flex items-center justify-center mb-3">
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <p className="font-bold text-lg mb-2">영상/방문 예약</p>
+                  <p className="text-sm text-amber-100 mb-3">편한 시간에 자세히</p>
+                  <p className="text-base font-semibold">예약하기 →</p>
+                </button>
+
+                {/* 상담 가이드 */}
+                <Link
+                  href="/consultation"
+                  className="group bg-white text-gray-900 p-6 rounded-2xl border-2 border-gray-300 hover:border-amber-600 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                >
+                  <div className="flex items-center justify-center mb-3">
+                    <svg className="w-8 h-8 text-gray-700 group-hover:text-amber-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <p className="font-bold text-lg mb-2">처음이신가요?</p>
+                  <p className="text-sm text-gray-600 mb-3">상담 방법 자세히 보기</p>
+                  <p className="text-base font-semibold text-amber-600 group-hover:text-amber-700 transition-colors">가이드 보기 →</p>
+                </Link>
+              </div>
             </div>
 
             <p className="text-sm text-gray-500">

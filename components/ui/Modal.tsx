@@ -12,11 +12,22 @@ interface ModalProps {
 
 export default function Modal({ isOpen, onClose, children, maxWidth = 'md' }: ModalProps) {
   const [mounted, setMounted] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     return () => setMounted(false);
   }, []);
+
+  // Open/Close animation
+  useEffect(() => {
+    if (isOpen) {
+      setIsAnimating(true);
+    } else {
+      const timer = setTimeout(() => setIsAnimating(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   // ESC 키로 닫기
   useEffect(() => {
@@ -51,33 +62,49 @@ export default function Modal({ isOpen, onClose, children, maxWidth = 'md' }: Mo
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      {/* Backdrop */}
+    <div
+      className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-opacity duration-300 ${
+        isAnimating ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
+      {/* Backdrop - 미니멀하고 세련된 블러 */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
+          isAnimating ? 'opacity-100' : 'opacity-0'
+        }`}
         onClick={onClose}
       />
 
-      {/* Modal Container - 중앙 정렬 + 스크롤 */}
+      {/* Modal Container */}
       <div className="relative w-full h-full flex items-center justify-center overflow-y-auto py-8">
-        {/* Modal */}
+        {/* Modal - 깔끔한 흰색 배경 */}
         <div
-          className={`relative bg-white rounded-3xl shadow-2xl w-full ${maxWidthClasses[maxWidth]} max-h-[90vh] overflow-y-auto`}
+          className={`relative bg-white rounded-3xl shadow-2xl w-full ${
+            maxWidthClasses[maxWidth]
+          } max-h-[90vh] overflow-y-auto transition-all duration-300 ${
+            isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
+          }`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close button */}
+          {/* Close button - 미니멀 */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-[var(--gray-400)] hover:text-[var(--gray-700)] transition-colors z-10 bg-white rounded-full p-2 shadow-lg"
+            className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 transition-colors z-10 p-2 hover:bg-gray-100 rounded-full group"
             aria-label="닫기"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-5 h-5 transition-transform group-hover:rotate-90 duration-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
 
           {/* Content */}
-          <div className="p-6 md:p-8">
+          <div className="p-8 md:p-10">
             {children}
           </div>
         </div>

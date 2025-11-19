@@ -26,6 +26,113 @@
 - Copy uses Korean labels for user-facing text; keep wording consistent (`본인/배우자`, `도시/농어촌`). Convert input units to 원 internally.
 - Naming mirrors intent: `ChildSupportCalculatorClient` for client components, snake_case is avoided, and constants live in SCREAMING_CASE when shared.
 
+## Design Consistency & Visual Guidelines
+
+**CRITICAL DIRECTIVE (2025-11-18)**: All pages must maintain visual consistency with the homepage (`app/page.tsx`). No "중구난방" (hodgepodge) design.
+
+### Design Agent Responsibilities
+1. **ALWAYS** reference homepage design patterns before creating/modifying any page
+2. **NEVER** introduce new design patterns without consulting content-ad-strategist agent
+3. **MAINTAIN** consistency in: colors, typography, spacing, backgrounds, card styles, shadows
+4. If deviation from homepage is needed, **MUST** have special reason approved by content agent
+
+### Homepage Design System (Reference: `/app/page.tsx`)
+
+#### Color Palette (ONLY use these)
+- **Primary**: Gray-900 (dark), Blue-600 (accent)
+- **Section Colors**: Pink (성공사례), Amber/Orange (칼럼), Blue (일반)
+- **Backgrounds**: White, Blue-50/20, Amber-50/20 gradients only
+- **NO**: Purple, solid colored backgrounds, solid gradient cards
+
+#### Typography Hierarchy
+```tsx
+// Section Labels
+text-xs md:text-sm text-[color]-600/70 tracking-[0.2em] uppercase
+
+// H1 (Hero)
+text-4xl md:text-6xl font-bold tracking-tight
+
+// H2 (Section Headings)
+text-3xl md:text-5xl font-bold tracking-tight
+
+// Body Text
+text-base md:text-lg font-light leading-relaxed
+
+// Emphasis
+font-medium or font-semibold (not font-bold for body)
+```
+
+#### Backgrounds (Consistent Pattern)
+```tsx
+// Section Backgrounds - Alternate between:
+bg-gradient-to-b from-white via-blue-50/20 to-white
+bg-gradient-to-b from-white via-amber-50/20 to-white
+
+// Final CTA Section
+bg-gradient-to-b from-white via-blue-50/30 to-amber-50/20
+
+// Hero Section
+relative min-h-[90vh] with geometric SVG pattern background
+```
+
+#### Card Styles (White + Hover)
+```tsx
+// Standard Card
+bg-white rounded-2xl p-6 shadow-md hover:shadow-xl
+border-2 border-transparent hover:border-[color]-500
+
+// Featured Card
+bg-white rounded-2xl border-2 border-blue-500 shadow-lg
+
+// NO solid gradient backgrounds on cards
+// YES: white background + gradient overlay on hover
+```
+
+#### Spacing & Layout
+```tsx
+// Section Padding
+py-16 md:py-24
+
+// Container Width
+max-w-[1200px] mx-auto px-6 md:px-12
+
+// Grid Gaps
+gap-6 to gap-8 (cards)
+gap-12 (major sections)
+
+// Rounded Corners
+rounded-2xl (cards), rounded-3xl (major containers)
+```
+
+#### Image Placeholders
+```tsx
+// Minimalist Gradient Style
+bg-gradient-to-br from-gray-50 to-gray-100
++ absolute overlay: bg-gradient-to-br from-white/40 to-transparent
++ emoji opacity-20 (not full opacity)
+```
+
+#### Buttons
+```tsx
+// Primary CTA
+bg-gray-900 text-white rounded-full px-6 py-2.5 md:px-8 md:py-3
+font-medium text-xs md:text-sm shadow-lg hover:shadow-xl
+
+// Secondary CTA
+bg-white border-2 border-gray-900 text-gray-900 rounded-full
+```
+
+### Design Consistency Checklist
+Before submitting any page design, verify:
+- [ ] Uses only homepage color palette
+- [ ] Backgrounds are white or subtle gradients (via-blue-50/20)
+- [ ] Cards are white with hover treatments (not solid colored)
+- [ ] Typography matches hierarchy exactly
+- [ ] Section labels included (uppercase tracking-[0.2em])
+- [ ] Spacing follows py-16 md:py-24 pattern
+- [ ] No purple, no solid backgrounds, no中구난방
+- [ ] Feels like natural extension of homepage
+
 ## Testing Guidelines
 - No formal Jest/Cypress suite yet; rely on targeted scripts (e.g., TypeScript transpile checks) and manual validation per feature.
 - When adding calculator logic, transcribe reference tables into `data/` and verify sample scenarios via node scripts (see how `childSupportGuidelines` was spot-tested).

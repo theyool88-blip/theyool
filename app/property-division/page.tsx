@@ -12,6 +12,7 @@ import LitigationTimeline from '@/components/features/LitigationTimeline';
 import DocumentChecklist from '@/components/features/DocumentChecklist';
 import EvidenceGallery from '@/components/features/EvidenceGallery';
 import KakaoChannelButton from '@/components/features/KakaoChannelButton';
+import LandingConsultationPrompt from '@/components/features/LandingConsultationPrompt';
 import SectionHeader from '@/components/ui/SectionHeader';
 import CTABox, { CTAButton } from '@/components/ui/CTABox';
 
@@ -336,6 +337,9 @@ export default function PropertyDivisionPage() {
           <PropertyCalculator />
         </section>
 
+        {/* 상담 프롬프트 */}
+        <LandingConsultationPrompt topic="재산분할" variant="reassurance" />
+
         {/* 소송 진행 과정 */}
         <LitigationTimeline pageType="property" />
 
@@ -454,7 +458,7 @@ export default function PropertyDivisionPage() {
               </CTAButton>
 
               <CTAButton
-                href="/consultation-flow"
+                href="/consultation"
                 variant="secondary"
                 icon={
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

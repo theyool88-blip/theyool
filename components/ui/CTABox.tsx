@@ -30,9 +30,10 @@ interface CTAButtonProps {
   variant?: 'primary' | 'secondary';
   children: ReactNode;
   icon?: ReactNode;
+  iconPosition?: 'left' | 'right';
 }
 
-export function CTAButton({ href, onClick, variant = 'primary', children, icon }: CTAButtonProps) {
+export function CTAButton({ href, onClick, variant = 'primary', children, icon, iconPosition = 'right' }: CTAButtonProps) {
   const baseClasses = "inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-full transition-all duration-300";
   const variantClasses = variant === 'primary'
     ? "bg-white text-gray-900 hover:bg-gray-100 shadow-lg hover:shadow-xl"
@@ -40,8 +41,9 @@ export function CTAButton({ href, onClick, variant = 'primary', children, icon }
 
   const content = (
     <>
+      {iconPosition === 'left' && icon}
       {children}
-      {icon}
+      {iconPosition === 'right' && icon}
     </>
   );
 

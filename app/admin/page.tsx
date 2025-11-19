@@ -33,6 +33,17 @@ export default async function AdminDashboard() {
     .from('blog_posts')
     .select('*', { count: 'exact', head: true });
 
+  // 새로운 testimonial_cases 테이블 사용
+  const { count: testimonialsCount } = await supabase
+    .from('testimonial_cases')
+    .select('*', { count: 'exact', head: true });
+
+  const { count: publishedTestimonialsCount } = await supabase
+    .from('testimonial_cases')
+    .select('*', { count: 'exact', head: true })
+    .eq('published', true)
+    .eq('consent_given', true);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 헤더 */}
@@ -78,6 +89,12 @@ export default async function AdminDashboard() {
             <h3 className="text-sm font-medium text-gray-600 mb-2">FAQ</h3>
             <p className="text-3xl font-bold text-gray-900">{faqCount}</p>
             <p className="text-sm text-gray-500 mt-1">공개: {publishedFaqCount}개</p>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 className="text-sm font-medium text-gray-600 mb-2">의뢰인 후기</h3>
+            <p className="text-3xl font-bold text-gray-900">{testimonialsCount || 0}</p>
+            <p className="text-sm text-gray-500 mt-1">게시: {publishedTestimonialsCount || 0}개</p>
           </div>
 
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -142,6 +159,25 @@ export default async function AdminDashboard() {
                   </h3>
                   <p className="text-sm text-gray-600">
                     이혼큐레이션 추가, 수정, 삭제
+                  </p>
+                </div>
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </Link>
+
+            <Link
+              href="/admin/testimonial-cases"
+              className="block p-6 hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-base font-semibold text-gray-900 mb-1">
+                    의뢰인 후기 관리 (증빙 시스템)
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    케이스 및 증빙 사진 관리 (카톡, 문자, 네이버 리뷰 등)
                   </p>
                 </div>
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
