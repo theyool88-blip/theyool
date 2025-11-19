@@ -289,9 +289,6 @@ export default function Home() {
       {/* Real Story 섹션 - 위자료/재산분할/양육권 통합 */}
       <RealStory />
 
-      {/* FAQ Explorer 섹션 */}
-      <FAQExplorer />
-
       {/* Insta더율 & YouTube 통합 섹션 - 친근감 형성 */}
       <InstaTheyoolSection />
 
@@ -624,6 +621,9 @@ export default function Home() {
 
       {/* 의뢰인 후기 섹션 - 증빙 갤러리 */}
       <TestimonialEvidenceGallery />
+
+      {/* FAQ Explorer 섹션 */}
+      <FAQExplorer />
 
       {/* 최종 CTA 섹션 - 희망과 새로운 시작 */}
       <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-amber-100/20 hero-parallax overflow-hidden">
