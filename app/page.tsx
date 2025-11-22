@@ -4,29 +4,35 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
-import ConsultationButton from '@/components/features/ConsultationButton';
 import MobileMenu from '@/components/ui/MobileMenu';
 import SmoothScroll from '@/components/SmoothScroll';
 import HeroAnimation from '@/components/features/HeroAnimation';
-import ServicesModule from '@/components/features/ServicesModule';
-import Modal from '@/components/ui/Modal';
-import ConsultationForm from '@/components/features/ConsultationForm';
 import RealStory from '@/components/features/RealStory';
 import InstaTheyoolSection from '@/components/features/InstaTheyoolSection';
-import SectionReveal from '@/components/effects/SectionReveal';
 import FAQExplorer from '@/components/features/FAQExplorer';
 import ExpertInsights from '@/components/features/ExpertInsights';
 import TestimonialEvidenceGallery from '@/components/features/TestimonialEvidenceGallery';
 import ThePlanHighlight from '@/components/features/ThePlanHighlight';
 import ConsultationTimingGuide from '@/components/features/ConsultationTimingGuide';
 import ConsultationProcess from '@/components/features/ConsultationProcess';
-import EnhancedChannelSelector from '@/components/features/EnhancedChannelSelector';
-import FloatingReviewBadge from '@/components/features/FloatingReviewBadge';
+import ConsultationBookingModal from '@/components/features/ConsultationBooking/ConsultationBookingModal';
 import PhonePrepModal from '@/components/features/PhonePrepModal';
+import TestimonialPulse from '@/components/features/TestimonialPulse';
+import ScrollToTop from '@/components/ui/ScrollToTop';
 
 export default function Home() {
-  const [isTalkModalOpen, setIsTalkModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isPhonePrepModalOpen, setIsPhonePrepModalOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // (Removed) Venn diagram animation trigger
   useEffect(() => {}, []);
@@ -123,7 +129,9 @@ export default function Home() {
       <SmoothScroll />
 
       {/* Header - SKIN1004 스타일 */}
-      <header className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm">
+      <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
+      }`}>
         <nav className="max-w-[1200px] mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* 왼쪽: 햄버거 메뉴 */}
@@ -148,7 +156,7 @@ export default function Home() {
             {/* 오른쪽: 상담예약 텍스트 */}
             <div className="flex items-center">
               <button
-                onClick={() => setIsTalkModalOpen(true)}
+                onClick={() => setIsBookingModalOpen(true)}
                 className="text-sm font-normal text-black hover:text-gray-600 transition-colors"
               >
                 상담예약
@@ -158,43 +166,43 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Hero Section - SKIN1004 스타일 with Animation */}
-      <section className="hero-section relative min-h-screen flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-amber-50/40 via-white to-white">
+      {/* Hero Section - Sage Green Style */}
+      <section className="hero-section relative min-h-screen flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-sage-50/30 via-white to-white">
         <HeroAnimation />
 
-        {/* Minimal Geometric Background Pattern */}
+        {/* Minimal Geometric Background Pattern - Sage Green Tone */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: '#f0f0f0', stopOpacity: 0.6 }} />
-                <stop offset="100%" style={{ stopColor: '#e8e8e8', stopOpacity: 0.6 }} />
+                <stop offset="0%" style={{ stopColor: '#E8F5F2', stopOpacity: 0.4 }} />
+                <stop offset="100%" style={{ stopColor: '#D1EBE5', stopOpacity: 0.3 }} />
               </linearGradient>
               <linearGradient id="grad2" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" style={{ stopColor: '#f5f5f5', stopOpacity: 0.5 }} />
-                <stop offset="100%" style={{ stopColor: '#ececec', stopOpacity: 0.5 }} />
+                <stop offset="0%" style={{ stopColor: '#F0F9F7', stopOpacity: 0.3 }} />
+                <stop offset="100%" style={{ stopColor: '#E8F5F2', stopOpacity: 0.2 }} />
               </linearGradient>
               <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
-                <circle cx="20" cy="20" r="1" fill="#d0d0d0" opacity="0.3" />
+                <circle cx="20" cy="20" r="1" fill="#6DB5A4" opacity="0.15" />
               </pattern>
             </defs>
 
             {/* Dots Pattern */}
             <rect width="100%" height="100%" fill="url(#dots)" />
 
-            {/* Subtle circles */}
+            {/* Subtle circles - Sage Green Tone */}
             <circle cx="20%" cy="30%" r="200" fill="url(#grad1)" />
             <circle cx="80%" cy="70%" r="250" fill="url(#grad2)" />
-            <circle cx="70%" cy="25%" r="150" fill="#f5f5f5" opacity="0.5" />
-            <circle cx="30%" cy="75%" r="180" fill="#efefef" opacity="0.5" />
+            <circle cx="70%" cy="25%" r="150" fill="#E8F5F2" opacity="0.3" />
+            <circle cx="30%" cy="75%" r="180" fill="#D1EBE5" opacity="0.25" />
 
             {/* Very subtle rectangles */}
-            <rect x="50%" y="40%" width="300" height="300" fill="#f0f0f0" opacity="0.3" transform="rotate(45)" />
-            <rect x="15%" y="55%" width="250" height="250" fill="#f5f5f5" opacity="0.35" transform="rotate(30)" />
+            <rect x="50%" y="40%" width="300" height="300" fill="#E8F5F2" opacity="0.2" transform="rotate(45)" />
+            <rect x="15%" y="55%" width="250" height="250" fill="#F0F9F7" opacity="0.25" transform="rotate(30)" />
 
-            {/* Minimal lines */}
-            <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#e0e0e0" strokeWidth="1" opacity="0.4" />
-            <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#e0e0e0" strokeWidth="1" opacity="0.3" />
+            {/* Minimal lines - Sage tone */}
+            <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#B3DDD4" strokeWidth="1" opacity="0.2" />
+            <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#B3DDD4" strokeWidth="1" opacity="0.15" />
           </svg>
         </div>
 
@@ -204,25 +212,34 @@ export default function Home() {
         {/* Content */}
         <div className="hero-content relative z-10 flex-1 flex flex-col justify-end pb-12 md:pb-16 px-6 md:px-12 max-w-[1200px] mx-auto w-full">
           <div className="ml-0 md:ml-12 flex flex-col items-start max-w-[680px]">
-            {/* Badge - Amber style */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-full mb-6 hero-text-1">
-              <span className="w-2 h-2 bg-amber-600 rounded-full animate-pulse"></span>
-              <span className="text-sm md:text-base font-semibold text-amber-700">
+            {/* Badge - Sage Green style (light background, improved padding) */}
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-sage-100 rounded-full mb-6 hero-text-1">
+              <span className="w-2 h-2 bg-sage-500 rounded-full animate-pulse"></span>
+              <span className="text-sm md:text-base font-semibold text-sage-800">
                 12년간 1,200건의 답
               </span>
             </div>
 
             {/* Main Headline - Enhanced typography */}
-            <h1 className="text-[44px] md:text-[56px] lg:text-[68px] font-bold mb-10 leading-[1.25] md:leading-[1.3] text-gray-900 hero-text-2">
+            <h1 className="text-[44px] md:text-[56px] lg:text-[68px] font-bold mb-10 leading-[1.25] md:leading-[1.3] text-neutral-800 hero-text-2">
               복잡한 이혼,<br />
-              <span className="text-amber-600">10분이면 정리돼요</span>
+              <span className="text-sage-500">10분이면 정리돼요</span>
             </h1>
 
             {/* CTA Section */}
             <div className="hero-text-3 flex flex-col gap-4">
               <button
                 onClick={() => setIsPhonePrepModalOpen(true)}
-                className="group px-10 py-5 bg-gray-900 text-white rounded-full font-bold text-lg hover:bg-gray-800 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 shadow-xl flex items-center gap-2"
+                className="group px-10 py-5 bg-sage-600 hover:bg-sage-700 text-white rounded-full font-bold text-lg hover:scale-[1.02] transition-all duration-300 flex items-center gap-2"
+                style={{
+                  boxShadow: '0 8px 30px rgba(90, 153, 136, 0.35)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(90, 153, 136, 0.45)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(90, 153, 136, 0.35)';
+                }}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -230,15 +247,15 @@ export default function Home() {
                 <span>10분 무료 진단 받기</span>
               </button>
 
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-600">
                 <span className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 text-sage-700" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   비밀보장
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 text-sage-700" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   평일 저녁·주말 가능
@@ -253,7 +270,7 @@ export default function Home() {
       <ConsultationProcess />
 
       {/* 신뢰 지표 섹션 - 품질 중심 */}
-      <section className="pt-4 md:pt-6 pb-16 md:pb-24 bg-gradient-to-b from-white via-amber-50/20 to-white border-y border-amber-100/30">
+      <section className="pt-16 md:pt-20 pb-20 md:pb-28 bg-gradient-to-b from-white via-sage-50/40 to-white border-y border-sage-100/30">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="scroll-reveal">
@@ -281,7 +298,10 @@ export default function Home() {
       </section>
 
       {/* 상담 타이밍 가이드 섹션 */}
-      <ConsultationTimingGuide />
+      <ConsultationTimingGuide
+        onOpenBookingModal={() => setIsBookingModalOpen(true)}
+        onOpenPhoneModal={() => setIsPhonePrepModalOpen(true)}
+      />
 
       {/* THE PLAN 하이라이트 - 왜 더율인가? */}
       <ThePlanHighlight />
@@ -295,26 +315,23 @@ export default function Home() {
       {/* 변호사 칼럼 섹션 */}
       <ExpertInsights />
 
-      {/* Floating Review Badge - 후기 미리보기 */}
-      <FloatingReviewBadge />
+      {/* Testimonial Pulse - 좌측 하단 후기 배지 (9초 후 표시) */}
+      <TestimonialPulse />
 
-      {/* Talk 버튼 (오른쪽 하단 고정 + 플로팅) - 전역 */}
-      <div className="fixed bottom-8 right-4 z-50 animate-float">
-        <button
-          data-consultation-modal="true"
-          onClick={() => setIsTalkModalOpen(true)}
-          className="w-14 h-14 md:w-16 md:h-16 bg-black rounded-full text-white font-medium shadow-2xl hover:bg-gray-800 hover:scale-110 transition-all duration-300 flex items-center justify-center border-[0.5px] border-white"
-        >
-          <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-        </button>
-      </div>
+      {/* Scroll To Top Button - 위로가기 플로팅 버튼 */}
+      <ScrollToTop />
 
-      {/* Talk 모달 */}
-      <Modal isOpen={isTalkModalOpen} onClose={() => setIsTalkModalOpen(false)} maxWidth="3xl">
-        <EnhancedChannelSelector onClose={() => setIsTalkModalOpen(false)} />
-      </Modal>
+      {/* Consultation Booking Modal */}
+      <ConsultationBookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
+
+      {/* Phone Prep Modal */}
+      <PhonePrepModal
+        isOpen={isPhonePrepModalOpen}
+        onClose={() => setIsPhonePrepModalOpen(false)}
+      />
 
       {/* 기존 위자료 섹션 (백업용 - 나중에 삭제) */}
       <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-amber-50/40 via-orange-50/30 to-amber-100/40 hero-parallax">
@@ -626,20 +643,20 @@ export default function Home() {
       <FAQExplorer />
 
       {/* 최종 CTA 섹션 - 희망과 새로운 시작 */}
-      <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-amber-100/20 hero-parallax overflow-hidden">
-        {/* Warm Hope Pattern */}
+      <section id="contact" className="relative min-h-screen flex items-center py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/30 to-sage-100/40 hero-parallax overflow-hidden">
+        {/* Calm Hope Pattern - Sage Green */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="hopeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: '#fef3c7', stopOpacity: 0.4 }} />
-                <stop offset="100%" style={{ stopColor: '#fde68a', stopOpacity: 0.3 }} />
+                <stop offset="0%" style={{ stopColor: '#E8F5F2', stopOpacity: 0.4 }} />
+                <stop offset="100%" style={{ stopColor: '#D1EBE5', stopOpacity: 0.3 }} />
               </linearGradient>
             </defs>
             {/* Gentle circles representing new beginning */}
             <circle cx="25%" cy="35%" r="200" fill="url(#hopeGrad)" />
-            <circle cx="75%" cy="65%" r="220" fill="#fef3c7" opacity="0.35" />
-            <circle cx="50%" cy="50%" r="150" fill="#fde68a" opacity="0.25" />
+            <circle cx="75%" cy="65%" r="220" fill="#E8F5F2" opacity="0.35" />
+            <circle cx="50%" cy="50%" r="150" fill="#D1EBE5" opacity="0.25" />
           </svg>
         </div>
 
@@ -688,10 +705,10 @@ export default function Home() {
                   </div>
                 </a>
 
-                {/* 2. 영상/방문 예약 - 앰버 */}
+                {/* 2. 영상/방문 예약 - Sage Green */}
                 <button
-                  onClick={() => setIsTalkModalOpen(true)}
-                  className="group w-full bg-amber-500 text-white rounded-2xl shadow-lg active:scale-98 transition-all"
+                  onClick={() => setIsBookingModalOpen(true)}
+                  className="group w-full bg-sage-600 text-white rounded-2xl shadow-lg active:scale-98 transition-all"
                 >
                   <div className="px-5 py-5">
                     <div className="flex items-center justify-between">
@@ -704,7 +721,7 @@ export default function Home() {
                         </div>
                         <div className="text-left">
                           <p className="font-bold text-lg mb-0.5">영상/방문 예약</p>
-                          <p className="text-sm text-amber-50">편한 시간에 자세히</p>
+                          <p className="text-sm text-sage-50">편한 시간에 자세히</p>
                           <p className="text-lg font-semibold mt-1.5">예약하기</p>
                         </div>
                       </div>
@@ -716,28 +733,28 @@ export default function Home() {
                   </div>
                 </button>
 
-                {/* 3. 상담 가이드 - 화이트 with 앰버 액센트 */}
+                {/* 3. 상담 가이드 - 화이트 with Sage Green 액센트 */}
                 <Link
                   href="/consultation"
-                  className="group block bg-white border-2 border-amber-200 rounded-2xl shadow-lg active:scale-98 transition-all hover:border-amber-400"
+                  className="group block bg-white border-2 border-sage-200 rounded-2xl shadow-lg active:scale-98 transition-all hover:border-sage-400"
                 >
                   <div className="px-5 py-5">
                     <div className="flex items-center justify-between">
                       {/* 왼쪽: 아이콘 + 텍스트 그룹 */}
                       <div className="flex items-center gap-4">
-                        <div className="flex items-center justify-center w-12 h-12 bg-amber-50 rounded-xl flex-shrink-0">
-                          <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="flex items-center justify-center w-12 h-12 bg-sage-50 rounded-xl flex-shrink-0">
+                          <svg className="w-6 h-6 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                         </div>
                         <div className="text-left">
                           <p className="font-bold text-lg text-gray-900 mb-0.5">처음이신가요?</p>
                           <p className="text-sm text-gray-600">상담 방법 자세히 보기</p>
-                          <p className="text-lg font-semibold text-amber-600 mt-1.5">가이드 보기</p>
+                          <p className="text-lg font-semibold text-sage-600 mt-1.5">가이드 보기</p>
                         </div>
                       </div>
                       {/* 오른쪽: 화살표 */}
-                      <svg className="w-6 h-6 text-amber-600/60 flex-shrink-0 group-active:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-sage-600/60 flex-shrink-0 group-active:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
@@ -764,8 +781,8 @@ export default function Home() {
 
                 {/* 영상/방문상담 */}
                 <button
-                  onClick={() => setIsTalkModalOpen(true)}
-                  className="group bg-amber-600 text-white p-6 rounded-2xl hover:bg-amber-700 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
+                  onClick={() => setIsBookingModalOpen(true)}
+                  className="group bg-sage-600 text-white p-6 rounded-2xl hover:bg-sage-700 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
                 >
                   <div className="flex items-center justify-center mb-3">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -773,23 +790,23 @@ export default function Home() {
                     </svg>
                   </div>
                   <p className="font-bold text-lg mb-2">영상/방문 예약</p>
-                  <p className="text-sm text-amber-100 mb-3">편한 시간에 자세히</p>
+                  <p className="text-sm text-sage-100 mb-3">편한 시간에 자세히</p>
                   <p className="text-base font-semibold">예약하기 →</p>
                 </button>
 
                 {/* 상담 가이드 */}
                 <Link
                   href="/consultation"
-                  className="group bg-white text-gray-900 p-6 rounded-2xl border-2 border-gray-300 hover:border-amber-600 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                  className="group bg-white text-gray-900 p-6 rounded-2xl border-2 border-gray-300 hover:border-sage-600 transition-all shadow-lg hover:shadow-xl hover:scale-105"
                 >
                   <div className="flex items-center justify-center mb-3">
-                    <svg className="w-8 h-8 text-gray-700 group-hover:text-amber-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-8 h-8 text-gray-700 group-hover:text-sage-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <p className="font-bold text-lg mb-2">처음이신가요?</p>
                   <p className="text-sm text-gray-600 mb-3">상담 방법 자세히 보기</p>
-                  <p className="text-base font-semibold text-amber-600 group-hover:text-amber-700 transition-colors">가이드 보기 →</p>
+                  <p className="text-base font-semibold text-sage-600 group-hover:text-sage-700 transition-colors">가이드 보기 →</p>
                 </Link>
               </div>
             </div>

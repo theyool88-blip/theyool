@@ -4,7 +4,15 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function ConsultationTimingGuide() {
+interface ConsultationTimingGuideProps {
+  onOpenBookingModal?: () => void;
+  onOpenPhoneModal?: () => void;
+}
+
+export default function ConsultationTimingGuide({
+  onOpenBookingModal,
+  onOpenPhoneModal
+}: ConsultationTimingGuideProps) {
   const [selectedStage, setSelectedStage] = useState<number | null>(null);
 
   const timelineStages = [
@@ -21,9 +29,9 @@ export default function ConsultationTimingGuide() {
       actionUrl: '/faq',
       actionType: 'secondary' as const,
       tip: '천천히 알아보세요',
-      color: 'from-blue-50 to-blue-100',
-      borderColor: 'border-blue-200',
-      iconBg: 'bg-blue-50',
+      color: 'from-sage-50 to-sage-100',
+      borderColor: 'border-sage-200',
+      iconBg: 'bg-sage-50',
     },
     {
       stage: '이야기 시작했어요',
@@ -38,9 +46,9 @@ export default function ConsultationTimingGuide() {
       actionUrl: '#consultation',
       actionType: 'primary' as const,
       tip: '지금이 중요해요',
-      color: 'from-purple-50 to-purple-100',
-      borderColor: 'border-purple-200',
-      iconBg: 'bg-purple-50',
+      color: 'from-sage-100 to-sage-200',
+      borderColor: 'border-sage-300',
+      iconBg: 'bg-sage-100',
     },
     {
       stage: '문제가 생겼어요',
@@ -55,9 +63,9 @@ export default function ConsultationTimingGuide() {
       actionUrl: '#consultation',
       actionType: 'primary' as const,
       tip: '빨리 시작하세요',
-      color: 'from-amber-50 to-amber-100',
-      borderColor: 'border-amber-200',
-      iconBg: 'bg-amber-50',
+      color: 'from-coral-50 to-coral-100',
+      borderColor: 'border-coral-300',
+      iconBg: 'bg-coral-50',
     },
     {
       stage: '지금 당장 필요해요',
@@ -72,28 +80,33 @@ export default function ConsultationTimingGuide() {
       actionUrl: 'tel:1661-7633',
       actionType: 'urgent' as const,
       tip: '오늘 연락주세요',
-      color: 'from-red-50 to-red-100',
-      borderColor: 'border-red-200',
-      iconBg: 'bg-red-50',
+      color: 'from-coral-100 to-coral-200',
+      borderColor: 'border-coral-300',
+      iconBg: 'bg-coral-100',
     },
   ];
 
   const handleAction = (stage: typeof timelineStages[0]) => {
     if (stage.actionUrl === '#consultation') {
-      const modal = document.querySelector('[data-consultation-modal]');
-      if (modal) {
-        (modal as HTMLElement).click();
-      }
+      // 상담 예약 모달 열기
+      onOpenBookingModal?.();
     } else if (stage.actionUrl.startsWith('tel:')) {
-      window.location.href = stage.actionUrl;
+      // 전화 준비 모달 열기
+      onOpenPhoneModal?.();
     } else {
+      // 외부 링크 (예: FAQ)
       window.location.href = stage.actionUrl;
     }
   };
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/40 to-white">
-      <div className="max-w-[1100px] mx-auto px-4 md:px-12">
+    <section className="relative py-20 md:py-28 bg-gradient-to-b from-white via-sage-50/30 to-white">
+      {/* Top Gradient Overlay - 신뢰 지표에서 자연스러운 전환 */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/60 to-transparent pointer-events-none z-0" />
+
+      {/* Bottom Gradient Overlay - ThePlan으로 자연스러운 전환 */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-0" />
+      <div className="relative z-10 max-w-[1100px] mx-auto px-4 md:px-12">
         {/* 제목 - 토스 스타일 */}
         <div className="text-center mb-10 md:mb-16">
           <h2 className="text-2xl md:text-5xl font-bold text-gray-900 mb-2 md:mb-4 tracking-tight leading-tight">
@@ -197,13 +210,11 @@ export default function ConsultationTimingGuide() {
 
                     {/* Tip - 단계별 색상 조합 */}
                     <div className={`backdrop-blur-sm rounded-xl p-3 mb-4 relative z-10 ${
-                      stage.actionType === 'urgent'
-                        ? 'bg-red-50/90 border border-red-200/50 text-red-900'
-                        : index === 2
-                        ? 'bg-amber-50/90 border border-amber-200/50 text-amber-900'
+                      index >= 2
+                        ? 'bg-coral-50/90 border border-coral-200/50 text-coral-900'
                         : index === 1
-                        ? 'bg-purple-50/90 border border-purple-200/50 text-purple-900'
-                        : 'bg-blue-50/90 border border-blue-200/50 text-blue-900'
+                        ? 'bg-sage-100/90 border border-sage-300/50 text-sage-900'
+                        : 'bg-sage-50/90 border border-sage-200/50 text-sage-900'
                     }`}>
                       <p className="text-xs font-medium">
                         {stage.tip}
@@ -214,11 +225,11 @@ export default function ConsultationTimingGuide() {
                     <button
                       onClick={() => handleAction(stage)}
                       className={`w-full px-4 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 relative z-10 ${
-                        stage.actionType === 'urgent'
-                          ? 'bg-red-600 text-white hover:bg-red-700 shadow-md hover:shadow-lg hover:scale-105'
+                        index >= 2
+                          ? 'bg-coral-600 text-white hover:bg-coral-700 shadow-md hover:shadow-lg hover:scale-105'
                           : stage.actionType === 'primary'
-                          ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-md hover:shadow-lg hover:scale-105'
-                          : 'bg-white text-gray-900 hover:bg-gray-50 shadow-sm'
+                          ? 'bg-sage-600 text-white hover:bg-sage-700 shadow-md hover:shadow-lg hover:scale-105'
+                          : 'bg-white text-sage-700 border-2 border-sage-400 hover:bg-sage-50 hover:border-sage-500 shadow-sm hover:shadow-md'
                       }`}
                     >
                       {stage.action}
@@ -314,13 +325,11 @@ export default function ConsultationTimingGuide() {
 
                       {/* Tip - 단계별 색상 조합 */}
                       <div className={`backdrop-blur-md rounded-xl p-4 mb-5 border-2 shadow-sm ${
-                        stage.actionType === 'urgent'
-                          ? 'bg-red-50 border-red-300 text-red-900'
-                          : stage.actionType === 'primary' && index === 2
-                          ? 'bg-amber-50 border-amber-300 text-amber-900'
-                          : stage.actionType === 'primary' && index === 1
-                          ? 'bg-purple-50 border-purple-300 text-purple-900'
-                          : 'bg-blue-50 border-blue-300 text-blue-900'
+                        index >= 2
+                          ? 'bg-coral-50 border-coral-300 text-coral-900'
+                          : index === 1
+                          ? 'bg-sage-100 border-sage-300 text-sage-900'
+                          : 'bg-sage-50 border-sage-300 text-sage-900'
                       }`}>
                         <p className="text-sm font-medium leading-relaxed">
                           {stage.tip}
@@ -331,11 +340,11 @@ export default function ConsultationTimingGuide() {
                       <button
                         onClick={() => handleAction(stage)}
                         className={`w-full px-6 py-4 rounded-full font-bold text-base transition-all duration-300 ${
-                          stage.actionType === 'urgent'
-                            ? 'bg-red-600 text-white active:bg-red-700 shadow-lg active:scale-95'
+                          index >= 2
+                            ? 'bg-coral-600 text-white active:bg-coral-700 shadow-lg active:scale-95'
                             : stage.actionType === 'primary'
-                            ? 'bg-gray-900 text-white active:bg-gray-800 shadow-lg active:scale-95'
-                            : 'bg-white text-gray-900 active:bg-gray-50 shadow-md border-2 border-gray-200 active:scale-95'
+                            ? 'bg-sage-600 text-white active:bg-sage-700 shadow-lg active:scale-95'
+                            : 'bg-white text-sage-700 active:bg-sage-50 shadow-md border-2 border-sage-300 active:scale-95'
                         }`}
                       >
                         {stage.action}

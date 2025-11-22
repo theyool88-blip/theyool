@@ -10,12 +10,15 @@ export default function ThePlanHighlight() {
   const [expanded4, setExpanded4] = useState(false);
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-blue-50 via-white to-white">
+    <section className="relative py-24 md:py-36 bg-gradient-to-b from-white via-sage-50/30 to-white">
+      {/* Bottom gradient transition to RealStory */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-white/95 pointer-events-none z-[5]" />
+
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         {/* THE PLAN 카드 - Premium Dark */}
         <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden">
-          {/* Accent pattern */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/20 to-blue-400/10 rounded-full blur-3xl" />
+          {/* Accent pattern - Sage Green */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-sage-500/20 to-sage-400/10 rounded-full blur-3xl" />
 
           <div className="relative z-10">
             {/* WHY THEYOOL 배지 */}
@@ -45,7 +48,7 @@ export default function ThePlanHighlight() {
                   onClick={() => setExpanded1(!expanded1)}
                   className="flex items-start gap-3 w-full text-left"
                 >
-                  <span className="text-blue-400 flex-shrink-0 mt-0.5">
+                  <span className="text-sage-400 flex-shrink-0 mt-0.5">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -63,7 +66,7 @@ export default function ThePlanHighlight() {
                     <p className="text-sm text-gray-300 mb-3 leading-relaxed">
                       더율은 이혼과 상간 사건만 전문으로 합니다. 위자료, 재산분할, 양육권, 양육비 - 이 네 가지를 위해 모든 역량을 집중합니다.
                     </p>
-                    <Link href="/cases" className="text-sm text-blue-400 hover:text-blue-300 font-medium">
+                    <Link href="/cases" className="text-sm text-sage-400 hover:text-sage-300 font-medium">
                       성공사례 보기 →
                     </Link>
                   </div>
@@ -76,7 +79,7 @@ export default function ThePlanHighlight() {
                   onClick={() => setExpanded2(!expanded2)}
                   className="flex items-start gap-3 w-full text-left"
                 >
-                  <span className="text-blue-400 flex-shrink-0 mt-0.5">
+                  <span className="text-sage-400 flex-shrink-0 mt-0.5">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -94,7 +97,7 @@ export default function ThePlanHighlight() {
                     <p className="text-sm text-gray-300 mb-3 leading-relaxed">
                       이혼을 앞둔 당신의 불안, 우리는 이미 알고 있습니다. 혼자 고민하지 마세요, 우리가 먼저 겪고 정리한 답이 있습니다.
                     </p>
-                    <Link href="/faq" className="text-sm text-blue-400 hover:text-blue-300 font-medium">
+                    <Link href="/faq" className="text-sm text-sage-400 hover:text-sage-300 font-medium">
                       이혼큐레이션 전체 보기 →
                     </Link>
                   </div>
@@ -107,7 +110,7 @@ export default function ThePlanHighlight() {
                   onClick={() => setExpanded3(!expanded3)}
                   className="flex items-start gap-3 w-full text-left"
                 >
-                  <span className="text-amber-400 flex-shrink-0 mt-0.5">
+                  <span className="text-sage-400 flex-shrink-0 mt-0.5">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -125,7 +128,7 @@ export default function ThePlanHighlight() {
                     <p className="text-sm text-gray-300 mb-3 leading-relaxed">
                       21개의 성공사례와 18개의 전문 칼럼이 우리의 실력을 말해줍니다. 숫자로 증명된 87%의 승소율, 평균 92시간의 집중 투입.
                     </p>
-                    <Link href="/blog" className="text-sm text-amber-400 hover:text-amber-300 font-medium">
+                    <Link href="/blog" className="text-sm text-sage-400 hover:text-sage-300 font-medium">
                       변호사 칼럼 읽기 →
                     </Link>
                   </div>
@@ -138,7 +141,7 @@ export default function ThePlanHighlight() {
                   onClick={() => setExpanded4(!expanded4)}
                   className="flex items-start gap-3 w-full text-left"
                 >
-                  <span className="text-pink-600 flex-shrink-0 mt-0.5">
+                  <span className="text-sage-400 flex-shrink-0 mt-0.5">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -156,7 +159,7 @@ export default function ThePlanHighlight() {
                     <p className="text-sm text-gray-300 mb-3 leading-relaxed">
                       이 모든 경험과 전문성으로 완성한 것이 바로 THE PLAN입니다. 당신의 사건을 시작하기 전에, 끝을 먼저 그립니다.
                     </p>
-                    <Link href="/the-plan" className="text-sm text-pink-600 hover:text-pink-500 font-medium">
+                    <Link href="/the-plan" className="text-sm text-sage-400 hover:text-sage-300 font-medium">
                       The Plan 자세히 알아보기 →
                     </Link>
                   </div>
@@ -179,7 +182,7 @@ export default function ThePlanHighlight() {
               href="/the-plan"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-full font-bold hover:bg-gray-100 transition-all group text-sm md:text-base shadow-xl hover:shadow-2xl hover:scale-105"
             >
-              지금 시작하기 전에, THE PLAN 먼저 보기
+              THE PLAN 확인하기
               <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
