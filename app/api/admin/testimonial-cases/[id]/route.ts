@@ -9,7 +9,7 @@ import type { CaseUpdateRequest } from '@/types/testimonial';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -17,7 +17,8 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { data, error } = await getCaseById(params.id);
+    const { id } = await params;
+    const { data, error } = await getCaseById(id);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
@@ -40,7 +41,7 @@ export async function GET(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -48,10 +49,11 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
     const body = await request.json();
     const updates: Partial<CaseUpdateRequest> = body;
 
-    const { data, error } = await updateCase(params.id, updates, session.id);
+    const { data, error } = await updateCase(id, updates, session.email);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
@@ -74,7 +76,7 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -82,7 +84,8 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { success, error } = await deleteCase(params.id);
+    const { id } = await params;
+    const { success, error } = await deleteCase(id);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

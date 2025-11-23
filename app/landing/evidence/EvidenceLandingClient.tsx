@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ChevronRight, Camera, FileText, MessageSquare, CreditCard, Shield, Check, X, ArrowRight, Phone, Calendar, AlertCircle, Eye, Lock, Search } from 'lucide-react'
+import { ChevronRight, Camera, FileText, MessageSquare, CreditCard, Shield, Check, X, ArrowRight, Phone, Calendar, AlertCircle, Eye, Lock, Search, Heart } from 'lucide-react'
 
 export default function EvidenceLandingClient() {
   const [scrolled, setScrolled] = useState(false)

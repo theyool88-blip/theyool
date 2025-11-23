@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Case date is required' }, { status: 400 });
     }
 
-    const { data, error } = await createCase(caseData, session.id);
+    const { data, error } = await createCase(caseData, session.email);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

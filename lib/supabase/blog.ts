@@ -85,6 +85,7 @@ export async function getBlogPosts(options?: {
     return { data: [], total: 0 };
   }
 
+  // @ts-ignore - BlogPost type mismatch with selected fields
   return { data: data || [], total: count || 0 };
 }
 

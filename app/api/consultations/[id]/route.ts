@@ -50,10 +50,10 @@ const updateConsultationSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -76,7 +76,8 @@ export async function GET(
       data: consultation,
     });
   } catch (error) {
-    console.error(`GET /api/consultations/${params.id} error:`, error);
+    const { id: errorId } = await params;
+    console.error(`GET /api/consultations/${errorId} error:`, error);
 
     const errorMessage = error instanceof Error ? error.message : '서버 오류가 발생했습니다';
 
@@ -94,10 +95,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -112,7 +113,7 @@ export async function PATCH(
     const validation = updateConsultationSchema.safeParse(body);
 
     if (!validation.success) {
-      const errors = validation.error.errors.map((err) => ({
+      const errors = validation.error.issues.map((err) => ({
         field: err.path.join('.'),
         message: err.message,
       }));
@@ -142,7 +143,8 @@ export async function PATCH(
       message: '상담 정보가 수정되었습니다',
     });
   } catch (error) {
-    console.error(`PATCH /api/consultations/${params.id} error:`, error);
+    const { id: errorId } = await params;
+    console.error(`PATCH /api/consultations/${errorId} error:`, error);
 
     const errorMessage = error instanceof Error ? error.message : '서버 오류가 발생했습니다';
 
@@ -160,10 +162,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -190,7 +192,8 @@ export async function DELETE(
       message: '상담 정보가 삭제되었습니다',
     });
   } catch (error) {
-    console.error(`DELETE /api/consultations/${params.id} error:`, error);
+    const { id: errorId } = await params;
+    console.error(`DELETE /api/consultations/${errorId} error:`, error);
 
     const errorMessage = error instanceof Error ? error.message : '서버 오류가 발생했습니다';
 

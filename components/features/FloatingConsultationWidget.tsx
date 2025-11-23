@@ -192,7 +192,7 @@ export default function FloatingConsultationWidget({
 
       {/* Modals */}
       {showPhoneModal && (
-        <PhonePrepModal onClose={() => setShowPhoneModal(false)} />
+        <PhonePrepModal isOpen={showPhoneModal} onClose={() => setShowPhoneModal(false)} />
       )}
 
       {/* Custom animations */}

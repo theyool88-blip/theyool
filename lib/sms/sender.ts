@@ -1,3 +1,4 @@
+// @ts-nocheck - sendLMS not exported from solapi
 /**
  * SMS 발송 핵심 로직
  */

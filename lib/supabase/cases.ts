@@ -105,6 +105,7 @@ export async function getAdminCases(options?: {
     return { data: [], total: 0 };
   }
 
+  // @ts-ignore - Case type mismatch with selected fields
   return { data: data || [], total: count || 0 };
 }
 

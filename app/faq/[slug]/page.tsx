@@ -90,7 +90,7 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
   }
 
   // 관련 칼럼 - 수동 참조 우선, 자동 매칭 fallback
-  const allBlogs = await getBlogPosts();
+  const { data: allBlogs } = await getBlogPosts();
   let relatedBlogs = [];
 
   if (faq.related_blog_posts && faq.related_blog_posts.length > 0) {

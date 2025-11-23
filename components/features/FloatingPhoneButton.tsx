@@ -115,6 +115,7 @@ export default function FloatingPhoneButton({
       {/* Phone Prep Modal */}
       {showPhoneModal && (
         <PhonePrepModal
+          isOpen={showPhoneModal}
           onClose={() => setShowPhoneModal(false)}
           phoneNumber={phoneNumber}
         />

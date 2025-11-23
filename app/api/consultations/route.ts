@@ -35,7 +35,7 @@ const visitSchema = baseSchema.extend({
   request_type: z.literal('visit'),
   preferred_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '날짜 형식이 올바르지 않습니다 (YYYY-MM-DD)'),
   preferred_time: z.string().regex(/^\d{2}:\d{2}$/, '시간 형식이 올바르지 않습니다 (HH:MM)'),
-  office_location: z.enum(['천안', '평택'], { errorMap: () => ({ message: '사무소를 선택해주세요' }) }),
+  office_location: z.enum(['천안', '평택'], { message: '사무소를 선택해주세요' }),
   preferred_lawyer: z.enum(['육심원', '임은지']).optional(),
 });
 
