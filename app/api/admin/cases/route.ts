@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/auth';
-import { getCases, createCase } from '@/lib/supabase/cases';
+import { getAdminCases, createCase } from '@/lib/supabase/cases';
 
-// GET: 모든 Cases 조회
+// GET: 모든 Cases 조회 (페이지네이션 + 검색)
 export async function GET(request: NextRequest) {
   try {
     const session = await getSession();
@@ -10,9 +10,23 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ success: false, message: '인증이 필요합니다.' }, { status: 401 });
     }
 
-    const cases = await getCases();
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '40');
+    const search = searchParams.get('search') || '';
 
-    return NextResponse.json({ success: true, data: cases });
+    const { data, total } = await getAdminCases({ page, limit, search });
+
+    return NextResponse.json({
+      success: true,
+      data,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
   } catch (error) {
     console.error('Cases 조회 실패:', error);
     return NextResponse.json({ success: false, message: '조회 중 오류가 발생했습니다.' }, { status: 500 });

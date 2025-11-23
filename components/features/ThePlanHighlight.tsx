@@ -15,10 +15,10 @@ export default function ThePlanHighlight() {
       <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-white/95 pointer-events-none z-[5]" />
 
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-        {/* THE PLAN 카드 - Premium Dark */}
-        <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden">
+        {/* THE PLAN 카드 - Sage Dark */}
+        <div className="relative bg-gradient-to-br from-sage-800 to-sage-900 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden">
           {/* Accent pattern - Sage Green */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-sage-500/20 to-sage-400/10 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-sage-400/30 to-sage-300/20 rounded-full blur-3xl" />
 
           <div className="relative z-10">
             {/* WHY THEYOOL 배지 */}

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import PageLayout from '@/components/layouts/PageLayout';
 import Link from 'next/link';
-import QuickConsultationForm from '@/components/features/QuickConsultationForm';
+import CallbackForm from '@/components/features/CallbackForm';
 import TrustBadges from '@/components/features/TrustBadges';
 import StickyMobileCTA from '@/components/features/StickyMobileCTA';
 import CostTransparency from '@/components/features/CostTransparency';
@@ -70,7 +70,7 @@ export default function CustodyBattlePage() {
 
   return (
     <PageLayout>
-      <div className="min-h-screen bg-gradient-to-b from-white via-gray-50/30 to-white py-20">
+      <div className="min-h-screen bg-gradient-to-b from-sage-50/30 via-white to-white py-20">
         {/* Hero Section */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
           <SectionHeader
@@ -79,30 +79,30 @@ export default function CustodyBattlePage() {
             subtitle="아이와 함께할 권리를 지키는 과학적 준비 시스템"
           />
           <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-              <p className="text-3xl font-bold text-gray-900 mb-2">87%</p>
-              <p className="text-sm text-gray-600">양육권 확보율</p>
-              <p className="text-xs text-gray-500 mt-1">더율 수임 사건 기준</p>
+            <div className="bg-sage-50 border border-sage-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-sage-900 mb-2">87%</p>
+              <p className="text-sm text-sage-700">양육권 확보율</p>
+              <p className="text-xs text-sage-600 mt-1">더율 수임 사건 기준</p>
             </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-              <p className="text-3xl font-bold text-gray-900 mb-2">10년+</p>
-              <p className="text-sm text-gray-600">양육권 전문</p>
-              <p className="text-xs text-gray-500 mt-1">200건 이상 수임</p>
+            <div className="bg-sage-50 border border-sage-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-sage-900 mb-2">10년+</p>
+              <p className="text-sm text-sage-700">양육권 전문</p>
+              <p className="text-xs text-sage-600 mt-1">200건 이상 수임</p>
             </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-              <p className="text-3xl font-bold text-gray-900 mb-2">72시간</p>
-              <p className="text-sm text-gray-600">긴급 대응</p>
-              <p className="text-xs text-gray-500 mt-1">즉시 상담하세요</p>
+            <div className="bg-sage-50 border border-sage-200 rounded-xl p-6">
+              <p className="text-3xl font-bold text-sage-900 mb-2">72시간</p>
+              <p className="text-sm text-sage-700">긴급 대응</p>
+              <p className="text-xs text-sage-600 mt-1">즉시 상담하세요</p>
             </div>
           </div>
         </section>
 
         {/* 긴급 상황 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-8">
+          <div className="bg-sage-50 border-2 border-sage-200 rounded-2xl p-8">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                빠른 대응이 아이를 지킵니다
+                빠른 대응이 아이를 지켜요
               </h2>
               <p className="text-gray-700 mb-4">
                 다음 상황에서는 즉시 법률 자문을 받으세요
@@ -119,7 +119,7 @@ export default function CustodyBattlePage() {
             <div className="mt-6 text-center">
               <Link
                 href="tel:1661-7633"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-rose-600 text-white rounded-full font-bold text-lg hover:bg-rose-700 transition-all shadow-lg"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-sage-700 text-white rounded-full font-bold text-lg hover:bg-sage-800 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -166,18 +166,18 @@ export default function CustodyBattlePage() {
 
         {/* 공감 메시지 */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16 mt-16">
-          <div className="bg-pink-50 rounded-2xl p-8 border-2 border-pink-200">
+          <div className="bg-sage-50 rounded-2xl p-8 border-2 border-sage-200">
             <div className="max-w-3xl mx-auto text-center">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                아이를 사랑하는 마음만큼은 누구에게도 지지 않으실 겁니다
+                아이를 사랑하는 마음만큼은 누구에게도 지지 않을 거예요
               </h3>
               <p className="text-gray-700 leading-relaxed mb-6">
-                많은 분들이 <strong>"경제력이 부족해서", "일을 해야 해서"</strong> 양육권을 포기합니다.<br />
-                하지만 판사가 보는 건 <strong>돈이 아니라 '누가 더 아이를 잘 키웠는가'</strong>입니다.<br />
-                ① 주 양육자 지위 ② 안정적 양육 환경 ③ 정서적 유대감 - 이 3가지가 핵심입니다.
+                많은 분들이 <strong>"경제력이 부족해서", "일을 해야 해서"</strong> 양육권을 포기해요<br />
+                하지만 판사가 보는 건 <strong>돈이 아니라 '누가 더 아이를 잘 키웠는가'</strong>예요<br />
+                ① 주 양육자 지위 ② 안정적 양육 환경 ③ 정서적 유대감 - 이 3가지가 핵심이에요
               </p>
               <p className="text-lg font-semibold text-gray-900">
-                경제력이 없어도, 일을 해도, 엄마(아빠)는 이길 수 있습니다.
+                경제력이 없어도, 일을 해도, 엄마(아빠)는 이길 수 있어요
               </p>
             </div>
           </div>
@@ -202,10 +202,8 @@ export default function CustodyBattlePage() {
                 onClick={() => setActiveChecklist(index)}
                 className={`px-6 py-3 rounded-full font-semibold transition-all ${
                   activeChecklist === index
-                    ? index === 0
-                      ? 'bg-gray-900 text-white shadow-lg'
-                      : 'bg-blue-500 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-sage-600 text-white shadow-lg'
+                    : 'bg-sage-100 text-sage-700 hover:bg-sage-200'
                 }`}
               >
                 {checklist.title}
@@ -213,25 +211,25 @@ export default function CustodyBattlePage() {
             ))}
           </div>
 
-          <div className={`bg-gradient-to-br ${activeChecklist === 0 ? 'from-pink-50' : 'from-blue-50'} to-white rounded-2xl p-8 border-2 ${activeChecklist === 0 ? 'border-pink-200' : 'border-blue-200'}`}>
+          <div className="bg-gradient-to-br from-sage-50 to-white rounded-2xl p-8 border-2 border-sage-200">
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{judgeChecklist[activeChecklist].title}</h3>
                 <ul className="space-y-3">
                   {judgeChecklist[activeChecklist].items.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <span className={activeChecklist === 0 ? 'text-pink-500 font-bold' : 'text-blue-500 font-bold'}>{item.split(' ')[0]}</span>
+                      <span className="text-sage-600 font-bold">{item.split(' ')[0]}</span>
                       <span className="text-gray-700">{item.substring(item.indexOf(' ') + 1)}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className={`${activeChecklist === 0 ? 'bg-pink-100' : 'bg-blue-100'} rounded-xl p-6 text-center flex flex-col justify-center`}>
-                <p className="text-5xl font-bold mb-2" style={{ color: activeChecklist === 0 ? '#ec4899' : '#3b82f6' }}>
+              <div className="bg-sage-100 rounded-xl p-6 text-center flex flex-col justify-center">
+                <p className="text-5xl font-bold mb-2 text-sage-900">
                   {judgeChecklist[activeChecklist].rate}
                 </p>
-                <p className="text-gray-700 font-semibold mb-4">{judgeChecklist[activeChecklist].description}</p>
-                <p className="text-xs text-gray-600">
+                <p className="text-sage-700 font-semibold mb-4">{judgeChecklist[activeChecklist].description}</p>
+                <p className="text-xs text-sage-600">
                   {activeChecklist === 0
                     ? '만 5세 이하 자녀의 경우 엄마 유리 (가사법 기준)'
                     : '전략적 접근으로 일반 아빠 승소율(15%)의 2.8배'}
@@ -285,7 +283,7 @@ export default function CustodyBattlePage() {
 
         {/* 상담 신청 폼 */}
         <section id="consultation-form" className="max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-          <QuickConsultationForm pageType="custody" />
+          <CallbackForm pageType="custody" variant="default" />
         </section>
 
         {/* FAQ */}
@@ -298,15 +296,15 @@ export default function CustodyBattlePage() {
               {[
                 {
                   q: '경제력이 없어도 양육권을 가질 수 있나요?',
-                  a: '네, 가능합니다. 법원은 ① 주 양육자 지위, ② 양육 의지와 능력, ③ 자녀와의 정서적 유대를 종합 평가합니다. 경제력은 양육비로 보완 가능하므로 절대적 요소가 아닙니다. 실제로 더율이 수임한 사건 중 70% 이상이 경제력이 약한 측의 승소였습니다.',
+                  a: '네, 가능해요. 법원은 ① 주 양육자 지위, ② 양육 의지와 능력, ③ 자녀와의 정서적 유대를 종합 평가해요. 경제력은 양육비로 보완 가능해서 절대적 요소가 아니에요. 실제로 더율이 수임한 사건 중 70% 이상이 경제력이 약한 측의 승소였어요',
                 },
                 {
                   q: '자녀가 원하면 양육권이 결정되나요?',
-                  a: '만 13세 이상 자녀는 법원에서 직접 의견을 청취하며, 이는 매우 중요한 판단 요소입니다. 만 10-12세는 간접적으로 의사를 확인하며, 만 5세 미만은 주 양육자를 우선합니다. 단, 자녀 의사가 부모의 압박으로 왜곡되었다면 참고하지 않습니다.',
+                  a: '만 13세 이상 자녀는 법원에서 직접 의견을 청취하며, 이는 매우 중요한 판단 요소예요. 만 10-12세는 간접적으로 의사를 확인하며, 만 5세 미만은 주 양육자를 우선해요. 단, 자녀 의사가 부모의 압박으로 왜곡되었다면 참고하지 않아요',
                 },
                 {
                   q: '상대방이 아이를 데리고 가버렸어요. 어떻게 하나요?',
-                  a: '72시간 내 ① 임시양육자 지정 신청, ② 자녀 인도 심판 청구를 해야 합니다. 시간이 지날수록 "현재 양육 상태 유지"가 유리해져 불리해집니다. 즉시 법률 자문을 받고 긴급조치를 취하세요.',
+                  a: '72시간 내 ① 임시양육자 지정 신청, ② 자녀 인도 심판 청구를 해야 해요. 시간이 지날수록 "현재 양육 상태 유지"가 유리해져 불리해져요. 즉시 법률 자문을 받고 긴급조치를 취하세요',
                 },
               ].map((faq, index) => (
                 <div key={index} className="bg-white rounded-lg p-6">
@@ -332,12 +330,12 @@ export default function CustodyBattlePage() {
         {/* CTA */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12">
           <CTABox
-            title="다음은 당신과 아이 차례입니다"
+            title="다음은 당신과 아이 차례예요"
             description="오늘 상담하면 양육 계획서 무료 작성"
           >
             <div className="inline-block bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full mb-6">
               <p className="text-sm font-semibold flex items-center justify-center gap-2">
-                <svg className="w-4 h-4 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-4 h-4 text-sage-300" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 이번 달 17분의 부모님께 아이와 함께할 길을 열어드렸습니다

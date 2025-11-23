@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { BlogPost } from '@/lib/supabase/blog';
 
 export default function ExpertInsights() {
@@ -24,8 +25,8 @@ export default function ExpertInsights() {
 
   if (loading) {
     return (
-      <section className="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <div className="max-w-[920px] mx-auto px-6 md:px-12">
           <div className="text-center">
             <p className="text-gray-500">칼럼을 불러오는 중...</p>
           </div>
@@ -38,92 +39,104 @@ export default function ExpertInsights() {
     return null; // 포스트가 없으면 섹션 자체를 숨김
   }
 
-  // 예상 읽는 시간 계산 (간단한 추정)
-  const getReadTime = (content: string) => {
-    const wordsPerMinute = 200;
-    const words = content.length / 2; // 한글 기준 대략적 계산
-    const minutes = Math.ceil(words / wordsPerMinute);
-    return minutes < 1 ? 1 : minutes;
+  // 카테고리별 그라데이션 색상 매핑 (Sage Green 계열)
+  const getCategoryGradient = (category: string) => {
+    const gradients: { [key: string]: string } = {
+      '위자료': 'from-sage-100 to-sage-200',
+      '재산분할': 'from-sage-100 to-emerald-100',
+      '양육권': 'from-sage-100 to-teal-100',
+      '불륜': 'from-sage-200 to-sage-300',
+      '법률정보': 'from-sage-100 to-sage-200',
+      '이혼절차': 'from-sage-100 to-cyan-100',
+      '기타': 'from-sage-50 to-sage-100',
+    };
+    return gradients[category] || gradients['법률정보'];
+  };
+
+  // 카테고리별 아이콘 매핑
+  const getCategoryEmoji = (category: string) => {
+    const emojis: { [key: string]: string } = {
+      '위자료': '💰',
+      '재산분할': '🏠',
+      '양육권': '👶',
+      '불륜': '💔',
+      '법률정보': '⚖️',
+      '이혼절차': '📋',
+    };
+    return emojis[category] || '📖';
   };
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+    <section className="relative py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+      {/* Top gradient transition */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-sage-50/30 to-transparent pointer-events-none z-[5]" />
+
+      <div className="max-w-[920px] mx-auto px-6 md:px-12">
         {/* 헤더 */}
-        <div className="text-center mb-12">
-          <p className="text-xs md:text-sm text-amber-600/70 mb-3 tracking-[0.2em] uppercase">
-            Expert Column
-          </p>
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-sage-600" />
+            <p className="text-xs md:text-sm text-sage-700 font-semibold tracking-wide uppercase">
+              Expert Column
+            </p>
+          </div>
+          <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2 tracking-tight">
             판결문엔 안 나오는 진짜 이야기
           </h2>
-          <p className="text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm md:text-base text-gray-600 leading-relaxed">
             법정 밖에서 꼭 알아야 할 현실적인 조언들
           </p>
         </div>
 
-        {/* 칼럼 카드 그리드 */}
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
+        {/* 칼럼 카드 - 수직 스택 레이아웃 */}
+        <div className="divide-y divide-gray-200 mb-10">
           {posts.map((post) => {
-            const readTime = getReadTime(post.content);
             const primaryCategory = post.categories && post.categories.length > 0
               ? post.categories[0]
               : '법률정보';
+            const gradientClass = getCategoryGradient(primaryCategory);
+            const emoji = getCategoryEmoji(primaryCategory);
 
             return (
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
-                className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg hover:border-amber-200 transition-all duration-300"
+                className="group block bg-white overflow-hidden hover:shadow-lg transition-all duration-300"
               >
-                {/* 카테고리 뱃지 */}
-                <div className="p-6 pb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="inline-block px-3 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full">
-                      {primaryCategory}
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      {readTime}분 읽기
-                    </span>
+                <div className="flex gap-4 py-3 md:py-4">
+                  {/* 일러스트 이미지 - 왼쪽 (세로로 더 긴 비율) */}
+                  <div className={`relative w-[110px] h-[133px] md:w-[145px] md:h-[187px] flex-shrink-0 rounded-lg overflow-hidden bg-gradient-to-br ${gradientClass}`}>
+                    {(post as any).illustration_image ? (
+                      <Image
+                        src={(post as any).illustration_image}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                        sizes="180px"
+                      />
+                    ) : (
+                      // 플레이스홀더: 카테고리 아이콘
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-4xl md:text-5xl opacity-50">
+                          {emoji}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  {/* 제목 */}
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-amber-600 transition-colors">
-                    {post.title}
-                  </h3>
+                  {/* 콘텐츠 영역 - 오른쪽 */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-start gap-1.5 py-1">
+                    {/* 주제 뱃지 */}
+                    <div>
+                      <span className="inline-block px-2.5 py-0.5 bg-sage-700 text-white text-xs font-semibold rounded-md">
+                        {primaryCategory}
+                      </span>
+                    </div>
 
-                  {/* 요약 */}
-                  <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed mb-4">
-                    {post.excerpt || post.content.substring(0, 150).replace(/[#*\n]/g, ' ')}
-                  </p>
-
-                  {/* 저자 & 날짜 */}
-                  <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-100">
-                    <span>{post.author || '법무법인 더율'}</span>
-                    <span>
-                      {post.published_at
-                        ? new Date(post.published_at).toLocaleDateString('ko-KR', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })
-                        : new Date(post.created_at).toLocaleDateString('ko-KR', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })
-                      }
-                    </span>
-                  </div>
-                </div>
-
-                {/* 호버 시 "자세히 읽기" 표시 */}
-                <div className="px-6 pb-6">
-                  <div className="flex items-center gap-2 text-sm text-amber-600 font-medium group-hover:gap-3 transition-all">
-                    자세히 읽기
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    {/* 제목 */}
+                    <h3 className="text-lg md:text-2xl font-semibold text-gray-900 line-clamp-3 group-hover:text-sage-700 transition-colors leading-tight">
+                      {post.title}
+                    </h3>
                   </div>
                 </div>
               </Link>
@@ -135,7 +148,7 @@ export default function ExpertInsights() {
         <div className="text-center">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-amber-500 text-amber-600 font-semibold rounded-full hover:bg-amber-50 transition-all duration-300 hover:gap-4 shadow-sm"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-sage-600 text-white font-semibold rounded-full hover:bg-sage-700 transition-all duration-300 hover:gap-3.5 shadow-md hover:shadow-lg"
           >
             변호사 칼럼 전체보기
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

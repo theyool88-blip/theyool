@@ -143,7 +143,7 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 tracking-tight leading-[1.1]">
             이겨놓고 설계하는<br/>
-            <span className="text-amber-600">체계적인 승소 전략</span>
+            <span className="text-amber-600">승소 전략</span>
           </h1>
 
           <p className="text-lg md:text-2xl font-light text-gray-700 mb-4 max-w-3xl mx-auto leading-relaxed">
@@ -151,7 +151,7 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
           </p>
 
           <p className="text-sm md:text-base text-gray-600 mb-10 max-w-2xl mx-auto">
-            12년간 1,200번의 경험으로 만든 검증된 길이 있습니다
+            12년간 1,200건의 경험으로 만든 검증된 방법이 있어요
           </p>
 
           <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-10">
@@ -215,11 +215,11 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
               <p className="text-xs md:text-sm text-amber-600/70 mb-3 tracking-[0.2em] uppercase">Problems</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
                 준비 없이 시작하면<br className="hidden md:block"/>
-                이런 일이 벌어집니다
+                이런 일이 생겨요
               </h2>
               <p className="text-base md:text-xl text-gray-700 font-light max-w-2xl mx-auto leading-relaxed">
-                12년간 1,200건을 보며 배운 것:<br className="hidden md:block"/>
-                <span className="font-medium text-gray-900">계획 없는 이혼은 더 큰 고통을 부릅니다</span>
+                12년간 1,200건을 보며 배운 것<br className="hidden md:block"/>
+                <span className="font-medium text-gray-900">준비 없는 이혼은 더 큰 고통으로 이어져요</span>
               </p>
             </div>
 
@@ -231,10 +231,10 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">법원이 인정하는 사유가 없으면</h3>
-                    <p className="text-amber-700 mb-2 font-bold">→ 이혼 자체가 불가능합니다</p>
+                    <p className="text-amber-700 mb-2 font-bold">→ 이혼 자체가 불가능해요</p>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      불륜, 악의적 유기, 부정행위 등 명확한 법적 사유 없이는<br/>
-                      아무리 원해도 이혼할 수 없습니다
+                      불륜, 악의적 유기, 부정행위 등<br/>
+                      명확한 법적 사유가 있어야 이혼이 가능해요
                     </p>
                   </div>
                 </div>
@@ -247,10 +247,10 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">재산 추적을 제대로 못하면</h3>
-                    <p className="text-amber-700 mb-2 font-bold">→ 수억원을 놓칠 수 있습니다</p>
+                    <p className="text-amber-700 mb-2 font-bold">→ 수억원을 놓칠 수 있어요</p>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      배우자가 숨긴 부동산, 예금, 주식, 사업체 자산을<br/>
-                      찾지 못하면 그대로 상대방 몫이 됩니다
+                      배우자가 숨긴 부동산, 예금, 주식, 사업체 자산<br/>
+                      찾지 못하면 그대로 상대방 몫이 돼요
                     </p>
                   </div>
                 </div>
@@ -263,10 +263,10 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">양육 계획을 입증하지 못하면</h3>
-                    <p className="text-amber-700 mb-2 font-bold">→ 아이를 빼앗길 수 있습니다</p>
+                    <p className="text-amber-700 mb-2 font-bold">→ 아이를 빼앗길 수 있어요</p>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      양육 환경, 경제력, 양육 의지를 객관적으로 증명하지 못하면<br/>
-                      법원은 상대방에게 양육권을 줍니다
+                      양육 환경, 경제력, 양육 의지를 증명하지 못하면<br/>
+                      법원은 상대방에게 양육권을 줘요
                     </p>
                   </div>
                 </div>
@@ -279,10 +279,10 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">강제집행 준비를 안하면</h3>
-                    <p className="text-amber-700 mb-2 font-bold">→ 양육비를 한 푼도 못 받습니다</p>
+                    <p className="text-amber-700 mb-2 font-bold">→ 양육비를 한 푼도 못 받아요</p>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      상대방이 안 주면 끝. 사전에 재산 파악과<br/>
-                      강제집행 방안을 마련하지 않으면 속수무책입니다
+                      상대방이 안 주면 끝이에요<br/>
+                      사전에 재산을 파악하고 강제집행 방안을 준비해야 해요
                     </p>
                   </div>
                 </div>
@@ -295,13 +295,43 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">급하게 협의이혼만 하면</h3>
-                    <p className="text-amber-700 mb-2 font-bold">→ 3년 후 다시 법정에 섭니다</p>
+                    <p className="text-amber-700 mb-2 font-bold">→ 3년 후 다시 법정에 서요</p>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      재산분할, 양육비, 면접교섭 등 세부 조건을 제대로 정하지 않으면<br/>
-                      이혼 후 더 큰 분쟁으로 이어집니다. 처음부터 제대로 끝내야 합니다
+                      재산분할, 양육비, 면접교섭 등<br/>
+                      세부 조건을 제대로 정하지 않으면 나중에 더 큰 분쟁이 생겨요
                     </p>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* 문제 상황별 대응 가이드 CTA */}
+            <div className="mt-12 p-6 md:p-8 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-200 text-center">
+              <p className="text-base md:text-lg font-semibold text-gray-900 mb-3">
+                지금 당장 해결이 필요한 긴급 상황이신가요?
+              </p>
+              <p className="text-sm text-gray-600 mb-6">
+                위급한 상황별 즉시 대응 가이드를 확인하세요
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link
+                  href="/faq?category=emergency"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-amber-600 text-white rounded-full font-semibold hover:bg-amber-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  긴급 상황 대응 가이드
+                </Link>
+                <Link
+                  href="/faq?category=evidence-collection"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-amber-700 rounded-full font-semibold border-2 border-amber-600 hover:bg-amber-50 transition-all duration-300"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  증거 수집 방법
+                </Link>
               </div>
             </div>
           </div>
@@ -318,18 +348,18 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
             </div>
 
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              그래서 우리가<br className="md:hidden"/>
-              <span className="text-amber-600">The Plan</span>을 만들었습니다
+              그래서<br className="md:hidden"/>
+              <span className="text-amber-600">The Plan</span>을 만들었어요
             </h2>
 
             <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
-              12년간 1,200번의 이혼을 거치며<br className="hidden md:block"/>
-              똑같은 문제들을 마주했습니다
+              12년간 1,200건의 이혼을 하면서<br className="hidden md:block"/>
+              똑같은 문제들을 마주했어요
             </p>
 
             <p className="text-base md:text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-              매번 같은 실수로 고통받는 의뢰인들을 보며,<br/>
-              "이겨놓고 설계하는" 체계적인 시스템을 만들었습니다
+              같은 실수로 고통받는 분들을 보며<br/>
+              "이겨놓고 설계하는" 시스템을 만들었어요
             </p>
 
             {/* 4대 전략 미리보기 */}
@@ -386,8 +416,8 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   이혼 사유 확실히 하기
                 </h3>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-                  법원이 인정하는 명확한 이혼 사유를 입증하는 것이 첫걸음입니다. 
-                  불륜, 악의적 유기, 심각한 부정행위 등 법적으로 인정되는 사유를 체계적으로 준비합니다.
+                  법원이 인정하는 명확한 이혼 사유를 입증하는 게 첫걸음이에요
+                  불륜, 악의적 유기, 부정행위 등 법적 사유를 체계적으로 준비해요
                 </p>
                 <ul className="space-y-3 text-sm md:text-base text-gray-600">
                   <li className="flex items-start gap-3">
@@ -403,6 +433,17 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                     <span>상대방 반박 대비 방어 전략</span>
                   </li>
                 </ul>
+                <div className="mt-6 pt-6 border-t border-blue-100">
+                  <Link
+                    href="/faq?category=divorce-process"
+                    className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                  >
+                    <span>이혼 절차 관련 FAQ 더 보기</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
                 </div>
               </div>
             </div>
@@ -426,8 +467,8 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   재산분할 최대화
                 </h3>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-                  숨겨진 재산을 찾아내고, 기여도를 정확히 입증하여 정당한 몫 이상을 확보합니다.
-                  부동산, 예금, 주식, 연금 등 모든 재산을 빠짐없이 파악합니다.
+                  숨겨진 재산을 찾아내고, 기여도를 입증해서 정당한 몫을 확보해요
+                  부동산, 예금, 주식, 연금 등 모든 재산을 빠짐없이 파악해요
                 </p>
                 <ul className="space-y-3 text-sm md:text-base text-gray-600 md:flex md:flex-col md:items-end">
                   <li className="flex items-start gap-3 md:flex-row-reverse">
@@ -443,6 +484,17 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                     <span>부동산, 금융자산, 사업체 평가</span>
                   </li>
                 </ul>
+                <div className="mt-6 pt-6 border-t border-green-100 md:flex md:justify-end">
+                  <Link
+                    href="/faq?category=property-division"
+                    className="inline-flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium transition-colors"
+                  >
+                    <span>재산분할 관련 FAQ 더 보기</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
                 </div>
               </div>
             </div>
@@ -466,8 +518,8 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   양육권 확보
                 </h3>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-                  자녀의 최선의 이익을 위한 양육 계획을 수립하고, 양육 능력을 객관적으로 입증합니다.
-                  자녀와의 관계, 양육 환경, 경제력 등을 종합적으로 준비합니다.
+                  자녀를 위한 양육 계획을 세우고, 양육 능력을 입증해요
+                  자녀와의 관계, 양육 환경, 경제력 등을 종합적으로 준비해요
                 </p>
                 <ul className="space-y-3 text-sm md:text-base text-gray-600">
                   <li className="flex items-start gap-3">
@@ -483,6 +535,17 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                     <span>상대방의 양육 부적격 사유 입증</span>
                   </li>
                 </ul>
+                <div className="mt-6 pt-6 border-t border-amber-100">
+                  <Link
+                    href="/faq?category=custody"
+                    className="inline-flex items-center gap-2 text-sm text-amber-600 hover:text-amber-700 font-medium transition-colors"
+                  >
+                    <span>양육권 관련 FAQ 더 보기</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
                 </div>
               </div>
             </div>
@@ -506,8 +569,8 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                   양육비 확보
                 </h3>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-                  적정 양육비를 산정하고, 지속적으로 받을 수 있는 강제집행 방안을 마련합니다.
-                  상대방의 실제 소득과 재산을 정확히 파악하여 적절한 양육비를 청구합니다.
+                  적정 양육비를 산정하고, 계속 받을 수 있는 방안을 마련해요
+                  상대방의 실제 소득과 재산을 파악해서 적절한 양육비를 청구해요
                 </p>
                 <ul className="space-y-3 text-sm md:text-base text-gray-600 md:flex md:flex-col md:items-end">
                   <li className="flex items-start gap-3 md:flex-row-reverse">
@@ -523,6 +586,17 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                     <span>미지급 시 강제집행 방안 마련</span>
                   </li>
                 </ul>
+                <div className="mt-6 pt-6 border-t border-red-100 md:flex md:justify-end">
+                  <Link
+                    href="/faq?category=child-support"
+                    className="inline-flex items-center gap-2 text-sm text-red-600 hover:text-red-700 font-medium transition-colors"
+                  >
+                    <span>양육비 관련 FAQ 더 보기</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
                 </div>
               </div>
             </div>
@@ -640,7 +714,7 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                 </svg>
               </summary>
               <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
-                <span className="text-amber-600 font-semibold">추후 준비</span>
+                The Plan은 12년간 1,200건의 이혼 사건을 처리하며 발견한 패턴을 체계화한 승소 전략입니다. 일반적인 접근과 달리 "이겨놓고 설계한다"는 원칙으로, 승소 시나리오를 먼저 정한 뒤 역산하여 필요한 증거와 절차를 준비합니다. 이혼사유 확립, 재산분할 최대화, 양육권 확보, 양육비 확보라는 4가지 핵심 전략으로 구성되어 있습니다.
               </div>
             </details>
 
@@ -694,7 +768,7 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                 </svg>
               </summary>
               <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
-                <span className="text-amber-600 font-semibold">추후 준비</span>
+                네, 모든 상담과 사건 진행은 담당 변호사가 직접 합니다. 법무법인 더율은 이혼 전문 변호사가 초기 상담부터 사건 종결까지 전 과정을 직접 담당하는 시스템입니다. 상담사나 사무직원이 아닌 실제 소송을 진행할 변호사와 직접 상담하며 전략을 수립합니다. 12년 경력의 전문성을 직접 경험하실 수 있습니다.
               </div>
             </details>
 
@@ -712,7 +786,7 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                 </svg>
               </summary>
               <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
-                <span className="text-amber-600 font-semibold">추후 준비</span>
+                네, 철저히 보장됩니다. 변호사에게는 법적으로 의뢰인의 비밀을 지킬 의무가 있으며(변호사법 제26조), 이를 위반하면 형사처벌을 받습니다. 상담 내용, 개인정보, 사건 내역 등 모든 정보는 암호화되어 관리되며, 의뢰인의 동의 없이는 절대 외부에 공개되지 않습니다. 가족이나 지인에게도 알리지 않고 진행 가능합니다.
               </div>
             </details>
 
@@ -766,7 +840,7 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
                 </svg>
               </summary>
               <div className="mt-4 pl-9 text-sm text-gray-600 leading-relaxed">
-                <span className="text-amber-600 font-semibold">추후 준비</span>
+                아니요, 부담 없이 상담만 받으셔도 됩니다. 초기 상담에서는 현재 상황을 진단하고 예상되는 결과와 전략을 설명드립니다. 상담 후 충분히 고민하신 뒤 결정하시면 되며, 강요나 권유는 일절 하지 않습니다. 많은 분들이 상담만으로도 방향을 잡고 도움을 받으셨습니다. 상담비는 무료이며, 시간 제한 없이 충분히 상담해드립니다.
               </div>
             </details>
 
@@ -971,12 +1045,12 @@ export default function ThePlanClient({ cases }: ThePlanClientProps) {
             </div>
 
             <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 leading-tight">
-              오늘이 그 날이에요
+              오늘부터 시작하세요
             </h2>
 
             <p className="text-lg md:text-xl mb-4 text-gray-700 leading-relaxed max-w-2xl mx-auto">
-              하루하루가 아까워요<br/>
-              3개월 후엔 달라져 있어요
+              하루가 아까워요<br/>
+              3개월 후엔 달라져 있을 거예요
             </p>
 
             <p className="text-sm md:text-base text-gray-500 mb-10 italic max-w-xl mx-auto">

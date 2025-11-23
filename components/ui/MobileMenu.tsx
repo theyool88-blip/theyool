@@ -23,7 +23,17 @@ const sectionLinks: MenuItem[] = [
       { label: '양육비 계산기', href: '/child-support-calculator' },
     ]
   },
+  {
+    label: '전문 서비스',
+    children: [
+      { label: '위자료 청구', href: '/services/alimony' },
+      { label: '재산분할', href: '/services/property-division' },
+      { label: '양육권/양육비', href: '/services/custody' },
+      { label: '불륜/상간', href: '/services/adultery' },
+    ]
+  },
   { label: '구성원', href: '/team' },
+  { label: '상담 예약', href: '/booking' },
   { label: '오시는 길', href: '/contact' },
 ];
 

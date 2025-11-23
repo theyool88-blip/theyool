@@ -323,10 +323,10 @@ export default function BlogClient({ posts }: BlogClientProps) {
           <ScrollReveal>
             <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 leading-tight">
               법률 고민,<br />
-              전문가와 함께 해결하세요
+              전문가와 함께 해결해요
             </h2>
             <p className="text-lg md:text-xl mb-12 text-gray-700">
-              30분 무료 상담으로 당신의 상황을 분석해드립니다
+              30분 무료 상담으로 상황을 분석해드려요
             </p>
             <a
               href="tel:1661-7633"

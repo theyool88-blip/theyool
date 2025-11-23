@@ -147,7 +147,7 @@ export default function Home() {
                   alt="법무법인 더율"
                   width={180}
                   height={45}
-                  className="h-6 md:h-7 w-auto cursor-pointer brightness-0"
+                  className="h-6 md:h-7 w-auto cursor-pointer"
                   priority
                 />
               </Link>
@@ -677,10 +677,10 @@ export default function Home() {
             <div className="max-w-4xl mx-auto mb-8">
               {/* 모바일: 3개 카드 - 아이콘 중심 균형 레이아웃 */}
               <div className="md:hidden space-y-3">
-                {/* 1. 전화 상담 - 다크 그레이 */}
+                {/* 1. 전화 상담 - Sage Dark */}
                 <a
                   href="tel:1661-7633"
-                  className="group block bg-gray-900 text-white rounded-2xl shadow-lg active:scale-98 transition-all"
+                  className="group block bg-sage-800 text-white rounded-2xl shadow-lg active:scale-98 transition-all hover:bg-sage-900"
                 >
                   <div className="px-5 py-5">
                     <div className="flex items-center justify-between">
@@ -767,7 +767,7 @@ export default function Home() {
                 {/* 전화상담 */}
                 <a
                   href="tel:1661-7633"
-                  className="group bg-gray-900 text-white p-6 rounded-2xl hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
+                  className="group bg-sage-800 text-white p-6 rounded-2xl hover:bg-sage-900 transition-all shadow-xl hover:shadow-2xl hover:scale-105"
                 >
                   <div className="flex items-center justify-center mb-3">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

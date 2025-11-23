@@ -10,6 +10,7 @@ import { getAllLinkPreviews } from '@/lib/supabase/linkPreviews';
 import type { Metadata } from 'next';
 import type { BlogPreviewData, CasePreviewData } from '@/types/linkPreview';
 import { InternalLinkPreview } from '@/components/features/ContentLinkPreview';
+import ConsultationPromptCard from '@/components/features/ConsultationPromptCard';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://theyool.com';
 
@@ -353,20 +354,15 @@ export default async function CaseDetailPage({ params }: PageProps) {
             </Link>
           </div>
 
-          {/* 하단 CTA */}
-          <div className="mt-12 p-10 bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl border-2 border-gray-200 text-center">
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              당신의 사건도 성공사례로 만들겠습니다
-            </h3>
-            <p className="text-lg text-gray-600 mb-8">
-              30분 무료 상담으로 당신의 사건을 분석해드립니다
-            </p>
-            <a
-              href="tel:1661-7633"
-              className="inline-block bg-gray-900 text-white font-bold px-10 py-4 rounded-full text-lg hover:bg-gray-800 transition-all duration-300 hover:scale-105 shadow-xl"
-            >
-              📞 지금 상담하기
-            </a>
+          {/* 하단 CTA - Enhanced Consultation Prompt */}
+          <div className="mt-12">
+            <ConsultationPromptCard
+              variant="success-story"
+              testimonial={{
+                text: "비슷한 상황이었는데, 더율 덕분에 원하는 결과를 얻었습니다. 혼자 고민하지 말고 전문가와 상담하세요.",
+                author: "의뢰인 A씨"
+              }}
+            />
           </div>
 
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

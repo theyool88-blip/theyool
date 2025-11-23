@@ -35,11 +35,16 @@ export default function FAQExplorer() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-white to-blue-50/20">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+    <section className="relative py-16 md:py-24 bg-gradient-to-b from-white to-sage-50/20">
+      {/* Top Gradient Overlay - Testimonial에서 자연스러운 전환 */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/90 to-transparent pointer-events-none z-0" />
+
+      {/* Bottom Gradient Overlay - 최종 CTA로 자연스러운 전환 */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-amber-50/30 to-transparent pointer-events-none z-0" />
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-12">
         {/* Header - 개선된 공감적 문구 */}
         <div className="text-center mb-8">
-          <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">
+          <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">
             Most Asked Questions
           </p>
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
@@ -52,7 +57,7 @@ export default function FAQExplorer() {
 
         {/* 신뢰 배지 */}
         <div className="flex items-center justify-center gap-2 mb-12">
-          <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="w-5 h-5 text-sage-600" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
           </svg>
           <span className="text-sm text-gray-600">실제 상담 검증 답변</span>
@@ -68,8 +73,8 @@ export default function FAQExplorer() {
                   key={index}
                   className={`rounded-xl border-2 transition-all duration-300 ${
                     isSelected
-                      ? 'bg-gradient-to-br from-blue-50 to-amber-50/30 border-blue-400 shadow-lg'
-                      : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-md hover:bg-blue-50/20'
+                      ? 'bg-gradient-to-br from-sage-50 to-amber-50/30 border-sage-400 shadow-lg'
+                      : 'bg-white border-gray-200 hover:border-sage-300 hover:shadow-md hover:bg-sage-50/20'
                   }`}
                 >
                   <button
@@ -88,7 +93,7 @@ export default function FAQExplorer() {
                         {/* Category Badge + 인기 표시 */}
                         <div className="flex items-center gap-2 mb-3">
                           <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-medium ${
-                            isSelected ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
+                            isSelected ? 'bg-sage-600 text-white' : 'bg-gray-100 text-gray-600'
                           }`}>
                             {faq.category}
                           </span>
@@ -139,7 +144,7 @@ export default function FAQExplorer() {
                       <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-6"></div>
 
                       {/* 사회적 증명 표시 */}
-                      <div className="flex items-center gap-2 text-xs text-blue-600 bg-blue-50 rounded-lg px-3 py-2 mb-4">
+                      <div className="flex items-center gap-2 text-xs text-sage-600 bg-sage-50 rounded-lg px-3 py-2 mb-4">
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
                         </svg>
@@ -157,7 +162,7 @@ export default function FAQExplorer() {
                       <div className="mt-8 pt-6 border-t border-gray-100">
                         <Link
                           href={`/faq?category=${faq.category}`}
-                          className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors group"
+                          className="inline-flex items-center gap-1.5 text-sm text-sage-600 hover:text-sage-700 font-medium transition-colors group"
                         >
                           <span>관련 Q&A 더보기</span>
                           <svg
@@ -216,7 +221,7 @@ export default function FAQExplorer() {
           </div>
 
           <div className="mt-6 pt-6 border-t border-white/20">
-            <p className="text-xs text-gray-300">
+            <p className="text-xs text-sage-100/70">
               100% 비밀보장 · 익명상담 가능 · 24시간 내 연락
             </p>
           </div>

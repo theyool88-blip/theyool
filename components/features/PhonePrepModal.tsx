@@ -3,154 +3,183 @@
 import { useEffect, useState } from 'react';
 
 interface PhonePrepModalProps {
+  isOpen: boolean;
   onClose: () => void;
   phoneNumber?: string;
   autoDialDelay?: number;
 }
 
 export default function PhonePrepModal({
+  isOpen,
   onClose,
   phoneNumber = '1661-7633',
-  autoDialDelay = 2000
+  autoDialDelay = 5000
 }: PhonePrepModalProps) {
   const [countdown, setCountdown] = useState(Math.floor(autoDialDelay / 1000));
   const [cancelled, setCancelled] = useState(false);
 
   useEffect(() => {
-    // 카운트다운
     if (countdown > 0 && !cancelled) {
       const timer = setTimeout(() => {
         setCountdown(countdown - 1);
       }, 1000);
       return () => clearTimeout(timer);
     }
+  }, [countdown, cancelled]);
 
-    // 자동 다이얼
-    if (countdown === 0 && !cancelled) {
-      window.location.href = `tel:${phoneNumber}`;
-      // 전화 연결 후 모달 닫기 (약간의 지연)
-      setTimeout(() => {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setCancelled(true);
         onClose();
-      }, 500);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setCancelled(true);
+      onClose();
     }
-  }, [countdown, cancelled, phoneNumber, onClose]);
-
-  const handleCancel = () => {
-    setCancelled(true);
-    onClose();
   };
 
-  const handleCallNow = () => {
-    window.location.href = `tel:${phoneNumber}`;
-    onClose();
-  };
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl animate-scaleIn">
-        {/* 아이콘 */}
-        <div className="flex justify-center mb-6">
-          <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center shadow-lg">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+    <div
+      className="fixed inset-0 bg-gradient-to-b from-sage-900/20 via-black/30 to-black/40 backdrop-blur-[2px] z-[200] flex items-center justify-center p-6 animate-fadeIn"
+      onClick={handleBackdropClick}
+    >
+      <div className="relative max-w-[340px] w-full animate-scaleIn">
+        <div className="relative">
+          <button
+            onClick={() => {
+              setCancelled(true);
+              onClose();
+            }}
+            className="absolute -top-3 -right-3 w-10 h-10 bg-gray-900 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-800 transition-all z-10 group"
+          >
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </div>
-        </div>
-
-        {/* 제목 */}
-        <h3 className="text-2xl font-bold text-gray-900 text-center mb-2">
-          바로 연결해 드릴게요
-        </h3>
-
-        {/* 전화번호 */}
-        <div className="text-center mb-6">
-          <a href={`tel:${phoneNumber}`} className="text-3xl font-bold text-amber-600 hover:text-amber-700 transition-colors">
-            {phoneNumber}
-          </a>
-        </div>
-
-        {/* 신뢰 포인트 */}
-        <div className="space-y-3 mb-6">
-          <div className="flex items-center gap-3 bg-amber-50 rounded-lg p-3">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-sm font-semibold text-gray-900">100% 비밀 보장</span>
-          </div>
-
-          <div className="flex items-center gap-3 bg-amber-50 rounded-lg p-3">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-sm font-semibold text-gray-900">10분 무료 상담</span>
-          </div>
-
-          <div className="flex items-center gap-3 bg-amber-50 rounded-lg p-3">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-sm font-semibold text-gray-900">계약 강요 없음</span>
-          </div>
-        </div>
-
-        {/* 카운트다운 또는 상태 */}
-        {!cancelled && countdown > 0 && (
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
-              <div className="w-2 h-2 bg-amber-600 rounded-full animate-pulse"></div>
-              <span className="text-sm font-semibold text-gray-700">
-                {countdown}초 후 자동 연결...
-              </span>
-            </div>
-          </div>
-        )}
-
-        {/* 버튼 */}
-        <div className="flex flex-col gap-3">
-          <button
-            onClick={handleCallNow}
-            className="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-105"
-          >
-            지금 바로 연결하기
           </button>
-          <button
-            onClick={handleCancel}
-            className="w-full py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-full hover:bg-gray-50 transition-all"
-          >
-            취소
-          </button>
+
+          <div className="bg-white/98 backdrop-blur-xl rounded-[32px] shadow-[0_20px_60px_-10px_rgba(109,181,164,0.15)] border border-sage-100/20 p-14">
+          <div className="flex justify-center mb-9">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-sage-200/40 to-sage-300/40 rounded-3xl blur-xl"></div>
+              <div className="relative w-[72px] h-[72px] bg-gradient-to-br from-sage-500 via-sage-600 to-sage-700 rounded-3xl flex items-center justify-center shadow-[0_8px_24px_-4px_rgba(109,181,164,0.3)]">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            {/* Emotional Tagline Badge */}
+            <div className="flex justify-center mb-3">
+              <div
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sage-100 border border-sage-500/20"
+                style={{
+                  animation: 'fadeInDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both'
+                }}
+              >
+                <div className="w-1 h-1 rounded-full bg-sage-500"></div>
+                <p className="text-xs font-medium text-sage-800 tracking-wide">
+                  5초 후, 12년의 경험이 응답합니다
+                </p>
+              </div>
+            </div>
+
+            <h3 className="text-[32px] font-[650] text-gray-900 text-center tracking-[-0.02em] leading-none">
+              10분 무료
+            </h3>
+
+            {!cancelled && countdown > 0 && (
+              <div className="flex justify-center">
+                <div className="inline-flex items-baseline gap-1.5">
+                  <span className="text-[22px] font-[550] text-sage-600 tracking-[-0.01em]">
+                    {countdown}
+                  </span>
+                  <span className="text-[15px] font-medium text-sage-500">
+                    초 후 연결 준비
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-8 space-y-1">
+            <p className="text-[15px] font-medium text-gray-700 text-center tracking-[-0.01em]">
+              상담사가 준비중이에요
+            </p>
+
+            <p className="text-[13px] text-gray-500 text-center tracking-[-0.005em]">
+              무슨 말을 할지 모르겠어도 괜찮아요
+            </p>
+          </div>
+
+          {!cancelled && countdown === 0 && (
+            <div className="mt-8 space-y-3">
+              <a
+                href={`tel:${phoneNumber}`}
+                onClick={() => {
+                  setTimeout(() => onClose(), 300);
+                }}
+                className="block w-full py-4 bg-gradient-to-r from-sage-600 to-sage-500 text-white text-center font-bold rounded-2xl hover:from-sage-700 hover:to-sage-600 transition-all shadow-lg hover:shadow-xl text-lg"
+              >
+                전화 연결하기
+              </a>
+              <p className="text-[13px] text-gray-400 text-center">
+                버튼을 눌러 전화를 걸어주세요
+              </p>
+            </div>
+          )}
+          </div>
         </div>
       </div>
 
       <style jsx>{`
         @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
 
         @keyframes scaleIn {
           from {
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.92) translateY(8px);
           }
           to {
             opacity: 1;
-            transform: scale(1);
+            transform: scale(1) translateY(0);
+          }
+        }
+
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-6px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
 
         .animate-fadeIn {
-          animation: fadeIn 0.2s ease-out;
+          animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .animate-scaleIn {
-          animation: scaleIn 0.3s ease-out;
+          animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
       `}</style>
     </div>

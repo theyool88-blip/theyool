@@ -4,15 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode, useState } from 'react';
 import MobileMenu from '@/components/ui/MobileMenu';
-import Modal from '@/components/ui/Modal';
-import ConsultationForm from '@/components/features/ConsultationForm';
+import ConsultationBookingModal from '@/components/features/ConsultationBooking/ConsultationBookingModal';
 
 interface PageLayoutProps {
   children: ReactNode;
 }
 
 export default function PageLayout({ children }: PageLayoutProps) {
-  const [isTalkModalOpen, setIsTalkModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
@@ -33,16 +32,16 @@ export default function PageLayout({ children }: PageLayoutProps) {
                   alt="법무법인 더율"
                   width={180}
                   height={45}
-                  className="h-6 md:h-7 w-auto cursor-pointer brightness-0"
+                  className="h-6 md:h-7 w-auto cursor-pointer"
                   priority
                 />
               </Link>
             </div>
 
-            {/* 오른쪽: 상담예약 텍스트 */}
+            {/* 오른쪽: 상담예약 버튼 */}
             <div className="flex items-center">
               <button
-                onClick={() => setIsTalkModalOpen(true)}
+                onClick={() => setIsBookingModalOpen(true)}
                 className="text-sm font-normal text-black hover:text-gray-600 transition-colors"
               >
                 상담예약
@@ -52,10 +51,11 @@ export default function PageLayout({ children }: PageLayoutProps) {
         </nav>
       </header>
 
-      {/* 상담 모달 */}
-      <Modal isOpen={isTalkModalOpen} onClose={() => setIsTalkModalOpen(false)}>
-        <ConsultationForm onCancel={() => setIsTalkModalOpen(false)} />
-      </Modal>
+      {/* Consultation Booking Modal */}
+      <ConsultationBookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
 
       {/* Main Content */}
       <main className="pt-16">

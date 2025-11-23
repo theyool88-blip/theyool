@@ -1,25 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth/auth';
-import { createClient } from '@supabase/supabase-js';
+import { getAdminFAQs } from '@/lib/supabase/faq';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
-);
-
-// GET: 모든 FAQ 조회 (관리자용 - 비공개 포함)
-export async function GET() {
+// GET: 모든 FAQ 조회 (관리자용 - 페이지네이션 + 검색 + 카테고리 필터)
+export async function GET(request: NextRequest) {
   try {
     await requireAuth();
 
-    const { data, error } = await supabase
-      .from('faqs')
-      .select('*')
-      .order('created_at', { ascending: false });
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '40');
+    const search = searchParams.get('search') || '';
+    const category = searchParams.get('category') || '';
 
-    if (error) throw error;
+    const { data, total } = await getAdminFAQs({ page, limit, search, category });
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({
+      success: true,
+      data,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
   } catch (error: any) {
     return NextResponse.json(
       { success: false, message: error.message },
@@ -46,6 +51,12 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+      process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+    );
 
     const { data, error } = await supabase
       .from('faqs')

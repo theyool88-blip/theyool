@@ -14,6 +14,8 @@ interface Props {
   onNavigate?: (direction: 'prev' | 'next') => void;
   hasPrev?: boolean;
   hasNext?: boolean;
+  currentIndex?: number;
+  totalCases?: number;
 }
 
 export default function TestimonialLightbox({
@@ -21,7 +23,9 @@ export default function TestimonialLightbox({
   onClose,
   onNavigate,
   hasPrev = false,
-  hasNext = false
+  hasNext = false,
+  currentIndex,
+  totalCases
 }: Props) {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const categoryInfo = CATEGORY_INFO[testimonialCase.category];
@@ -36,21 +40,7 @@ export default function TestimonialLightbox({
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
-  // 좌우 화살표 키로 게시물 네비게이션
-  useEffect(() => {
-    if (!onNavigate) return;
-
-    const handleArrowKeys = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft' && hasPrev) {
-        onNavigate('prev');
-      } else if (e.key === 'ArrowRight' && hasNext) {
-        onNavigate('next');
-      }
-    };
-
-    window.addEventListener('keydown', handleArrowKeys);
-    return () => window.removeEventListener('keydown', handleArrowKeys);
-  }, [onNavigate, hasPrev, hasNext]);
+  // 좌우 화살표 키 네비게이션 제거 (사용자 혼란 방지)
 
   const formatAmount = (amount: number | null | undefined) => {
     if (!amount) return null;
@@ -69,51 +59,57 @@ export default function TestimonialLightbox({
 
   return (
     <div className="fixed inset-0 bg-black/90 z-[150] overflow-y-auto">
-      {/* Top Navigation Bar */}
-      <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between p-4 md:p-6">
-        {/* Previous Button */}
-        {onNavigate && hasPrev && (
-          <button
-            onClick={() => onNavigate('prev')}
-            className="flex items-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 rounded-full text-white transition-all text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-105 touch-manipulation active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-            aria-label="이전 후기 보기"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-            <span className="hidden sm:inline">이전</span>
-          </button>
-        )}
-        {!hasPrev && <div />}
-
-        {/* Close Button */}
+      {/* Close Button - Top Right (aligned with Modal.tsx pattern) */}
+      <div className="fixed top-4 right-4 md:top-6 md:right-6 z-20">
         <button
           onClick={onClose}
-          className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full text-gray-900 transition-all shadow-md hover:shadow-lg hover:scale-105 touch-manipulation active:scale-95 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors hover:bg-gray-100 rounded-full group touch-manipulation"
           aria-label="후기 닫기"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+          <svg className="w-6 h-6 transition-transform group-hover:rotate-90 duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
+      </div>
 
-        {/* Next Button */}
+      {/* Progress Indicator - Top Center */}
+      {currentIndex !== undefined && totalCases !== undefined && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 md:top-6 z-20 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-900">{currentIndex + 1}</span>
+            <span className="mx-1.5">/</span>
+            <span>{totalCases}</span>
+          </p>
+        </div>
+      )}
+
+      <div className="min-h-screen flex items-center justify-center p-4 md:p-8 relative">
+        {/* Previous Button - Left Side */}
+        {onNavigate && hasPrev && (
+          <button
+            onClick={() => onNavigate('prev')}
+            className="hidden lg:flex absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 items-center justify-center bg-white border-2 border-gray-200 hover:bg-amber-50 hover:border-amber-200 rounded-full text-gray-700 hover:text-gray-900 transition-all shadow-md hover:shadow-lg backdrop-blur-sm z-10"
+            aria-label="이전 후기"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        )}
+
+        {/* Next Button - Right Side */}
         {onNavigate && hasNext && (
           <button
             onClick={() => onNavigate('next')}
-            className="flex items-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 rounded-full text-white transition-all text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-105 touch-manipulation active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-            aria-label="다음 후기 보기"
+            className="hidden lg:flex absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 items-center justify-center bg-white border-2 border-gray-200 hover:bg-amber-50 hover:border-amber-200 rounded-full text-gray-700 hover:text-gray-900 transition-all shadow-md hover:shadow-lg backdrop-blur-sm z-10"
+            aria-label="다음 후기"
           >
-            <span className="hidden sm:inline">다음</span>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
         )}
-        {!hasNext && <div />}
-      </div>
 
-      <div className="min-h-screen flex items-center justify-center p-4 md:p-8">
         <div className="bg-white rounded-lg max-w-6xl w-full overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {/* Left: Evidence Photos */}
@@ -148,15 +144,21 @@ export default function TestimonialLightbox({
                       <>
                         <button
                           onClick={handlePrevPhoto}
-                          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
+                          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/60 hover:bg-black/80 rounded-full text-white transition-colors"
+                          aria-label="이전 사진"
                         >
-                          ←
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                          </svg>
                         </button>
                         <button
                           onClick={handleNextPhoto}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
+                          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/60 hover:bg-black/80 rounded-full text-white transition-colors"
+                          aria-label="다음 사진"
                         >
-                          →
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
                         </button>
                       </>
                     )}
@@ -294,8 +296,38 @@ export default function TestimonialLightbox({
                 </div>
               )}
 
+              {/* Mobile Navigation Buttons - Moved before CTA */}
+              {onNavigate && (hasPrev || hasNext) && (
+                <div className="mt-6 pt-6 border-t lg:hidden flex gap-3">
+                  {hasPrev && (
+                    <button
+                      onClick={() => onNavigate('prev')}
+                      className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-white border-2 border-gray-900 hover:bg-gray-900 hover:text-white rounded-full text-gray-900 transition-all font-medium"
+                      aria-label="이전 후기"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                      </svg>
+                      이전 후기
+                    </button>
+                  )}
+                  {hasNext && (
+                    <button
+                      onClick={() => onNavigate('next')}
+                      className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-white border-2 border-gray-900 hover:bg-gray-900 hover:text-white rounded-full text-gray-900 transition-all font-medium"
+                      aria-label="다음 후기"
+                    >
+                      다음 후기
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              )}
+
               {/* CTA Button */}
-              <div className="mt-8 pt-6 border-t">
+              <div className="mt-6 pt-6 border-t">
                 <a
                   href="/consultation"
                   className="block w-full px-6 py-3 bg-amber-600 text-white text-center rounded-lg hover:bg-amber-700 transition-colors font-medium"

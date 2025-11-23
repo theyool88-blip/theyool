@@ -8,19 +8,23 @@ import { notFound } from 'next/navigation';
 
 export const revalidate = 60;
 
-// 카테고리 정의
+// 카테고리 정의 (15개 - FAQ 목록 페이지와 동일)
 const categories = [
-  { name: '이혼절차', slug: 'divorce-process', color: 'text-blue-600' },
-  { name: '재산분할', slug: 'property-division', color: 'text-green-600' },
-  { name: '위자료', slug: 'alimony', color: 'text-red-600' },
-  { name: '양육권', slug: 'custody', color: 'text-orange-600' },
-  { name: '양육비', slug: 'child-support', color: 'text-pink-600' },
-  { name: '면접교섭', slug: 'visitation', color: 'text-purple-600' },
+  { name: '긴급상황/즉시도움', slug: 'emergency', color: 'text-red-600' },
+  { name: '가정폭력/위협', slug: 'domestic-violence', color: 'text-rose-600' },
+  { name: '이혼절차/기본정보', slug: 'divorce-process', color: 'text-blue-600' },
   { name: '별거/생활비', slug: 'separation-expense', color: 'text-indigo-600' },
-  { name: '가정폭력', slug: 'domestic-violence', color: 'text-rose-600' },
-  { name: '상간/불륜', slug: 'adultery', color: 'text-amber-600' },
+  { name: '증거수집/준비', slug: 'evidence-collection', color: 'text-yellow-600' },
+  { name: '불륜/외도', slug: 'adultery', color: 'text-amber-600' },
+  { name: '위자료', slug: 'alimony', color: 'text-orange-600' },
+  { name: '양육권', slug: 'custody', color: 'text-pink-600' },
+  { name: '양육비', slug: 'child-support', color: 'text-fuchsia-600' },
+  { name: '면접교섭', slug: 'visitation', color: 'text-purple-600' },
+  { name: '재산분할', slug: 'property-division', color: 'text-green-600' },
+  { name: '친자확인', slug: 'paternity', color: 'text-lime-600' },
   { name: '이혼 후 문제', slug: 'post-divorce', color: 'text-teal-600' },
-  { name: '기타', slug: 'etc', color: 'text-gray-600' },
+  { name: '국제이혼/특수상황', slug: 'international-divorce', color: 'text-cyan-600' },
+  { name: '변호사/법적지원', slug: 'legal-support', color: 'text-slate-600' },
 ];
 
 // 동적 라우트를 위한 정적 경로 생성
@@ -108,24 +112,32 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
   const allFAQs = await getFAQs();
   const faqCounts: Record<string, number> = {};
   categories.forEach(cat => {
-    faqCounts[cat.slug] = allFAQs.filter(f => f.category === cat.name).length;
+    // 데이터베이스의 category 필드는 slug 형식이므로 slug로 필터링
+    faqCounts[cat.slug] = allFAQs.filter(f => f.category === cat.slug).length;
   });
 
-  // 카테고리별 색상 매핑
+  // 카테고리별 색상 매핑 (slug 기반)
   const categoryColors: Record<string, string> = {
-    '이혼절차': 'blue',
-    '재산분할': 'green',
-    '위자료': 'red',
-    '양육권': 'orange',
-    '양육비': 'pink',
-    '면접교섭': 'purple',
-    '별거/생활비': 'indigo',
-    '가정폭력': 'rose',
-    '상간/불륜': 'amber',
-    '이혼 후 문제': 'teal',
-    '기타': 'gray',
+    'emergency': 'red',
+    'domestic-violence': 'rose',
+    'divorce-process': 'blue',
+    'separation-expense': 'indigo',
+    'evidence-collection': 'yellow',
+    'adultery': 'amber',
+    'alimony': 'orange',
+    'custody': 'pink',
+    'child-support': 'fuchsia',
+    'visitation': 'purple',
+    'property-division': 'green',
+    'paternity': 'lime',
+    'post-divorce': 'teal',
+    'international-divorce': 'cyan',
+    'legal-support': 'slate',
   };
   const categoryColor = categoryColors[faq.category] || 'gray';
+
+  // 카테고리 name 찾기 (slug → name 변환)
+  const categoryName = categories.find(cat => cat.slug === faq.category)?.name || faq.category;
 
   const textColorClass = `text-${categoryColor}-600`;
 
@@ -152,7 +164,7 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
           {/* 카테고리 라벨 */}
           <div className="mb-6">
             <span className={`text-xs ${textColorClass} font-semibold tracking-wider uppercase`}>
-              {faq.category}
+              {categoryName}
             </span>
           </div>
 
@@ -161,7 +173,7 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
             {faq.question}
           </h1>
 
-          {/* 작성일 및 변호사 정보 */}
+          {/* 작성일 */}
           <div className="flex items-center gap-4 text-sm text-gray-500">
             <p>
               {new Date(faq.created_at).toLocaleDateString('ko-KR', {
@@ -170,15 +182,6 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
                 day: 'numeric',
               })}
             </p>
-            <span className="text-gray-300">|</span>
-            <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
-              </svg>
-              <p className="text-gray-700 font-medium">
-                답변: <span className="text-gray-900">임은지 변호사</span> <span className="text-xs text-gray-500">(이혼전문)</span>
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -333,7 +336,7 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
         <section className="py-20 md:py-24 px-6 md:px-12 bg-white">
           <div className="max-w-[1040px] mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{faq.category}에 대한 궁금증을 확인해보세요</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{categoryName}에 대한 궁금증을 확인해보세요</h2>
             </div>
             <div className="grid gap-4 max-w-4xl mx-auto">
               {relatedFAQs.map((relatedFaq) => (
@@ -369,6 +372,20 @@ export default async function FAQDetailPage({ params }: { params: Promise<{ slug
             <p className="text-gray-600">궁금한 주제의 질문을 찾아보세요</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+            {/* 필수 가이드 카테고리 */}
+            <Link
+              href="/faq/essential-guide"
+              className="group py-6 px-4 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 hover:border-amber-500 hover:shadow-md transition-all duration-300 text-center"
+            >
+              <div className="text-base md:text-lg font-semibold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors">
+                ⭐ 필수 가이드
+              </div>
+              <div className="text-sm text-amber-600">
+                필수
+              </div>
+            </Link>
+
+            {/* 일반 카테고리 */}
             {categories.map((category) => {
               const count = faqCounts[category.slug] || 0;
               if (count === 0) return null;

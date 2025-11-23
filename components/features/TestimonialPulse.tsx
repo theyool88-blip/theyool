@@ -136,19 +136,28 @@ export default function TestimonialPulse() {
 
           <button
             onClick={handleClick}
-            className="group flex items-center gap-3 px-4 py-3 bg-white border-2 border-amber-100 rounded-full shadow-lg shadow-amber-100/20 hover:border-amber-300 hover:shadow-xl hover:shadow-amber-200/30 transition-all duration-300 w-full"
+            className="group flex items-center gap-3 px-4 py-3 bg-white border-2 border-sage-100 rounded-full shadow-lg shadow-sage-100/20 hover:border-sage-300 hover:shadow-xl hover:shadow-sage-200/30 hover:ring-2 hover:ring-sage-200 hover:ring-offset-1 transition-all duration-300 w-full"
             aria-label={`고객 후기 보기: ${currentTestimonial.snippet}`}
           >
-            {/* Left: Check badge */}
-            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
-              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
+            {/* Left: Check badge with count indicator */}
+            <div className="flex-shrink-0 relative">
+              <div className="w-5 h-5 rounded-full bg-sage-600 flex items-center justify-center">
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+
+              {/* Count indicator - subtle coral accent */}
+              {cases.length > 1 && (
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-coral-500 rounded-full flex items-center justify-center animate-pulse-once">
+                  <span className="text-[10px] font-bold text-white leading-none">{cases.length}</span>
+                </div>
+              )}
             </div>
 
             {/* Center: Text content */}
             <div className="flex-1 text-left min-w-0">
-              <p className="text-sm font-bold text-gray-900 truncate group-hover:text-amber-700 transition-colors">
+              <p className="text-sm font-bold text-gray-900 truncate group-hover:text-sage-700 transition-colors">
                 &quot;{currentTestimonial.snippet}&quot;
               </p>
               <p className="text-xs text-gray-500 truncate">
@@ -157,7 +166,7 @@ export default function TestimonialPulse() {
             </div>
 
             {/* Right: Arrow hint */}
-            <svg className="w-4 h-4 text-gray-400 group-hover:text-amber-600 group-hover:translate-x-0.5 transition-all flex-shrink-0"
+            <svg className="w-4 h-4 text-gray-400 group-hover:text-sage-600 group-hover:translate-x-0.5 transition-all flex-shrink-0"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M9 5l7 7-7 7" />
@@ -176,8 +185,21 @@ export default function TestimonialPulse() {
           animation: float-gentle 3s ease-in-out infinite;
         }
 
+        @keyframes pulse-once {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.9; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-pulse-once {
+          animation: pulse-once 1.2s ease-out 1s;
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .animate-float-gentle {
+            animation: none;
+          }
+          .animate-pulse-once {
             animation: none;
           }
         }

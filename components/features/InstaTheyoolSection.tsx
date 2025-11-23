@@ -137,11 +137,11 @@ const TYPE_BADGES: Record<string, string> = {
 
 // 타입별 배지 색상
 const TYPE_BADGE_COLORS: Record<string, string> = {
-  '성공사례': 'bg-gradient-to-r from-emerald-500 to-teal-500',
-  '칼럼': 'bg-gradient-to-r from-blue-500 to-indigo-500',
-  '일반': 'bg-gradient-to-r from-purple-500 to-pink-500',
-  '홍보': 'bg-gradient-to-r from-orange-500 to-red-500',
-  '릴스': 'bg-gradient-to-r from-fuchsia-500 to-purple-500',
+  '성공사례': 'bg-gradient-to-r from-sage-500 to-sage-600',
+  '칼럼': 'bg-gradient-to-r from-amber-500 to-amber-600',
+  '일반': 'bg-gradient-to-r from-coral-500 to-coral-600',
+  '홍보': 'bg-gradient-to-r from-orange-500 to-amber-500',
+  '릴스': 'bg-gradient-to-r from-sage-600 to-sage-700',
 };
 
 // Placeholder 이미지 (그라데이션)
@@ -255,6 +255,9 @@ export default function InstaTheyoolSection() {
 
   return (
     <section className="relative py-20 md:py-28 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 overflow-hidden">
+      {/* Top gradient transition from RealStory */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-purple-50/60 via-purple-50/80 to-transparent pointer-events-none z-[15]" />
+
       {/* Instagram 공식 그라데이션 배경 */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         {/* 도트 패턴 */}
@@ -416,10 +419,10 @@ export default function InstaTheyoolSection() {
       </div>
 
       {/* YouTube 영상 섹션 - 명확한 구분 */}
-      <div className="relative z-10 pt-12 md:pt-16 mt-8 md:mt-12 border-t border-purple-200/50">
+      <div className="relative z-10 pt-12 md:pt-16 mt-8 md:mt-12 border-t border-amber-200/50">
         {/* YouTube 제목 */}
         <div className="text-center mb-8 md:mb-10 px-6 md:px-12">
-          <p className="text-[10px] md:text-xs text-red-600/60 mb-3 tracking-[0.3em] uppercase font-medium">YouTube Channel</p>
+          <p className="text-[10px] md:text-xs text-amber-600/60 mb-3 tracking-[0.3em] uppercase font-medium">YouTube Channel</p>
           <h3 className="text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
             영상으로 만나는 더율
           </h3>
@@ -449,6 +452,9 @@ export default function InstaTheyoolSection() {
           </a>
         </div>
       </div>
+
+      {/* Bottom gradient transition to ExpertInsights */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-gray-50/30 to-gray-50/60 pointer-events-none z-[15]" />
 
       {/* 애니메이션 스타일 */}
       <style jsx>{`

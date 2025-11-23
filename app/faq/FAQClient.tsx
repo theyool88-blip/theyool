@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import type { FAQ } from '@/lib/supabase/faq';
 import Link from 'next/link';
 
@@ -18,16 +18,6 @@ interface FAQClientProps {
 
 export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
-  // Back to top button visibility
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // 카테고리별 개수 계산
   const categoryCounts = useMemo(() => {
@@ -75,7 +65,7 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
     // 카테고리별로 다시 그룹핑 + featured 우선 정렬
     const grouped: Record<string, FAQ[]> = {};
     categories.forEach((cat) => {
-      const categoryFAQs = filtered.filter((faq) => faq.category === cat.name);
+      const categoryFAQs = filtered.filter((faq) => faq.category === cat.slug);
       if (categoryFAQs.length > 0) {
         grouped[cat.slug] = categoryFAQs.sort((a, b) => {
           if (a.featured && !b.featured) return -1;
@@ -100,61 +90,32 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative py-16 md:py-20 bg-gradient-to-b from-white via-amber-50/20 to-white overflow-hidden">
-        {/* Soft Pattern */}
+      {/* Hero Section - 이전 디자인의 큰 히어로 */}
+      <section className="relative min-h-[60vh] flex items-center py-20 md:py-32 bg-gradient-to-b from-white via-amber-50/30 to-white overflow-hidden">
+        {/* Pattern Background */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="faqDots" width="50" height="50" patternUnits="userSpaceOnUse">
-                <circle cx="25" cy="25" r="1.5" fill="#f59e0b" opacity="0.2" />
+              <pattern id="faqDots" width="60" height="60" patternUnits="userSpaceOnUse">
+                <circle cx="30" cy="30" r="1" fill="#f59e0b" opacity="0.15" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#faqDots)" />
-            <circle cx="20%" cy="40%" r="180" fill="#fef3c7" opacity="0.2" />
-            <circle cx="80%" cy="60%" r="200" fill="#fde68a" opacity="0.15" />
+            <circle cx="20%" cy="40%" r="200" fill="#fef3c7" opacity="0.2" />
+            <circle cx="80%" cy="60%" r="250" fill="#fde68a" opacity="0.15" />
           </svg>
         </div>
 
         <div className="relative z-10 max-w-[1040px] px-6 md:px-12 mx-auto text-center w-full">
           <p className="text-xs md:text-sm text-amber-600/70 mb-4 tracking-[0.2em] uppercase">Q&A</p>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-gray-900">
+          <h1 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight text-gray-900">
             이혼큐레이션(Q&A)
           </h1>
-          <p className="text-base md:text-xl text-gray-700 max-w-2xl mx-auto font-light mb-2 leading-relaxed">
-            이혼, 필요한 것만 큐레이션합니다.
-          </p>
-          <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
-            혼자 고민하지 마세요. 1,200분의 의뢰인이 먼저 물었던 질문들입니다.
+          <p className="text-base md:text-xl text-gray-700 max-w-2xl mx-auto font-light mb-12 leading-relaxed">
+            이혼, 필요한 것만 큐레이션해요
           </p>
         </div>
       </section>
-
-      {/* Trust Badge & Privacy Reassurance */}
-      <div className="py-8 bg-white border-b border-gray-100">
-        <div className="max-w-[1040px] px-6 md:px-12 mx-auto">
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center justify-center gap-2">
-              <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-              </svg>
-              <span className="text-sm text-gray-600">실제 상담 검증 답변</span>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500">
-              <span className="flex items-center gap-1">
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                100% 비밀보장
-              </span>
-              <span className="text-gray-300">·</span>
-              <span>상담 후 결정</span>
-              <span className="text-gray-300">·</span>
-              <span>24시간 내 답변</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Sticky 검색바 */}
       <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
@@ -188,26 +149,31 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
             </div>
 
             {searchQuery.trim() && (
-              <p className="text-center mt-3 text-sm text-gray-600" role="status" aria-live="polite">
-                <span className="font-semibold text-amber-600">{searchQuery}</span> 검색결과 <span className="font-semibold text-amber-600">{totalResults}개</span>
+              <p className="text-center mt-3 text-sm text-gray-600">
+                <span className="font-semibold text-amber-600">{searchQuery}</span> {totalResults}개 검색결과
               </p>
             )}
           </div>
         </div>
       </div>
 
-      {/* 카테고리 네비게이션 Pills - 검색 중에는 숨김 */}
+      {/* 카테고리 네비게이션 그리드 - 검색 중에는 숨김 */}
       {!searchQuery.trim() && (
         <div className="bg-white py-8 border-b border-gray-200">
           <div className="max-w-[1040px] px-6 md:px-12 mx-auto">
             <div className="max-w-4xl mx-auto">
-              <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 {/* 필수 가이드 카테고리 - 특별한 색상 */}
                 <Link
                   href="/faq/essential-guide"
-                  className="px-5 md:px-6 py-2 md:py-2.5 rounded-full font-semibold text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  className="group py-3 px-3 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-lg hover:border-amber-500 hover:shadow-md transition-all duration-300"
                 >
-                  ⭐ 필수 가이드
+                  <div className="text-sm md:text-base font-semibold text-amber-900 mb-1 group-hover:text-amber-700 transition-colors">
+                    ⭐ 필수 가이드
+                  </div>
+                  <div className="text-xs text-amber-600">
+                    필수
+                  </div>
                 </Link>
 
                 {/* 일반 카테고리 */}
@@ -219,9 +185,14 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
                     <a
                       key={category.slug}
                       href={`#${category.slug}`}
-                      className="px-5 md:px-6 py-2 md:py-2.5 rounded-full font-medium text-sm bg-white/80 backdrop-blur-sm text-gray-700 hover:bg-gray-900 hover:text-white hover:shadow-md border border-gray-200 hover:border-gray-900 transition-all duration-300 hover:scale-105"
+                      className="group py-3 px-3 bg-white border border-gray-200 rounded-lg hover:border-gray-900 hover:bg-gray-50 transition-all duration-300"
                     >
-                      {category.name} ({count})
+                      <div className="text-sm md:text-base font-semibold text-gray-900 mb-1 group-hover:text-gray-600 transition-colors">
+                        {category.name}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {count}개
+                      </div>
                     </a>
                   );
                 })}
@@ -232,7 +203,7 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
       )}
 
       {/* FAQ 섹션 */}
-      <section className={`bg-white ${searchQuery.trim() ? 'py-3' : 'py-16 md:py-20'}`}>
+      <section className={`bg-white ${searchQuery.trim() ? 'py-8' : 'py-16 md:py-20'}`}>
         <div className="max-w-[1040px] mx-auto px-6 md:px-12">
           {/* 검색 모드: 카테고리 구분 없이 심플하게 */}
           {searchQuery.trim() ? (
@@ -249,7 +220,7 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
                 <Link
                   key={faq.id}
                   href={`/faq/${faq.slug}`}
-                  className="group block bg-white border border-gray-200/50 hover:border-gray-900 hover:shadow-md transition-all duration-300 p-6 md:p-8 rounded-3xl"
+                  className="group block bg-white border border-gray-200/50 hover:border-gray-900 hover:shadow-md transition-all duration-300 p-6 md:p-8"
                 >
                   <div className="flex items-start justify-between gap-6">
                     <div className="flex-1 min-w-0">
@@ -258,14 +229,9 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
                           필수 가이드
                         </span>
                       )}
-                      <h3 className="text-base md:text-lg font-bold text-gray-900 group-hover:text-gray-600 transition-colors leading-tight mb-3">
+                      <h3 className="text-base md:text-lg font-bold text-gray-900 group-hover:text-gray-600 transition-colors leading-tight">
                         {faq.question}
                       </h3>
-                      {faq.summary && (
-                        <p className="text-sm md:text-base text-gray-600 line-clamp-2 leading-relaxed">
-                          {faq.summary}
-                        </p>
-                      )}
                     </div>
                     <svg
                       className="w-5 h-5 flex-shrink-0 text-gray-400 group-hover:text-gray-900 group-hover:translate-x-1 transition-all mt-1"
@@ -321,7 +287,7 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
                           <Link
                             key={faq.id}
                             href={`/faq/${faq.slug}`}
-                            className="group block bg-white border border-gray-200/50 hover:border-gray-900 hover:shadow-md transition-all duration-300 p-6 md:p-8 rounded-3xl"
+                            className="group block bg-white border border-gray-200/50 hover:border-gray-900 hover:shadow-md transition-all duration-300 p-6 md:p-8"
                           >
                             <div className="flex items-start justify-between gap-6">
                               <div className="flex-1 min-w-0">
@@ -330,14 +296,9 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
                                     필수 가이드
                                   </span>
                                 )}
-                                <h3 className="text-base md:text-lg font-bold text-gray-900 group-hover:text-gray-600 transition-colors leading-tight mb-3">
+                                <h3 className="text-base md:text-lg font-bold text-gray-900 group-hover:text-gray-600 transition-colors leading-tight">
                                   {faq.question}
                                 </h3>
-                                {faq.summary && (
-                                  <p className="text-sm md:text-base text-gray-600 line-clamp-2 leading-relaxed">
-                                    {faq.summary}
-                                  </p>
-                                )}
                               </div>
                               <svg
                                 className="w-5 h-5 flex-shrink-0 text-gray-400 group-hover:text-gray-900 group-hover:translate-x-1 transition-all mt-1"
@@ -372,19 +333,6 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
           )}
         </div>
       </section>
-
-      {/* Back to Top Button */}
-      {showBackToTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-8 right-8 z-50 p-4 bg-gray-900 text-white rounded-full shadow-lg hover:bg-gray-800 hover:scale-110 transition-all duration-300"
-          aria-label="맨 위로"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-          </svg>
-        </button>
-      )}
     </>
   );
 }

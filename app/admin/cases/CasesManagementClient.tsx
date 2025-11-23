@@ -31,6 +31,12 @@ export default function CasesManagementClient() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingCase, setEditingCase] = useState<Case | null>(null);
+  const [selectedCases, setSelectedCases] = useState<Set<string>>(new Set());
+  const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -49,27 +55,46 @@ export default function CasesManagementClient() {
 
   useEffect(() => {
     loadCases();
-  }, []);
+  }, [page, searchQuery]);
 
   const loadCases = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const res = await fetch('/api/admin/cases');
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: '40',
+        search: searchQuery
+      });
+
+      const res = await fetch(`/api/admin/cases?${params}`);
       const data = await res.json();
+
       if (data.success) {
         setCases(data.data);
+        setTotal(data.pagination.total);
+        setTotalPages(data.pagination.totalPages);
+      } else {
+        setError(data.message || '성공사례를 불러오는데 실패했습니다.');
       }
-    } catch (error) {
-      console.error('Cases 로드 실패:', error);
+    } catch (err) {
+      console.error('Cases 로드 실패:', err);
+      setError('성공사례를 불러오는데 실패했습니다.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+    setPage(1);
+    setSelectedCases(new Set());
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      // Validate required fields
       if (!formData.title.trim()) {
         alert('제목을 입력해주세요.');
         return;
@@ -86,12 +111,9 @@ export default function CasesManagementClient() {
       }
 
       const normalizedSlug = slugify(formData.slug);
-
-      const url = editingCase
-        ? `/api/admin/cases/${editingCase.id}`
-        : '/api/admin/cases';
-
+      const url = editingCase ? `/api/admin/cases/${editingCase.id}` : '/api/admin/cases';
       const method = editingCase ? 'PUT' : 'POST';
+
       const summary = formData.content
         .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
         .replace(/[#>*_`]/g, ' ')
@@ -112,18 +134,13 @@ export default function CasesManagementClient() {
         sort_order: formData.sort_order,
       };
 
-      console.log('[CasesManagement] Submitting payload:', JSON.stringify(payload, null, 2));
-
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      console.log('[CasesManagement] Response status:', res.status);
-
       const data = await res.json();
-      console.log('[CasesManagement] Response data:', data);
 
       if (data.success) {
         alert(editingCase ? '성공사례가 수정되었습니다.' : '성공사례가 생성되었습니다.');
@@ -131,12 +148,10 @@ export default function CasesManagementClient() {
         resetForm();
         loadCases();
       } else {
-        console.error('[CasesManagement] Error:', data);
         alert(data.message || '오류가 발생했습니다.');
       }
     } catch (error) {
-      console.error('[CasesManagement] Caught error:', error);
-      alert(`오류가 발생했습니다: ${error instanceof Error ? error.message : String(error)}`);
+      alert('오류가 발생했습니다.');
     }
   };
 
@@ -177,6 +192,46 @@ export default function CasesManagementClient() {
     }
   };
 
+  const handleBulkDelete = async () => {
+    if (selectedCases.size === 0) {
+      alert('삭제할 성공사례를 선택해주세요.');
+      return;
+    }
+
+    if (!confirm(`${selectedCases.size}개의 성공사례를 삭제하시겠습니까?`)) return;
+
+    try {
+      const deletePromises = Array.from(selectedCases).map(id =>
+        fetch(`/api/admin/cases/${id}`, { method: 'DELETE' })
+      );
+
+      await Promise.all(deletePromises);
+      alert(`${selectedCases.size}개의 성공사례가 삭제되었습니다.`);
+      setSelectedCases(new Set());
+      loadCases();
+    } catch (error) {
+      alert('일괄 삭제 중 오류가 발생했습니다.');
+    }
+  };
+
+  const toggleSelectCase = (id: string) => {
+    const newSelected = new Set(selectedCases);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedCases(newSelected);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedCases.size === cases.length) {
+      setSelectedCases(new Set());
+    } else {
+      setSelectedCases(new Set(cases.map(c => c.id)));
+    }
+  };
+
   const resetForm = () => {
     setEditingCase(null);
     setFormData({
@@ -202,10 +257,6 @@ export default function CasesManagementClient() {
     });
   };
 
-  if (loading) {
-    return <div className="text-center py-12">로딩 중...</div>;
-  }
-
   const updateSelection = (event: React.SyntheticEvent<HTMLTextAreaElement>) => {
     const target = event.target as HTMLTextAreaElement;
     selectionRef.current = {
@@ -220,8 +271,7 @@ export default function CasesManagementClient() {
       const { start, end } = selectionRef.current;
       const safeStart = Math.max(0, Math.min(content.length, start));
       const safeEnd = Math.max(0, Math.min(content.length, end));
-      const newContent =
-        content.slice(0, safeStart) + snippet + content.slice(safeEnd);
+      const newContent = content.slice(0, safeStart) + snippet + content.slice(safeEnd);
       const cursorPos = safeStart + snippet.length;
       setTimeout(() => {
         if (editorRef.current) {
@@ -239,34 +289,90 @@ export default function CasesManagementClient() {
     alert('이미지가 본문에 추가되었습니다.');
   };
 
-  const handleImageUpload = (url: string) => {
-    insertAtSelection(`\n\n![${imageAlt || 'image'}](${url})\n`);
-    alert('이미지가 본문에 추가되었습니다.');
-  };
+  if (loading && page === 1) {
+    return <div className="text-center py-12">로딩 중...</div>;
+  }
 
   return (
     <div>
-      {/* 액션 버튼 */}
-      <div className="mb-6 flex justify-between items-center">
-        <h2 className="text-lg font-semibold text-gray-900">
-          전체 성공사례 ({cases.length}개)
-        </h2>
-        <button
-          onClick={() => {
-            resetForm();
-            setShowModal(true);
-          }}
-          className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors"
-        >
-          + 새 성공사례 추가
-        </button>
+      {/* 액션 버튼 및 검색 */}
+      <div className="mb-6 space-y-4">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              전체 성공사례 ({total}개)
+            </h2>
+            {selectedCases.size > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">
+                  {selectedCases.size}개 선택됨
+                </span>
+                <button
+                  onClick={handleBulkDelete}
+                  className="px-3 py-1.5 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 transition-colors"
+                >
+                  선택 삭제
+                </button>
+              </div>
+            )}
+          </div>
+          <button
+            onClick={() => {
+              resetForm();
+              setShowModal(true);
+            }}
+            className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors"
+          >
+            + 새 성공사례 추가
+          </button>
+        </div>
+
+        {/* 검색 바 */}
+        <div className="flex items-center gap-4">
+          <input
+            type="text"
+            placeholder="제목 검색..."
+            value={searchQuery}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => handleSearch('')}
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              초기화
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* 에러 메시지 */}
+      {error && (
+        <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md flex justify-between items-center">
+          <span>{error}</span>
+          <button
+            onClick={loadCases}
+            className="text-sm underline hover:no-underline"
+          >
+            다시 시도
+          </button>
+        </div>
+      )}
 
       {/* 테이블 뷰 */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
+              <th className="px-4 py-3 text-left">
+                <input
+                  type="checkbox"
+                  checked={selectedCases.size === cases.length && cases.length > 0}
+                  onChange={toggleSelectAll}
+                  className="w-5 h-5 rounded border-gray-300 text-gray-900 focus:ring-gray-900 cursor-pointer"
+                />
+              </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 제목
               </th>
@@ -287,11 +393,24 @@ export default function CasesManagementClient() {
           <tbody className="bg-white divide-y divide-gray-200">
             {cases.map((caseItem) => (
               <tr key={caseItem.id} className="hover:bg-gray-50">
+                <td className="px-4 py-4">
+                  <input
+                    type="checkbox"
+                    checked={selectedCases.has(caseItem.id)}
+                    onChange={() => toggleSelectCase(caseItem.id)}
+                    className="w-5 h-5 rounded border-gray-300 text-gray-900 focus:ring-gray-900 cursor-pointer"
+                  />
+                </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2">
                     {caseItem.icon && <span className="text-lg">{caseItem.icon}</span>}
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{caseItem.title}</div>
+                      <div
+                        className="text-sm font-medium text-gray-900 hover:text-blue-600 cursor-pointer"
+                        onClick={() => handleEdit(caseItem)}
+                      >
+                        {caseItem.title}
+                      </div>
                       {caseItem.badge && (
                         <span className="text-xs text-pink-600">{caseItem.badge}</span>
                       )}
@@ -322,12 +441,14 @@ export default function CasesManagementClient() {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm space-x-2">
-                  <button
-                    onClick={() => handleEdit(caseItem)}
-                    className="text-blue-600 hover:text-blue-900"
+                  <a
+                    href={`/cases/${caseItem.slug || caseItem.notion_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-600 hover:text-green-900"
                   >
-                    수정
-                  </button>
+                    보기
+                  </a>
                   <button
                     onClick={() => handleDelete(caseItem.id)}
                     className="text-red-600 hover:text-red-900"
@@ -340,6 +461,73 @@ export default function CasesManagementClient() {
           </tbody>
         </table>
       </div>
+
+      {/* 페이지네이션 */}
+      {totalPages > 1 && (
+        <div className="mt-6 flex justify-center items-center gap-2">
+          <button
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            이전
+          </button>
+
+          <div className="flex items-center gap-1">
+            {page > 3 && (
+              <>
+                <button
+                  onClick={() => setPage(1)}
+                  className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                >
+                  1
+                </button>
+                {page > 4 && <span className="px-2">...</span>}
+              </>
+            )}
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(p => p >= page - 2 && p <= page + 2)
+              .map(p => (
+                <button
+                  key={p}
+                  onClick={() => setPage(p)}
+                  className={`px-3 py-2 border rounded-md ${
+                    p === page
+                      ? 'bg-gray-900 text-white border-gray-900'
+                      : 'border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+
+            {page < totalPages - 2 && (
+              <>
+                {page < totalPages - 3 && <span className="px-2">...</span>}
+                <button
+                  onClick={() => setPage(totalPages)}
+                  className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                >
+                  {totalPages}
+                </button>
+              </>
+            )}
+          </div>
+
+          <button
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            다음
+          </button>
+
+          <span className="ml-4 text-sm text-gray-600">
+            {total}개 중 {(page - 1) * 40 + 1}-{Math.min(page * 40, total)}
+          </span>
+        </div>
+      )}
 
       {/* 모달 */}
       {showModal && (
@@ -387,13 +575,13 @@ export default function CasesManagementClient() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug *</label>
-                  <input
-                    type="text"
-                    value={formData.slug}
-                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    placeholder="예: 3x-divorce-case"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
-                  />
+                <input
+                  type="text"
+                  value={formData.slug}
+                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  placeholder="예: 3x-divorce-case"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+                />
               </div>
 
               <div>
@@ -486,6 +674,18 @@ export default function CasesManagementClient() {
                   업로드 즉시 현재 커서 위치에 Markdown 이미지가 삽입됩니다.
                 </p>
                 <ImageUploader bucket="public-content" accept="image/*" onUpload={handleInlineImageUpload} />
+              </div>
+
+              <div className="flex items-center gap-6">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={formData.published}
+                    onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
+                    className="rounded"
+                  />
+                  <span className="text-sm text-gray-700">공개</span>
+                </label>
               </div>
 
               <div className="flex justify-end gap-2 pt-4">

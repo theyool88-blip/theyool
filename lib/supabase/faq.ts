@@ -207,3 +207,60 @@ export async function getPopularFAQs(limit: number = 10): Promise<FAQ[]> {
 
   return data as FAQ[];
 }
+
+/**
+ * 관리자용 - 모든 FAQ 가져오기 (페이지네이션 + 검색 + 카테고리 필터)
+ */
+export async function getAdminFAQs(options?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  category?: string;
+}): Promise<{ data: FAQ[]; total: number }> {
+  if (!hasValidEnvironment()) {
+    return { data: [], total: 0 };
+  }
+
+  const page = options?.page || 1;
+  const limit = options?.limit || 40;
+  const search = options?.search || '';
+  const category = options?.category || '';
+
+  const supabase = createBuildTimeClient();
+
+  // answer 필드를 제외하고 요약 정보만 선택
+  let query = supabase
+    .from('faqs')
+    .select('id, question, slug, category, summary, featured, published, views, sort_order, created_at, updated_at', { count: 'exact' });
+
+  // 검색 (질문만)
+  if (search) {
+    query = query.ilike('question', `%${search}%`);
+  }
+
+  // 카테고리 필터
+  if (category) {
+    if (category === 'featured') {
+      // "필수가이드" 카테고리 - featured = true인 FAQ만
+      query = query.eq('featured', true);
+    } else {
+      // 일반 카테고리
+      query = query.eq('category', category);
+    }
+  }
+
+  // 페이지네이션
+  const start = (page - 1) * limit;
+  const end = start + limit - 1;
+
+  const { data, error, count } = await query
+    .range(start, end)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('FAQ 조회 실패:', error);
+    return { data: [], total: 0 };
+  }
+
+  return { data: data as FAQ[], total: count || 0 };
+}

@@ -10,12 +10,12 @@ interface CTABoxProps {
 
 export default function CTABox({ title, description, children, className = '' }: CTABoxProps) {
   return (
-    <div className={`bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 md:p-10 text-center text-white ${className}`}>
+    <div className={`bg-gradient-to-br from-sage-800 to-sage-900 rounded-2xl p-8 md:p-10 text-center text-white ${className}`}>
       <p className="text-xl md:text-2xl font-bold mb-4">
         {title}
       </p>
       {description && (
-        <p className="text-sm md:text-base text-gray-300 mb-8 max-w-xl mx-auto">
+        <p className="text-sm md:text-base text-sage-100/80 mb-8 max-w-xl mx-auto">
           {description}
         </p>
       )}
@@ -36,8 +36,8 @@ interface CTAButtonProps {
 export function CTAButton({ href, onClick, variant = 'primary', children, icon, iconPosition = 'right' }: CTAButtonProps) {
   const baseClasses = "inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-full transition-all duration-300";
   const variantClasses = variant === 'primary'
-    ? "bg-white text-gray-900 hover:bg-gray-100 shadow-lg hover:shadow-xl"
-    : "bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-900";
+    ? "bg-white text-sage-900 hover:bg-sage-50 shadow-lg hover:shadow-xl"
+    : "bg-transparent border-2 border-white text-white hover:bg-white hover:text-sage-900";
 
   const content = (
     <>

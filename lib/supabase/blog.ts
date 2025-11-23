@@ -30,6 +30,7 @@ export interface BlogPost {
   published_at: string | null;
   created_at: string;
   updated_at: string;
+  illustration_image?: string | null;
 }
 
 export interface BlogPostInput {
@@ -43,26 +44,48 @@ export interface BlogPostInput {
   featured?: boolean;
   author?: string;
   published_at?: string | null;
+  illustration_image?: string | null;
 }
 
-// 모든 Blog Posts 가져오기
-export async function getBlogPosts(): Promise<BlogPost[]> {
+// 모든 Blog Posts 가져오기 (관리자용 - 요약 정보만)
+export async function getBlogPosts(options?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+}): Promise<{ data: BlogPost[]; total: number }> {
   if (!hasValidEnvironment()) {
-    return [];
+    return { data: [], total: 0 };
   }
 
-  const { data, error } = await supabase
+  const page = options?.page || 1;
+  const limit = options?.limit || 40;
+  const search = options?.search || '';
+
+  // 리스트용 - content 제외하고 필요한 필드만 선택
+  let query = supabase
     .from('blog_posts')
-    .select('*')
+    .select('id, title, slug, categories, tags, published, featured, views, author, published_at, illustration_image, created_at, updated_at', { count: 'exact' });
+
+  // 검색 (제목만)
+  if (search) {
+    query = query.ilike('title', `%${search}%`);
+  }
+
+  // 페이지네이션
+  const start = (page - 1) * limit;
+  const end = start + limit - 1;
+
+  const { data, error, count } = await query
+    .range(start, end)
     .order('published_at', { ascending: false })
     .order('created_at', { ascending: false });
 
   if (error) {
     console.error('Blog Posts 조회 실패:', error);
-    return [];
+    return { data: [], total: 0 };
   }
 
-  return data || [];
+  return { data: data || [], total: count || 0 };
 }
 
 // 단일 Blog Post 가져오기
@@ -110,6 +133,7 @@ export async function createBlogPost(input: BlogPostInput): Promise<BlogPost | n
     views: 0,
     author: input.author || '법무법인 더율',
     published_at: input.published_at || new Date().toISOString(),
+    illustration_image: input.illustration_image || null,
   };
 
   console.log('[createBlogPost] Insert data:', JSON.stringify(insertData, null, 2));

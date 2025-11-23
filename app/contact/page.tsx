@@ -113,18 +113,18 @@ export default function ContactPage() {
           <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="locationDots" width="60" height="60" patternUnits="userSpaceOnUse">
-                <circle cx="30" cy="30" r="1" fill="#3b82f6" opacity="0.08" />
+                <circle cx="30" cy="30" r="1" fill="#6DB5A4" opacity="0.08" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#locationDots)" />
-            <circle cx="20%" cy="30%" r="180" fill="#dbeafe" opacity="0.1" />
-            <circle cx="80%" cy="70%" r="200" fill="#bfdbfe" opacity="0.08" />
+            <circle cx="20%" cy="30%" r="180" fill="#E8F5F2" opacity="0.1" />
+            <circle cx="80%" cy="70%" r="200" fill="#D1EBE5" opacity="0.08" />
           </svg>
         </div>
 
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
           <div className="text-center">
-            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase font-medium drop-shadow-md">LOCATION</p>
+            <p className="text-xs md:text-sm text-sage-700 mb-3 tracking-[0.2em] uppercase font-medium drop-shadow-md">LOCATION</p>
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight drop-shadow-lg">
               오시는 길
             </h1>
@@ -137,15 +137,15 @@ export default function ContactPage() {
       </section>
 
       {/* 사무소 선택 탭 */}
-      <section className="py-8 bg-gradient-to-r from-blue-50/30 to-white border-b border-blue-100/50">
+      <section className="py-8 bg-gradient-to-r from-sage-50/30 to-white border-b border-sage-100/50">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="flex justify-center gap-4">
             <button
               onClick={() => setActiveOffice('pyeongtaek')}
               className={`px-8 py-3 rounded-full font-medium transition-all duration-300 ${
                 activeOffice === 'pyeongtaek'
-                  ? 'bg-gradient-to-r from-blue-100 to-blue-50 text-blue-800 shadow-md border border-blue-200/50'
-                  : 'bg-white text-gray-600 hover:bg-blue-50/50 border border-blue-100/30'
+                  ? 'bg-gradient-to-r from-sage-100 to-sage-50 text-sage-900 shadow-md border border-sage-200/50'
+                  : 'bg-white text-gray-600 hover:bg-sage-50/50 border border-sage-100/30'
               }`}
             >
               평택 분사무소
@@ -154,8 +154,8 @@ export default function ContactPage() {
               onClick={() => setActiveOffice('cheonan')}
               className={`px-8 py-3 rounded-full font-medium transition-all duration-300 ${
                 activeOffice === 'cheonan'
-                  ? 'bg-gradient-to-r from-blue-100 to-blue-50 text-blue-800 shadow-md border border-blue-200/50'
-                  : 'bg-white text-gray-600 hover:bg-blue-50/50 border border-blue-100/30'
+                  ? 'bg-gradient-to-r from-sage-100 to-sage-50 text-sage-900 shadow-md border border-sage-200/50'
+                  : 'bg-white text-gray-600 hover:bg-sage-50/50 border border-sage-100/30'
               }`}
             >
               천안 주사무소
@@ -165,12 +165,12 @@ export default function ContactPage() {
       </section>
 
       {/* 지도 및 정보 */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* 지도 영역 - 네이버 지도 */}
             <div className="order-2 lg:order-1">
-              <div className="relative w-full h-[400px] md:h-[500px] shadow-lg border border-blue-100/30 rounded-2xl overflow-hidden">
+              <div className="relative w-full h-[400px] md:h-[500px] shadow-lg border border-sage-100/30 rounded-2xl overflow-hidden">
                 <NaverMap
                   latitude={currentOffice.latitude}
                   longitude={currentOffice.longitude}
@@ -204,65 +204,65 @@ export default function ContactPage() {
 
             {/* 정보 */}
             <div className="order-1 lg:order-2">
-              <div className="bg-gradient-to-br from-blue-50/40 via-white to-white rounded-3xl p-8 md:p-10 shadow-lg border border-blue-100/30">
+              <div className="bg-gradient-to-br from-sage-50/40 via-white to-white rounded-3xl p-8 md:p-10 shadow-lg border border-sage-100/30">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                   {currentOffice.name}
                 </h2>
-                <p className="text-lg text-blue-600/70 mb-8 font-medium">{currentOffice.subtitle}</p>
+                <p className="text-lg text-sage-700 mb-8 font-medium">{currentOffice.subtitle}</p>
 
                 <div className="space-y-4">
                   {/* 주소 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-blue-50">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-50 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-sage-50">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sage-100 to-sage-50 rounded-full flex items-center justify-center shadow-sm">
+                      <svg className="w-6 h-6 text-sage-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-blue-600/70 mb-1">주소</h3>
+                      <h3 className="text-sm font-medium text-sage-700 mb-1">주소</h3>
                       <p className="text-base text-gray-800">{currentOffice.address}</p>
                     </div>
                   </div>
 
                   {/* 전화번호 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-blue-50">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-50 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-sage-50">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sage-100 to-sage-50 rounded-full flex items-center justify-center shadow-sm">
+                      <svg className="w-6 h-6 text-sage-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-blue-600/70 mb-1">전화번호</h3>
-                      <a href={`tel:${currentOffice.phone.replace(/-/g, '')}`} className="text-base text-gray-800 hover:text-blue-600 transition-colors font-medium">
+                      <h3 className="text-sm font-medium text-sage-700 mb-1">전화번호</h3>
+                      <a href={`tel:${currentOffice.phone.replace(/-/g, '')}`} className="text-base text-gray-800 hover:text-sage-700 transition-colors font-medium">
                         {currentOffice.phone}
                       </a>
                     </div>
                   </div>
 
                   {/* 상담시간 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-blue-50">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-50 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-sage-50">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sage-100 to-sage-50 rounded-full flex items-center justify-center shadow-sm">
+                      <svg className="w-6 h-6 text-sage-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-blue-600/70 mb-1">상담시간</h3>
+                      <h3 className="text-sm font-medium text-sage-700 mb-1">상담시간</h3>
                       <p className="text-base text-gray-800">{currentOffice.hours}</p>
                       <p className="text-sm text-gray-600 mt-1">주말/공휴일 예약 상담</p>
                     </div>
                   </div>
 
                   {/* 주차 안내 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-blue-50">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-50 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-sage-50">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sage-100 to-sage-50 rounded-full flex items-center justify-center shadow-sm">
+                      <svg className="w-6 h-6 text-sage-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-blue-600/70 mb-1">주차 안내</h3>
+                      <h3 className="text-sm font-medium text-sage-700 mb-1">주차 안내</h3>
                       <p className="text-base text-gray-800">{currentOffice.parking}</p>
                     </div>
                   </div>
@@ -282,10 +282,10 @@ export default function ContactPage() {
         <div className="max-w-[1040px] px-6 md:px-12 mx-auto relative z-10">
           <div className="text-center">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              방문 전 상담 예약을<br />권장합니다
+              방문 전 상담 예약을<br />권장해요
             </h2>
             <p className="text-lg md:text-xl mb-10 text-white/80 leading-relaxed max-w-2xl mx-auto">
-              더 나은 상담을 위해 사전 예약 후 방문해 주세요
+              더 나은 상담을 위해 사전 예약 후 방문해주세요
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button

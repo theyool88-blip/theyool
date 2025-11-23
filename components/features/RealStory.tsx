@@ -14,7 +14,7 @@ const stories = [
     outcome: '그리고 1년 후, 새 직장에서 행복 찾음',
     bgColor: 'from-red-100 via-rose-50 to-pink-50',
     textColor: 'text-gray-800',
-    caseId: 'adultery-case-01', // 나중에 실제 케이스 ID로 변경
+    caseId: 'adultery-case-01',
   },
   {
     id: 'alimony',
@@ -25,7 +25,7 @@ const stories = [
     outcome: '그리고 지금은 안정적인 자영업으로 재기',
     bgColor: 'from-pink-100 via-purple-50 to-blue-50',
     textColor: 'text-gray-800',
-    caseId: 'alimony-case-01', // 나중에 실제 케이스 ID로 변경
+    caseId: 'alimony-case-01',
   },
   {
     id: 'property',
@@ -36,7 +36,7 @@ const stories = [
     outcome: '그리고 자녀 교육비 걱정 없이 새 출발',
     bgColor: 'from-green-100 via-emerald-50 to-teal-50',
     textColor: 'text-gray-800',
-    caseId: 'property-case-01', // 나중에 실제 케이스 ID로 변경
+    caseId: 'property-case-01',
   },
   {
     id: 'custody',
@@ -47,7 +47,7 @@ const stories = [
     outcome: '그리고 아이는 이제 밝은 웃음을 되찾음',
     bgColor: 'from-amber-100 via-yellow-50 to-orange-50',
     textColor: 'text-gray-800',
-    caseId: 'custody-case-01', // 나중에 실제 케이스 ID로 변경
+    caseId: 'custody-case-01',
   },
 ];
 
@@ -101,38 +101,20 @@ export default function RealStory() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen md:min-h-[400vh] bg-white">
+    <section ref={sectionRef} className="relative min-h-screen md:min-h-[400vh] bg-gradient-to-b from-white via-sage-50/10 to-white">
+      {/* Top gradient transition from ThePlanHighlight */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-sage-50/30 to-transparent pointer-events-none z-[5]" />
+
       {/* Sticky Container */}
       <div className="md:sticky top-0 h-screen overflow-hidden">
         {/* Title */}
-        <div className="absolute top-12 md:top-20 left-0 right-0 z-10">
+        <div className="absolute top-12 md:top-16 left-0 right-0 z-10">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 text-center">
-            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Real Story</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-2 tracking-tight">
+            <p className="text-xs md:text-sm text-sage-600/70 mb-2 tracking-[0.2em] uppercase">Real Story</p>
+            <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2 tracking-tight">
               실제 고객 이야기
             </h2>
             <p className="text-sm md:text-base text-gray-600 font-light">더율과 함께한 새로운 시작</p>
-          </div>
-        </div>
-
-        {/* Tab Navigation - Below Title with more space */}
-        <div className="absolute top-36 md:top-52 left-0 right-0 z-20">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <div className="flex justify-center gap-4 md:gap-8 lg:gap-12">
-              {stories.map((story, index) => (
-                <button
-                  key={story.id}
-                  onClick={() => setActiveTab(index)}
-                  className={`text-xs md:text-base font-medium transition-all duration-300 pb-2 border-b-2 ${
-                    activeTab === index
-                      ? 'border-gray-900 text-gray-900'
-                      : 'border-transparent text-gray-400 hover:text-gray-600'
-                  }`}
-                >
-                  {story.title}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
 
@@ -145,7 +127,7 @@ export default function RealStory() {
                 activeTab === index ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
             >
-              {/* Background - Images with pastel overlays */}
+              {/* Background - Pastel gradients */}
               {story.id === 'adultery' ? (
                 <>
                   <div className="absolute inset-0">
@@ -159,9 +141,7 @@ export default function RealStory() {
                     />
                   </div>
                   {/* Pastel pink/rose gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-pink-50/80 via-rose-50/75 to-red-50/70" />
-                  {/* Additional white overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-pink-50/85 via-rose-50/80 to-red-50/75" />
                 </>
               ) : story.id === 'alimony' ? (
                 <>
@@ -176,9 +156,7 @@ export default function RealStory() {
                     />
                   </div>
                   {/* Pastel purple/lavender gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50/80 via-lavender-50/75 to-blue-50/70" />
-                  {/* Additional white overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50/85 via-lavender-50/80 to-blue-50/75" />
                 </>
               ) : story.id === 'property' ? (
                 <>
@@ -193,9 +171,7 @@ export default function RealStory() {
                     />
                   </div>
                   {/* Pastel green/mint gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/80 via-teal-50/75 to-cyan-50/70" />
-                  {/* Additional white overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/85 via-teal-50/80 to-cyan-50/75" />
                 </>
               ) : story.id === 'custody' ? (
                 <>
@@ -210,67 +186,96 @@ export default function RealStory() {
                     />
                   </div>
                   {/* Pastel orange/peach gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/80 via-orange-50/75 to-yellow-50/70" />
-                  {/* Additional white overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/20" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/85 via-orange-50/80 to-yellow-50/75" />
                 </>
               ) : (
                 <div className={`absolute inset-0 bg-gradient-to-br ${story.bgColor}`} />
               )}
 
-              {/* Content - Perfect centering */}
-              <div className="relative h-full flex items-center justify-center pt-48 md:pt-72 pb-16 md:pb-24">
-                <div className="max-w-[600px] w-full px-6 md:px-12 mx-auto">
-                  <div className="text-center">
-                    <h3 className={`text-2xl md:text-4xl font-bold ${story.textColor} mb-4 md:mb-6`}>
-                      {story.subtitle}
-                    </h3>
-                    <p className={`text-base md:text-xl ${story.textColor} mb-8 md:mb-12 leading-relaxed opacity-90 whitespace-pre-line`}>
-                      {story.story}
-                    </p>
-                    <div className="space-y-4">
-                      <div className="inline-block px-6 py-3 md:px-8 md:py-4 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-gray-200/50">
-                        <p className={`text-sm md:text-lg font-bold ${story.textColor}`}>
-                          {story.result}
-                        </p>
-                      </div>
-
-                      {/* 자세히 보기 버튼 */}
-                      <div className="mt-6">
-                        <Link
-                          href={`/cases/${story.caseId}`}
-                          className="inline-flex items-center gap-2 px-8 py-3.5 bg-gray-900 hover:bg-gray-800 text-white rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
-                        >
-                          자세히 보기
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                          </svg>
-                        </Link>
-                      </div>
-                    </div>
+              {/* Tab Navigation - Inside card area */}
+              <div className="absolute top-40 md:top-48 left-0 right-0 z-20">
+                <div className="max-w-[900px] mx-auto px-6 md:px-8">
+                  <div className="flex justify-center gap-2 md:gap-4">
+                    {stories.map((s, i) => (
+                      <button
+                        key={s.id}
+                        onClick={() => setActiveTab(i)}
+                        className={`px-4 py-2 md:px-6 md:py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 backdrop-blur-md border ${
+                          activeTab === i
+                            ? 'bg-white/95 text-gray-900 shadow-lg border-gray-200/50'
+                            : 'bg-white/60 text-gray-700 hover:bg-white/80 hover:text-gray-900 shadow-sm border-white/40'
+                        }`}
+                      >
+                        {s.title}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Placeholder for future image */}
-              <div className="absolute bottom-12 right-12 opacity-20">
-                <div className="w-32 h-32 md:w-48 md:h-48 bg-white/30 rounded-full backdrop-blur-sm" />
+              {/* Content - Direct on background */}
+              <div className="relative h-full flex items-center justify-center pt-72 md:pt-80 pb-16 md:pb-20">
+                <div className="max-w-[900px] w-full px-6 md:px-8 mx-auto">
+                  <div className="text-center">
+                    {/* Story Title - with text shadow for readability */}
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 md:mb-8 leading-tight drop-shadow-sm">
+                      {story.subtitle}
+                    </h3>
+
+                    {/* Story Content - with subtle text shadow */}
+                    <div className="mb-8 md:mb-10">
+                      <p className="text-base md:text-lg text-gray-800 leading-relaxed md:leading-loose whitespace-pre-line drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
+                        {story.story}
+                      </p>
+                    </div>
+
+                    {/* Result Badge - Unified Sage green brand color */}
+                    <div className="flex justify-center mb-6 md:mb-8">
+                      <div className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 backdrop-blur-md rounded-2xl shadow-lg bg-gradient-to-br from-sage-600/90 to-sage-700/85">
+                        <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p className="text-sm md:text-base lg:text-lg font-bold text-white">
+                          {story.result}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Outcome Text - with text shadow */}
+                    <p className="text-sm md:text-base text-gray-800 mb-8 md:mb-10 italic drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
+                      {story.outcome}
+                    </p>
+
+                    {/* CTA Button */}
+                    <div className="flex justify-center">
+                      <Link
+                        href={`/cases/${story.caseId}`}
+                        className="inline-flex items-center gap-2 px-8 py-3.5 md:px-10 md:py-4 bg-sage-600 hover:bg-sage-700 text-white rounded-full font-semibold text-sm md:text-base transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                      >
+                        자세히 보기
+                        <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
 
-          {/* Navigation Arrows - Simple Style */}
+          {/* Navigation Arrows - Sage green ghost buttons */}
           <button
             onClick={handlePrev}
-            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 p-2 transition-all duration-300 hover:opacity-70"
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 p-3 md:p-3.5 bg-sage-600/20 hover:bg-sage-600/40 backdrop-blur-sm rounded-full shadow-sm hover:shadow-md transition-all duration-300 group"
             aria-label="이전 스토리"
           >
             <svg
-              className="w-8 h-8 md:w-10 md:h-10 text-gray-500"
+              className="w-5 h-5 md:w-6 md:h-6 text-sage-800 group-hover:text-sage-900 transition-colors"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
+              strokeWidth={2}
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
@@ -278,21 +283,24 @@ export default function RealStory() {
 
           <button
             onClick={handleNext}
-            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 p-2 transition-all duration-300 hover:opacity-70"
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 p-3 md:p-3.5 bg-sage-600/20 hover:bg-sage-600/40 backdrop-blur-sm rounded-full shadow-sm hover:shadow-md transition-all duration-300 group"
             aria-label="다음 스토리"
           >
             <svg
-              className="w-8 h-8 md:w-10 md:h-10 text-gray-500"
+              className="w-5 h-5 md:w-6 md:h-6 text-sage-800 group-hover:text-sage-900 transition-colors"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
+              strokeWidth={2}
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
       </div>
+
+      {/* Bottom gradient transition to InstaTheyoolSection */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-purple-50/20 to-purple-50/40 pointer-events-none z-[5]" />
     </section>
   );
 }

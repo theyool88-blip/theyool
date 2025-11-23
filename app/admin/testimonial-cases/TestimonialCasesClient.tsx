@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import type { TestimonialCase } from '@/types/testimonial';
+import { useState, useMemo } from 'react';
+import type { TestimonialCase, CaseCategory } from '@/types/testimonial';
 import { CATEGORY_INFO } from '@/types/testimonial';
 import CaseFormModal from './CaseFormModal';
 
@@ -9,11 +9,18 @@ interface Props {
   initialCases: TestimonialCase[];
 }
 
+type StatusFilter = 'all' | 'published' | 'featured' | 'pending';
+
 export default function TestimonialCasesClient({ initialCases }: Props) {
   const [cases, setCases] = useState<TestimonialCase[]>(initialCases);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCase, setEditingCase] = useState<TestimonialCase | null>(null);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
+
+  // 필터 상태
+  const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState<CaseCategory | 'all'>('all');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
 
   const handleCreateNew = () => {
     setEditingCase(null);
@@ -68,6 +75,34 @@ export default function TestimonialCasesClient({ initialCases }: Props) {
     return `${(amount / 100000000).toFixed(1)}억`;
   };
 
+  // 필터링된 케이스
+  const filteredCases = useMemo(() => {
+    return cases.filter(c => {
+      // 검색 필터
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesHighlight = c.highlight_text?.toLowerCase().includes(query);
+        const matchesClient = c.client_initial?.toLowerCase().includes(query);
+        const matchesDate = c.case_date?.includes(query);
+        if (!matchesHighlight && !matchesClient && !matchesDate) {
+          return false;
+        }
+      }
+
+      // 카테고리 필터
+      if (categoryFilter !== 'all' && c.category !== categoryFilter) {
+        return false;
+      }
+
+      // 상태 필터
+      if (statusFilter === 'published' && (!c.published || !c.consent_given)) return false;
+      if (statusFilter === 'featured' && !c.featured) return false;
+      if (statusFilter === 'pending' && c.consent_given) return false;
+
+      return true;
+    });
+  }, [cases, searchQuery, categoryFilter, statusFilter]);
+
   return (
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
@@ -109,6 +144,111 @@ export default function TestimonialCasesClient({ initialCases }: Props) {
         </div>
       </div>
 
+      {/* 검색 및 필터 */}
+      <div className="mb-6 space-y-4">
+        {/* 검색 바 */}
+        <div className="flex items-center gap-4">
+          <input
+            type="text"
+            placeholder="하이라이트, 의뢰인, 날짜 검색..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-600"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              초기화
+            </button>
+          )}
+        </div>
+
+        {/* 필터 버튼들 */}
+        <div className="flex items-center gap-4">
+          {/* 상태 필터 */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600 font-medium">상태:</span>
+            <button
+              onClick={() => setStatusFilter('all')}
+              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                statusFilter === 'all'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              전체
+            </button>
+            <button
+              onClick={() => setStatusFilter('published')}
+              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                statusFilter === 'published'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              게시됨
+            </button>
+            <button
+              onClick={() => setStatusFilter('featured')}
+              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                statusFilter === 'featured'
+                  ? 'bg-amber-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              추천
+            </button>
+            <button
+              onClick={() => setStatusFilter('pending')}
+              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                statusFilter === 'pending'
+                  ? 'bg-orange-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              동의대기
+            </button>
+          </div>
+
+          {/* 카테고리 필터 */}
+          <div className="flex items-center gap-2 ml-4">
+            <span className="text-sm text-gray-600 font-medium">카테고리:</span>
+            <button
+              onClick={() => setCategoryFilter('all')}
+              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                categoryFilter === 'all'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              전체
+            </button>
+            {Object.entries(CATEGORY_INFO).map(([key, info]) => (
+              <button
+                key={key}
+                onClick={() => setCategoryFilter(key as CaseCategory)}
+                className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                  categoryFilter === key
+                    ? `${info.bgColor} ${info.color}`
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {info.icon} {info.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 필터 결과 표시 */}
+        {(searchQuery || categoryFilter !== 'all' || statusFilter !== 'all') && (
+          <div className="text-sm text-gray-600">
+            {filteredCases.length}개의 케이스가 검색되었습니다.
+          </div>
+        )}
+      </div>
+
       {/* Cases Table */}
       <div className="bg-white border rounded-lg overflow-hidden">
         <table className="w-full">
@@ -138,14 +278,16 @@ export default function TestimonialCasesClient({ initialCases }: Props) {
             </tr>
           </thead>
           <tbody className="divide-y">
-            {cases.length === 0 ? (
+            {filteredCases.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
-                  등록된 케이스가 없습니다. 새 케이스를 추가해보세요.
+                  {cases.length === 0
+                    ? '등록된 케이스가 없습니다. 새 케이스를 추가해보세요.'
+                    : '검색 결과가 없습니다.'}
                 </td>
               </tr>
             ) : (
-              cases.map((testimonialCase) => {
+              filteredCases.map((testimonialCase) => {
                 const categoryInfo = CATEGORY_INFO[testimonialCase.category];
                 return (
                   <tr key={testimonialCase.id} className="hover:bg-gray-50">

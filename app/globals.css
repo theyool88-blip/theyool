@@ -1,5 +1,79 @@
 @import "tailwindcss";
 
+@theme {
+  /* Sage Green - 임신 앱 스타일 메인 컬러 */
+  --color-sage-50: #F0F9F7;
+  --color-sage-100: #E8F5F2;
+  --color-sage-200: #D1EBE5;
+  --color-sage-300: #B3DDD4;
+  --color-sage-400: #8CCABE;
+  --color-sage-500: #6DB5A4;
+  --color-sage-600: #5A9988;
+  --color-sage-700: #487A6C;
+  --color-sage-800: #365B51;
+  --color-sage-900: #243D36;
+
+  /* Coral Pink - 강조 컬러 */
+  --color-coral-50: #FEF7F8;
+  --color-coral-100: #FDEFF1;
+  --color-coral-200: #FBD9DF;
+  --color-coral-300: #F8BECB;
+  --color-coral-400: #F6A4B7;
+  --color-coral-500: #F4A5B0;
+  --color-coral-600: #EF7E90;
+  --color-coral-700: #E85A72;
+  --color-coral-800: #D13C5A;
+  --color-coral-900: #A12E45;
+
+  /* Cream - 배경색 */
+  --color-cream-50: #FEFEFE;
+  --color-cream-100: #FAFAFA;
+  --color-cream-200: #F5F5F5;
+  --color-cream-300: #F0F0F0;
+  --color-cream-400: #EBEBEB;
+  --color-cream-500: #E5E5E5;
+  --color-cream-600: #D9D9D9;
+  --color-cream-700: #BFBFBF;
+  --color-cream-800: #999999;
+  --color-cream-900: #666666;
+
+  /* Neutral - 텍스트 */
+  --color-neutral-50: #FAFAFA;
+  --color-neutral-100: #F5F5F5;
+  --color-neutral-200: #EFEFEF;
+  --color-neutral-300: #DDDDDD;
+  --color-neutral-400: #AAAAAA;
+  --color-neutral-500: #999999;
+  --color-neutral-600: #777777;
+  --color-neutral-700: #666666;
+  --color-neutral-800: #333333;
+  --color-neutral-900: #1A1A1A;
+
+  /* Lavender - 카테고리 */
+  --color-lavender-50: #F9F6FB;
+  --color-lavender-100: #F3EDF7;
+  --color-lavender-200: #E9DCEF;
+  --color-lavender-300: #DCC9E6;
+  --color-lavender-400: #CFB5DD;
+  --color-lavender-500: #E5D5F0;
+  --color-lavender-600: #C4A8D6;
+  --color-lavender-700: #A37CBC;
+  --color-lavender-800: #7E5A9A;
+  --color-lavender-900: #5A4070;
+
+  /* Hot Pink - HOT PICK 배지 */
+  --color-hotpink-50: #FFF0F3;
+  --color-hotpink-100: #FFE1E8;
+  --color-hotpink-200: #FFC3D1;
+  --color-hotpink-300: #FF9AB3;
+  --color-hotpink-400: #FF7195;
+  --color-hotpink-500: #FF6B8A;
+  --color-hotpink-600: #E6517A;
+  --color-hotpink-700: #CC3A6A;
+  --color-hotpink-800: #B32659;
+  --color-hotpink-900: #8C1D45;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #1d1d1f;
@@ -28,7 +102,60 @@
   --gray-800: #424245;
   --gray-900: #1d1d1f;
 
-  /* 법무법인 더율 브랜드 컬러 시스템 */
+  /* 법무법인 더율 브랜드 컬러 시스템 v2.0 */
+  /* Primary - Rose Gold (로즈 골드 - 로고 색상) */
+  --theyool-rose-50: #faf6f4;
+  --theyool-rose-100: #f5f0ed;
+  --theyool-rose-200: #ebe3dd;
+  --theyool-rose-300: #d4c3b5;
+  --theyool-rose-400: #bda28d;
+  --theyool-rose-500: #a8826f;
+  --theyool-rose-600: #967360;
+  --theyool-rose-700: #7d5e4d;
+  --theyool-rose-800: #5f4939;
+  --theyool-rose-900: #453426;
+
+  /* Secondary - Cream (따뜻한 크림) */
+  --theyool-cream-50: #fffcf9;
+  --theyool-cream-100: #fef9f3;
+  --theyool-cream-200: #fdf2e6;
+  --theyool-cream-300: #fbebd9;
+
+  /* Quick Access - 자주 사용하는 색상 */
+  --color-primary: var(--theyool-rose-500);
+  --color-primary-hover: var(--theyool-rose-600);
+  --color-primary-light: var(--theyool-rose-100);
+  --color-text: var(--gray-900);
+  --color-text-secondary: var(--gray-600);
+  --color-bg: var(--theyool-cream-50);
+  --color-bg-card: white;
+  --color-bg-section: var(--theyool-cream-100);
+
+  /* ===== Sage Green Color System - 임신 앱 스타일 (2025-11-21) ===== */
+  /* Hero & Section Backgrounds */
+  --sage-bg-light: linear-gradient(to bottom, white, rgba(240, 249, 247, 0.2), white);
+  --sage-bg-medium: linear-gradient(to bottom, rgba(240, 249, 247, 1), white, white);
+  --sage-accent-pattern: radial-gradient(circle at top right, rgba(109, 181, 164, 0.2), rgba(90, 153, 136, 0.1));
+
+  /* Badge Colors */
+  --sage-badge-bg: rgba(232, 245, 242, 1); /* sage-100 */
+  --sage-badge-text: rgba(54, 91, 81, 1); /* sage-800 */
+  --sage-badge-dot: rgba(109, 181, 164, 1); /* sage-500 */
+
+  /* Button Colors */
+  --sage-btn-primary: rgba(90, 153, 136, 1); /* sage-600 */
+  --sage-btn-primary-hover: rgba(72, 122, 108, 1); /* sage-700 */
+  --sage-btn-shadow: rgba(90, 153, 136, 0.35);
+
+  /* Trust Indicators */
+  --sage-icon-emphasis: rgba(72, 122, 108, 1); /* sage-700 - 강조용 (히어로) */
+  --sage-icon-regular: rgba(109, 181, 164, 1); /* sage-500 - 일반용 */
+
+  /* Section Transitions */
+  --sage-gradient-top: linear-gradient(to bottom, white, rgba(240, 249, 247, 0.3), transparent);
+  --sage-gradient-bottom: linear-gradient(to bottom, transparent, rgba(240, 249, 247, 0.2), white);
+
+  /* Legacy - 기존 색상 유지 (하위 호환성) */
   /* Primary - 신뢰 (법률 블루) */
   --trust-blue-50: #eff6ff;
   --trust-blue-100: #dbeafe;

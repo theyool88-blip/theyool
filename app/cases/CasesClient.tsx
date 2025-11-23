@@ -218,11 +218,11 @@ export default function CasesClient({ cases }: CasesClientProps) {
 
         <div className="relative z-10 max-w-[1040px] px-6 md:px-12 mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 leading-tight">
-            당신의 사건도<br />
-            성공사례로 만들겠습니다
+            다음 성공사례는<br />
+            당신 차례예요
           </h2>
           <p className="text-lg md:text-xl mb-12 text-gray-700">
-            30분 무료 상담으로 당신의 사건을 분석해드립니다
+            30분 무료 상담으로 사건을 분석해드려요
           </p>
           <a
             href="tel:1661-7633"

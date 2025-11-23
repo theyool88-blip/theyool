@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import PageLayout from '@/components/layouts/PageLayout';
-import Modal from '@/components/ui/Modal';
-import EnhancedChannelSelector from '@/components/features/EnhancedChannelSelector';
+import ConsultationBookingModal from '@/components/features/ConsultationBooking/ConsultationBookingModal';
+import PhonePrepModal from '@/components/features/PhonePrepModal';
 
 export default function ConsultationClient() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isPhonePrepModalOpen, setIsPhonePrepModalOpen] = useState(false);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [selectedFaqCategory, setSelectedFaqCategory] = useState('상담');
 
@@ -20,20 +22,20 @@ export default function ConsultationClient() {
 
   const faqCategories = {
     상담: [
-      { q: '무료 상담은 어떻게 받나요?', a: '전화로만 10분 무료예요. 첫 상담 1회만 무료이고, 이혼 관련 상담만 가능해요. 재상담이나 일반 법률 상담은 유료예요.' },
-      { q: '뭘 준비해야 해요?', a: '아무것도 안 가져와도 돼요. 있으면 좋은 것: 혼인증명서, 재산서류, 증거(문자/사진). 없어도 상담은 가능해요.' },
-      { q: '이름 안 밝혀도 되나요?', a: '네, 전화는 익명 OK예요. 개인정보 없이 상황만 말씀하셔도 법률 조언 받으실 수 있어요.' },
-      { q: '꼭 계약해야 하나요?', a: '아니요. 상담만 받고 가도 돼요. 강요 안 해요. 충분히 고민하고 결정하세요.' },
+      { q: '정말 10분만 무료인가요?', a: '네, 처음 전화하시는 분께 10분 무료입니다.\n억지로 시간을 늘리거나 유료 전환을 강요하지 않아요.\n10분 안에 핵심 조언을 드리려 노력합니다.' },
+      { q: '뭘 준비해야 하나요?', a: '특별히 준비하실 건 없어요.\n혼인증명서나 재산 서류가 있으면 더 정확한 상담이 가능하지만,\n없어도 충분히 도움드릴 수 있습니다. 편하게 전화주세요.' },
+      { q: '신분을 밝히기 부담스러워요', a: '이해합니다. 전화상담은 익명으로도 가능해요.\n상황만 말씀해주시면 일반적인 법률 조언을 드릴 수 있습니다.\n신뢰가 생기면 그때 자세한 상담을 진행하셔도 됩니다.' },
+      { q: '상담하면 꼭 의뢰해야 하나요?', a: '절대 아닙니다. 상담은 상담일 뿐이에요.\n오히려 여러 곳을 비교해보시길 권합니다.\n저희가 드린 조언만으로도 도움이 되면 그것으로 충분해요.' },
     ],
     비용: [
-      { q: '상담 비용은 얼마예요?', a: '전화 10분: 무료 (첫회만)\n영상/방문: 5만원 (수임하면 환불)' },
-      { q: '변호사 비용은 얼마예요?', a: '착수금 300만원부터, 성공보수는 따로 상의해요. 상담할 때 정확한 견적 알려드릴게요.' },
-      { q: '나눠서 낼 수 있나요?', a: '네, 최대 6개월 분납 가능해요. 경제적 상황 고려해서 조정할 수 있어요.' },
+      { q: '상담 비용이 정확히 어떻게 되나요?', a: '전화: 첫 10분 무료, 연장 시 분당 5천원\n화상상담: 5만원 (30분, 수임 시 환불)\n방문상담: 5만원 (1시간, 수임 시 환불)\n\n부담되시면 무료 전화상담부터 시작하세요.' },
+      { q: '변호사 비용이 부담돼요', a: '많이 고민되시죠. 착수금은 300만원부터 시작하지만\n사안에 따라 조정 가능합니다. 최대 6개월 분납도 가능해요.\n무엇보다 비용 대비 얻으실 수 있는 결과를 설명드려\n합리적인 판단을 하실 수 있게 돕겠습니다.' },
+      { q: '성공보수는 어떻게 되나요?', a: '재산분할이나 위자료를 받는 경우에만 발생합니다.\n보통 받으신 금액의 10-20% 정도이지만,\n상담 시 정확한 비율과 상한액을 미리 정해드려요.\n예상치 못한 추가 비용은 없습니다.' },
     ],
     절차: [
-      { q: '얼마나 걸려요?', a: '평균 6-12개월이에요. 협의이혼은 더 빨라요. 사건마다 달라요.' },
-      { q: '비밀 지켜져요?', a: '100% 보장이에요. 변호사는 법으로 비밀유지 의무가 있어요.' },
-      { q: '다른 변호사 만났는데 또 상담해도 돼요?', a: '물론이에요. 비교 상담 추천해요. 더 나은 전략 보여드릴게요.' },
+      { q: '이혼까지 얼마나 걸리나요?', a: '협의이혼은 1-3개월, 조정이혼은 3-6개월,\n재판이혼은 6-12개월 정도 걸립니다.\n하지만 무작정 빨리 끝내는 것보다\n제대로 준비해서 좋은 결과를 얻는 게 중요해요.' },
+      { q: '상담 내용이 새어나갈까 걱정돼요', a: '절대 그런 일은 없습니다.\n변호사는 법적으로 비밀유지 의무가 있고,\n이를 위반하면 형사처벌을 받습니다.\n직원들도 모두 비밀유지 서약을 했습니다.\n안심하고 말씀하세요.' },
+      { q: '다른 변호사도 만나보고 싶어요', a: '당연히 그러셔야 합니다.\n이혼은 인생의 중요한 결정이니까요.\n저희 상담 내용을 메모해가시면\n다른 곳과 비교하기 좋을 거예요.\n최선의 선택하시길 응원합니다.' },
     ],
   };
 
@@ -46,33 +48,33 @@ export default function ConsultationClient() {
   return (
     <PageLayout>
       <div className="min-h-screen bg-white">
-        {/* Section 1: Hero - Toss 스타일 강화 */}
-        <section className="relative min-h-[90vh] flex flex-col overflow-hidden bg-gradient-to-b from-blue-50/40 via-white to-white pt-24 pb-16 md:pt-32 md:pb-20">
-          {/* Geometric Background Pattern */}
+        {/* Section 1: Hero - Sage Green Style */}
+        <section className="relative min-h-[90vh] flex flex-col overflow-hidden bg-gradient-to-b from-sage-50/30 via-white to-white pt-24 pb-16 md:pt-32 md:pb-20">
+          {/* Geometric Background Pattern - Sage Green */}
           <div className="absolute inset-0 w-full h-full">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: '#f0f0f0', stopOpacity: 0.6 }} />
-                  <stop offset="100%" style={{ stopColor: '#e8e8e8', stopOpacity: 0.6 }} />
+                  <stop offset="0%" style={{ stopColor: '#E8F5F2', stopOpacity: 0.5 }} />
+                  <stop offset="100%" style={{ stopColor: '#D1EBE5', stopOpacity: 0.4 }} />
                 </linearGradient>
                 <linearGradient id="grad2" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" style={{ stopColor: '#f5f5f5', stopOpacity: 0.5 }} />
-                  <stop offset="100%" style={{ stopColor: '#ececec', stopOpacity: 0.5 }} />
+                  <stop offset="0%" style={{ stopColor: '#F0F9F7', stopOpacity: 0.4 }} />
+                  <stop offset="100%" style={{ stopColor: '#E8F5F2', stopOpacity: 0.3 }} />
                 </linearGradient>
                 <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <circle cx="20" cy="20" r="1" fill="#d0d0d0" opacity="0.3" />
+                  <circle cx="20" cy="20" r="1" fill="#6DB5A4" opacity="0.2" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#dots)" />
               <circle cx="20%" cy="30%" r="200" fill="url(#grad1)" />
               <circle cx="80%" cy="70%" r="250" fill="url(#grad2)" />
-              <circle cx="70%" cy="25%" r="150" fill="#f5f5f5" opacity="0.5" />
-              <circle cx="30%" cy="75%" r="180" fill="#efefef" opacity="0.5" />
-              <rect x="50%" y="40%" width="300" height="300" fill="#f0f0f0" opacity="0.3" transform="rotate(45)" />
-              <rect x="15%" y="55%" width="250" height="250" fill="#f5f5f5" opacity="0.35" transform="rotate(30)" />
-              <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#e0e0e0" strokeWidth="1" opacity="0.4" />
-              <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#e0e0e0" strokeWidth="1" opacity="0.3" />
+              <circle cx="70%" cy="25%" r="150" fill="#E8F5F2" opacity="0.4" />
+              <circle cx="30%" cy="75%" r="180" fill="#D1EBE5" opacity="0.35" />
+              <rect x="50%" y="40%" width="300" height="300" fill="#E8F5F2" opacity="0.25" transform="rotate(45)" />
+              <rect x="15%" y="55%" width="250" height="250" fill="#F0F9F7" opacity="0.3" transform="rotate(30)" />
+              <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#B0DDD3" strokeWidth="1" opacity="0.3" />
+              <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#B0DDD3" strokeWidth="1" opacity="0.25" />
             </svg>
           </div>
 
@@ -84,38 +86,38 @@ export default function ConsultationClient() {
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                   <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-[1.1] tracking-tight drop-shadow-[0_2px_8px_rgba(255,255,255,0.9)]">
-                    이혼 전문 변호사<br />
-                    무료 상담 받으세요
+                    지금 너무 힘드시죠<br />
+                    <span className="text-sage-600">답은 있습니다</span>
                   </h1>
 
                   <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed drop-shadow-[0_1px_4px_rgba(255,255,255,0.8)]">
-                    법무법인 더율이 1,200건의 경험으로 도와드립니다<br />
-                    10분 전화상담은 비용이 없습니다
+                    12년간 1,200분의 길을 함께 걸었습니다<br />
+                    당신의 상황도 해결책이 있어요
                   </p>
 
-                  <div className="bg-white rounded-2xl p-6 mb-8 shadow-md">
+                  <div className="bg-white rounded-2xl p-6 mb-8 shadow-[0_2px_12px_rgba(109,181,164,0.08)]">
                     <p className="text-base font-semibold text-gray-900 mb-4">지금 이런 고민 하고 계신가요?</p>
                     <div className="space-y-2">
                       <div className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <p className="text-sm md:text-base text-gray-700">이혼 절차를 어떻게 시작해야 할지 모르겠어요</p>
                       </div>
                       <div className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <p className="text-sm md:text-base text-gray-700">재산분할과 양육권, 무엇부터 준비해야 하나요</p>
                       </div>
                       <div className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <p className="text-sm md:text-base text-gray-700">상대방이 먼저 변호사를 선임했어요</p>
                       </div>
                       <div className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <p className="text-sm md:text-base text-gray-700">증거 자료가 법적 효력이 있는지 궁금해요</p>
@@ -124,57 +126,62 @@ export default function ConsultationClient() {
                   </div>
 
                   <p className="text-lg md:text-xl text-gray-900 mb-8 font-semibold drop-shadow-[0_1px_4px_rgba(255,255,255,0.8)]">
-                    10분이면 충분합니다<br />
-                    당신의 상황에 맞는 명확한 답을 드릴게요
+                    전화 10분, 무료입니다<br />
+                    부담 없이 먼저 들어보세요
                   </p>
 
 
                   <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                    <a
-                      href="tel:1661-7633"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-gray-900 text-white rounded-full font-bold text-sm md:text-base hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    <button
+                      onClick={() => setIsPhonePrepModalOpen(true)}
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-sage-600 text-white rounded-full font-bold text-sm md:text-base hover:bg-sage-700 transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
-                      무료 상담받기 (1661-7633)
-                    </a>
+                      편하게 물어보기 (10분 무료)
+                    </button>
                     <a
                       href="#success-preview"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-white text-gray-900 font-semibold text-sm md:text-base rounded-full border-2 border-gray-900 hover:bg-gray-50 transition-all duration-300"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-white text-gray-900 font-semibold text-sm md:text-base rounded-full border-2 border-sage-200 hover:border-sage-600 hover:bg-gray-50 transition-all duration-300"
                     >
                       먼저 성공사례 확인하기
                     </a>
                   </div>
 
-                  {/* 법적 고지 - 작은 글씨 */}
-                  <p className="text-xs text-gray-500 mb-6">
-                    *전화상담 10분만 무료 (첫회 한정, 이혼 상담만)<br />
-                    영상/방문 상담은 5만원 (수임 시 환불)
-                  </p>
+                  {/* 무료 상담 안내 - 명확하고 투명하게 */}
+                  <div className="bg-sage-50/50 rounded-xl p-4 mb-6 border border-sage-200">
+                    <p className="text-sm font-semibold text-gray-900 mb-2">📞 10분 무료 전화상담 안내</p>
+                    <ul className="text-xs text-gray-600 space-y-1">
+                      <li>• 첫 상담만 무료 (재상담은 유료)</li>
+                      <li>• 이혼 관련 상담만 가능</li>
+                      <li>• 10분 후 연장 시 분당 5,000원</li>
+                      <li>• 계약 강요 절대 없음</li>
+                    </ul>
+                  </div>
 
                   {/* 신뢰 지표 */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs md:text-sm text-gray-600">
                     <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 text-sage-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>이혼 소송 1,200건</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 text-sage-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>100% 비밀보장</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 text-sage-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>계약 강요 없음</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 text-sage-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>평균 응답 30초</span>
@@ -183,13 +190,15 @@ export default function ConsultationClient() {
                 </div>
 
                 <div className="relative">
-                  <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 min-h-[400px] flex items-center justify-center shadow-xl">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent"></div>
-                    <div className="relative text-center p-8">
-                      <div className="text-6xl mb-4 opacity-20">📷</div>
-                      <p className="text-gray-600 font-medium">전문 상담 장면</p>
-                      <p className="text-sm text-gray-500 mt-2">곧 공개됩니다</p>
-                    </div>
+                  <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-sage-50 to-sage-100 shadow-xl">
+                    <Image
+                      src="/images/consultation/hero-consultation-warm.png"
+                      alt="법무법인 더율 편안한 상담 장면"
+                      width={800}
+                      height={600}
+                      className="w-full h-auto"
+                      priority
+                    />
                   </div>
                 </div>
               </div>
@@ -197,16 +206,16 @@ export default function ConsultationClient() {
           </div>
         </section>
 
-        {/* Section 2: 성공사례 */}
-        <section id="success-preview" className="py-16 md:py-24 bg-gradient-to-b from-white via-pink-50/30 to-white">
+        {/* Section 2: 성공사례 - Sage Green */}
+        <section id="success-preview" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
-              <p className="text-xs md:text-sm text-pink-600/70 mb-3 tracking-[0.2em] uppercase">Success Stories</p>
+              <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Success Stories</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                어제도 누군가 해결했어요
+                비슷한 상황, 좋은 결과
               </h2>
               <p className="text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto">
-                21개 사례 중 최신 3개예요
+                당신과 같은 고민을 했던 분들의 이야기
               </p>
             </div>
 
@@ -215,15 +224,15 @@ export default function ConsultationClient() {
                 <Link
                   key={idx}
                   href={`/cases/${case_.slug}`}
-                  className="group bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-pink-500"
+                  className="group bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all duration-300 border-2 border-transparent hover:border-sage-300"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <span className="px-3 py-1 bg-pink-100 text-pink-700 text-xs font-semibold rounded-full">
+                    <span className="px-3 py-1 bg-sage-100 text-sage-700 text-xs font-semibold rounded-full">
                       {case_.category}
                     </span>
                     <span className="text-xs text-gray-500">{case_.caseNumber}</span>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-sage-600 transition-colors">
                     {case_.result}
                   </h3>
                   <p className="text-sm text-gray-600">사건 상세 보기 →</p>
@@ -234,7 +243,7 @@ export default function ConsultationClient() {
             <div className="text-center mb-12">
               <Link
                 href="/cases"
-                className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 font-bold text-lg transition-colors"
+                className="inline-flex items-center gap-2 text-sage-600 hover:text-sage-700 font-bold text-lg transition-colors"
               >
                 21개 사례 더 보기
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -243,9 +252,9 @@ export default function ConsultationClient() {
               </Link>
             </div>
 
-            {/* 실적 박스 */}
-            <div className="bg-white rounded-3xl p-10 shadow-lg border-2 border-blue-100/30 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-white to-blue-50/20 -z-10"></div>
+            {/* 실적 박스 - Sage Green */}
+            <div className="bg-white rounded-3xl p-10 shadow-lg border-2 border-sage-100/30 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-sage-50/30 via-white to-sage-50/20 -z-10"></div>
               <div className="grid grid-cols-3 gap-8 text-center">
                 <div>
                   <p className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">23건</p>
@@ -264,42 +273,48 @@ export default function ConsultationClient() {
           </div>
         </section>
 
-        {/* Section 3: 프로세스 (사무소 사진 섹션 제거됨) */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-white">
+        {/* Section 3: 프로세스 - Sage Green */}
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
-              <p className="text-xs md:text-sm text-amber-600/70 mb-3 tracking-[0.2em] uppercase">Process</p>
+              <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Process</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                어떻게 진행되나요?
+                간단한 3단계
               </h2>
             </div>
 
             <div className="space-y-8">
               {/* STEP 1 */}
-              <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all">
+              <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all">
                 <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-200 text-amber-800 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-sm">
-                    1
+                  <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-sage-100 to-sage-200 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden">
+                    <Image
+                      src="/images/consultation/icon-phone.png"
+                      alt="전화"
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">전화하세요 (1분)</h3>
-                    <p className="text-gray-700 mb-4 font-light">1661-7633 누르면 바로 연결</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">전화 한 통 (30초)</h3>
+                    <p className="text-gray-700 mb-4 font-light">1661-7633 평균 대기 30초</p>
                   </div>
                 </div>
               </div>
 
               {/* STEP 2 */}
-              <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all">
+              <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all">
                 <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-200 text-amber-800 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-sm">
+                  <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-sage-100 to-sage-200 text-sage-800 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-sm">
                     2
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">10분 무료로 들어드려요</h3>
-                    <p className="text-gray-700 mb-4 font-light">상황 듣고 방향 알려드릴게요</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">상황 파악 (10분)</h3>
+                    <p className="text-gray-700 mb-4 font-light">핵심만 여쭤보고 방향 제시</p>
                     <Link
                       href="/faq"
-                      className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 text-sm font-semibold transition-colors"
+                      className="inline-flex items-center gap-2 text-sage-600 hover:text-sage-700 text-sm font-semibold transition-colors"
                     >
                       자주 묻는 질문 76개 보기 →
                     </Link>
@@ -308,17 +323,23 @@ export default function ConsultationClient() {
               </div>
 
               {/* STEP 3 */}
-              <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all">
+              <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all">
                 <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-200 text-amber-800 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-sm">
-                    3
+                  <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-sage-100 to-sage-200 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden">
+                    <Image
+                      src="/images/consultation/icon-direction.png"
+                      alt="방향 제시"
+                      width={120}
+                      height={80}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">맞춤 전략 만들어요</h3>
-                    <p className="text-gray-700 mb-4 font-light">당신 상황에 딱 맞는 방법 찾아요</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">해결 방향 제시</h3>
+                    <p className="text-gray-700 mb-4 font-light">가능한 선택지와 예상 결과 설명</p>
                     <Link
                       href="/the-plan"
-                      className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 text-sm font-semibold transition-colors"
+                      className="inline-flex items-center gap-2 text-sage-600 hover:text-sage-700 text-sm font-semibold transition-colors"
                     >
                       더율의 승소 전략 보기 →
                     </Link>
@@ -329,11 +350,11 @@ export default function ConsultationClient() {
           </div>
         </section>
 
-        {/* Section 4: 서류 준비 체크리스트 (NEW) */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white">
+        {/* Section 4: 서류 준비 체크리스트 - Sage Green */}
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
-              <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Preparation</p>
+              <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Preparation</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
                 뭘 준비하면 좋을까요?
               </h2>
@@ -344,26 +365,37 @@ export default function ConsultationClient() {
 
             <div className="grid md:grid-cols-2 gap-6">
               {/* 필수 서류 */}
-              <div className="bg-white rounded-2xl p-8 shadow-md">
-                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(109,181,164,0.08)] relative overflow-hidden">
+                {/* 배경 일러스트 */}
+                <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+                  <Image
+                    src="/images/consultation/icon-checklist.jpg"
+                    alt="체크리스트"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2 relative z-10">
                   <span className="text-2xl">📄</span>
                   필수 서류
                 </h3>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <span className="text-gray-700">혼인관계증명서</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <span className="text-gray-700">가족관계증명서</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <span className="text-gray-700">주민등록등본</span>
@@ -372,7 +404,7 @@ export default function ConsultationClient() {
               </div>
 
               {/* 있으면 좋은 것 */}
-              <div className="bg-white rounded-2xl p-8 shadow-md">
+              <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(109,181,164,0.08)]">
                 <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                   <span className="text-2xl">💼</span>
                   있으면 더 좋아요
@@ -400,18 +432,18 @@ export default function ConsultationClient() {
               </div>
             </div>
 
-            <div className="mt-8 bg-blue-50 rounded-2xl p-6 text-center">
+            <div className="mt-8 bg-sage-50 rounded-2xl p-6 text-center">
               <p className="text-gray-700 font-medium mb-2">아무것도 없어도 괜찮아요</p>
               <p className="text-sm text-gray-600">상황만 말씀해주시면 필요한 것 알려드릴게요</p>
             </div>
           </div>
         </section>
 
-        {/* Section 5: 상담 채널 */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-white">
+        {/* Section 5: 상담 채널 - Sage Green */}
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
-              <p className="text-xs md:text-sm text-amber-600/70 mb-3 tracking-[0.2em] uppercase">Contact Method</p>
+              <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Contact Method</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
                 어떻게 만날까요?
               </h2>
@@ -419,28 +451,28 @@ export default function ConsultationClient() {
 
             <div className="grid md:grid-cols-3 gap-6">
               {/* 전화 (10분 무료) */}
-              <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all">
+              <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all">
                 <div className="mb-6">
-                  <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl h-48 flex items-center justify-center mb-4 shadow-lg">
+                  <div className="bg-gradient-to-br from-sage-500 to-sage-600 rounded-xl h-48 flex items-center justify-center mb-4 shadow-lg">
                     <svg className="w-24 h-24 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold text-gray-900 mb-1">전화 상담</h3>
-                    <p className="text-amber-600 font-bold text-sm">10분 무료 ✓</p>
+                    <p className="text-sage-600 font-bold text-sm">10분 무료 ✓</p>
                   </div>
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-amber-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>가장 빠른 상담</span>
                     </li>
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-amber-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>익명 가능</span>
                     </li>
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-amber-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>즉시 연결</span>
                     </li>
                   </ul>
@@ -448,16 +480,16 @@ export default function ConsultationClient() {
                 </div>
                 <a
                   href="tel:1661-7633"
-                  className="block w-full py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl text-center"
+                  className="block w-full py-3 bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl text-center"
                 >
                   1661-7633
                 </a>
               </div>
 
               {/* 영상 상담 */}
-              <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all">
+              <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all">
                 <div className="mb-6">
-                  <div className="relative bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl h-48 flex items-center justify-center mb-4 shadow-lg">
+                  <div className="relative bg-gradient-to-br from-sage-500 to-sage-600 rounded-xl h-48 flex items-center justify-center mb-4 shadow-lg">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-xl"></div>
                     <div className="relative text-center">
                       <svg className="w-20 h-20 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -467,38 +499,38 @@ export default function ConsultationClient() {
                   </div>
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold text-gray-900 mb-1">화상 상담</h3>
-                    <p className="text-blue-600 font-semibold text-sm">5만원 (수임 시 환불)</p>
+                    <p className="text-sage-600 font-semibold text-sm">5만원 (수임 시 환불)</p>
                   </div>
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-blue-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>집에서 편하게</span>
                     </li>
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-blue-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>화면 공유 가능</span>
                     </li>
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-blue-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>얼굴 보며 상담</span>
                     </li>
                   </ul>
                 </div>
                 <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl"
+                  onClick={() => setIsBookingModalOpen(true)}
+                  className="w-full py-3 bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl"
                 >
                   예약하기
                 </button>
               </div>
 
               {/* 방문 상담 (추천) */}
-              <div className="relative bg-white rounded-2xl p-8 shadow-lg border-2 border-amber-400 hover:shadow-xl transition-all">
-                <span className="absolute -top-3 left-6 px-3 py-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold rounded-full shadow-md">
+              <div className="relative bg-white rounded-2xl p-8 shadow-lg border-2 border-sage-400 hover:shadow-xl transition-all">
+                <span className="absolute -top-3 left-6 px-3 py-1 bg-gradient-to-r from-sage-500 to-sage-600 text-white text-xs font-bold rounded-full shadow-md">
                   추천
                 </span>
                 <div className="mb-6">
-                  <div className="relative bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl h-48 flex items-center justify-center mb-4 shadow-lg">
+                  <div className="relative bg-gradient-to-br from-sage-500 to-sage-600 rounded-xl h-48 flex items-center justify-center mb-4 shadow-lg">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-xl"></div>
                     <div className="relative text-center">
                       <svg className="w-20 h-20 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -508,26 +540,26 @@ export default function ConsultationClient() {
                   </div>
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold text-gray-900 mb-1">방문 상담</h3>
-                    <p className="text-amber-600 font-semibold text-sm">5만원 (수임 시 환불)</p>
+                    <p className="text-sage-600 font-semibold text-sm">5만원 (수임 시 환불)</p>
                   </div>
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-amber-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>서류 바로 검토</span>
                     </li>
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-amber-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>깊은 상담 가능</span>
                     </li>
                     <li className="flex items-start gap-2 text-gray-700">
-                      <span className="text-amber-600 mt-1">✓</span>
+                      <span className="text-sage-600 mt-1">✓</span>
                       <span>당일 계약도 OK</span>
                     </li>
                   </ul>
                 </div>
                 <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="w-full py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl"
+                  onClick={() => setIsBookingModalOpen(true)}
+                  className="w-full py-3 bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl"
                 >
                   예약하기
                 </button>
@@ -553,13 +585,13 @@ export default function ConsultationClient() {
           </div>
         </section>
 
-        {/* Section 6: FAQ */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white">
+        {/* Section 6: FAQ - Sage Green */}
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
-              <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">FAQ</p>
+              <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">FAQ</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                다들 이런 거 물어봐요
+                자주 궁금해하시는 것들
               </h2>
             </div>
 
@@ -571,7 +603,7 @@ export default function ConsultationClient() {
                   onClick={() => setSelectedFaqCategory(category)}
                   className={`px-6 py-2 rounded-full font-semibold transition-all ${
                     selectedFaqCategory === category
-                      ? 'bg-gray-900 text-white shadow-lg'
+                      ? 'bg-sage-600 text-white shadow-lg'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -585,7 +617,7 @@ export default function ConsultationClient() {
               {faqCategories[selectedFaqCategory as keyof typeof faqCategories].map((faq, index) => (
                 <div
                   key={index}
-                  className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-gray-300 hover:shadow-md transition-all"
+                  className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-sage-300 hover:shadow-[0_2px_12px_rgba(109,181,164,0.08)] transition-all"
                 >
                   <button
                     onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
@@ -615,7 +647,7 @@ export default function ConsultationClient() {
             <div className="text-center">
               <Link
                 href="/faq"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold text-lg transition-colors"
+                className="inline-flex items-center gap-2 text-sage-600 hover:text-sage-700 font-bold text-lg transition-colors"
               >
                 76개 Q&A 더 보기
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -626,51 +658,51 @@ export default function ConsultationClient() {
           </div>
         </section>
 
-        {/* Section 7: 비용 */}
+        {/* Section 7: 비용 - Sage Green */}
         <section className="py-16 md:py-24 bg-white">
           <div className="max-w-[900px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
-              <p className="text-xs md:text-sm text-green-600/70 mb-3 tracking-[0.2em] uppercase">Pricing</p>
+              <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Pricing</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                얼마예요?
+                투명한 비용 안내
               </h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">상담</h3>
-                <div className="text-4xl font-bold text-gray-900 mb-2">무료</div>
-                <p className="text-gray-600 mb-2 font-light">10분</p>
-                <p className="text-xs text-gray-500">전화만, 첫 번째만</p>
+              <div className="bg-white rounded-2xl p-8 text-center shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">전화 상담</h3>
+                <div className="text-4xl font-bold text-gray-900 mb-2">0원</div>
+                <p className="text-gray-600 mb-2 font-light">첫 10분</p>
+                <p className="text-xs text-gray-500">이혼 상담만 가능</p>
               </div>
 
-              <div className="bg-white rounded-2xl p-8 text-center shadow-lg border-2 border-blue-500 hover:shadow-xl transition-all">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">변호사 비용</h3>
+              <div className="bg-white rounded-2xl p-8 text-center shadow-lg border-2 border-sage-500 hover:shadow-xl transition-all">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">수임료</h3>
                 <div className="text-3xl font-bold text-gray-900 mb-2">300만원~</div>
                 <div className="text-sm text-gray-700 space-y-1 mb-2">
-                  <p>착수금</p>
-                  <p className="text-xs text-gray-500">성공보수 따로</p>
+                  <p>착수금 기준</p>
+                  <p className="text-xs text-gray-500">성공보수 별도 협의</p>
                 </div>
-                <p className="text-xs text-gray-500">상담할 때 정확히</p>
+                <p className="text-xs text-gray-500">사안별 맞춤 견적</p>
               </div>
 
-              <div className="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-all">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">분납</h3>
-                <div className="text-4xl font-bold text-gray-900 mb-2">OK</div>
-                <p className="text-gray-600 mb-2 font-light">최대 6개월</p>
-                <p className="text-xs text-gray-500">부담 줄여요</p>
+              <div className="bg-white rounded-2xl p-8 text-center shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">분납 가능</h3>
+                <div className="text-4xl font-bold text-gray-900 mb-2">6개월</div>
+                <p className="text-gray-600 mb-2 font-light">최대 기간</p>
+                <p className="text-xs text-gray-500">상황 고려해 조정</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Section 8: 변호사 소개 (단순화) */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/20 to-white">
+        {/* Section 8: 변호사 소개 - Sage Green */}
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
-              <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Our Team</p>
+              <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Our Team</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                누가 도와주나요?
+                함께할 변호사
               </h2>
             </div>
 
@@ -687,32 +719,32 @@ export default function ConsultationClient() {
                 </div>
 
                 <div>
-                  <div className="inline-block px-4 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-full mb-4">
+                  <div className="inline-block px-4 py-1.5 bg-sage-600 text-white text-xs font-semibold rounded-full mb-4">
                     광고 책임 변호사
                   </div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-6">임은지 변호사</h3>
 
                   <ul className="space-y-3 mb-8">
                     <li className="flex items-start gap-3 text-gray-700">
-                      <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>서울대 법학과</span>
                     </li>
                     <li className="flex items-start gap-3 text-gray-700">
-                      <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>사법시험 52회</span>
                     </li>
                     <li className="flex items-start gap-3 text-gray-700">
-                      <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>이혼 전문 10년</span>
                     </li>
                     <li className="flex items-start gap-3 text-gray-700">
-                      <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-5 h-5 text-sage-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>승소율 87%</span>
@@ -721,7 +753,7 @@ export default function ConsultationClient() {
 
                   <Link
                     href="/team"
-                    className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold transition-colors"
+                    className="inline-flex items-center gap-2 text-sage-600 hover:text-sage-700 font-bold transition-colors"
                   >
                     전체 변호사 보기
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -734,13 +766,13 @@ export default function ConsultationClient() {
           </div>
         </section>
 
-        {/* Section 9: 후기 */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/30 to-white">
+        {/* Section 9: 후기 - Sage Green */}
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
-              <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Testimonials</p>
+              <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Testimonials</p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                상담받은 분들 후기
+                먼저 경험한 분들의 이야기
               </h2>
             </div>
 
@@ -748,7 +780,7 @@ export default function ConsultationClient() {
               {testimonials.map((testimonial, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all"
+                  className="bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(109,181,164,0.08)] hover:shadow-[0_8px_24px_rgba(109,181,164,0.12)] transition-all"
                 >
                   <div className="text-4xl mb-4 text-gray-300">"</div>
                   <p className="text-gray-700 mb-4 leading-relaxed font-light">
@@ -759,8 +791,8 @@ export default function ConsultationClient() {
               ))}
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-blue-100/30 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-white to-blue-50/20 -z-10"></div>
+            <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-sage-100/30 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-sage-50/30 via-white to-sage-50/20 -z-10"></div>
               <div className="grid grid-cols-2 gap-6 text-center">
                 <div>
                   <p className="text-3xl font-bold text-gray-900 mb-2">4.8/5.0</p>
@@ -775,28 +807,28 @@ export default function ConsultationClient() {
           </div>
         </section>
 
-        {/* Section 10: Final CTA (압박 없이) */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-blue-50/30 to-amber-50/20">
+        {/* Section 10: Final CTA - Sage Green */}
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[900px] mx-auto px-6 md:px-12 text-center">
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-gray-100">
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
-                오늘 결정 안 해도 돼요<br />
-                일단 물어보세요
+                결정은 나중에 하세요<br />
+                <span className="text-sage-600">일단 들어보세요</span>
               </h2>
               <p className="text-base md:text-lg text-gray-600 mb-10 font-light leading-relaxed">
-                10분만 시간 내서 전화해보세요<br />
-                무엇을 해야 하는지 알려드릴게요
+                지금은 정보가 필요한 시기예요<br />
+                10분 무료 상담으로 상황을 정리해드릴게요
               </p>
 
               <div className="grid md:grid-cols-2 gap-8 mb-8">
                 <div className="text-center">
                   <h3 className="text-xl font-bold text-gray-900 mb-4">지금 전화하기</h3>
-                  <a
-                    href="tel:1661-7633"
-                    className="block py-4 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-full transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg mb-2"
+                  <button
+                    onClick={() => setIsPhonePrepModalOpen(true)}
+                    className="block w-full py-4 bg-sage-600 hover:bg-sage-700 text-white font-bold rounded-full transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg mb-2"
                   >
                     1661-7633
-                  </a>
+                  </button>
                   <p className="text-sm text-gray-500">평일 09:00-18:00 | 주말 예약</p>
                 </div>
 
@@ -805,19 +837,19 @@ export default function ConsultationClient() {
                   <div className="space-y-2">
                     <Link
                       href="/faq"
-                      className="block py-3 bg-white border-2 border-gray-900 text-gray-900 font-semibold rounded-full hover:bg-gray-50 transition-all"
+                      className="block py-3 bg-white border-2 border-sage-200 text-gray-900 font-semibold rounded-full hover:border-sage-600 hover:bg-gray-50 transition-all"
                     >
                       자주 묻는 질문
                     </Link>
                     <Link
                       href="/blog"
-                      className="block py-3 bg-white border-2 border-gray-900 text-gray-900 font-semibold rounded-full hover:bg-gray-50 transition-all"
+                      className="block py-3 bg-white border-2 border-sage-200 text-gray-900 font-semibold rounded-full hover:border-sage-600 hover:bg-gray-50 transition-all"
                     >
                       전문 칼럼 읽기
                     </Link>
                     <Link
                       href="/cases"
-                      className="block py-3 bg-white border-2 border-gray-900 text-gray-900 font-semibold rounded-full hover:bg-gray-50 transition-all"
+                      className="block py-3 bg-white border-2 border-sage-200 text-gray-900 font-semibold rounded-full hover:border-sage-600 hover:bg-gray-50 transition-all"
                     >
                       성공사례 확인
                     </Link>
@@ -826,25 +858,25 @@ export default function ConsultationClient() {
               </div>
 
               <div className="pt-6 border-t border-gray-200">
-                <p className="text-sm text-gray-600 mb-3">우리가 약속해요</p>
+                <p className="text-sm text-gray-600 mb-3">저희가 지키는 3가지 원칙</p>
                 <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
                   <span className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-sage-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    비밀 지켜요
+                    100% 비밀보장
                   </span>
                   <span className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-sage-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    계약 강요 안 해요
+                    의뢰 강요 없음
                   </span>
                   <span className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-sage-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    생각할 시간 드려요
+                    충분한 검토 시간
                   </span>
                 </div>
               </div>
@@ -852,10 +884,15 @@ export default function ConsultationClient() {
           </div>
         </section>
 
-        {/* Modal */}
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} maxWidth="3xl">
-          <EnhancedChannelSelector onClose={() => setIsModalOpen(false)} />
-        </Modal>
+        {/* Modals */}
+        <ConsultationBookingModal
+          isOpen={isBookingModalOpen}
+          onClose={() => setIsBookingModalOpen(false)}
+        />
+        <PhonePrepModal
+          isOpen={isPhonePrepModalOpen}
+          onClose={() => setIsPhonePrepModalOpen(false)}
+        />
       </div>
     </PageLayout>
   );

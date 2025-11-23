@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import Modal from '@/components/ui/Modal';
-import ConsultationForm from './ConsultationForm';
+import { useRouter } from 'next/navigation';
 
 interface ConsultationButtonProps {
   variant?: 'premium' | 'primary' | 'secondary' | 'outline' | 'dark';
@@ -19,11 +17,10 @@ export default function ConsultationButton({
   className = '',
   onClick,
 }: ConsultationButtonProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
-    setIsOpen(true);
+    router.push('/booking');
     if (onClick) {
       onClick();
     }
@@ -39,31 +36,23 @@ export default function ConsultationButton({
   // Premium variant (SKIN1004 스타일 - 미니멀 화이트 버튼)
   if (variant === 'premium') {
     return (
-      <>
-        <button
-          onClick={handleClick}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className={`
-            relative
-            ${sizeStyles[size]}
-            ${fullWidth ? 'w-full' : ''}
-            font-medium rounded-md
-            bg-white
-            text-black
-            border-none
-            hover:bg-gray-100
-            transition-all duration-200
-            ${className}
-          `}
-        >
-          <span className="tracking-normal">상담문의</span>
-        </button>
-
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} maxWidth="lg">
-          <ConsultationForm onCancel={() => setIsOpen(false)} />
-        </Modal>
-      </>
+      <button
+        onClick={handleClick}
+        className={`
+          relative
+          ${sizeStyles[size]}
+          ${fullWidth ? 'w-full' : ''}
+          font-medium rounded-md
+          bg-white
+          text-black
+          border-none
+          hover:bg-gray-100
+          transition-all duration-200
+          ${className}
+        `}
+      >
+        <span className="tracking-normal">상담문의</span>
+      </button>
     );
   }
 
@@ -77,17 +66,11 @@ export default function ConsultationButton({
   };
 
   return (
-    <>
-      <button
-        onClick={handleClick}
-        className={`${baseStyles} ${variantStyles[variant as 'primary' | 'secondary' | 'outline' | 'dark']} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
-      >
-        상담문의
-      </button>
-
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} maxWidth="lg">
-        <ConsultationForm onCancel={() => setIsOpen(false)} />
-      </Modal>
-    </>
+    <button
+      onClick={handleClick}
+      className={`${baseStyles} ${variantStyles[variant as 'primary' | 'secondary' | 'outline' | 'dark']} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
+    >
+      상담문의
+    </button>
   );
 }

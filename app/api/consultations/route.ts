@@ -1,84 +1,170 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import type { Database } from '@/types/database';
-
-type ConsultationInsert = Database['public']['Tables']['consultations']['Insert'];
-
 /**
- * POST /api/consultations
- * 상담 신청 생성
+ * Unified Consultations API
+ * Handles all 4 consultation types: callback, visit, video, info
  */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { createConsultation, getConsultations } from '@/lib/supabase/consultations';
+import type { ConsultationFilters } from '@/types/consultation';
+
+// ============================================================================
+// ZOD VALIDATION SCHEMAS
+// ============================================================================
+
+// Base schema (common fields)
+const baseSchema = z.object({
+  name: z.string().min(2, '이름은 2자 이상이어야 합니다').max(50, '이름은 50자 이하여야 합니다'),
+  phone: z.string().regex(/^01[0-9]-?[0-9]{3,4}-?[0-9]{4}$/, '올바른 전화번호를 입력하세요'),
+  email: z.string().email('올바른 이메일 주소를 입력하세요').optional().or(z.literal('')),
+  category: z.string().optional(),
+  message: z.string().optional(),
+  source: z.string().optional(),
+  utm_source: z.string().optional(),
+  utm_medium: z.string().optional(),
+  utm_campaign: z.string().optional(),
+});
+
+// Callback consultation schema
+const callbackSchema = baseSchema.extend({
+  request_type: z.literal('callback'),
+});
+
+// Visit consultation schema
+const visitSchema = baseSchema.extend({
+  request_type: z.literal('visit'),
+  preferred_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '날짜 형식이 올바르지 않습니다 (YYYY-MM-DD)'),
+  preferred_time: z.string().regex(/^\d{2}:\d{2}$/, '시간 형식이 올바르지 않습니다 (HH:MM)'),
+  office_location: z.enum(['천안', '평택'], { errorMap: () => ({ message: '사무소를 선택해주세요' }) }),
+  preferred_lawyer: z.enum(['육심원', '임은지']).optional(),
+});
+
+// Video consultation schema
+const videoSchema = baseSchema.extend({
+  request_type: z.literal('video'),
+  preferred_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '날짜 형식이 올바르지 않습니다 (YYYY-MM-DD)'),
+  preferred_time: z.string().regex(/^\d{2}:\d{2}$/, '시간 형식이 올바르지 않습니다 (HH:MM)'),
+  preferred_lawyer: z.enum(['육심원', '임은지']).optional(),
+});
+
+// Info consultation schema
+const infoSchema = baseSchema.extend({
+  request_type: z.literal('info'),
+});
+
+// Discriminated union schema
+const createConsultationSchema = z.discriminatedUnion('request_type', [
+  callbackSchema,
+  visitSchema,
+  videoSchema,
+  infoSchema,
+]);
+
+// ============================================================================
+// POST /api/consultations
+// Create a new consultation request
+// ============================================================================
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, phone, email, category, message } = body;
 
-    // 유효성 검사
-    if (!name || !phone) {
+    // Validate input
+    const validation = createConsultationSchema.safeParse(body);
+
+    if (!validation.success) {
+      const errors = validation.error.issues.map((err) => ({
+        field: err.path.join('.'),
+        message: err.message,
+      }));
+
       return NextResponse.json(
-        { error: '이름과 연락처는 필수입니다' },
+        {
+          error: '입력값이 올바르지 않습니다',
+          details: errors,
+        },
         { status: 400 }
       );
     }
 
-    // Supabase 클라이언트 생성
-    const supabase = await createClient();
+    const data = validation.data;
 
-    // consultations 테이블에 삽입
-    const record: ConsultationInsert = {
-      name,
-      phone,
-      email: email || null,
-      category: category || null,
-      message: message || null,
-      status: 'pending',
-    };
+    // Create consultation
+    const consultation = await createConsultation(data);
 
-    const { data, error } = await supabase
-      .from('consultations')
-      .insert(record as any)
-      .select()
-      .single();
-
-    if (error) {
-      console.error('Supabase insert error:', error);
-      return NextResponse.json(
-        { error: '상담 신청 저장에 실패했습니다' },
-        { status: 500 }
-      );
-    }
+    // TODO: Send notifications (SMS/Email) - Phase 2
+    // - Admin SMS alert
+    // - User confirmation email (if email provided)
+    // - Calculate lead score
 
     return NextResponse.json(
       {
         success: true,
-        data,
-        message: '상담 신청이 완료되었습니다'
+        data: consultation,
+        message: '상담 신청이 완료되었습니다',
       },
       { status: 201 }
     );
   } catch (error) {
-    console.error('API error:', error);
-    const errorMessage = error instanceof Error ? error.message : null;
-    const isConfigError = errorMessage?.includes('Supabase');
+    console.error('POST /api/consultations error:', error);
+
+    const errorMessage = error instanceof Error ? error.message : '서버 오류가 발생했습니다';
+
     return NextResponse.json(
       {
-        error: isConfigError
-          ? '상담 신청 저장소 설정이 완료되지 않았습니다. Supabase 환경 변수를 확인해주세요.'
-          : '서버 오류가 발생했습니다',
+        error: errorMessage,
       },
       { status: 500 }
     );
   }
 }
 
-/**
- * GET /api/consultations
- * 상담 신청 목록 조회 (관리자용 - Phase 3에서 구현)
- */
+// ============================================================================
+// GET /api/consultations
+// Get consultations with filters (ADMIN ONLY)
+// ============================================================================
+
 export async function GET(request: NextRequest) {
-  // Phase 3에서 구현 예정
-  return NextResponse.json(
-    { error: 'Not implemented yet' },
-    { status: 501 }
-  );
+  try {
+    const { searchParams } = new URL(request.url);
+
+    // Extract filters from query params
+    const filters: ConsultationFilters = {
+      request_type: searchParams.get('request_type') as any,
+      status: searchParams.get('status') as any,
+      assigned_lawyer: searchParams.get('assigned_lawyer') as any,
+      date_from: searchParams.get('date_from') || undefined,
+      date_to: searchParams.get('date_to') || undefined,
+      office_location: searchParams.get('office_location') as any,
+      payment_status: searchParams.get('payment_status') as any,
+      search: searchParams.get('search') || undefined,
+    };
+
+    // Remove undefined values
+    Object.keys(filters).forEach((key) => {
+      if (filters[key as keyof ConsultationFilters] === null || filters[key as keyof ConsultationFilters] === undefined) {
+        delete filters[key as keyof ConsultationFilters];
+      }
+    });
+
+    // Get consultations
+    const consultations = await getConsultations(filters);
+
+    return NextResponse.json({
+      success: true,
+      data: consultations,
+      count: consultations.length,
+    });
+  } catch (error) {
+    console.error('GET /api/consultations error:', error);
+
+    const errorMessage = error instanceof Error ? error.message : '서버 오류가 발생했습니다';
+
+    return NextResponse.json(
+      {
+        error: errorMessage,
+      },
+      { status: 500 }
+    );
+  }
 }

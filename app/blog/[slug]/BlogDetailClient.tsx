@@ -10,6 +10,7 @@ import { splitMarkdownMetadata, extractHeadings, plainText, slugify } from '@/li
 import { parseInternalLink } from '@/lib/utils/contentLinks';
 import type { BlogPreviewData, CasePreviewData } from '@/types/linkPreview';
 import { InternalLinkPreview } from '@/components/features/ContentLinkPreview';
+import ConsultationPromptCard from '@/components/features/ConsultationPromptCard';
 
 interface BlogDetailClientProps {
   post: BlogPost;
@@ -335,29 +336,17 @@ export default function BlogDetailClient({
         </div>
       </article>
 
-      {/* CTA Section */}
-      <section className="relative py-20 md:py-32 bg-gradient-to-br from-amber-50 via-orange-50/40 to-pink-50/30 overflow-hidden">
-        <div className="absolute inset-0 w-full h-full opacity-20">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="25%" cy="40%" r="200" fill="#fbbf24" opacity="0.2" />
-            <circle cx="75%" cy="60%" r="250" fill="#fb923c" opacity="0.15" />
-          </svg>
-        </div>
-
-        <div className="relative z-10 max-w-[900px] px-6 md:px-12 mx-auto text-center">
+      {/* CTA Section - Enhanced Consultation Prompt */}
+      <section className="py-16 md:py-24 px-6 md:px-12 bg-white">
+        <div className="max-w-[1000px] mx-auto">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 leading-tight">
-              더 궁금한 점이 있으신가요?
-            </h2>
-            <p className="text-lg md:text-xl mb-12 text-gray-700">
-              전문 변호사와 직접 상담하세요
-            </p>
-            <a
-              href="tel:1661-7633"
-              className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-10 py-5 md:px-12 md:py-6 rounded-full text-lg md:text-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-            >
-              📞 무료 상담 신청
-            </a>
+            <ConsultationPromptCard
+              variant="expert-content"
+              testimonial={{
+                text: "전문적이고 명확한 설명 덕분에 제 상황을 정확히 이해할 수 있었습니다. 이론이 아닌 실전 경험이 느껴졌어요.",
+                author: "블로그 독자 B씨"
+              }}
+            />
           </ScrollReveal>
         </div>
       </section>

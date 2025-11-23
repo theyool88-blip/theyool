@@ -4,6 +4,44 @@ import { getSession } from '@/lib/auth/auth';
 import type { PhotoType } from '@/types/testimonial';
 
 /**
+ * GET /api/admin/testimonials/evidence-photo?caseId={caseId}
+ * Get all evidence photos for a testimonial case
+ */
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const caseId = searchParams.get('caseId');
+
+    if (!caseId) {
+      return NextResponse.json({ error: 'caseId is required' }, { status: 400 });
+    }
+
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .from('testimonial_evidence_photos')
+      .select('*')
+      .eq('case_id', caseId)
+      .order('display_order', { ascending: true });
+
+    if (error) {
+      console.error('Database error:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ data });
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+/**
  * POST /api/admin/testimonials/evidence-photo
  * Upload an evidence photo for a testimonial case
  *

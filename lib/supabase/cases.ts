@@ -67,6 +67,47 @@ export async function getCases(): Promise<Case[]> {
   return data || [];
 }
 
+// 관리자용 - 모든 Cases 가져오기 (페이지네이션 + 검색)
+export async function getAdminCases(options?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+}): Promise<{ data: Case[]; total: number }> {
+  if (!hasValidEnvironment()) {
+    return { data: [], total: 0 };
+  }
+
+  const page = options?.page || 1;
+  const limit = options?.limit || 40;
+  const search = options?.search || '';
+
+  // background 필드를 제외하고 요약 정보만 선택
+  let query = supabase
+    .from('cases')
+    .select('id, notion_id, slug, title, badge, categories, strategy, result, icon, published, views, sort_order, created_at, updated_at', { count: 'exact' });
+
+  // 검색 (제목만)
+  if (search) {
+    query = query.ilike('title', `%${search}%`);
+  }
+
+  // 페이지네이션
+  const start = (page - 1) * limit;
+  const end = start + limit - 1;
+
+  const { data, error, count } = await query
+    .range(start, end)
+    .order('sort_order', { ascending: true, nullsFirst: false })
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Cases 조회 실패:', error);
+    return { data: [], total: 0 };
+  }
+
+  return { data: data || [], total: count || 0 };
+}
+
 // 단일 Case 가져오기
 export async function getCaseById(id: string): Promise<Case | null> {
   const { data, error } = await supabase
