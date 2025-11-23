@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import type { BlockedTime, BlockType, OfficeLocation } from '@/types/blocked-time';
 
 interface NewBlockForm {
@@ -177,12 +178,12 @@ export default function BlockedTimesPage() {
               <p className="text-sm text-gray-600 mt-1">휴무일, 시간 차단, 사무소별 관리</p>
             </div>
             <div className="flex items-center gap-3">
-              <a
+              <Link
                 href="/admin"
                 className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 transition-colors"
               >
                 ← 대시보드
-              </a>
+              </Link>
               <button
                 onClick={() => setShowAddModal(true)}
                 className="px-4 py-2 bg-amber-600 text-white text-sm font-medium rounded-lg hover:bg-amber-700 transition-colors"
