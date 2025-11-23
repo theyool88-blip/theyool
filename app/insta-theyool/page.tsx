@@ -3,15 +3,18 @@
 import { useEffect, useRef, useState } from 'react';
 import MobileMenu from '@/components/ui/MobileMenu';
 
+// Cache busting version - update when insta-story.html changes
+const INSTA_VERSION = '20251123-v2';
+
 export default function InstaTheyoolPage() {
   const menuContainerRef = useRef<HTMLDivElement>(null);
-  const [iframeSrc, setIframeSrc] = useState('/insta-story.html');
+  const [iframeSrc, setIframeSrc] = useState(`/insta-story.html?v=${INSTA_VERSION}`);
 
   useEffect(() => {
     // URL 해시를 iframe에 전달
     const hash = window.location.hash;
     if (hash) {
-      setIframeSrc(`/insta-story.html${hash}`);
+      setIframeSrc(`/insta-story.html?v=${INSTA_VERSION}${hash}`);
     }
 
     document.body.style.overflow = 'hidden';
