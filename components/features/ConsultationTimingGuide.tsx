@@ -117,10 +117,11 @@ export default function ConsultationTimingGuide({
           </p>
         </div>
 
-        {/* 데스크톱 그리드 - 모던 카드 스타일 */}
-        <div className="hidden md:grid md:grid-cols-4 gap-4 mb-12">
+        {/* 데스크톱 그리드 - 2x2 레이아웃으로 개선 */}
+        <div className="hidden md:grid md:grid-cols-2 gap-6 mb-12 max-w-5xl mx-auto">
           {timelineStages.map((stage, index) => {
             const isSelected = selectedStage === index;
+            const isUrgent = index >= 2;
             return (
               <div key={index} className="flex flex-col">
                 {/* 카드 */}
@@ -128,53 +129,71 @@ export default function ConsultationTimingGuide({
                   onClick={() => setSelectedStage(isSelected ? null : index)}
                   aria-label={`${stage.stage} 상황 자세히 보기`}
                   aria-expanded={isSelected}
-                  className={`relative rounded-3xl p-6 min-h-[280px] transition-all duration-300 cursor-pointer group overflow-hidden ${
+                  className={`relative rounded-3xl p-8 min-h-[320px] transition-all duration-300 cursor-pointer group overflow-hidden ${
                     isSelected
-                      ? `bg-gradient-to-br ${stage.color} border-2 ${stage.borderColor} shadow-xl scale-105`
-                      : 'bg-white border-2 border-gray-200 hover:border-gray-400 hover:shadow-lg hover:scale-[1.02]'
+                      ? `bg-gradient-to-br ${stage.color} border-2 ${stage.borderColor} shadow-2xl scale-[1.02]`
+                      : isUrgent
+                      ? 'bg-gradient-to-br from-coral-50/80 via-white to-coral-50/40 border-2 border-coral-200/70 hover:border-coral-400 hover:shadow-xl hover:shadow-coral-200/50 hover:scale-[1.03]'
+                      : index === 1
+                      ? 'bg-gradient-to-br from-sage-100/70 via-white to-sage-50/50 border-2 border-sage-200/70 hover:border-sage-400 hover:shadow-lg hover:shadow-sage-200/40 hover:scale-[1.03]'
+                      : 'bg-gradient-to-br from-sage-50/60 via-white to-white border-2 border-sage-100/60 hover:border-sage-300 hover:shadow-lg hover:shadow-sage-100/30 hover:scale-[1.03]'
                   }`}
                 >
-                  {/* 배경 이미지 - 오른쪽 배치 */}
+
+                  {/* 배경 이미지 - 데스크탑 버전 크게 */}
                   {isSelected ? (
-                    <div className="absolute inset-0 pointer-events-none opacity-25 transition-opacity duration-300">
+                    <div className="absolute inset-0 pointer-events-none opacity-20 transition-opacity duration-300">
                       <Image
                         src={stage.imagePath}
                         alt={stage.stage}
                         fill
-                        className="object-contain"
+                        className="object-contain object-right-bottom"
                       />
                     </div>
                   ) : (
-                    <div className="absolute inset-0 pointer-events-none flex items-center justify-end pr-6">
+                    <div className="absolute bottom-0 right-0 pointer-events-none opacity-30 group-hover:opacity-50 transition-opacity duration-300">
                       <Image
                         src={stage.imagePath}
                         alt={stage.stage}
-                        width={180}
-                        height={180}
+                        width={360}
+                        height={360}
                         className="object-contain"
                       />
                     </div>
                   )}
 
                   {/* 제목 */}
-                  <div className="relative z-10 text-center">
-                    <div className={`inline-block ${isSelected ? 'mt-4' : 'mt-16'}`}>
-                      <div className="bg-white/50 backdrop-blur-sm rounded-lg px-3 py-1 mb-2">
-                        <h3 className="text-base font-bold text-gray-900 leading-tight">
+                  <div className="relative z-10 text-left">
+                    <div className={`${isSelected ? 'mt-4' : 'mt-0'}`}>
+                      <div className="bg-white/70 backdrop-blur-sm rounded-xl px-4 py-3 mb-3 inline-block">
+                        <h3 className="text-xl font-bold text-gray-900 leading-tight mb-1">
                           {stage.stage}
                         </h3>
+                        <p className="text-sm text-gray-600">
+                          {stage.description}
+                        </p>
                       </div>
-                      <p className="text-xs text-gray-600">
-                        {stage.description}
-                      </p>
+
+                      {/* 상황 미리보기 (접힌 상태에서 1개만 표시) */}
+                      {!isSelected && (
+                        <div className="mt-4 mb-12">
+                          <p className="text-sm text-gray-600 flex items-start gap-2">
+                            <span className="text-sage-600">•</span>
+                            <span>{stage.situations[0]}</span>
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">
+                            +{stage.situations.length - 1}가지 상황 더보기
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   {/* 확장 아이콘 */}
-                  <div className={`flex justify-center transition-transform duration-300 relative z-10 ${
+                  <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 transition-transform duration-300 z-20 ${
                     isSelected ? 'rotate-180' : ''
                   }`}>
-                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 ${isUrgent ? 'text-coral-400' : 'text-sage-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>

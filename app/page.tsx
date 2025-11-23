@@ -148,6 +148,7 @@ export default function Home() {
                   width={180}
                   height={45}
                   className="h-6 md:h-7 w-auto cursor-pointer"
+                  style={{ filter: 'brightness(0) saturate(100%) invert(46%) sepia(13%) saturate(1243%) hue-rotate(118deg) brightness(93%) contrast(87%)' }}
                   priority
                 />
               </Link>
@@ -157,7 +158,7 @@ export default function Home() {
             <div className="flex items-center">
               <button
                 onClick={() => setIsBookingModalOpen(true)}
-                className="text-sm font-normal text-black hover:text-gray-600 transition-colors"
+                className="text-sm font-semibold text-sage-700 hover:text-sage-800 underline decoration-2 underline-offset-4 decoration-sage-600 transition-colors"
               >
                 상담예약
               </button>
@@ -216,7 +217,7 @@ export default function Home() {
             <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-sage-100 rounded-full mb-6 hero-text-1">
               <span className="w-2 h-2 bg-sage-500 rounded-full animate-pulse"></span>
               <span className="text-sm md:text-base font-semibold text-sage-800">
-                12년간 1,200건의 답
+                <span className="text-sage-700 font-bold">12년</span>간 <span className="text-sage-700 font-bold">1,200건</span>의 답
               </span>
             </div>
 
@@ -274,22 +275,22 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">연 120건</p>
+              <p className="text-3xl md:text-4xl font-bold text-sage-700 mb-2">연 120건</p>
               <p className="text-sm text-gray-600">한 분 한 분</p>
               <p className="text-xs text-gray-400 mt-1">정성껏 모십니다</p>
             </div>
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">평균 92시간</p>
+              <p className="text-3xl md:text-4xl font-bold text-sage-700 mb-2">평균 92시간</p>
               <p className="text-sm text-gray-600">한 건에 쏟는 시간</p>
               <p className="text-xs text-gray-400 mt-1">평균의 6배예요</p>
             </div>
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">전담 1명</p>
+              <p className="text-3xl md:text-4xl font-bold text-sage-700 mb-2">전담 1명</p>
               <p className="text-sm text-gray-600">변호사 1명이</p>
               <p className="text-xs text-gray-400 mt-1">처음부터 끝까지</p>
             </div>
             <div className="scroll-reveal">
-              <p className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">87% 성공</p>
+              <p className="text-3xl md:text-4xl font-bold text-sage-700 mb-2">87% 성공</p>
               <p className="text-sm text-gray-600">1,200번 증명</p>
               <p className="text-xs text-gray-400 mt-1">12년 경험의 결과</p>
             </div>
@@ -819,61 +820,61 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[var(--gray-900)] text-white py-20 px-6 lg:px-8">
+      <footer className="bg-sage-50 text-neutral-800 py-20 px-6 lg:px-8 border-t border-sage-200">
         <div className="max-w-[1200px] mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-16">
             <div>
-              <h4 className="text-2xl font-bold mb-4">더율</h4>
-              <p className="text-[var(--gray-400)] text-lg mb-4">이혼 전문이에요</p>
-              <p className="text-[var(--gray-400)] text-sm">광고 책임 변호사 : 임은지</p>
+              <h4 className="text-2xl font-bold mb-4 text-sage-800">더율</h4>
+              <p className="text-neutral-600 text-lg mb-4">이혼 전문이에요</p>
+              <p className="text-neutral-600 text-sm">광고 책임 변호사 : 임은지</p>
             </div>
             <div>
-              <h4 className="text-xl font-bold mb-4">바로 연락하세요</h4>
-              <p className="text-[var(--gray-400)] mb-2">
-                전화: <a href="tel:1661-7633" className="hover:text-white transition-colors">1661-7633</a>
+              <h4 className="text-xl font-bold mb-4 text-sage-800">바로 연락하세요</h4>
+              <p className="text-neutral-600 mb-2">
+                전화: <a href="tel:1661-7633" className="text-sage-700 hover:text-sage-800 transition-colors font-medium">1661-7633</a>
               </p>
-              <p className="text-[var(--gray-400)]">
-                이메일: <a href="mailto:info@theyool.com" className="hover:text-white transition-colors">info@theyool.com</a>
+              <p className="text-neutral-600">
+                이메일: <a href="mailto:info@theyool.com" className="text-sage-700 hover:text-sage-800 transition-colors font-medium">info@theyool.com</a>
               </p>
             </div>
             <div>
-              <h4 className="text-xl font-bold mb-4">여기 있어요</h4>
-              <a href="/contact" className="block text-[var(--gray-400)] text-sm mb-3 hover:text-white transition-colors">
-                <span className="font-semibold text-white">천안 주사무소</span><br />
+              <h4 className="text-xl font-bold mb-4 text-sage-800">여기 있어요</h4>
+              <a href="/contact" className="block text-neutral-600 text-sm mb-3 hover:text-sage-700 transition-colors">
+                <span className="font-semibold text-sage-800">천안 주사무소</span><br />
                 충남 천안시 동남구 청수5로 11, 9층
               </a>
-              <a href="/contact" className="block text-[var(--gray-400)] text-sm hover:text-white transition-colors">
-                <span className="font-semibold text-white">평택 분사무소</span><br />
+              <a href="/contact" className="block text-neutral-600 text-sm hover:text-sage-700 transition-colors">
+                <span className="font-semibold text-sage-800">평택 분사무소</span><br />
                 경기 평택시 평남로 1029-1, 6층
               </a>
             </div>
           </div>
 
-          <div className="border-t border-[var(--gray-800)] pt-8 mb-6">
-            <div className="text-[var(--gray-400)] text-sm space-y-2">
+          <div className="border-t border-sage-200 pt-8 mb-6">
+            <div className="text-neutral-600 text-sm space-y-2">
               <p>법인명 : 법무법인 더율 | 대표자 : 육심원외 1</p>
               <p>사업자번호 : 354-85-01451(평택), 514-86-01593(천안)</p>
             </div>
           </div>
 
-          <div className="border-t border-[var(--gray-800)] pt-8">
+          <div className="border-t border-sage-200 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
               <div className="flex gap-6 text-sm flex-wrap justify-center">
-                <Link href="/privacy" className="text-[var(--gray-400)] hover:text-white transition-colors">
+                <Link href="/privacy" className="text-sage-700 hover:text-sage-800 transition-colors font-medium">
                   개인정보처리방침
                 </Link>
-                <Link href="/terms" className="text-[var(--gray-400)] hover:text-white transition-colors">
+                <Link href="/terms" className="text-sage-700 hover:text-sage-800 transition-colors font-medium">
                   이용약관
                 </Link>
-                <Link href="/disclaimer" className="text-[var(--gray-400)] hover:text-white transition-colors">
+                <Link href="/disclaimer" className="text-sage-700 hover:text-sage-800 transition-colors font-medium">
                   면책공고
                 </Link>
-                <Link href="/faq" className="text-[var(--gray-400)] hover:text-white transition-colors">
+                <Link href="/faq" className="text-sage-700 hover:text-sage-800 transition-colors font-medium">
                   이혼큐레이션
                 </Link>
               </div>
             </div>
-            <p className="text-[var(--gray-500)] text-sm text-center md:text-left">
+            <p className="text-neutral-500 text-sm text-center md:text-left">
               Copyright &copy; 2025 법무법인 더율 | Powered by 법무법인 더율
             </p>
           </div>

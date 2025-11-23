@@ -63,50 +63,15 @@ export default function RealStory() {
     setActiveTab((prev) => (prev === stories.length - 1 ? 0 : prev + 1));
   };
 
-  useEffect(() => {
-    // 데스크톱에서만 스크롤 기반 탭 전환 활성화
-    const isDesktop = window.innerWidth >= 768;
-    if (!isDesktop) return;
-
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-
-      const sectionTop = sectionRef.current.offsetTop;
-      const sectionHeight = sectionRef.current.offsetHeight;
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-
-      // 섹션이 뷰포트에 있을 때만 계산
-      if (scrollY + windowHeight > sectionTop && scrollY < sectionTop + sectionHeight) {
-        const relativeScroll = scrollY - sectionTop + windowHeight / 2;
-        const sectionProgress = relativeScroll / sectionHeight;
-
-        // 스크롤 진행도에 따라 탭 변경 (4개 탭)
-        if (sectionProgress < 0.25) {
-          setActiveTab(0);
-        } else if (sectionProgress < 0.5) {
-          setActiveTab(1);
-        } else if (sectionProgress < 0.75) {
-          setActiveTab(2);
-        } else {
-          setActiveTab(3);
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // 초기 실행
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // 스크롤 이벤트 제거 - 모바일과 동일하게 수동 탭 전환만 사용
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen md:min-h-[400vh] bg-gradient-to-b from-white via-sage-50/10 to-white">
+    <section ref={sectionRef} className="relative py-16 md:py-20 bg-gradient-to-b from-white via-sage-50/10 to-white overflow-hidden">
       {/* Top gradient transition from ThePlanHighlight */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-sage-50/30 to-transparent pointer-events-none z-[5]" />
 
-      {/* Sticky Container */}
-      <div className="md:sticky top-0 h-screen overflow-hidden">
+      {/* Container */}
+      <div className="relative h-screen">
         {/* Title */}
         <div className="absolute top-12 md:top-16 left-0 right-0 z-10">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 text-center">

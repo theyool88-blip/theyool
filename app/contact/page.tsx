@@ -106,10 +106,10 @@ export default function ContactPage() {
             className="object-cover opacity-90 transition-opacity duration-500"
             priority
           />
-          {/* Overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white"></div>
+          {/* Overlay for better text readability - Sage Green warmth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-sage-50/80 via-white/70 to-white"></div>
 
-          {/* SVG Pattern Overlay */}
+          {/* SVG Pattern Overlay - Enhanced layering */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="locationDots" width="60" height="60" patternUnits="userSpaceOnUse">
@@ -117,21 +117,30 @@ export default function ContactPage() {
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#locationDots)" />
-            <circle cx="20%" cy="30%" r="180" fill="#E8F5F2" opacity="0.1" />
-            <circle cx="80%" cy="70%" r="200" fill="#D1EBE5" opacity="0.08" />
+            <circle cx="15%" cy="25%" r="220" fill="#E8F5F2" opacity="0.35" />
+            <circle cx="20%" cy="30%" r="180" fill="#D1EBE5" opacity="0.25" />
+            <circle cx="85%" cy="75%" r="200" fill="#B3DDD4" opacity="0.2" />
           </svg>
         </div>
 
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
           <div className="text-center">
             <p className="text-xs md:text-sm text-sage-700 mb-3 tracking-[0.2em] uppercase font-medium drop-shadow-md">LOCATION</p>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight drop-shadow-lg">
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 tracking-tight leading-tight">
               오시는 길
             </h1>
-            <p className="text-base md:text-xl text-gray-800 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-              평택법원과 천안법원 바로 앞에 위치한<br />
-              법무법인 더율을 찾아주세요
+            <p className="text-xl md:text-2xl text-gray-600 font-light leading-relaxed max-w-2xl mx-auto">
+              두 곳 모두 법원 바로 앞,<br className="md:hidden" />
+              편하게 찾아오세요
             </p>
+
+            {/* Trust Badge */}
+            <div className="mt-6 inline-flex items-center gap-2 px-5 py-3 bg-sage-100 rounded-full">
+              <svg className="w-5 h-5 text-sage-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm font-semibold text-sage-800">주차 무료 · 법원 도보 1분</span>
+            </div>
           </div>
         </div>
       </section>
@@ -142,20 +151,20 @@ export default function ContactPage() {
           <div className="flex justify-center gap-4">
             <button
               onClick={() => setActiveOffice('pyeongtaek')}
-              className={`px-8 py-3 rounded-full font-medium transition-all duration-300 ${
+              className={`px-10 py-4 rounded-full font-semibold transition-all duration-300 ${
                 activeOffice === 'pyeongtaek'
-                  ? 'bg-gradient-to-r from-sage-100 to-sage-50 text-sage-900 shadow-md border border-sage-200/50'
-                  : 'bg-white text-gray-600 hover:bg-sage-50/50 border border-sage-100/30'
+                  ? 'bg-sage-600 text-white shadow-lg hover:bg-sage-700 scale-105'
+                  : 'bg-white text-gray-700 hover:bg-sage-50 border-2 border-sage-200 hover:border-sage-400'
               }`}
             >
               평택 분사무소
             </button>
             <button
               onClick={() => setActiveOffice('cheonan')}
-              className={`px-8 py-3 rounded-full font-medium transition-all duration-300 ${
+              className={`px-10 py-4 rounded-full font-semibold transition-all duration-300 ${
                 activeOffice === 'cheonan'
-                  ? 'bg-gradient-to-r from-sage-100 to-sage-50 text-sage-900 shadow-md border border-sage-200/50'
-                  : 'bg-white text-gray-600 hover:bg-sage-50/50 border border-sage-100/30'
+                  ? 'bg-sage-600 text-white shadow-lg hover:bg-sage-700 scale-105'
+                  : 'bg-white text-gray-700 hover:bg-sage-50 border-2 border-sage-200 hover:border-sage-400'
               }`}
             >
               천안 주사무소
@@ -183,7 +192,7 @@ export default function ContactPage() {
                   href={currentOffice.naverBookingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg"
+                  className="flex items-center justify-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-sage-600 text-white font-bold rounded-full hover:bg-sage-700 transition-all duration-300 shadow-lg"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
@@ -192,7 +201,7 @@ export default function ContactPage() {
                 </a>
                 <a
                   href={`tel:${currentOffice.phone.replace(/-/g, '')}`}
-                  className="flex items-center justify-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-transparent border-2 border-gray-900 text-gray-900 font-bold rounded-full hover:bg-gray-900 hover:text-white transition-all duration-300"
+                  className="flex items-center justify-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-white text-sage-700 border-2 border-sage-600 font-bold rounded-full hover:bg-sage-50 transition-all duration-300 shadow-md"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
@@ -212,9 +221,9 @@ export default function ContactPage() {
 
                 <div className="space-y-4">
                   {/* 주소 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-sage-50">
+                  <div className="flex items-start gap-4 bg-gradient-to-br from-sage-50/80 to-white p-5 md:p-6 rounded-2xl border border-sage-100 shadow-md hover:shadow-lg transition-all duration-300">
                     <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sage-100 to-sage-50 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-sage-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
@@ -226,9 +235,9 @@ export default function ContactPage() {
                   </div>
 
                   {/* 전화번호 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-sage-50">
+                  <div className="flex items-start gap-4 bg-gradient-to-br from-sage-50/80 to-white p-5 md:p-6 rounded-2xl border border-sage-100 shadow-md hover:shadow-lg transition-all duration-300">
                     <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sage-100 to-sage-50 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-sage-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </div>
@@ -241,9 +250,9 @@ export default function ContactPage() {
                   </div>
 
                   {/* 상담시간 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-sage-50">
+                  <div className="flex items-start gap-4 bg-gradient-to-br from-sage-50/80 to-white p-5 md:p-6 rounded-2xl border border-sage-100 shadow-md hover:shadow-lg transition-all duration-300">
                     <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sage-100 to-sage-50 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-sage-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
@@ -255,9 +264,9 @@ export default function ContactPage() {
                   </div>
 
                   {/* 주차 안내 */}
-                  <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm p-5 rounded-2xl border border-sage-50">
+                  <div className="flex items-start gap-4 bg-gradient-to-br from-sage-50/80 to-white p-5 md:p-6 rounded-2xl border border-sage-100 shadow-md hover:shadow-lg transition-all duration-300">
                     <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sage-100 to-sage-50 rounded-full flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6 text-sage-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                       </svg>
                     </div>
@@ -273,24 +282,26 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-16 md:py-24 bg-gradient-to-b from-gray-900 to-black text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+      {/* CTA Section - Sage Green */}
+      <section className="relative py-16 md:py-24 bg-gradient-to-b from-sage-600 to-sage-700 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-15">
+          <svg className="w-full h-full">
+            <circle cx="20%" cy="30%" r="200" fill="white" opacity="0.3" />
+            <circle cx="80%" cy="70%" r="250" fill="white" opacity="0.2" />
+          </svg>
         </div>
         <div className="max-w-[1040px] px-6 md:px-12 mx-auto relative z-10">
           <div className="text-center">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
               방문 전 상담 예약을<br />권장해요
             </h2>
-            <p className="text-lg md:text-xl mb-10 text-white/80 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl mb-10 text-white/90 leading-relaxed max-w-2xl mx-auto">
               더 나은 상담을 위해 사전 예약 후 방문해주세요
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
                 onClick={() => setIsTalkModalOpen(true)}
-                className="inline-flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-white text-gray-900 font-bold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg"
+                className="inline-flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 bg-white text-sage-700 font-bold rounded-full hover:bg-sage-50 transition-all duration-300 shadow-2xl hover:scale-105"
               >
                 상담 문의하기
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

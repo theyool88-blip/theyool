@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import PageLayout from '@/components/layouts/PageLayout';
 import ScrollReveal from '@/components/ScrollReveal';
 import ConsultationButton from '@/components/features/ConsultationButton';
+import PhonePrepModal from '@/components/features/PhonePrepModal';
 import {
   AGE_BRACKETS,
   CHILD_COUNT_FACTORS,
@@ -24,13 +25,30 @@ interface CalculationResult {
   totalAmount: number;
   custodyParentShare: number;
   nonCustodyParentShare: number;
+  hasZeroIncomeAdjustment?: boolean;
 }
 
 type CustodyOption = 'self' | 'spouse';
 
 const getIncomeBracketIndex = (income: number) => {
-  const index = INCOME_BRACKETS.findIndex((bracket) => income >= bracket.min && income <= bracket.max);
-  return index === -1 ? INCOME_BRACKETS.length - 1 : index;
+  // 최소 구간보다 작으면 첫 번째 구간
+  if (income < INCOME_BRACKETS[0].min) {
+    return 0;
+  }
+
+  // 최대 구간 이상이면 마지막 구간
+  if (income >= INCOME_BRACKETS[INCOME_BRACKETS.length - 1].min) {
+    return INCOME_BRACKETS.length - 1;
+  }
+
+  // 해당하는 구간 찾기 (경계값 정확히 처리)
+  for (let i = 0; i < INCOME_BRACKETS.length - 1; i++) {
+    if (income >= INCOME_BRACKETS[i].min && income < INCOME_BRACKETS[i + 1].min) {
+      return i;
+    }
+  }
+
+  return INCOME_BRACKETS.length - 1;
 };
 
 const getAgeKey = (age: number) => {
@@ -48,6 +66,7 @@ export default function ChildSupportCalculatorClient() {
 
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
+  const [isPhoneModalOpen, setIsPhoneModalOpen] = useState<boolean>(false);
 
   const parseIncomeToWon = (value: string) => (parseFloat(value) || 0) * 10000;
 
@@ -105,8 +124,47 @@ export default function ChildSupportCalculatorClient() {
     const additionalCosts = 0;
 
     const totalAmount = adjustedBase + additionalCosts;
-    const custodyShare = (custodyIncomeValue / totalIncome) * totalAmount;
-    const nonCustodyShare = (nonCustodyIncomeValue / totalIncome) * totalAmount;
+
+    let custodyShare = 0;
+    let nonCustodyShare = 0;
+    let hasZeroIncomeAdjustment = false;
+
+    // 한쪽 소득이 0원일 때 최저양육비의 1/2 적용
+    if (custodyIncomeValue === 0 || nonCustodyIncomeValue === 0) {
+      hasZeroIncomeAdjustment = true;
+
+      // 최저소득 구간(0번 인덱스)의 양육비 계산
+      const lowestIncomeIndex = 0;
+      const lowestAmountForAge = children.reduce((sum, child) => {
+        const numericAge = typeof child.age === 'number' ? child.age : 0;
+        const key = getAgeKey(numericAge);
+        return sum + CHILD_SUPPORT_TABLE[regionType][key][lowestIncomeIndex];
+      }, 0);
+
+      // 자녀 수 보정 적용
+      const adjustedLowest = lowestAmountForAge * CHILD_COUNT_FACTORS[factorKey];
+
+      // 최저양육비의 1/2을 소득 0원인 쪽의 부담액으로 설정
+      const minimumShare = adjustedLowest * 0.5;
+
+      if (custodyIncomeValue === 0) {
+        custodyShare = minimumShare;
+        nonCustodyShare = totalAmount - minimumShare;
+      } else {
+        nonCustodyShare = minimumShare;
+        custodyShare = totalAmount - minimumShare;
+      }
+
+      alert(
+        '한쪽 부모의 소득이 0원입니다.\n\n' +
+        '법원 실무 기준에 따라 소득이 없는 쪽은 "최저양육비의 1/2"을 부담하는 것으로 계산했습니다.\n\n' +
+        '※ 실제 판결에서는 추정소득 적용, 면제 등 다양한 판단이 가능하므로 전문 변호사와 상담하시길 권장합니다.'
+      );
+    } else {
+      // 일반적인 소득 비율 계산
+      custodyShare = (custodyIncomeValue / totalIncome) * totalAmount;
+      nonCustodyShare = (nonCustodyIncomeValue / totalIncome) * totalAmount;
+    }
 
     setResult({
       monthlyAmount: Math.round(nonCustodyShare),
@@ -115,6 +173,7 @@ export default function ChildSupportCalculatorClient() {
       totalAmount: Math.round(totalAmount),
       custodyParentShare: Math.round(custodyShare),
       nonCustodyParentShare: Math.round(nonCustodyShare),
+      hasZeroIncomeAdjustment,
     });
 
     setShowResult(true);
@@ -136,24 +195,35 @@ export default function ChildSupportCalculatorClient() {
 
   return (
     <PageLayout>
-      <section className="relative py-20 md:py-28 flex items-center justify-center px-6 md:px-12 bg-gradient-to-b from-white via-blue-50/20 to-white overflow-hidden">
+      <section className="relative py-20 md:py-28 flex items-center justify-center px-6 md:px-12 bg-gradient-to-b from-sage-50 via-white to-white overflow-hidden">
         {/* Professional Pattern Background */}
         <div className="absolute inset-0 w-full h-full">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="calculatorDots" width="60" height="60" patternUnits="userSpaceOnUse">
-                <circle cx="30" cy="30" r="1" fill="#93c5fd" opacity="0.15" />
+                <circle cx="30" cy="30" r="1" fill="#6DB5A4" opacity="0.12" />
               </pattern>
+              <radialGradient id="sageGlow1" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#E8F5F2" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#F0F9F7" stopOpacity="0.1" />
+              </radialGradient>
+              <radialGradient id="sageGlow2" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#E8F5F2" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#F0F9F7" stopOpacity="0.05" />
+              </radialGradient>
             </defs>
             <rect width="100%" height="100%" fill="url(#calculatorDots)" />
-            <circle cx="20%" cy="30%" r="180" fill="#dbeafe" opacity="0.2" />
-            <circle cx="80%" cy="70%" r="200" fill="#bfdbfe" opacity="0.15" />
+            <circle cx="20%" cy="30%" r="180" fill="url(#sageGlow1)" />
+            <circle cx="80%" cy="70%" r="200" fill="url(#sageGlow2)" />
           </svg>
         </div>
 
         <div className="relative z-10 max-w-[1040px] mx-auto text-center">
           <ScrollReveal>
-            <p className="text-xs md:text-sm text-blue-600/70 mb-3 tracking-[0.2em] uppercase">Child Support Calculator</p>
+            <div className="inline-flex items-center gap-2 bg-sage-100 text-sage-800 px-4 py-2 rounded-full mb-6 text-sm font-medium">
+              <span className="w-1.5 h-1.5 bg-sage-500 rounded-full animate-pulse"></span>
+              양육비 계산은 아이의 미래를 위한 첫걸음입니다
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-gray-900">양육비 계산기</h1>
             <p className="text-base md:text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
               2025년 양육비 산정표 기준으로 예상 금액을 확인하세요
@@ -178,7 +248,7 @@ export default function ChildSupportCalculatorClient() {
             <ScrollReveal>
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <span className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg font-bold shadow-md">1</span>
+                  <span className="flex-shrink-0 w-12 h-12 rounded-full bg-sage-600 text-white flex items-center justify-center text-lg font-bold shadow-md">1</span>
                   기본 정보
                 </h3>
                 <div className="space-y-6 ml-0 md:ml-13">
@@ -195,7 +265,7 @@ export default function ChildSupportCalculatorClient() {
                           key={option.value}
                           className={`flex-1 rounded-xl px-5 py-3 md:py-4 text-base font-medium cursor-pointer transition-all duration-200 ${
                             custodyHolder === option.value
-                              ? 'bg-blue-50 border-2 border-blue-500 text-blue-700'
+                              ? 'bg-sage-100 border-2 border-sage-600 text-sage-800'
                               : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400'
                           }`}
                         >
@@ -219,13 +289,13 @@ export default function ChildSupportCalculatorClient() {
             <ScrollReveal>
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <span className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg font-bold shadow-md">2</span>
+                  <span className="flex-shrink-0 w-12 h-12 rounded-full bg-sage-600 text-white flex items-center justify-center text-lg font-bold shadow-md">2</span>
                   소득 정보
                 </h3>
                 <div className="space-y-5 ml-0 md:ml-13">
                   <div>
                     <label className="block text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                       본인 월 소득 (만원)
@@ -236,14 +306,14 @@ export default function ChildSupportCalculatorClient() {
                         value={selfIncome}
                         onChange={(e) => setSelfIncome(e.target.value)}
                         placeholder="예: 300"
-                        className="w-full px-5 py-4 pr-20 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        className="w-full px-5 py-4 pr-20 border-2 border-gray-300 rounded-xl focus:border-sage-600 focus:ring-2 focus:ring-sage-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <span className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 font-medium pointer-events-none">만원</span>
                     </div>
                   </div>
                   <div>
                     <label className="block text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
                       배우자 월 소득 (만원)
@@ -254,12 +324,12 @@ export default function ChildSupportCalculatorClient() {
                         value={spouseIncome}
                         onChange={(e) => setSpouseIncome(e.target.value)}
                         placeholder="예: 400"
-                        className="w-full px-5 py-4 pr-20 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        className="w-full px-5 py-4 pr-20 border-2 border-gray-300 rounded-xl focus:border-sage-600 focus:ring-2 focus:ring-sage-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <span className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 font-medium pointer-events-none">만원</span>
                     </div>
                   </div>
-                  <div className="bg-blue-50/50 border border-blue-200/50 rounded-xl p-5 mt-4">
+                  <div className="bg-sage-50 border border-sage-200 rounded-xl p-5 mt-4">
                     <p className="text-sm text-gray-700 leading-relaxed">
                       세전 <strong>월</strong> 소득을 <strong>만원 단위</strong>로 입력해주세요. 연봉은 12로 나누어 기입하시면 됩니다.
                     </p>
@@ -271,7 +341,7 @@ export default function ChildSupportCalculatorClient() {
             <ScrollReveal>
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <span className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg font-bold shadow-md">3</span>
+                  <span className="flex-shrink-0 w-12 h-12 rounded-full bg-sage-600 text-white flex items-center justify-center text-lg font-bold shadow-md">3</span>
                   자녀 거주 지역
                 </h3>
                 <div className="space-y-4 ml-0 md:ml-13">
@@ -282,7 +352,7 @@ export default function ChildSupportCalculatorClient() {
                         key={option.value}
                         className={`flex-1 rounded-xl px-5 py-3 md:py-4 text-base font-medium cursor-pointer transition-all duration-200 ${
                           regionType === option.value
-                            ? 'bg-blue-50 border-2 border-blue-500 text-blue-700'
+                            ? 'bg-sage-100 border-2 border-sage-600 text-sage-800'
                             : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400'
                         }`}
                       >
@@ -308,13 +378,13 @@ export default function ChildSupportCalculatorClient() {
             <ScrollReveal delay={100}>
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <span className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg font-bold shadow-md">4</span>
+                  <span className="flex-shrink-0 w-12 h-12 rounded-full bg-sage-600 text-white flex items-center justify-center text-lg font-bold shadow-md">4</span>
                   자녀 정보
                 </h3>
                 <div className="space-y-4 ml-0 md:ml-13">
                   <div>
                     <label className="block text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
                       자녀 수
@@ -322,7 +392,7 @@ export default function ChildSupportCalculatorClient() {
                     <select
                       value={numberOfChildren}
                       onChange={(e) => handleChildrenCountChange(Number(e.target.value))}
-                      className="w-full px-5 py-4 h-[60px] border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg bg-white appearance-none"
+                      className="w-full px-5 py-4 h-[60px] border-2 border-gray-300 rounded-xl focus:border-sage-600 focus:ring-2 focus:ring-sage-200 focus:outline-none transition-all text-lg bg-white appearance-none"
                       style={{
                         backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
                         backgroundPosition: 'right 0.75rem center',
@@ -342,7 +412,7 @@ export default function ChildSupportCalculatorClient() {
                   {children.map((child, index) => (
                     <div key={index}>
                       <label className="block text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                         {index + 1}번째 자녀 나이 (만)
@@ -357,13 +427,13 @@ export default function ChildSupportCalculatorClient() {
                           min="0"
                           max="18"
                           placeholder="예: 7"
-                          className="w-full px-5 py-4 pr-16 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="w-full px-5 py-4 pr-16 border-2 border-gray-300 rounded-xl focus:border-sage-600 focus:ring-2 focus:ring-sage-200 focus:outline-none transition-all text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                         <span className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 font-medium pointer-events-none">세</span>
                       </div>
                     </div>
                   ))}
-                  <div className="bg-blue-50/50 border border-blue-200/50 rounded-xl p-5 mt-4">
+                  <div className="bg-sage-50 border border-sage-200 rounded-xl p-5 mt-4">
                     <p className="text-sm text-gray-700 leading-relaxed">
                       산정표는 만나이를 기준으로 <strong>0~2세, 3~5세, 6~8세, 9~11세, 12~14세, 15~18세</strong> 구간으로 계산합니다.
                     </p>
@@ -377,7 +447,7 @@ export default function ChildSupportCalculatorClient() {
               <div className="flex flex-col sm:flex-row gap-4 pt-8">
                 <button
                   onClick={calculateChildSupport}
-                  className="flex-1 bg-gray-900 text-white font-bold px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg flex items-center justify-center gap-2"
+                  className="flex-1 bg-sage-600 text-white font-bold px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg hover:bg-sage-700 transition-all duration-300 shadow-lg flex items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -386,7 +456,7 @@ export default function ChildSupportCalculatorClient() {
                 </button>
                 <button
                   onClick={resetForm}
-                  className="sm:w-auto px-8 py-3 md:px-10 md:py-4 border-2 border-gray-900 text-gray-900 font-bold rounded-full text-base md:text-lg hover:bg-gray-900 hover:text-white transition-all duration-300"
+                  className="sm:w-auto px-8 py-3 md:px-10 md:py-4 border-2 border-sage-600 text-sage-700 font-bold rounded-full text-base md:text-lg hover:bg-sage-600 hover:text-white transition-all duration-300"
                 >
                   초기화
                 </button>
@@ -397,7 +467,7 @@ export default function ChildSupportCalculatorClient() {
       </section>
 
       {showResult && result && (
-        <section id="result-section" className="py-20 md:py-32 px-6 md:px-12 bg-gradient-to-b from-white via-blue-50/20 to-white">
+        <section id="result-section" className="py-20 md:py-32 px-6 md:px-12 bg-gradient-to-b from-white via-sage-50/20 to-white">
           <div className="max-w-[800px] mx-auto">
             <ScrollReveal>
               <div className="text-center mb-12">
@@ -410,12 +480,12 @@ export default function ChildSupportCalculatorClient() {
             </ScrollReveal>
 
             <ScrollReveal delay={50}>
-              <div className="bg-gradient-to-br from-blue-600 to-blue-700 border-2 border-blue-700 rounded-3xl p-12 mb-8 text-center shadow-2xl">
+              <div className="bg-gradient-to-br from-sage-600 to-sage-700 border-2 border-sage-700 rounded-3xl p-12 mb-8 text-center shadow-2xl">
                 <div className="flex items-center justify-center gap-2 mb-4">
-                  <svg className="w-6 h-6 text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <p className="text-sm md:text-base text-blue-100 font-medium">{nonCustodyLabel}가 매월 지급할 양육비</p>
+                  <p className="text-sm md:text-base text-white/90 font-medium">{nonCustodyLabel}가 매월 지급할 양육비</p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl py-8 px-6 mb-4">
                   <p className="text-6xl md:text-7xl font-bold text-white mb-2">
@@ -423,7 +493,7 @@ export default function ChildSupportCalculatorClient() {
                     <span className="text-3xl md:text-4xl ml-3 font-medium">원</span>
                   </p>
                 </div>
-                <p className="text-sm text-blue-100">* 2025년 양육비 산정표 기준 참고용 금액입니다</p>
+                <p className="text-sm text-white/80">* 2025년 양육비 산정표 기준 참고용 금액입니다</p>
               </div>
             </ScrollReveal>
 
@@ -448,7 +518,7 @@ export default function ChildSupportCalculatorClient() {
                     <span className="text-xl font-bold text-gray-900">{result.totalAmount.toLocaleString()}원</span>
                   </div>
 
-                  <div className="bg-blue-50/50 rounded-xl p-6 mt-6">
+                  <div className="bg-sage-50 rounded-xl p-6 mt-6">
                     <h4 className="text-base font-bold text-gray-900 mb-4">소득 비율에 따른 분담</h4>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
@@ -469,6 +539,27 @@ export default function ChildSupportCalculatorClient() {
               </div>
             </ScrollReveal>
 
+            {result.hasZeroIncomeAdjustment && (
+              <ScrollReveal delay={120}>
+                <div className="bg-blue-50/70 border-2 border-blue-300/50 rounded-xl p-6 mb-6">
+                  <div className="flex items-start gap-3">
+                    <svg className="flex-shrink-0 w-6 h-6 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="flex-1">
+                      <h4 className="text-base font-bold text-gray-900 mb-2">소득 0원 조정 적용됨</h4>
+                      <p className="text-sm text-gray-700 leading-relaxed mb-2">
+                        한쪽 부모의 소득이 0원으로 입력되어, <strong>법원 실무 기준에 따라 "최저양육비의 1/2"을 해당 부모의 부담액으로 자동 계산</strong>했습니다.
+                      </p>
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        실제 법원 판결에서는 추정소득 적용, 경력단절 고려, 면제 판단 등 다양한 결과가 나올 수 있으므로, 본 계산 결과는 참고용으로만 활용해주세요.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            )}
+
             <ScrollReveal delay={150}>
               <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl p-8">
                 <h4 className="text-lg font-bold text-gray-900 mb-4">유의사항</h4>
@@ -485,25 +576,21 @@ export default function ChildSupportCalculatorClient() {
                     <span className="flex-shrink-0 w-1.5 h-1.5 bg-gray-400 rounded-full mt-2"></span>
                     <span>정확한 양육비 산정을 원하시면 전문 변호사와 상담하시길 권장합니다.</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-1.5 h-1.5 bg-gray-400 rounded-full mt-2"></span>
-                    <span>소득이 0원으로 입력되더라도 법원은 최저양육비나 추정 소득을 적용하여 일정 금액 이상을 부담하게 할 수 있습니다.</span>
-                  </li>
                 </ul>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={200}>
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                <a
-                  href="tel:1661-7633"
-                  className="flex-1 inline-block text-center bg-gray-900 text-white font-bold px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg"
+                <button
+                  onClick={() => setIsPhoneModalOpen(true)}
+                  className="flex-1 bg-sage-600 text-white font-bold px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg hover:bg-sage-700 transition-all duration-300 shadow-lg"
                 >
                   전문가 상담하기
-                </a>
+                </button>
                 <button
                   onClick={resetForm}
-                  className="sm:w-auto px-8 py-3 md:px-10 md:py-4 border-2 border-gray-900 text-gray-900 font-bold rounded-full text-base md:text-lg hover:bg-gray-900 hover:text-white transition-all duration-300"
+                  className="sm:w-auto px-8 py-3 md:px-10 md:py-4 border-2 border-sage-600 text-sage-700 font-bold rounded-full text-base md:text-lg hover:bg-sage-600 hover:text-white transition-all duration-300"
                 >
                   다시 계산하기
                 </button>
@@ -562,7 +649,7 @@ export default function ChildSupportCalculatorClient() {
         </div>
       </section>
 
-      <section className="py-20 md:py-32 px-6 md:px-12 bg-gradient-to-b from-white via-blue-50/20 to-white">
+      <section className="py-20 md:py-32 px-6 md:px-12 bg-gradient-to-b from-white via-sage-50/20 to-white">
         <div className="max-w-[1040px] mx-auto text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-900 leading-tight">
@@ -572,19 +659,25 @@ export default function ChildSupportCalculatorClient() {
               법무법인 더율의 이혼 전문 변호사가 최적의 양육비 산정을 도와드립니다
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                href="tel:1661-7633"
-                className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg"
+              <button
+                onClick={() => setIsPhoneModalOpen(true)}
+                className="inline-flex items-center gap-2 bg-sage-600 text-white font-bold px-8 py-3 md:px-10 md:py-4 rounded-full text-base md:text-lg hover:bg-sage-700 transition-all duration-300 shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                 </svg>
                 지금 상담하기
-              </a>
+              </button>
             </div>
           </ScrollReveal>
         </div>
       </section>
+
+      {/* PhonePrepModal */}
+      <PhonePrepModal
+        isOpen={isPhoneModalOpen}
+        onClose={() => setIsPhoneModalOpen(false)}
+      />
     </PageLayout>
   );
 }

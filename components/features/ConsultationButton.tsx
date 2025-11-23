@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 interface ConsultationButtonProps {
-  variant?: 'premium' | 'primary' | 'secondary' | 'outline' | 'dark';
+  variant?: 'premium' | 'primary' | 'secondary' | 'outline' | 'dark' | 'sage';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   className?: string;
@@ -63,12 +63,13 @@ export default function ConsultationButton({
     secondary: 'bg-white text-[var(--accent)] hover:bg-[var(--gray-50)]',
     outline: 'border-2 border-[var(--gray-700)] text-[var(--gray-900)] hover:bg-[var(--gray-900)] hover:text-white hover:border-[var(--gray-900)]',
     dark: 'bg-gray-900 text-white hover:bg-gray-800 hover:scale-[1.02]',
+    sage: 'bg-sage-600 text-white hover:bg-sage-700 hover:scale-[1.02] shadow-md hover:shadow-lg',
   };
 
   return (
     <button
       onClick={handleClick}
-      className={`${baseStyles} ${variantStyles[variant as 'primary' | 'secondary' | 'outline' | 'dark']} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
+      className={`${baseStyles} ${variantStyles[variant as 'primary' | 'secondary' | 'outline' | 'dark' | 'sage']} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
     >
       상담문의
     </button>

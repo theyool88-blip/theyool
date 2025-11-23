@@ -70,8 +70,8 @@ export default async function AlimonyPage() {
         title="위자료 청구"
         subtitle="받을 수 있는 만큼 확실하게"
         description="혼인 파탄의 책임이 있는 배우자에게 정신적 고통에 대한 위자료를 청구해요"
-        gradientFrom="from-sage-600"
-        gradientTo="to-sage-700"
+        gradientFrom="from-amber-600"
+        gradientTo="to-yellow-600"
         features={features}
         process={process}
         faqs={allFAQs}

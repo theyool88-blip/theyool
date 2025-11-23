@@ -244,7 +244,7 @@
 
         /* Feed Container */
         .feed-container {
-            padding-bottom: 60px;
+            padding-bottom: 20px;
             background-color: #fff;
         }
 
@@ -448,7 +448,7 @@
             display: none;
         }
 
-        /* Reels Top Header - 뒤로가기 버튼 표시 */
+        /* Reels Top Header - 뒤로가기 + 햄버거 */
         .reels-header {
             position: fixed;
             top: 0;
@@ -460,26 +460,59 @@
             justify-content: space-between;
             padding: 0 16px;
             background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%);
-            z-index: 1000;
+            z-index: 9999; /* 매우 높은 값으로 설정 */
+            pointer-events: none; /* 헤더 자체는 클릭 차단 */
+        }
+
+        .reels-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 10000;
+            pointer-events: auto; /* 버튼 컨테이너만 클릭 가능 */
         }
 
         .reels-back-btn {
             background: none;
             border: none;
             color: #fff;
-            font-size: 28px;
+            font-size: 24px;
             cursor: pointer;
-            padding: 0;
-            width: 32px;
-            height: 32px;
+            padding: 8px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 10001;
+            margin-right: 8px;
+            pointer-events: auto;
+        }
+
+        .reels-hamburger-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 10001;
+            pointer-events: auto;
         }
 
         .reels-tabs {
             display: flex;
             gap: 20px;
+            pointer-events: auto; /* 탭도 클릭 가능 */
         }
 
         .reels-tab {
@@ -957,42 +990,9 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* Bottom Navigation */
+        /* Bottom Navigation - Removed */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            background-color: #fff;
-            border-top: 1px solid #dbdbdb;
-            padding: 8px 0;
-            padding-bottom: max(8px, env(safe-area-inset-bottom));
-            z-index: 100;
-        }
-
-        .bottom-nav-content {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            color: #262626;
-            font-size: 26px;
-            cursor: pointer;
-            padding: 8px 16px;
-            transition: transform 0.2s;
-        }
-
-        .nav-btn:active {
-            transform: scale(0.9);
-        }
-
-        .nav-btn.active {
-            color: #262626;
+            display: none !important;
         }
 
         /* (Kakao 헤더 버튼 제거됨) */
@@ -1020,11 +1020,8 @@
                     </div>
                 </div>
                 <div class="header-icons">
-                    <button class="header-icon">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="header-icon">
-                        <i class="far fa-paper-plane"></i>
+                    <button class="header-icon" id="reelsHeaderBtn">
+                        <i class="fas fa-video"></i>
                     </button>
                 </div>
             </div>
@@ -1805,24 +1802,53 @@
             // Add Reels Header
             const reelsHeader = document.createElement('div');
             reelsHeader.className = 'reels-header';
-            reelsHeader.innerHTML = `
-                <button class="reels-back-btn">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <div class="reels-tabs">
-                    <button class="reels-tab active">Reels</button>
-                    <button class="reels-tab inactive">Friends</button>
-                </div>
-            `;
-            reelsContainer.appendChild(reelsHeader);
 
-            // Back button functionality
-            const backBtn = reelsHeader.querySelector('.reels-back-btn');
-            backBtn.addEventListener('click', (e) => {
+            // Create left side buttons container
+            const headerLeft = document.createElement('div');
+            headerLeft.className = 'reels-header-left';
+
+            // Create hamburger menu button (메인 메뉴 열기)
+            const hamburgerBtn = document.createElement('button');
+            hamburgerBtn.className = 'reels-hamburger-btn';
+            hamburgerBtn.id = 'reelsHamburgerButton';
+            hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            hamburgerBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                closeReelsFullscreen();
+                e.stopImmediatePropagation();
+                window.parent.postMessage('openMenu', '*');
+            }, { capture: true });
+
+            // Append only hamburger button
+            headerLeft.appendChild(hamburgerBtn);
+
+            // Create tabs
+            const tabsContainer = document.createElement('div');
+            tabsContainer.className = 'reels-tabs';
+
+            // Reels tab (active)
+            const reelsTab = document.createElement('button');
+            reelsTab.className = 'reels-tab active';
+            reelsTab.textContent = 'Reels';
+
+            // Gallery tab (links to 인스타더율)
+            const galleryTab = document.createElement('button');
+            galleryTab.className = 'reels-tab inactive';
+            galleryTab.textContent = 'Gallery';
+            galleryTab.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.href = '/insta-theyool';
             });
+
+            tabsContainer.appendChild(reelsTab);
+            tabsContainer.appendChild(galleryTab);
+
+            // Append everything to header
+            reelsHeader.appendChild(headerLeft);
+            reelsHeader.appendChild(tabsContainer);
+            reelsContainer.appendChild(reelsHeader);
+
 
             // Create all reel items
             videoReels.forEach((reel, index) => {
@@ -1934,12 +1960,30 @@
             reelsContainer.classList.add('active');
             document.body.classList.add('reels-mode');
 
+            // Hide main header to prevent click interference
+            const mainHeader = document.querySelector('.header');
+            if (mainHeader) {
+                mainHeader.style.display = 'none';
+            }
+
             // Scroll to start index
             const startReel = reelsContainer.children[startIndex];
             startReel.scrollIntoView();
 
             // Setup video playback
             setupReelsPlayback();
+
+            // DEBUG: Global click listener for reels
+            document.addEventListener('click', (e) => {
+                if (document.body.classList.contains('reels-mode')) {
+                    console.log('=== GLOBAL CLICK IN REELS MODE ===');
+                    console.log('Clicked element:', e.target);
+                    console.log('Element tag:', e.target.tagName);
+                    console.log('Element class:', e.target.className);
+                    console.log('Element id:', e.target.id);
+                    console.log('Event path:', e.composedPath().map(el => el.tagName || el.nodeName).slice(0, 10));
+                }
+            }, true);
         }
 
         // ========== Close Reels Fullscreen ==========
@@ -1947,6 +1991,12 @@
             const reelsContainer = document.getElementById('reelsFullscreen');
             reelsContainer.classList.remove('active');
             document.body.classList.remove('reels-mode');
+
+            // Show main header again
+            const mainHeader = document.querySelector('.header');
+            if (mainHeader) {
+                mainHeader.style.display = '';
+            }
 
             // Pause all videos
             document.querySelectorAll('.reel-video').forEach(v => v.pause());
@@ -2192,48 +2242,17 @@
             });
         });
 
-        // ========== Bottom Navigation ==========
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const nav = btn.dataset.nav;
-
-                // Update active state
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                // Handle navigation
-                if (nav === 'home') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else if (nav === 'search') {
-                    alert('검색 기능은 곧 제공될 예정입니다.');
-                } else if (nav === 'reels') {
-                    if (videoReels.length > 0) {
-                        openReelsFullscreen(0);
-                    } else {
-                        alert('릴스가 없습니다.');
-                    }
-                } else if (nav === 'shop') {
-                    alert('쇼핑 기능은 곧 제공될 예정입니다.');
-                } else if (nav === 'profile') {
-                    window.location.href = '/';
+        // ========== Header Reels Button ==========
+        const reelsHeaderBtn = document.getElementById('reelsHeaderBtn');
+        if (reelsHeaderBtn) {
+            reelsHeaderBtn.addEventListener('click', () => {
+                if (videoReels.length > 0) {
+                    openReelsFullscreen(0);
+                } else {
+                    alert('릴스가 없습니다.');
                 }
             });
-        });
-
-        // Hide bottom nav when in Reels mode
-        const bottomNav = document.querySelector('.bottom-nav');
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.attributeName === 'class') {
-                    if (document.body.classList.contains('reels-mode')) {
-                        bottomNav.style.display = 'none';
-                    } else {
-                        bottomNav.style.display = 'block';
-                    }
-                }
-            });
-        });
-        observer.observe(document.body, { attributes: true });
+        }
 
         console.log('더율 스토리 initialized - Mixed Feed with Carousel & Reels');
 
@@ -2245,7 +2264,11 @@
 
         // ========== Hamburger Menu - Send message to parent ==========
         const hamburgerBtn = document.getElementById('hamburgerBtn');
-        hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.addEventListener('click', (e) => {
+            console.log('=== HAMBURGER BUTTON CLICKED ===');
+            console.log('Event target:', e.target);
+            console.log('Current target:', e.currentTarget);
+            console.log('Button ID:', e.currentTarget.id);
             // Send message to parent window to open MobileMenu
             window.parent.postMessage('openMenu', '*');
         });

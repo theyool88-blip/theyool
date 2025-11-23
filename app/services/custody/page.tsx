@@ -93,8 +93,8 @@ export default async function CustodyPage() {
         title="양육권 및 양육비"
         subtitle="아이의 행복이 최우선입니다"
         description="아이의 건강한 성장을 위한 최선의 양육 방안을 찾고, 부모의 책임을 명확히 합니다"
-        gradientFrom="from-blue-600"
-        gradientTo="to-purple-600"
+        gradientFrom="from-purple-500"
+        gradientTo="to-pink-500"
         features={features}
         process={process}
         faqs={allFAQs}

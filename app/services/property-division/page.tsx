@@ -68,7 +68,7 @@ export default async function PropertyDivisionPage() {
         title="재산분할"
         subtitle="공정하고 합리적인 재산 분배"
         description="혼인 기간 중 형성된 재산을 정확히 평가하고 기여도에 따라 공정하게 분할해요"
-        gradientFrom="from-emerald-600"
+        gradientFrom="from-cyan-600"
         gradientTo="to-teal-600"
         features={features}
         process={process}

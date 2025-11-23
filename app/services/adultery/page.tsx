@@ -169,8 +169,8 @@ export default async function AdulteryPage() {
         title="불륜 및 상간 사건"
         subtitle="배신에 대한 정당한 책임을 묻습니다"
         description="배우자와 상간자의 불법행위를 입증하고, 정신적 고통에 대한 정당한 배상을 받아내요"
-        gradientFrom="from-sage-600"
-        gradientTo="to-sage-700"
+        gradientFrom="from-indigo-700"
+        gradientTo="to-slate-700"
         features={features}
         process={process}
         faqs={allFAQs}
