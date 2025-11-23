@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Modal from '@/components/ui/Modal';
-import EnhancedChannelSelector from '@/components/features/EnhancedChannelSelector';
+import ConsultationBookingModal from '@/components/features/ConsultationBooking/ConsultationBookingModal';
 
 interface LandingConsultationPromptProps {
   topic: '위자료' | '양육권' | '재산분할' | string;
@@ -181,9 +180,10 @@ export default function LandingConsultationPrompt({
       </section>
 
       {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} maxWidth="3xl">
-        <EnhancedChannelSelector onClose={() => setIsModalOpen(false)} />
-      </Modal>
+      <ConsultationBookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 }
