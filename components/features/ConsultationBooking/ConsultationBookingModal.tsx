@@ -274,11 +274,11 @@ export default function ConsultationBookingModal({
           >
 
           {/* Content */}
-          <div className="p-8 sm:p-10 space-y-6">
+          <div className="p-6 sm:p-8 space-y-4">
             {/* Header - modern */}
-            <div className="text-center pb-3">
+            <div className="text-center pb-2">
               {/* Emotional Tagline Badge */}
-              <div className="flex justify-center mb-3">
+              <div className="flex justify-center mb-2">
                 <div
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sage-100 border border-sage-500/20"
                   style={{
@@ -292,14 +292,14 @@ export default function ConsultationBookingModal({
                 </div>
               </div>
 
-              <h2 className="text-[28px] font-[650] text-gray-900 tracking-[-0.02em] mb-2">상담 예약</h2>
-              <p className="text-[13px] text-gray-600">24시간 내 연락드립니다</p>
+              <h2 className="text-[26px] font-[650] text-gray-900 tracking-[-0.02em] mb-1">상담 예약</h2>
+              <p className="text-[12px] text-gray-600">24시간 내 연락드립니다</p>
             </div>
 
             {/* 1. 연락처 */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <label className="block">
-                <span className="text-[15px] font-[550] text-gray-700 tracking-[-0.01em]">
+                <span className="text-[14px] font-[550] text-gray-700 tracking-[-0.01em]">
                   연락처 <span className="text-sage-600">*</span>
                 </span>
                 <input
@@ -308,7 +308,7 @@ export default function ConsultationBookingModal({
                   onChange={(e) => handlePhoneChange(e.target.value)}
                   placeholder="010-0000-0000"
                   maxLength={13}
-                  className={`mt-2 w-full h-12 px-4 rounded-xl border text-[15px] ${
+                  className={`mt-1.5 w-full h-11 px-4 rounded-xl border text-[14px] ${
                     phoneError ? 'border-red-400 bg-red-50' : 'border-gray-200 focus:border-sage-500'
                   } focus:outline-none transition-all`}
                 />
@@ -319,14 +319,14 @@ export default function ConsultationBookingModal({
             </div>
 
             {/* 2. 상담 방법 */}
-            <div className="space-y-3">
-              <p className="text-[15px] font-[550] text-gray-700 tracking-[-0.01em]">
+            <div className="space-y-2">
+              <p className="text-[14px] font-[550] text-gray-700 tracking-[-0.01em]">
                 상담 방법 <span className="text-sage-600">*</span>
               </p>
-              <div className="grid grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-3 gap-2">
                 <button
                   onClick={() => setRequestType('callback')}
-                  className={`relative py-3 px-2 rounded-xl border-2 transition-all ${
+                  className={`relative py-2.5 px-2 rounded-xl border-2 transition-all ${
                     requestType === 'callback'
                       ? 'border-sage-500 bg-sage-500 text-white shadow-sm'
                       : 'border-gray-200 bg-white hover:border-sage-300 text-gray-700'
@@ -341,7 +341,7 @@ export default function ConsultationBookingModal({
                 </button>
                 <button
                   onClick={() => setRequestType('visit')}
-                  className={`py-3 px-2 rounded-xl border-2 transition-all ${
+                  className={`py-2.5 px-2 rounded-xl border-2 transition-all ${
                     requestType === 'visit'
                       ? 'border-sage-500 bg-sage-500 text-white shadow-sm'
                       : 'border-gray-200 bg-white hover:border-sage-300 text-gray-700'
@@ -351,7 +351,7 @@ export default function ConsultationBookingModal({
                 </button>
                 <button
                   onClick={() => setRequestType('video')}
-                  className={`py-3 px-2 rounded-xl border-2 transition-all ${
+                  className={`py-2.5 px-2 rounded-xl border-2 transition-all ${
                     requestType === 'video'
                       ? 'border-sage-500 bg-sage-500 text-white shadow-sm'
                       : 'border-gray-200 bg-white hover:border-sage-300 text-gray-700'
@@ -364,8 +364,8 @@ export default function ConsultationBookingModal({
 
             {/* 3. 방문 사무소 (방문시만) - compact */}
             {requestType === 'visit' && (
-              <div className="space-y-2">
-                <p className="text-sm font-bold text-gray-900">
+              <div className="space-y-1.5">
+                <p className="text-[13px] font-bold text-gray-900">
                   방문 사무소 <span className="text-sage-600">*</span>
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -394,9 +394,9 @@ export default function ConsultationBookingModal({
             )}
 
             {/* 4. 희망 날짜/시간 - Compact with quick select */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-bold text-gray-900">
+                <p className="text-[13px] font-bold text-gray-900">
                   날짜 · 시간 <span className="text-sage-600">*</span>
                 </p>
                 <button
@@ -454,7 +454,7 @@ export default function ConsultationBookingModal({
 
             {/* 5. 희망 시간 - Compact time scroll */}
             {selectedDate && (
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {timeSlots.length === 0 ? (
                   <div className="p-3 bg-gray-50 rounded-lg text-center text-sm text-gray-600">
                     오늘은 예약 가능한 시간이 없습니다
@@ -534,7 +534,7 @@ export default function ConsultationBookingModal({
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className={`w-full h-14 rounded-xl font-[650] text-[15px] flex items-center justify-center gap-2 transition-all shadow-sm ${
+              className={`w-full h-12 rounded-xl font-[650] text-[14px] flex items-center justify-center gap-2 transition-all shadow-sm ${
                 isSubmitting
                   ? 'bg-gray-300 cursor-not-allowed text-gray-500'
                   : 'bg-sage-600 text-white hover:bg-sage-700 hover:shadow-md'

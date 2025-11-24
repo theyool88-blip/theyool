@@ -66,7 +66,7 @@ export default function RealStory() {
   // 스크롤 이벤트 제거 - 모바일과 동일하게 수동 탭 전환만 사용
 
   return (
-    <section ref={sectionRef} className="relative py-16 md:py-20 bg-gradient-to-b from-white via-sage-50/10 to-white overflow-hidden">
+    <section ref={sectionRef} className="relative pt-16 md:pt-20 pb-0 bg-gradient-to-b from-white via-sage-50/10 to-transparent overflow-hidden">
       {/* Top gradient transition from ThePlanHighlight */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-sage-50/30 to-transparent pointer-events-none z-[5]" />
 

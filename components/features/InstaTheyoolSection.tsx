@@ -254,7 +254,7 @@ export default function InstaTheyoolSection() {
   }
 
   return (
-    <section className="relative py-20 md:py-28 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 overflow-hidden">
+    <section className="relative pt-0 pb-20 md:pb-28 bg-gradient-to-br from-transparent via-pink-50 to-orange-50 overflow-hidden">
       {/* Top gradient transition from RealStory */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-purple-50/60 via-purple-50/80 to-transparent pointer-events-none z-[15]" />
 
