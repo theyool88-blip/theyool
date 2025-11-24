@@ -3,6 +3,8 @@
 import { useState, useMemo } from 'react';
 import type { FAQ } from '@/lib/supabase/faq';
 import Link from 'next/link';
+import ConversionFunnel from '@/components/features/ConversionFunnel';
+import ConsultationBookingModal from '@/components/features/ConsultationBooking/ConsultationBookingModal';
 
 interface Category {
   name: string;
@@ -18,6 +20,7 @@ interface FAQClientProps {
 
 export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   // 카테고리별 개수 계산
   const categoryCounts = useMemo(() => {
@@ -333,6 +336,25 @@ export default function FAQClient({ allFAQs, faqsByCategory, categories }: FAQCl
           )}
         </div>
       </section>
+
+      {/* Conversion Funnel Section */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-amber-50/30">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <ConversionFunnel
+            title="아직 궁금한 점이 남아있나요?"
+            subtitle="더율이 준비한 다른 정보도 확인해보세요"
+            colorScheme="amber"
+            excludeItems={['divorce-guide']}
+            onOpenConsultationModal={() => setIsBookingModalOpen(true)}
+          />
+        </div>
+      </section>
+
+      {/* Consultation Booking Modal */}
+      <ConsultationBookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
     </>
   );
 }

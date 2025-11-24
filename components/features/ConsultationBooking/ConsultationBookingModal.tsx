@@ -554,6 +554,19 @@ export default function ConsultationBookingModal({
             <p className="text-center text-[13px] text-gray-500 tracking-[-0.005em]">
               100% 비밀보장 · 10분 전화 무료 · 계약 강요 없음
             </p>
+
+            {/* Consultation Info Link */}
+            <div className="pt-3 border-t border-gray-200">
+              <a
+                href="/consultation"
+                className="flex items-center justify-center gap-1.5 py-2 text-[14px] font-semibold text-sage-700 active:text-sage-800 transition-colors group"
+              >
+                <span>상담 전 궁금한 점이 있으신가요?</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
         </div>

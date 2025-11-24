@@ -110,22 +110,22 @@ export default function TestimonialModal({
           onClick={(e) => e.stopPropagation()}
         >
           {/* Minimal Header */}
-          <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-4 py-2.5 flex items-center justify-between rounded-t-2xl z-10">
+          <div className="sticky top-0 bg-white/98 backdrop-blur-sm border-b border-sage-200 px-4 py-2.5 flex items-center justify-between rounded-t-2xl z-10">
             {/* Client Info + Trust Badge */}
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-semibold text-gray-900 text-sm">{testimonial.age}</span>
               <span className="text-gray-300">·</span>
-              <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded">
+              <span className="text-xs font-semibold text-sage-800 bg-sage-100 px-2 py-1 rounded">
                 {testimonial.caseType}
               </span>
               {hasEvidencePhotos && (
                 <>
                   <span className="text-gray-300">·</span>
-                  <div className="flex items-center gap-1 bg-green-600 text-white px-2 py-0.5 rounded">
+                  <div className="flex items-center gap-1 bg-sage-700 text-white px-2 py-0.5 rounded">
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-[10px] font-semibold">실제증거</span>
+                    <span className="text-[10px] font-semibold">실제후기</span>
                   </div>
                 </>
               )}
@@ -160,21 +160,6 @@ export default function TestimonialModal({
                   onClick={() => setIsLightboxOpen(true)}
                 />
 
-                {/* Photo Counter Badge */}
-                <div className="absolute top-4 right-4 bg-black/60 text-white px-3 py-1.5 rounded-full text-sm font-semibold backdrop-blur-sm">
-                  {activePhotoIndex + 1}/{evidencePhotos.length}
-                </div>
-
-                {/* Expand Icon */}
-                <button
-                  onClick={() => setIsLightboxOpen(true)}
-                  className="absolute top-4 left-4 w-9 h-9 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
-                  aria-label="전체화면"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                  </svg>
-                </button>
 
                 {/* Navigation Arrows (Desktop hover) */}
                 {evidencePhotos.length > 1 && (
@@ -209,7 +194,7 @@ export default function TestimonialModal({
           ) : (
             /* Fallback: No photos - show quote style */
             <div className="flex justify-center pt-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden">
+              <div className="w-16 h-16 bg-gradient-to-br from-sage-500 to-sage-600 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden">
                 <span className="text-white text-4xl font-serif leading-none relative z-10">"</span>
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-white/40 animate-shimmer"></div>
               </div>
@@ -217,17 +202,17 @@ export default function TestimonialModal({
           )}
 
           {/* Content Section */}
-          <div className="px-5 py-4 space-y-3">
+          <div className="px-5 py-4 space-y-3 bg-sage-50/30">
             {/* Client Testimonial Caption */}
             <div className="space-y-2">
-              <div className={`text-sm md:text-base text-gray-800 leading-relaxed whitespace-pre-line ${!isTextExpanded ? 'line-clamp-3' : ''}`}>
+              <div className={`text-sm md:text-base text-gray-800 leading-loose whitespace-pre-line ${!isTextExpanded ? 'line-clamp-3' : ''}`}>
                 {testimonial.fullContent}
               </div>
 
               {needsExpansion && !isTextExpanded && (
                 <button
                   onClick={() => setIsTextExpanded(true)}
-                  className="text-sm text-amber-600 hover:text-amber-700 font-semibold flex items-center gap-1"
+                  className="text-sm text-sage-700 hover:text-sage-800 font-semibold flex items-center gap-1"
                 >
                   <span>더 보기</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -249,19 +234,10 @@ export default function TestimonialModal({
               )}
             </div>
 
-            {/* Verification Note */}
-            {hasEvidencePhotos && (
-              <div className="flex items-center gap-2 text-xs text-gray-600 bg-green-50 px-3 py-2 rounded-lg">
-                <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="font-medium">실제 의뢰인이 남긴 증빙 자료입니다</span>
-              </div>
-            )}
           </div>
 
           {/* Footer */}
-          <div className="sticky bottom-0 bg-white border-t border-gray-200 px-5 py-4 rounded-b-2xl space-y-3">
+          <div className="sticky bottom-0 bg-white border-t border-sage-200 px-5 py-4 rounded-b-2xl space-y-3">
             {/* Navigation Dots */}
             <div className="flex items-center justify-center gap-2">
               {Array.from({ length: totalCount }).map((_, idx) => (
@@ -273,20 +249,21 @@ export default function TestimonialModal({
                   }}
                   className={`transition-all ${
                     idx === currentIndex
-                      ? 'w-8 h-2 bg-amber-600'
-                      : 'w-2 h-2 bg-gray-300 hover:bg-gray-400'
+                      ? 'w-8 h-2 bg-sage-600'
+                      : 'w-2 h-2 bg-sage-200 hover:bg-sage-300'
                   } rounded-full`}
                   aria-label={`후기 ${idx + 1}`}
                 />
               ))}
             </div>
 
-            {/* CTA Button */}
+            {/* CTA Button - Mobile optimized text */}
             <button
               onClick={onCTA}
-              className="w-full py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-semibold text-sm rounded-full transition-all shadow-md hover:shadow-lg hover:scale-[1.02] flex items-center justify-center gap-2"
+              className="w-full py-3 bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800 text-white font-semibold text-sm rounded-full transition-all shadow-md hover:shadow-lg hover:scale-[1.02] flex items-center justify-center gap-2"
             >
-              <span>나도 이런 결과를 원한다면</span>
+              <span className="hidden md:inline">나도 이런 결과를 원한다면</span>
+              <span className="md:hidden">무료 상담 받기</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
@@ -301,7 +278,7 @@ export default function TestimonialModal({
                   section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
               }}
-              className="w-full text-sm text-gray-600 hover:text-gray-900 transition-colors"
+              className="w-full text-sm text-sage-700 hover:text-sage-800 transition-colors font-medium"
             >
               더 많은 후기 보기 →
             </button>

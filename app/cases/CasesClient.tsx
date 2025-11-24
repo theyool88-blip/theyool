@@ -7,6 +7,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { CaseListItem } from '@/types/case';
 import { categoryOverlayMap } from '@/lib/notion/types';
+import ConversionFunnel from '@/components/features/ConversionFunnel';
+import ConsultationBookingModal from '@/components/features/ConsultationBooking/ConsultationBookingModal';
 
 interface CasesClientProps {
   cases: CaseListItem[];
@@ -17,6 +19,7 @@ const categories = ['전체', '상간', '위자료', '재산분할', '양육권'
 export default function CasesClient({ cases }: CasesClientProps) {
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [sortBy, setSortBy] = useState<'latest' | 'oldest'>('latest');
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   // 필터링 및 정렬
   let filteredCases = selectedCategory === '전체'
@@ -232,6 +235,25 @@ export default function CasesClient({ cases }: CasesClientProps) {
           </a>
         </div>
       </section>
+
+      {/* Conversion Funnel Section */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-pink-50/30">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <ConversionFunnel
+            title="더 알아보고 싶으신가요?"
+            subtitle="더율이 준비한 다른 정보도 확인해보세요"
+            colorScheme="pink"
+            excludeItems={['success-cases']}
+            onOpenConsultationModal={() => setIsBookingModalOpen(true)}
+          />
+        </div>
+      </section>
+
+      {/* Consultation Booking Modal */}
+      <ConsultationBookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
     </PageLayout>
   );
 }

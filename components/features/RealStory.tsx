@@ -66,9 +66,9 @@ export default function RealStory() {
   // 스크롤 이벤트 제거 - 모바일과 동일하게 수동 탭 전환만 사용
 
   return (
-    <section ref={sectionRef} className="relative pt-16 md:pt-20 pb-0 bg-gradient-to-b from-white via-sage-50/10 to-transparent overflow-hidden">
+    <section ref={sectionRef} className="relative pt-16 md:pt-20 pb-16 md:pb-20 bg-gradient-to-b from-white via-white to-purple-50/50 overflow-hidden">
       {/* Top gradient transition from ThePlanHighlight */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-sage-50/30 to-transparent pointer-events-none z-[5]" />
+      <div className="absolute top-0 left-0 right-0 h-64 md:h-80 bg-gradient-to-b from-white via-white/95 to-transparent pointer-events-none z-[5]" />
 
       {/* Container */}
       <div className="relative h-screen">
@@ -265,7 +265,7 @@ export default function RealStory() {
       </div>
 
       {/* Bottom gradient transition to InstaTheyoolSection */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-purple-50/20 to-purple-50/40 pointer-events-none z-[5]" />
+      <div className="absolute bottom-0 left-0 right-0 h-48 md:h-64 bg-gradient-to-b from-transparent via-purple-50/30 to-purple-50/60 pointer-events-none z-[5]" />
     </section>
   );
 }

@@ -18,14 +18,22 @@ export default function PhonePrepModal({
   const [countdown, setCountdown] = useState(Math.floor(autoDialDelay / 1000));
   const [cancelled, setCancelled] = useState(false);
 
+  // Reset countdown and cancelled state when modal opens
   useEffect(() => {
-    if (countdown > 0 && !cancelled) {
+    if (isOpen) {
+      setCountdown(Math.floor(autoDialDelay / 1000));
+      setCancelled(false);
+    }
+  }, [isOpen, autoDialDelay]);
+
+  useEffect(() => {
+    if (countdown > 0 && !cancelled && isOpen) {
       const timer = setTimeout(() => {
         setCountdown(countdown - 1);
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [countdown, cancelled]);
+  }, [countdown, cancelled, isOpen]);
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -120,10 +128,31 @@ export default function PhonePrepModal({
             <p className="text-[13px] text-gray-500 text-center tracking-[-0.005em]">
               무슨 말을 할지 모르겠어도 괜찮아요
             </p>
+
+            {/* Consultation Info Link - Only during countdown */}
+            {!cancelled && countdown > 0 && (
+              <div className="mt-5 flex justify-center">
+                <a
+                  href="/consultation"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCancelled(true);
+                    onClose();
+                    window.location.href = '/consultation';
+                  }}
+                  className="inline-flex items-center gap-1.5 py-2 text-[14px] font-semibold text-sage-700 active:text-sage-800 transition-colors"
+                >
+                  <span>상담 전 궁금한 점이 있으신가요?</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            )}
           </div>
 
           {!cancelled && countdown === 0 && (
-            <div className="mt-8 space-y-3">
+            <div className="mt-8 space-y-4">
               <a
                 href={`tel:${phoneNumber}`}
                 onClick={() => {
@@ -136,6 +165,24 @@ export default function PhonePrepModal({
               <p className="text-[13px] text-gray-400 text-center">
                 버튼을 눌러 전화를 걸어주세요
               </p>
+
+              {/* Consultation Info Link - Also show after countdown */}
+              <div className="pt-2 border-t border-gray-200">
+                <a
+                  href="/consultation"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onClose();
+                    window.location.href = '/consultation';
+                  }}
+                  className="flex items-center justify-center gap-1.5 py-2 text-[14px] font-semibold text-sage-700 active:text-sage-800 transition-colors"
+                >
+                  <span>상담 전 궁금한 점이 있으신가요?</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
             </div>
           )}
           </div>

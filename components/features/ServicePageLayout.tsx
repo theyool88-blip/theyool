@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { ArrowRight, Phone, MessageCircle, ChevronDown, ChevronUp, CheckCircle } from 'lucide-react';
 import type { FAQ } from '@/lib/supabase/faq';
 import ScrollReveal from '@/components/ScrollReveal';
+import ConversionFunnel from '@/components/features/ConversionFunnel';
+import type { ColorScheme } from '@/components/features/ConversionFunnel/types';
 
 interface RelatedCase {
   id: string;
@@ -37,6 +39,9 @@ interface ServicePageLayoutProps {
   relatedCases?: RelatedCase[];
   ctaTitle?: string;
   ctaDescription?: string;
+  colorScheme?: ColorScheme;
+  excludeItems?: string[];
+  onOpenConsultationModal?: () => void;
 }
 
 export default function ServicePageLayout({
@@ -51,7 +56,10 @@ export default function ServicePageLayout({
   faqs,
   relatedCases,
   ctaTitle = "전문가와 상담하세요",
-  ctaDescription = "복잡한 법률 문제, 혼자 고민하지 마세요. 전문 변호사가 최적의 해결책을 찾아드립니다."
+  ctaDescription = "복잡한 법률 문제, 혼자 고민하지 마세요. 전문 변호사가 최적의 해결책을 찾아드립니다.",
+  colorScheme = 'sage',
+  excludeItems = [],
+  onOpenConsultationModal
 }: ServicePageLayoutProps) {
   const [expandedFAQ, setExpandedFAQ] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -317,6 +325,19 @@ export default function ServicePageLayout({
           </div>
         </section>
       )}
+
+      {/* Conversion Funnel Section */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50/30">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <ConversionFunnel
+            title="아직 결정이 어려우시다면"
+            subtitle="더 알아보고 천천히 결정하세요"
+            colorScheme={colorScheme}
+            excludeItems={excludeItems}
+            onOpenConsultationModal={onOpenConsultationModal}
+          />
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className={`py-20 bg-gradient-to-br ${gradientFrom} ${gradientTo}`}>

@@ -10,9 +10,7 @@ export default function ThePlanHighlight() {
   const [expanded4, setExpanded4] = useState(false);
 
   return (
-    <section className="relative py-24 md:py-36 bg-gradient-to-b from-white via-sage-50/30 to-white">
-      {/* Bottom gradient transition to RealStory */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-white/95 pointer-events-none z-[5]" />
+    <section className="relative py-24 md:py-36 bg-gradient-to-b from-white via-white to-white">
 
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         {/* THE PLAN 카드 - Sage Dark */}

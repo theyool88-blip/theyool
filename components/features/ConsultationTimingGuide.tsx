@@ -102,10 +102,10 @@ export default function ConsultationTimingGuide({
   return (
     <section className="relative py-20 md:py-28 bg-gradient-to-b from-white via-sage-50/30 to-white">
       {/* Top Gradient Overlay - 신뢰 지표에서 자연스러운 전환 */}
-      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/60 to-transparent pointer-events-none z-0" />
+      <div className="absolute top-0 left-0 right-0 h-32 md:h-40 bg-gradient-to-b from-white via-white/90 to-transparent pointer-events-none z-0" />
 
       {/* Bottom Gradient Overlay - ThePlan으로 자연스러운 전환 */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-0" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none z-0" />
       <div className="relative z-10 max-w-[1100px] mx-auto px-4 md:px-12">
         {/* 제목 - 토스 스타일 */}
         <div className="text-center mb-10 md:mb-16">

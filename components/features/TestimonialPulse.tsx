@@ -49,10 +49,10 @@ export default function TestimonialPulse() {
       return;
     }
 
-    // 9초 대기 후 표시
+    // 10초 대기 후 표시
     const showTimer = setTimeout(() => {
       setIsVisible(true);
-    }, 9000);
+    }, 10000);
 
     return () => clearTimeout(showTimer);
   }, [isLoading, cases]);
@@ -122,7 +122,7 @@ export default function TestimonialPulse() {
       )}
 
       {/* Simple Float Badge */}
-      <div className="fixed bottom-28 left-0 right-0 md:left-6 md:right-auto md:bottom-8 z-40 animate-float-gentle mx-auto md:mx-0"
+      <div className="fixed bottom-20 left-0 right-0 md:left-6 md:right-auto md:bottom-6 z-40 animate-float-gentle mx-auto md:mx-0"
            style={{ maxWidth: '320px', width: 'calc(100% - 24px)' }}>
         <div className="relative">
           {/* Close Button */}

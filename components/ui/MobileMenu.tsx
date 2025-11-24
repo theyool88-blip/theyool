@@ -32,6 +32,7 @@ const sectionLinks: MenuItem[] = [
       { label: '불륜/상간', href: '/services/adultery' },
     ]
   },
+  { label: '변호사 비용', href: '/lawyer-fees' },
   { label: '구성원', href: '/team' },
   { label: '오시는 길', href: '/contact' },
 ];

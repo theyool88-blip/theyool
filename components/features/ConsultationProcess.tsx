@@ -15,12 +15,13 @@ export default function ConsultationProcess() {
   }, []);
 
   return (
-    <section className="relative pt-40 md:pt-48 pb-24 md:pb-32 overflow-hidden">
+    <section className="relative pt-40 md:pt-48 pb-16 md:pb-20 overflow-hidden">
       {/* Background Gradient - Sage Green 톤으로 전환 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-sage-50/20 to-white" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-sage-50/20 to-sage-50/30" />
 
       {/* Top Gradient Overlay - Hero에서 자연스러운 전환 */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/80 to-transparent pointer-events-none" />
+
 
       {/* Decorative Illustration Background - Sage Green */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none">

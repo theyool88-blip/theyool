@@ -35,12 +35,12 @@ export default function FAQExplorer() {
   ];
 
   return (
-    <section className="relative py-16 md:py-24 bg-gradient-to-b from-white to-sage-50/20">
+    <section className="relative py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
       {/* Top Gradient Overlay - Testimonial에서 자연스러운 전환 */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/90 to-transparent pointer-events-none z-0" />
 
       {/* Bottom Gradient Overlay - 최종 CTA로 자연스러운 전환 */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-amber-50/30 to-transparent pointer-events-none z-0" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/95 to-transparent pointer-events-none z-0" />
       <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-12">
         {/* Header - 개선된 공감적 문구 */}
         <div className="text-center mb-8">

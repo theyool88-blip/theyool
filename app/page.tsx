@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
@@ -15,30 +16,54 @@ import TestimonialEvidenceGallery from '@/components/features/TestimonialEvidenc
 import ThePlanHighlight from '@/components/features/ThePlanHighlight';
 import ConsultationTimingGuide from '@/components/features/ConsultationTimingGuide';
 import ConsultationProcess from '@/components/features/ConsultationProcess';
-import ConsultationBookingModal from '@/components/features/ConsultationBooking/ConsultationBookingModal';
-import PhonePrepModal from '@/components/features/PhonePrepModal';
 import TestimonialPulse from '@/components/features/TestimonialPulse';
 import ScrollToTop from '@/components/ui/ScrollToTop';
+import CheckIcon from '@/components/ui/CheckIcon';
+
+// 모달 동적 Import (클릭 시에만 로드)
+const ConsultationBookingModal = dynamic(
+  () => import('@/components/features/ConsultationBooking/ConsultationBookingModal'),
+  { ssr: false }
+);
+
+const PhonePrepModal = dynamic(
+  () => import('@/components/features/PhonePrepModal'),
+  { ssr: false }
+);
 
 export default function Home() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isPhonePrepModalOpen, setIsPhonePrepModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // 스크롤 이벤트 최적화 (requestAnimationFrame)
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 0);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // (Removed) Venn diagram animation trigger
-  useEffect(() => {}, []);
-
   return (
     <div className="min-h-screen bg-white">
+      {/* Skip Navigation for Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-sage-600 focus:text-white focus:rounded-lg focus:shadow-lg"
+      >
+        본문으로 바로가기
+      </a>
+
       {/* Structured Data for SEO */}
       <Script
         id="structured-data"
@@ -118,7 +143,7 @@ export default function Home() {
                 },
                 potentialAction: {
                   '@type': 'SearchAction',
-                  target: 'https://theyool.com/search?q={search_term_string}',
+                  target: 'https://theyool.com/faq?q={search_term_string}',
                   'query-input': 'required name=search_term_string'
                 }
               }
@@ -147,8 +172,7 @@ export default function Home() {
                   alt="법무법인 더율"
                   width={180}
                   height={45}
-                  className="h-6 md:h-7 w-auto cursor-pointer"
-                  style={{ filter: 'brightness(0) saturate(100%) invert(46%) sepia(13%) saturate(1243%) hue-rotate(118deg) brightness(93%) contrast(87%)' }}
+                  className="h-6 md:h-7 w-auto cursor-pointer logo-sage-filter"
                   priority
                 />
               </Link>
@@ -159,6 +183,7 @@ export default function Home() {
               <button
                 onClick={() => setIsBookingModalOpen(true)}
                 className="text-sm font-semibold text-sage-700 hover:text-sage-800 underline decoration-2 underline-offset-4 decoration-sage-600 transition-colors"
+                aria-label="상담 예약하기"
               >
                 상담예약
               </button>
@@ -168,7 +193,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section - Sage Green Style */}
-      <section className="hero-section relative min-h-screen flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-sage-50/30 via-white to-white">
+      <section id="main-content" className="hero-section relative min-h-[100svh] flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-sage-50/30 via-white to-white pb-20 md:pb-0" aria-labelledby="hero-heading">
         <HeroAnimation />
 
         {/* Minimal Geometric Background Pattern - Sage Green Tone */}
@@ -222,7 +247,7 @@ export default function Home() {
             </div>
 
             {/* Main Headline - Enhanced typography (10% 축소) */}
-            <h1 className="text-[40px] md:text-[50px] lg:text-[61px] font-bold mb-9 leading-[1.25] md:leading-[1.3] text-neutral-800 hero-text-2">
+            <h1 id="hero-heading" className="text-[40px] md:text-[50px] lg:text-[61px] font-bold mb-9 leading-[1.25] md:leading-[1.3] text-neutral-800 hero-text-2">
               복잡한 이혼,<br />
               <span className="text-sage-500">10분이면 정리돼요</span>
             </h1>
@@ -241,6 +266,7 @@ export default function Home() {
                 onMouseLeave={(e) => {
                   e.currentTarget.style.boxShadow = '0 8px 30px rgba(90, 153, 136, 0.35)';
                 }}
+                aria-label="10분 무료 진단 전화 연결하기"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -250,15 +276,11 @@ export default function Home() {
 
               <div className="flex flex-wrap items-center gap-3.5 text-[13px] text-neutral-600">
                 <span className="flex items-center gap-1.5">
-                  <svg className="w-3.5 h-3.5 text-sage-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
+                  <CheckIcon className="w-3.5 h-3.5 text-sage-700" />
                   비밀보장
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <svg className="w-3.5 h-3.5 text-sage-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
+                  <CheckIcon className="w-3.5 h-3.5 text-sage-700" />
                   평일 저녁·주말 가능
                 </span>
               </div>
@@ -271,7 +293,7 @@ export default function Home() {
       <ConsultationProcess />
 
       {/* 신뢰 지표 섹션 - 품질 중심 */}
-      <section className="pt-16 md:pt-20 pb-12 md:pb-16 bg-gradient-to-b from-white via-sage-50/40 to-white border-y border-sage-100/30">
+      <section className="pt-8 md:pt-10 pb-12 md:pb-16 bg-gradient-to-b from-sage-50/30 via-sage-50/40 to-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="scroll-reveal">
@@ -333,309 +355,6 @@ export default function Home() {
         isOpen={isPhonePrepModalOpen}
         onClose={() => setIsPhonePrepModalOpen(false)}
       />
-
-      {/* 기존 위자료 섹션 (백업용 - 나중에 삭제) */}
-      <section id="alimony-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-amber-50/40 via-orange-50/30 to-amber-100/40 hero-parallax">
-        <div className="max-w-[1200px] mx-auto w-full">
-            <div className="text-center mb-8 md:mb-12">
-              <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Alimony</p>
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-tight">위자료</h2>
-              <p className="text-sm md:text-base text-gray-400 font-light">당신의 아픔을, 제대로 보상받도록</p>
-            </div>
-
-            <p className="text-sm md:text-base text-gray-300 mb-6 md:mb-10 text-center leading-relaxed max-w-2xl mx-auto">
-              이혼 초기에 <span className="text-white font-semibold">증거의 흐름</span>을 잡는 것이 가장 중요합니다
-            </p>
-
-            <div className="md:hidden space-y-3">
-              {[
-                {
-                  badge: 'Case 01',
-                  emoji: '💰',
-                  title: '위자료 5억 확보',
-                  desc: '압도적인 증거와 전략으로 최고 수준 확보',
-                },
-                {
-                  badge: 'Case 02',
-                  emoji: '📋',
-                  title: '2천만 원 조정',
-                  desc: '제한된 증거로도 유리한 합의 도출',
-                },
-              ].map((item) => (
-                <div
-                  key={item.badge}
-                  className="rounded-xl border border-white/10 bg-white/5 p-4 text-white backdrop-blur"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs uppercase tracking-[0.2em] text-amber-300">{item.badge}</span>
-                    <span className="text-xl">{item.emoji}</span>
-                  </div>
-                  <h4 className="text-base font-semibold mb-1">{item.title}</h4>
-                  <p className="text-xs text-gray-300 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-          {/* 사례 카드 그리드 */}
-          <div className="hidden md:grid md:grid-cols-2 gap-8 md:gap-10">
-              <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
-                <div className="inline-block px-4 py-2 bg-amber-500/20 rounded-full mb-6">
-                  <span className="text-amber-400 font-semibold text-sm">Case 01</span>
-                </div>
-                <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">💰</div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
-                  전업주부,<br />위자료 5억 승소
-                </h3>
-                <p className="text-base md:text-lg text-gray-300 mb-6 leading-relaxed">
-                  철저한 증거 수집과 전략으로 최고 수준의 위자료를 확보했습니다.
-                  경제적 기여도와 정신적 고통을 입증하여 의미 있는 결과를 만들었습니다.
-                </p>
-                <div className="inline-flex items-center px-5 py-3 bg-white/10 rounded-full mb-6">
-                  <span className="text-lg md:text-xl font-bold text-white">위자료 5억</span>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-400">✓</span>
-                    <span className="text-sm text-gray-400">증거 확보</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-400">✓</span>
-                    <span className="text-sm text-gray-400">전략 수립</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
-                <div className="inline-block px-4 py-2 bg-amber-500/20 rounded-full mb-6">
-                  <span className="text-amber-400 font-semibold text-sm">Case 02</span>
-                </div>
-                <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">📋</div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
-                  불륜 증거 부족,<br />2천만 원 확보
-                </h3>
-                <p className="text-base md:text-lg text-gray-300 mb-6 leading-relaxed">
-                  제한된 증거에서도 전략적 접근으로 의미 있는 결과를 만들었습니다.
-                  조정 과정에서 상대방의 약점을 파악하여 합리적 합의를 이끌어냈습니다.
-                </p>
-                <div className="inline-flex items-center px-5 py-3 bg-white/10 rounded-full mb-6">
-                  <span className="text-lg md:text-xl font-bold text-white">2천만 원</span>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-400">✓</span>
-                    <span className="text-sm text-gray-400">전략적 접근</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-400">✓</span>
-                    <span className="text-sm text-gray-400">합의 도출</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 기존 재산분할 섹션 (백업용 - 나중에 삭제) */}
-      <section id="property-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-white hero-parallax">
-        <div className="max-w-[1200px] mx-auto w-full">
-            <div className="text-center mb-8 md:mb-12">
-              <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Property Division</p>
-              <h2 className="text-3xl md:text-5xl font-bold text-[var(--primary)] mb-2 tracking-tight">재산분할</h2>
-              <p className="text-sm md:text-base text-gray-600 font-light">당신의 이혼 후의 삶을, 결정력 있게</p>
-            </div>
-
-            <p className="text-sm md:text-base text-gray-700 mb-6 md:mb-10 text-center leading-relaxed max-w-2xl mx-auto">
-              재산분할은 숫자의 문제가 아니라 <span className="text-[var(--primary)] font-semibold">전략의 문제</span>입니다
-            </p>
-
-            <div className="md:hidden space-y-3">
-              {[
-                {
-                  badge: 'Case 01',
-                  emoji: '🛡️',
-                  title: '0원 방어 성공',
-                  desc: '법리로 청구 차단, 의뢰인 자산 완벽 보호',
-                },
-                {
-                  badge: 'Case 02',
-                  emoji: '🔍',
-                  title: '은닉 재산 발견',
-                  desc: '숨겨진 재산 추적으로 공정한 분할 실현',
-                },
-              ].map((item) => (
-                <div
-                  key={item.badge}
-                  className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs uppercase tracking-[0.2em] text-emerald-600">{item.badge}</span>
-                    <span className="text-xl">{item.emoji}</span>
-                  </div>
-                  <h4 className="text-base font-semibold text-[var(--primary)] mb-1">{item.title}</h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-          {/* 사례 카드 그리드 */}
-          <div className="hidden md:grid md:grid-cols-2 gap-8 md:gap-10">
-              <div className="group case-card bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200 rounded-3xl p-8 md:p-10 hover:border-gray-300 hover:shadow-2xl transition-all duration-500">
-                <div className="inline-block px-4 py-2 bg-emerald-500/10 rounded-full mb-6">
-                  <span className="text-emerald-600 font-semibold text-sm">Case 01</span>
-                </div>
-                <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">🛡️</div>
-                <h3 className="text-2xl md:text-3xl font-bold text-[var(--primary)] mb-4 leading-tight">
-                  재산분할<br />0원 방어 성공
-                </h3>
-                <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed">
-                  의뢰인의 재산을 완벽하게 보호한 방어 전략의 승리입니다.
-                  상대방의 부당한 청구를 법리적으로 차단하여 재산을 지켜냈습니다.
-                </p>
-                <div className="inline-flex items-center px-5 py-3 bg-white rounded-full mb-6 shadow-sm">
-                  <span className="text-lg md:text-xl font-bold text-[var(--primary)]">0원 방어</span>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-emerald-500">✓</span>
-                    <span className="text-sm text-gray-600">방어 전략</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-emerald-500">✓</span>
-                    <span className="text-sm text-gray-600">재산 보호</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group case-card bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200 rounded-3xl p-8 md:p-10 hover:border-gray-300 hover:shadow-2xl transition-all duration-500">
-                <div className="inline-block px-4 py-2 bg-emerald-500/10 rounded-full mb-6">
-                  <span className="text-emerald-600 font-semibold text-sm">Case 02</span>
-                </div>
-                <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">🔍</div>
-                <h3 className="text-2xl md:text-3xl font-bold text-[var(--primary)] mb-4 leading-tight">
-                  은닉 재산 발견,<br />분할 비율 수정
-                </h3>
-                <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed">
-                  숨겨진 재산을 찾아내어 정당한 몫을 되찾았습니다.
-                  체계적인 재산 조사와 추적으로 공정한 분할을 실현했습니다.
-                </p>
-                <div className="inline-flex items-center px-5 py-3 bg-white rounded-full mb-6 shadow-sm">
-                  <span className="text-lg md:text-xl font-bold text-[var(--primary)]">은닉 재산 발견</span>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-emerald-500">✓</span>
-                    <span className="text-sm text-gray-600">재산 추적</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-emerald-500">✓</span>
-                    <span className="text-sm text-gray-600">비율 수정</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 기존 양육권 섹션 (백업용 - 나중에 삭제) */}
-      <section id="custody-backup" className="hidden min-h-screen flex items-center py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-amber-50/40 via-orange-50/30 to-rose-50/40 hero-parallax">
-        <div className="max-w-[1200px] mx-auto w-full">
-            <div className="text-center mb-8 md:mb-12">
-              <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-[0.2em] uppercase">Child Custody</p>
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-tight">양육권</h2>
-              <p className="text-sm md:text-base text-gray-400 font-light">우리 아이가, 제대로 클 수 있도록</p>
-            </div>
-
-            <p className="text-sm md:text-base text-gray-300 mb-6 md:mb-10 text-center leading-relaxed max-w-2xl mx-auto">
-              아이의 <span className="text-white font-semibold">최선의 이익</span>을 위한 치밀한 준비가 결과를 만듭니다
-            </p>
-
-            <div className="md:hidden space-y-3">
-              {[
-                {
-                  badge: 'Case 01',
-                  emoji: '👶',
-                  title: '단독 양육권 확보',
-                  desc: '양육 환경 입증으로 안정적 선택 실현',
-                },
-                {
-                  badge: 'Case 02',
-                  emoji: '⚖️',
-                  title: '양육비 100% 인용',
-                  desc: '폭력 사실 입증 및 전액 양육비 확보',
-                },
-              ].map((item) => (
-                <div
-                  key={item.badge}
-                  className="rounded-xl border border-white/10 bg-white/5 p-4 text-white backdrop-blur"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs uppercase tracking-[0.2em] text-amber-300">{item.badge}</span>
-                    <span className="text-xl">{item.emoji}</span>
-                  </div>
-                  <h4 className="text-base font-semibold mb-1">{item.title}</h4>
-                  <p className="text-xs text-gray-300 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-          {/* 사례 카드 그리드 */}
-          <div className="hidden md:grid md:grid-cols-2 gap-8 md:gap-10">
-              <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
-                <div className="inline-block px-4 py-2 bg-amber-500/20 rounded-full mb-6">
-                  <span className="text-amber-400 font-semibold text-sm">Case 01</span>
-                </div>
-                <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">👶</div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
-                  양육권 다툼,<br />단독 양육권 확보
-                </h3>
-                <p className="text-base md:text-lg text-gray-300 mb-6 leading-relaxed">
-                  아이의 최선의 이익을 위한 치밀한 준비가 결과를 만들었습니다.
-                  양육 환경과 능력을 입증하여 단독 양육권을 쟁취했습니다.
-                </p>
-                <div className="inline-flex items-center px-5 py-3 bg-white/10 rounded-full mb-6">
-                  <span className="text-lg md:text-xl font-bold text-white">단독 양육권</span>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-400">✓</span>
-                    <span className="text-sm text-gray-400">환경 입증</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-400">✓</span>
-                    <span className="text-sm text-gray-400">단독 양육</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group case-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
-                <div className="inline-block px-4 py-2 bg-amber-500/20 rounded-full mb-6">
-                  <span className="text-amber-400 font-semibold text-sm">Case 02</span>
-                </div>
-                <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">⚖️</div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
-                  폭력 배우자,<br />양육비 100% 인용
-                </h3>
-                <p className="text-base md:text-lg text-gray-300 mb-6 leading-relaxed">
-                  아이의 안전과 경제적 보호를 동시에 확보했습니다.
-                  폭력 사실을 입증하고 청구한 양육비 전액을 인용받았습니다.
-                </p>
-                <div className="inline-flex items-center px-5 py-3 bg-white/10 rounded-full mb-6">
-                  <span className="text-lg md:text-xl font-bold text-white">양육비 100%</span>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-400">✓</span>
-                    <span className="text-sm text-gray-400">안전 확보</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-amber-400">✓</span>
-                    <span className="text-sm text-gray-400">양육비 확보</span>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-      </section>
 
       {/* 의뢰인 후기 섹션 - 증빙 갤러리 */}
       <TestimonialEvidenceGallery />

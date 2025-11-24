@@ -245,6 +245,11 @@ html {
   background: #a0a0a0;
 }
 
+/* Logo Sage Green Filter */
+.logo-sage-filter {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(13%) saturate(1243%) hue-rotate(118deg) brightness(93%) contrast(87%);
+}
+
 /* Firefox 스크롤바 */
 * {
   scrollbar-width: thin;

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import PageLayout from '@/components/layouts/PageLayout';
 import ConsultationBookingModal from '@/components/features/ConsultationBooking/ConsultationBookingModal';
 import PhonePrepModal from '@/components/features/PhonePrepModal';
+import ConversionFunnel from '@/components/features/ConversionFunnel';
 
 export default function ConsultationClient() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -49,7 +50,7 @@ export default function ConsultationClient() {
     <PageLayout>
       <div className="min-h-screen bg-white">
         {/* Section 1: Hero - Sage Green Style */}
-        <section className="relative min-h-[90vh] flex flex-col overflow-hidden bg-gradient-to-b from-sage-50/30 via-white to-white pt-24 pb-16 md:pt-32 md:pb-20">
+        <section id="hero" className="relative min-h-[90vh] flex flex-col overflow-hidden bg-gradient-to-b from-sage-50/30 via-white to-white pt-24 pb-16 md:pt-32 md:pb-20 scroll-mt-20">
           {/* Geometric Background Pattern - Sage Green */}
           <div className="absolute inset-0 w-full h-full">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -207,7 +208,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 2: 성공사례 - Sage Green */}
-        <section id="success-preview" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <section id="success" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white scroll-mt-20">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
               <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Success Stories</p>
@@ -274,7 +275,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 3: 프로세스 - Sage Green */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <section id="process" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white scroll-mt-20">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
               <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Process</p>
@@ -351,7 +352,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 4: 서류 준비 체크리스트 - Sage Green */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <section id="preparation" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white scroll-mt-20">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
               <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Preparation</p>
@@ -440,7 +441,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 5: 상담 채널 - Sage Green */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <section id="channels" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white scroll-mt-20">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
               <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Contact Method</p>
@@ -586,7 +587,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 6: FAQ - Sage Green */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <section id="faq" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white scroll-mt-20">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
               <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">FAQ</p>
@@ -659,7 +660,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 7: 비용 - Sage Green */}
-        <section className="py-16 md:py-24 bg-white">
+        <section id="pricing" className="py-16 md:py-24 bg-white scroll-mt-20">
           <div className="max-w-[900px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
               <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Pricing</p>
@@ -697,7 +698,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 8: 변호사 소개 - Sage Green */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <section id="team" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white scroll-mt-20">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
               <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Our Team</p>
@@ -767,7 +768,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 9: 후기 - Sage Green */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <section id="testimonials" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white scroll-mt-20">
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12">
               <p className="text-xs md:text-sm text-sage-600/70 mb-3 tracking-[0.2em] uppercase">Testimonials</p>
@@ -808,7 +809,7 @@ export default function ConsultationClient() {
         </section>
 
         {/* Section 10: Final CTA - Sage Green */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white">
+        <section id="cta" className="py-16 md:py-24 bg-gradient-to-b from-white via-sage-50/20 to-white scroll-mt-20">
           <div className="max-w-[900px] mx-auto px-6 md:px-12 text-center">
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-gray-100">
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
@@ -881,6 +882,18 @@ export default function ConsultationClient() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* 전환 퍼널 - 추가 탐색 옵션 */}
+        <section className="py-16 md:py-20 bg-gradient-to-b from-white to-sage-50/30">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <ConversionFunnel
+              title="아직 결정이 어려우시다면"
+              subtitle="더 알아보고 천천히 결정하세요"
+              excludeItems={['consultation-process']}
+              onOpenConsultationModal={() => setIsBookingModalOpen(true)}
+            />
           </div>
         </section>
 

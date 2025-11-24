@@ -254,9 +254,9 @@ export default function InstaTheyoolSection() {
   }
 
   return (
-    <section className="relative pt-0 pb-20 md:pb-28 bg-gradient-to-br from-transparent via-pink-50 to-orange-50 overflow-hidden">
+    <section className="relative pt-16 md:pt-20 pb-20 md:pb-28 bg-gradient-to-br from-purple-50/60 via-pink-50 to-orange-50/30 overflow-hidden">
       {/* Top gradient transition from RealStory */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-purple-50/60 via-purple-50/80 to-transparent pointer-events-none z-[15]" />
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-purple-50/70 via-purple-50/40 to-transparent pointer-events-none z-[15]" />
 
       {/* Instagram 공식 그라데이션 배경 */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -454,7 +454,7 @@ export default function InstaTheyoolSection() {
       </div>
 
       {/* Bottom gradient transition to ExpertInsights */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-gray-50/30 to-gray-50/60 pointer-events-none z-[15]" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent via-orange-50/15 to-orange-50/30 pointer-events-none z-[15]" />
 
       {/* 애니메이션 스타일 */}
       <style jsx>{`
