@@ -67,7 +67,7 @@ export default function ExpertInsights() {
   };
 
   return (
-    <section className="relative py-16 md:py-24 bg-gradient-to-b from-orange-50/30 via-sage-50/20 to-white">
+    <section className="relative pt-20 md:pt-28 pb-16 md:pb-24 bg-gradient-to-b from-orange-50/30 via-sage-50/20 to-white">
       {/* Top gradient transition */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-orange-50/40 via-sage-50/20 to-transparent pointer-events-none z-[5]" />
 

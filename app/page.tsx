@@ -193,7 +193,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section - Sage Green Style */}
-      <section id="main-content" className="hero-section relative min-h-[100svh] flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-sage-50/30 via-white to-white pb-20 md:pb-0" aria-labelledby="hero-heading">
+      <section id="main-content" className="hero-section relative min-h-[100svh] flex flex-col overflow-hidden hero-parallax bg-gradient-to-b from-sage-50/30 via-white to-white pb-23 md:pb-0" aria-labelledby="hero-heading">
         <HeroAnimation />
 
         {/* Minimal Geometric Background Pattern - Sage Green Tone */}
@@ -293,7 +293,7 @@ export default function Home() {
       <ConsultationProcess />
 
       {/* 신뢰 지표 섹션 - 품질 중심 */}
-      <section className="pt-8 md:pt-10 pb-12 md:pb-16 bg-gradient-to-b from-sage-50/30 via-sage-50/40 to-white">
+      <section className="pb-2 md:pb-3 bg-gradient-to-b from-sage-50/30 via-sage-50/40 to-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="scroll-reveal">

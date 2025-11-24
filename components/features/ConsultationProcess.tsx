@@ -15,7 +15,7 @@ export default function ConsultationProcess() {
   }, []);
 
   return (
-    <section className="relative pt-40 md:pt-48 pb-16 md:pb-20 overflow-hidden">
+    <section className="relative pt-40 md:pt-48 pb-12 md:pb-14 overflow-hidden">
       {/* Background Gradient - Sage Green 톤으로 전환 */}
       <div className="absolute inset-0 bg-gradient-to-b from-white via-sage-50/20 to-sage-50/30" />
 
@@ -73,7 +73,7 @@ export default function ConsultationProcess() {
           </Link>
 
           {/* Trust Indicators - sage-700 사용 (강조, 눈에 띄는 체크마크) */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
             <span className="flex items-center gap-2">
               <svg className="w-4 h-4 text-sage-700" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
