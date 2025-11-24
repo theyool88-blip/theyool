@@ -63,7 +63,56 @@ export default function RealStory() {
     setActiveTab((prev) => (prev === stories.length - 1 ? 0 : prev + 1));
   };
 
-  // 스크롤 이벤트 제거 - 모바일과 동일하게 수동 탭 전환만 사용
+  // 스크롤에 따른 자동 탭 전환 효과
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const rect = section.getBoundingClientRect();
+          const sectionHeight = rect.height;
+          const viewportHeight = window.innerHeight;
+
+          // 섹션 시작점 대비 현재 스크롤 위치
+          const scrolledPast = -rect.top;
+
+          // 섹션 내에서의 진행도 계산 (0~1)
+          const scrollProgress = Math.max(0, Math.min(1,
+            scrolledPast / (sectionHeight - viewportHeight)
+          ));
+
+          // 탭 전환 시점 정의
+          // 0% ~ 25%: 첫 번째 스토리
+          // 25% ~ 50%: 두 번째 스토리
+          // 50% ~ 75%: 세 번째 스토리
+          // 75% ~ 100%: 네 번째 스토리
+          if (scrollProgress < 0.25) {
+            setActiveTab(0);
+          } else if (scrollProgress < 0.5) {
+            setActiveTab(1);
+          } else if (scrollProgress < 0.75) {
+            setActiveTab(2);
+          } else {
+            setActiveTab(3);
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // 초기 실행
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [])
 
   return (
     <section ref={sectionRef} className="relative pt-16 md:pt-20 pb-16 md:pb-20 bg-gradient-to-b from-white via-white to-purple-50/50 overflow-hidden">

@@ -150,7 +150,7 @@ export default function MobileMenu() {
                   {hasChildren ? (
                     <button
                       onClick={() => toggleExpanded(item.label)}
-                      className={`group w-full py-6 transition-all rounded-lg hover:bg-sage-50/50 -mx-2 px-2 focus-visible:outline-2 focus-visible:outline-sage-600 ${
+                      className={`group w-full py-6 transition-all rounded-lg hover:bg-sage-50/50 focus-visible:outline-2 focus-visible:outline-sage-600 text-left ${
                         isExpanded ? 'bg-sage-50' : ''
                       }`}
                       aria-expanded={isExpanded}
@@ -161,7 +161,7 @@ export default function MobileMenu() {
                           {item.label}
                         </span>
                         <svg
-                          className={`w-5 h-5 text-sage-400 group-hover:text-sage-700 transition-all duration-300 ${
+                          className={`w-5 h-5 flex-shrink-0 text-sage-400 group-hover:text-sage-700 transition-all duration-300 ${
                             isExpanded ? 'rotate-90' : ''
                           }`}
                           fill="none"
@@ -176,14 +176,14 @@ export default function MobileMenu() {
                     <a
                       href={item.href}
                       onClick={closeMenu}
-                      className="group block py-6 transition-all rounded-lg hover:bg-sage-50/30 -mx-2 px-2 focus-visible:outline-2 focus-visible:outline-sage-600"
+                      className="group block py-6 transition-all rounded-lg hover:bg-sage-50/30 focus-visible:outline-2 focus-visible:outline-sage-600"
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-2xl sm:text-3xl font-medium text-gray-900 group-hover:text-sage-700 transition-colors tracking-tight">
                           {item.label}
                         </span>
                         <svg
-                          className="w-5 h-5 text-sage-400 group-hover:text-sage-700 group-hover:translate-x-2 transition-all duration-300"
+                          className="w-5 h-5 flex-shrink-0 text-sage-400 group-hover:text-sage-700 group-hover:translate-x-2 transition-all duration-300"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -205,13 +205,13 @@ export default function MobileMenu() {
                           key={child.href}
                           href={child.href}
                           onClick={closeMenu}
-                          className="group flex items-center justify-between py-3 transition-all rounded-lg hover:bg-sage-50/30 -ml-2 pl-2 pr-2 focus-visible:outline-2 focus-visible:outline-sage-600"
+                          className="group flex items-center justify-between py-3 transition-all rounded-lg hover:bg-sage-50/30 focus-visible:outline-2 focus-visible:outline-sage-600"
                         >
                           <span className="text-lg sm:text-xl font-light text-gray-600 group-hover:text-sage-700 transition-colors">
                             {child.label}
                           </span>
                           <svg
-                            className="w-4 h-4 text-sage-400 group-hover:text-sage-700 group-hover:translate-x-1 transition-all duration-300"
+                            className="w-5 h-5 flex-shrink-0 text-sage-400 group-hover:text-sage-700 group-hover:translate-x-1 transition-all duration-300"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
