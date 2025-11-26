@@ -1,12 +1,2 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/auto-confirm-bookings",
-      "schedule": "0 9 * * *"
-    },
-    {
-      "path": "/api/cron/send-reminders",
-      "schedule": "0 19 * * *"
-    }
-  ]
 }
